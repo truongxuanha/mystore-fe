@@ -1,12 +1,11 @@
 import { Outlet } from "react-router-dom";
 import Header from "./Header";
-// import Footer from "./Footer";
 
 function AppLayout() {
   return (
-    <div className='w-full h-full'>
+    <div className='w-full h-full font-mono'>
       <Header />
-      <main className='mx-5'>
+      <main className='mx-5 md:mx-10 lg:mx-16'>
         <Outlet />
       </main>
       {/* <Footer /> */}

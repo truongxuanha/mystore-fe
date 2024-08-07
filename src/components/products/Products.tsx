@@ -23,13 +23,15 @@ export interface Products {
 function Products() {
   const [products, setProducts] = useState<Products[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-  useEffect(function () {
+
+  useEffect(() => {
     async function fetchProduct() {
       setIsLoading(true);
       try {
         const res = await fetch(
           "https://mystore-api-v1.onrender.com/v1/product"
         );
+        if (!res.ok) return;
         const data = await res.json();
         setProducts(data.data);
         setIsLoading(false);
@@ -39,25 +41,34 @@ function Products() {
     }
     fetchProduct();
   }, []);
+
   return (
     <>
       {isLoading && <Loader />}
-      <div className='grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 gap-5 items-center'>
-        {products.map((product) => (
-          <div
-            key={product.id}
-            className='p-5 border rounded-lg mx-auto cursor-pointer shadow-md hover:translate-y-[-5px] transition-transform'
-          >
-            <img
-              className='w-[200px] hover:translate-y-[-5px] transition-transform'
-              src={product.thumbnail}
-            />
-            <p className='font-semibold '>{product.name}</p>
-            <span className='text-red-600 font-bold'>
-              {formatVND(product.price)}
-            </span>
-          </div>
-        ))}
+      <h1 className='text-2xl font-medium mb-10'>Danh sách sản phẩm:</h1>
+      <div className='grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2'>
+        {products.length > 0
+          ? products.map((product) => (
+              <div
+                key={product.id}
+                className='flex flex-col justify-between p-5 border border-gray-300 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 ease-in-out'
+              >
+                <img
+                  className=' h-48 md:h-52 lg:h-56 xl:h-56 object-cover rounded-md mb-4'
+                  src={product.thumbnail}
+                  alt={product.name}
+                />
+                <p className='font-semibold text-lg mb-2'>{product.name}</p>
+                <span className='text-red-600 font-bold text-xl mb-4'>
+                  <p>{formatVND(product.price)}</p>
+                </span>
+                <div className='flex justify-end gap-1 md:gap-2'>
+                  <button className='btn-product'>Thông tin</button>
+                  <button className='btn-product'>Thêm giỏ hàng</button>
+                </div>
+              </div>
+            ))
+          : ""}
       </div>
     </>
   );

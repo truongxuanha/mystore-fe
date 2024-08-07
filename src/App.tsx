@@ -1,48 +1,80 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import AppLayout from "./pages/AppLayout";
+import { lazy, Suspense } from "react";
+import Loader from "./pages/Loader";
 
-import Home from "./pages/Home";
-import Cart from "./components/cart/Cart";
-import Error from "./pages/Error";
-import Products from "./components/products/Products";
-import Contact from "./components/contact/Contact";
-import Login from "./pages/Login";
-import Regiter from "./pages/Register";
+const Home = lazy(() => import("./pages/Home"));
+const Cart = lazy(() => import("./components/cart/Cart"));
+const Error = lazy(() => import("./pages/Error"));
+const Products = lazy(() => import("./components/products/Products"));
+const Contact = lazy(() => import("./components/contact/Contact"));
+const Login = lazy(() => import("./pages/Login"));
+const Register = lazy(() => import("./pages/Register"));
+
 const router = createBrowserRouter([
   {
     path: "/",
     element: <AppLayout />,
-    errorElement: <Error />,
+    errorElement: (
+      <Suspense fallback={<Loader />}>
+        <Error />
+      </Suspense>
+    ),
     children: [
       {
         path: "/",
-        element: <Home />,
+        element: (
+          <Suspense fallback={<Loader />}>
+            <Home />
+          </Suspense>
+        ),
       },
       {
         path: "/product",
-        element: <Products />,
+        element: (
+          <Suspense fallback={<Loader />}>
+            <Products />
+          </Suspense>
+        ),
       },
       {
         path: "/contact",
-        element: <Contact />,
+        element: (
+          <Suspense fallback={<Loader />}>
+            <Contact />
+          </Suspense>
+        ),
       },
       {
         path: "/cart",
-        element: <Cart />,
+        element: (
+          <Suspense fallback={<Loader />}>
+            <Cart />
+          </Suspense>
+        ),
       },
       {
         path: "/login",
-        element: <Login />,
+        element: (
+          <Suspense fallback={<Loader />}>
+            <Login />
+          </Suspense>
+        ),
       },
       {
         path: "/register",
-        element: <Regiter />,
+        element: (
+          <Suspense fallback={<Loader />}>
+            <Register />
+          </Suspense>
+        ),
       },
     ],
   },
 ]);
+
 function App() {
-  return <RouterProvider router={router}></RouterProvider>;
+  return <RouterProvider router={router} />;
 }
 
 export default App;
