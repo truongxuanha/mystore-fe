@@ -3,6 +3,8 @@ import AppLayout from "./pages/AppLayout";
 import { lazy, Suspense } from "react";
 import Loader from "./pages/Loader";
 import About from "./components/abouts/About";
+import InforProduct from "./components/products/ProductDetail";
+// import InforProduct from "./components/products/InforProduct";
 
 const Home = lazy(() => import("./pages/Home"));
 const Cart = lazy(() => import("./components/cart/Cart"));
@@ -68,6 +70,10 @@ const router = createBrowserRouter([
             <Register />
           </Suspense>
         ),
+      },
+      {
+        path: "san-pham/:slug",
+        element: <InforProduct />,
       },
     ],
   },

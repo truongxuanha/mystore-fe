@@ -122,7 +122,7 @@ export default function Login() {
           <p className='mt-5 text-center text-sm text-gray-500'>
             Chưa có tài khoản?{" "}
             <Link
-              to='/register'
+              to='/dang-ky'
               className='font-semibold leading-6 text-orange-600 hover:text-orange-500 underline'
             >
               Đăng ký

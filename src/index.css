@@ -31,7 +31,7 @@
   }
 }
 .btn-product {
-  @apply bg-colorPrimary text-white p-1 rounded-md hover:bg-orange-300 hover:translate-y-[-5px] transition-all duration-300 text-xs md:text-[12px] lg:text-[13px];
+  @apply bg-colorPrimary text-white p-1 rounded-md hover:bg-orange-300 hover:translate-y-[-5px] transition-all duration-300  text-[10px] sm:text-xs md:text-[12px] lg:text-[13px];
 }
 .btn-auth {
   @apply bg-colorPrimary p-1 text-xs md:text-[11px] rounded-md text-white font-semibold;

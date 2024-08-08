@@ -30,7 +30,7 @@ function Products() {
     <>
       {isLoading && <Loader />}
       <h1 className='text-2xl font-bold mb-10'>Danh sách sản phẩm:</h1>
-      <div className='grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2'>
+      <div className='grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2 w-full'>
         {products.map((product) => (
           <Product key={product.id} product={product} />
         ))}

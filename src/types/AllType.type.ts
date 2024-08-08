@@ -46,22 +46,30 @@ export interface Account {
 
 export interface ProductsType {
   id: number;
+  name: string;
   id_account: string;
   id_product: number;
   createAt: string;
   updateAt: string;
   quantity: number;
   pd_id: number;
-  name: string;
   id_manu: string;
   thumbnail: string;
+  product_name: string;
   price: number;
+  slug: string;
   discount: number;
   other_discount: number;
   description: string;
   total_quantity: number;
+  img: string;
 }
-
+export interface InfoProduct extends ProductsType {
+  remaining_quantity: string;
+  product_slug: string;
+  website: string;
+  img: string;
+}
 export interface IAuthState {
   loading: LoadingState;
   error: string | null;
