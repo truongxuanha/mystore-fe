@@ -43,7 +43,7 @@ export default function Regiter() {
       console.log(user);
       if (user.status === false) throw new Error(user.data);
 
-      navigate("/login");
+      navigate("/dang-nhap");
       toastifySuccess("Đăng ký thành công!");
     } catch (error) {
       toastifyWarning(`${error}`);

@@ -20,6 +20,7 @@ import { Link, NavLink, useNavigate } from "react-router-dom";
 import { logout } from "../redux/user/userSlice";
 import SearchProduct from "../components/search/SearchProduct";
 import { useAppDispatch, useAppSelector } from "../hooks/useAppDispatch";
+import { toastifyWarning } from "../utils/toastify";
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -42,7 +43,7 @@ export default function Header() {
     if (isLoggedIn) {
       navigate("/gio-hang");
     } else {
-      alert("Vui lòng đăng nhập");
+      toastifyWarning("Vui lòng đăng nhập!!!");
       navigate("/dang-nhap");
     }
   }
