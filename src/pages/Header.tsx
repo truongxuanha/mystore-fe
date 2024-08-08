@@ -1,25 +1,38 @@
-import { NavLink, useNavigate } from "react-router-dom";
-import logo from "../assets/logo.png";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useState } from "react";
 import {
-  faCartShopping,
-  faRightFromBracket,
-} from "@fortawesome/free-solid-svg-icons";
-import SearchProduct from "../components/search/SearchProduct";
+  Dialog,
+  DialogPanel,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuItems,
+} from "@headlessui/react";
+import logo from "../assets/logo.png";
+import {
+  Bars3Icon,
+  XMarkIcon,
+  UserCircleIcon,
+  ArrowRightStartOnRectangleIcon,
+  ShoppingCartIcon,
+} from "@heroicons/react/24/outline";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../hooks/useAppDispatch";
 import { logout } from "../redux/user/userSlice";
+import SearchProduct from "../components/search/SearchProduct";
 
-function Header() {
+export default function Example() {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const closeMobileMenu = () => setMobileMenuOpen(false);
   const storedUser = localStorage.getItem("currentUser");
   const user = storedUser ? JSON.parse(storedUser) : null;
-  const isLoggedIn = !!user;
-
+  const isLoggedIn = user ? user.user.id : null;
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   function handleLogout() {
     dispatch(logout());
     navigate("/login");
+    setMobileMenuOpen(false);
   }
 
   function handleCart() {
@@ -32,51 +45,205 @@ function Header() {
   }
 
   return (
-    <header className='p-3 h-20 flex items-center justify-between gap-3'>
-      <div>
-        <img className='w-[150px]' src={logo} />
-      </div>
-      <div className='flex justify-end gap-10 w-full md:w-auto'>
-        <ul className='flex items-center gap-3 text-[12px] font-bold md:text-base'>
-          <li>
-            <NavLink to='/'>Trang chủ</NavLink>
-          </li>
-          <li>
-            <NavLink to='/product'>Sản phẩm</NavLink>
-          </li>
-          <div className='gap-5 flex items-center'>
-            <SearchProduct />
-            <FontAwesomeIcon
+    <header className='bg-white'>
+      <nav
+        aria-label='Global'
+        className='mx-auto flex max-w-full items-center justify-between p-6 lg:px-8'
+      >
+        <div>
+          <Link to='/'>
+            <img className='w-28' src={logo} />
+          </Link>
+        </div>
+        <div className='flex md:hidden'>
+          <button
+            type='button'
+            onClick={() => setMobileMenuOpen(true)}
+            className='-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700'
+          >
+            <Bars3Icon aria-hidden='true' className='h-6 w-6' />
+          </button>
+        </div>
+        <div className='hidden md:flex md:gap-x-12 items-center'>
+          <NavLink
+            to='/'
+            className='text-sm font-semibold leading-6 text-gray-900'
+          >
+            Trang chủ
+          </NavLink>
+          <NavLink
+            to='/product'
+            className='text-sm font-semibold leading-6 text-gray-900'
+          >
+            Sản phẩm
+          </NavLink>
+          <NavLink
+            to='/product'
+            className='text-sm font-semibold leading-6 text-gray-900'
+          >
+            Tính năng
+          </NavLink>
+          <div className='text-sm font-semibold leading-6 text-gray-900'>
+            <ShoppingCartIcon
               onClick={handleCart}
-              icon={faCartShopping}
-              className='cursor-pointer'
+              aria-hidden='true'
+              className='h-6 w-6'
             />
-            {!isLoggedIn ? (
-              <div className='hidden md:flex gap-2'>
-                <NavLink
-                  to='/login'
-                  className='bg-colorPrimary p-1 rounded-md text-white font-semibold'
-                >
-                  Đăng nhập
-                </NavLink>
-                <NavLink
-                  to='/register'
-                  className='bg-colorPrimary p-1 rounded-md text-white font-semibold'
-                >
-                  Đăng ký
-                </NavLink>
-              </div>
-            ) : (
-              <FontAwesomeIcon
-                icon={faRightFromBracket}
-                onClick={handleLogout}
-              />
-            )}
           </div>
-        </ul>
-      </div>
+
+          <Menu as='div' className='relative'>
+            <div>
+              <MenuButton className='inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50'>
+                <UserCircleIcon aria-hidden='true' className='h-6 w-6' />
+              </MenuButton>
+            </div>
+
+            <MenuItems
+              transition
+              className='absolute right-0 z-10 mt-2 w-40 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 transition focus:outline-none data-[closed]:scale-95 data-[closed]:transform data-[closed]:opacity-0 data-[enter]:duration-100 data-[leave]:duration-75 data-[enter]:ease-out data-[leave]:ease-in cursor-pointer'
+            >
+              {!isLoggedIn ? (
+                <div className='py-1 flex flex-col'>
+                  <MenuItem>
+                    <NavLink
+                      to='/login'
+                      className='text-sm font-semibold text-gray-900 p-2'
+                      onClick={closeMobileMenu}
+                    >
+                      Đăng nhập
+                    </NavLink>
+                  </MenuItem>
+                  <MenuItem>
+                    <NavLink
+                      to='/register'
+                      className='text-sm font-semibold leading-6 text-gray-900 p-2'
+                      onClick={closeMobileMenu}
+                    >
+                      Đăng ký
+                    </NavLink>
+                  </MenuItem>
+                </div>
+              ) : (
+                <div className='p-3 flex flex-col'>
+                  <MenuItem>
+                    <span>User: {user.user.account_name}</span>
+                  </MenuItem>
+                  <MenuItem>
+                    <span
+                      className='flex justify-start gap-2'
+                      onClick={handleLogout}
+                    >
+                      Đăng xuất
+                      <ArrowRightStartOnRectangleIcon
+                        aria-hidden='true'
+                        className='h-6 w-6'
+                      />
+                    </span>
+                  </MenuItem>
+                </div>
+              )}
+            </MenuItems>
+          </Menu>
+        </div>
+      </nav>
+      <Dialog
+        open={mobileMenuOpen}
+        onClose={setMobileMenuOpen}
+        className='md:hidden'
+      >
+        <div className='fixed inset-0 z-10' />
+        <DialogPanel className='fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10'>
+          <div className='flex items-center justify-between'>
+            <Link to='/'>
+              <img className='w-28' src={logo} onClick={closeMobileMenu} />
+            </Link>
+            <button
+              type='button'
+              onClick={() => setMobileMenuOpen(false)}
+              className='-m-2.5 rounded-md p-2.5 text-gray-700'
+            >
+              <span className='sr-only'>Close menu</span>
+              <XMarkIcon aria-hidden='true' className='h-6 w-6' />
+            </button>
+          </div>
+          <div className='mt-6 flow-root'>
+            <div className='-my-6 divide-y divide-gray-500/10'>
+              <div className='space-y-2 py-6 flex flex-col'>
+                <NavLink
+                  to='/'
+                  className='text-sm font-semibold leading-6 text-gray-900'
+                  onClick={closeMobileMenu}
+                >
+                  Home
+                </NavLink>
+                <NavLink
+                  to='/product'
+                  className='text-sm font-semibold leading-6 text-gray-900'
+                  onClick={closeMobileMenu}
+                >
+                  Products
+                </NavLink>
+                <NavLink
+                  to='/product'
+                  className='text-sm font-semibold leading-6 text-gray-900'
+                  onClick={closeMobileMenu}
+                >
+                  Feature
+                </NavLink>
+                <div className='flex items-center justify-between'>
+                  <SearchProduct />
+                  <div className='text-xl mr-5 font-semibold leading-6 text-gray-900'>
+                    <ShoppingCartIcon
+                      onClick={handleCart}
+                      aria-hidden='true'
+                      className='h-6 w-6'
+                    />
+                  </div>
+                </div>
+              </div>
+              <div className='py-6'>
+                {!isLoggedIn ? (
+                  <div className='flex gap-2'>
+                    <NavLink
+                      to='/login'
+                      className='text-sm font-semibold leading-6 text-gray-900'
+                      onClick={closeMobileMenu}
+                    >
+                      Đăng nhập
+                    </NavLink>
+                    <span> / </span>
+                    <NavLink
+                      to='/register'
+                      className='text-sm font-semibold leading-6 text-gray-900'
+                      onClick={closeMobileMenu}
+                    >
+                      Đăng ký
+                    </NavLink>
+                  </div>
+                ) : (
+                  <div className='p-3 flex flex-col'>
+                    <div>
+                      <span>User: {user.user.account_name}</span>
+                    </div>
+                    <div>
+                      <span
+                        className='flex justify-start gap-2'
+                        onClick={handleLogout}
+                      >
+                        Đăng xuất
+                        <ArrowRightStartOnRectangleIcon
+                          aria-hidden='true'
+                          className='h-6 w-6'
+                        />
+                      </span>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        </DialogPanel>
+      </Dialog>
     </header>
   );
 }
-
-export default Header;

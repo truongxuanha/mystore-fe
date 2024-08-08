@@ -54,7 +54,7 @@ function Products() {
                 className='flex flex-col justify-between p-5 border border-gray-300 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 ease-in-out'
               >
                 <img
-                  className=' h-48 md:h-52 lg:h-56 xl:h-56 object-cover rounded-md mb-4'
+                  className='h-48 rounded-md mb-4 object-cover'
                   src={product.thumbnail}
                   alt={product.name}
                 />
