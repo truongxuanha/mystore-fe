@@ -9,13 +9,18 @@ export interface IAuthState {
   error: string | null;
   isLogin: boolean;
   currentUser: UserAccount | null;
+  token: string | null;
 }
 
 const initialState: IAuthState = {
   loading: "idle",
   error: null,
   isLogin: false,
-  currentUser: null,
+  currentUser: (() => {
+    const userFromLocalStorage = localStorage.getItem("currentUser");
+    return userFromLocalStorage ? JSON.parse(userFromLocalStorage) : null;
+  })(),
+  token: localStorage.getItem("access_token") || null,
 };
 
 const authSlice = createSlice({
@@ -27,6 +32,7 @@ const authSlice = createSlice({
       state.isLogin = false;
       state.loading = "idle";
       localStorage.removeItem("currentUser");
+      localStorage.removeItem("access_token");
     },
   },
   extraReducers: (builder) => {
@@ -53,8 +59,14 @@ const authSlice = createSlice({
       .addCase(authLogin.fulfilled, (state, action) => {
         state.loading = "succeeded";
         state.error = null;
-        state.isLogin = true;
-        state.currentUser = action.payload.data;
+        state.isLogin = action.payload.data.user.id;
+        state.currentUser = action.payload.data.user;
+        state.token = action.payload.data.token;
+        localStorage.setItem("access_token", action.payload.data.token);
+        localStorage.setItem(
+          "currentUser",
+          JSON.stringify(action.payload.data.user)
+        );
       })
       .addCase(authLogin.rejected, (state, action) => {
         state.loading = "failed";

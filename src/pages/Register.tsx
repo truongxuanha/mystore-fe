@@ -5,9 +5,10 @@ import { useAppDispatch, useAppSelector } from "../hooks/useAppDispatch";
 import { authRegister } from "../services/AuthServices";
 import { InitialRegisterState } from "../types/UserType.type";
 import Loader from "./Loader";
-import { useSnackbar } from "notistack";
+
 import { unwrapResult } from "@reduxjs/toolkit";
 import getTime from "../utils/timeNow";
+import { toastifySuccess, toastifyWarning } from "../utils/toastify";
 
 const initialState: InitialRegisterState = {
   account_name: "",
@@ -23,7 +24,7 @@ export default function Regiter() {
   const dispatch = useAppDispatch();
   const { loading } = useAppSelector((state) => state.auth);
   const { account_name, email, phone, password } = formValue;
-  const { enqueueSnackbar } = useSnackbar();
+
   const navigate = useNavigate();
   function handleOnChange(e: InputEvent) {
     const { name, value } = e.target;
@@ -36,10 +37,12 @@ export default function Regiter() {
       const resultsAction = await dispatch(action);
       const user = unwrapResult(resultsAction);
       console.log(user);
-      if (user.status === true) navigate("/login");
-      enqueueSnackbar("Register successfully!!!");
+      if (user.status === false) throw new Error(user.data);
+      
+      navigate("/login");
+      toastifySuccess("Đăng ký thành công!");
     } catch (error) {
-      console.log("False");
+      toastifyWarning(`${error}`);
     }
   }
   return (

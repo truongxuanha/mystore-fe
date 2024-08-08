@@ -16,27 +16,29 @@ import {
   ShoppingCartIcon,
 } from "@heroicons/react/24/outline";
 import { Link, NavLink, useNavigate } from "react-router-dom";
-import { useAppDispatch } from "../hooks/useAppDispatch";
+
 import { logout } from "../redux/user/userSlice";
 import SearchProduct from "../components/search/SearchProduct";
+import { useAppDispatch, useAppSelector } from "../hooks/useAppDispatch";
 
-export default function Example() {
+export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
   const closeMobileMenu = () => setMobileMenuOpen(false);
-  const storedUser = localStorage.getItem("currentUser");
-  const user = storedUser ? JSON.parse(storedUser) : null;
-  const isLoggedIn = user ? user.user.id : null;
-  const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const { currentUser } = useAppSelector((state) => state.auth);
+  const isLoggedIn = currentUser ? currentUser.id : null;
 
   function handleLogout() {
     dispatch(logout());
+    localStorage.removeItem("currentUser");
     navigate("/login");
     setMobileMenuOpen(false);
   }
 
   function handleCart() {
-    if (user) {
+    if (isLoggedIn) {
       navigate("/cart");
     } else {
       alert("Vui lòng đăng nhập");
@@ -52,7 +54,7 @@ export default function Example() {
       >
         <div>
           <Link to='/'>
-            <img className='w-28' src={logo} />
+            <img className='w-28' src={logo} alt='Logo' />
           </Link>
         </div>
         <div className='flex md:hidden'>
@@ -127,11 +129,11 @@ export default function Example() {
               ) : (
                 <div className='p-3 flex flex-col'>
                   <MenuItem>
-                    <span>User: {user.user.account_name}</span>
+                    <span>User: {currentUser?.account_name}</span>
                   </MenuItem>
                   <MenuItem>
                     <span
-                      className='flex justify-start gap-2'
+                      className='flex justify-start gap-2 cursor-pointer'
                       onClick={handleLogout}
                     >
                       Đăng xuất
@@ -156,7 +158,12 @@ export default function Example() {
         <DialogPanel className='fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10'>
           <div className='flex items-center justify-between'>
             <Link to='/'>
-              <img className='w-28' src={logo} onClick={closeMobileMenu} />
+              <img
+                className='w-28'
+                src={logo}
+                alt='Logo'
+                onClick={closeMobileMenu}
+              />
             </Link>
             <button
               type='button'
@@ -175,21 +182,21 @@ export default function Example() {
                   className='text-sm font-semibold leading-6 text-gray-900'
                   onClick={closeMobileMenu}
                 >
-                  Home
+                  Trang chủ
                 </NavLink>
                 <NavLink
                   to='/product'
                   className='text-sm font-semibold leading-6 text-gray-900'
                   onClick={closeMobileMenu}
                 >
-                  Products
+                  Sản phẩm
                 </NavLink>
                 <NavLink
                   to='/product'
                   className='text-sm font-semibold leading-6 text-gray-900'
                   onClick={closeMobileMenu}
                 >
-                  Feature
+                  Tính năng
                 </NavLink>
                 <div className='flex items-center justify-between'>
                   <SearchProduct />
@@ -224,11 +231,11 @@ export default function Example() {
                 ) : (
                   <div className='p-3 flex flex-col'>
                     <div>
-                      <span>User: {user.user.account_name}</span>
+                      <span>User: {currentUser?.account_name}</span>
                     </div>
                     <div>
                       <span
-                        className='flex justify-start gap-2'
+                        className='flex justify-start gap-2 cursor-pointer'
                         onClick={handleLogout}
                       >
                         Đăng xuất

@@ -1,5 +1,4 @@
-import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 
 function SearchProduct() {
   return (
@@ -10,9 +9,9 @@ function SearchProduct() {
         className='p-2 outline-none rounded-sm'
       />
 
-      <FontAwesomeIcon icon={faMagnifyingGlass} className='p-2' />
+      <MagnifyingGlassIcon arria-hidden='true' className='w-6 h-6' />
     </form>
-  )
+  );
 }
 
-export default SearchProduct
+export default SearchProduct;

@@ -13,7 +13,7 @@ export interface InitialLoginState {
 }
 
 export interface UserAccount {
-  account_id: string;
+  id: string;
   account_name: string;
   phone_number: number;
   email: string;
@@ -23,4 +23,13 @@ export interface UserAccount {
   birth_day: string;
   permission: number;
   status: number;
+}
+
+export interface Account {
+  id: string;
+  account_name: string;
+  permission: number;
+  status: number;
+  avatar: null;
+  type: number;
 }

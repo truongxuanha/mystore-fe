@@ -14,7 +14,7 @@ export const authRegister = createAsyncThunk(
         `${URL_API_AUTH}/account/register`,
         initAccount
       );
-      console.log(response.data);
+
       return response.data;
     } catch (error) {
       return rejectWithValue("Registration failed. Please try again.");
@@ -30,8 +30,10 @@ export const authLogin = createAsyncThunk(
         `${URL_API_AUTH}/account/login`,
         initAccount
       );
+
       const { data } = response;
-      console.log(response);
+      localStorage.setItem("currenAuth", JSON.stringify(data));
+      console.log(data);
       return data;
     } catch (error) {
       return rejectWithValue("Login failed!!!");

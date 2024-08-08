@@ -4,6 +4,8 @@ import { FormEvent, InputEvent } from "../types/EventValidate.type";
 import { useAppDispatch, useAppSelector } from "../hooks/useAppDispatch";
 import { authLogin } from "../services/AuthServices";
 import Loader from "./Loader";
+import { toastifySuccess, toastifyWarning } from "../utils/toastify";
+import { unwrapResult } from "@reduxjs/toolkit";
 
 interface FormValues {
   value: string;
@@ -25,23 +27,38 @@ export default function Login() {
     setFormValues((prev) => ({ ...prev, [name]: value }));
   }
 
+  // async function handleSubmit(e: FormEvent) {
+  //   e.preventDefault();
+  //   await dispatch(authLogin({ value, password }))
+  //     .then((res) => {
+  //       if (res.payload.status === true) {
+  //         navigate("/");
+  //         toastifySuccess("Đăng nhập thành công!");
+  //         localStorage.setItem(
+  //           "currentUser",
+  //           JSON.stringify(res.payload.data) ?? null
+  //         );
+  //       } else {
+  //         toastifyWarning(`${res.payload.data}`);
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       console.error("Login failed:", error);
+  //     });
+  // }
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
-    await dispatch(authLogin({ value, password }))
-      .then((res) => {
-        if (res.payload.status === true) {
-          navigate("/");
-          localStorage.setItem(
-            "currentUser",
-            JSON.stringify(res.payload.data) ?? null
-          );
-        } else {
-          alert(res.payload.data[1]);
-        }
-      })
-      .catch((error) => {
-        console.error("Login failed:", error);
-      });
+    try {
+      const action = authLogin(formValues);
+      const resultsAction = await dispatch(action);
+      const user = unwrapResult(resultsAction);
+      console.log(user);
+      if (user.status === false) throw new Error(user.data);
+      navigate("/product");
+      toastifySuccess("Đăng nhập thành công!");
+    } catch (error) {
+      toastifyWarning(`${error}`);
+    }
   }
 
   return (
