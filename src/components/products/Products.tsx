@@ -45,7 +45,7 @@ function Products() {
   return (
     <>
       {isLoading && <Loader />}
-      <h1 className='text-2xl font-medium mb-10'>Danh sách sản phẩm:</h1>
+      <h1 className='text-2xl font-bold mb-10'>Danh sách sản phẩm:</h1>
       <div className='grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2'>
         {products.length > 0
           ? products.map((product) => (
@@ -58,11 +58,11 @@ function Products() {
                   src={product.thumbnail}
                   alt={product.name}
                 />
-                <p className='font-semibold text-lg mb-2'>{product.name}</p>
-                <span className='text-red-600 font-bold text-xl mb-4'>
+                <p className=' text-lg mb-2'>{product.name}</p>
+                <span className='text-red-600 text-xl mb-4'>
                   <p>{formatVND(product.price)}</p>
                 </span>
-                <div className='flex justify-end gap-1 md:gap-2'>
+                <div className='flex justify-end gap-1'>
                   <button className='btn-product'>Thông tin</button>
                   <button className='btn-product'>Thêm giỏ hàng</button>
                 </div>

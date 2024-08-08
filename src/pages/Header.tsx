@@ -64,7 +64,7 @@ export default function Example() {
             <Bars3Icon aria-hidden='true' className='h-6 w-6' />
           </button>
         </div>
-        <div className='hidden md:flex md:gap-x-12 items-center'>
+        <div className='hidden md:flex md:gap-x-4 lg:gap-x-12 items-center'>
           <NavLink
             to='/'
             className='text-sm font-semibold leading-6 text-gray-900'
@@ -83,7 +83,8 @@ export default function Example() {
           >
             Tính năng
           </NavLink>
-          <div className='text-sm font-semibold leading-6 text-gray-900'>
+          <div className='flex items-center gap-4 text-sm font-semibold leading-6 text-gray-900'>
+            <SearchProduct />
             <ShoppingCartIcon
               onClick={handleCart}
               aria-hidden='true'

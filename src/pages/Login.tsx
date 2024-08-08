@@ -108,10 +108,10 @@ export default function Login() {
                 />
               </div>
             </div>
-            <div className='relative'>
+            <div className='flex justify-end mr-2'>
               <button
                 type='submit'
-                className=' absolute right-0 w-[100px] text-center rounded-md bg-orange-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600'
+                className='w-[100px] text-center rounded-md bg-orange-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600'
               >
                 Đăng nhập
               </button>
@@ -122,7 +122,7 @@ export default function Login() {
             )}
           </form>
 
-          <p className='mt-16 text-center text-sm text-gray-500'>
+          <p className='mt-5 text-center text-sm text-gray-500'>
             Chưa có tài khoản?{" "}
             <Link
               to='/register'
