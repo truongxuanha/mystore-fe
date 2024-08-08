@@ -26,26 +26,6 @@ export default function Login() {
     const { name, value } = e.target;
     setFormValues((prev) => ({ ...prev, [name]: value }));
   }
-
-  // async function handleSubmit(e: FormEvent) {
-  //   e.preventDefault();
-  //   await dispatch(authLogin({ value, password }))
-  //     .then((res) => {
-  //       if (res.payload.status === true) {
-  //         navigate("/");
-  //         toastifySuccess("Đăng nhập thành công!");
-  //         localStorage.setItem(
-  //           "currentUser",
-  //           JSON.stringify(res.payload.data) ?? null
-  //         );
-  //       } else {
-  //         toastifyWarning(`${res.payload.data}`);
-  //       }
-  //     })
-  //     .catch((error) => {
-  //       console.error("Login failed:", error);
-  //     });
-  // }
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
     try {
