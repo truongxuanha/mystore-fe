@@ -1,9 +1,13 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { FormEvent, InputEvent } from "../types/EventValidate.type";
+
 import { useAppDispatch, useAppSelector } from "../hooks/useAppDispatch";
 import { authRegister } from "../services/AuthServices";
-import { InitialRegisterState } from "../types/UserType.type";
+import {
+  FormEvent,
+  InitialRegisterState,
+  InputEvent,
+} from "../types/AllType.type";
 import Loader from "./Loader";
 
 import { unwrapResult } from "@reduxjs/toolkit";
@@ -38,7 +42,7 @@ export default function Regiter() {
       const user = unwrapResult(resultsAction);
       console.log(user);
       if (user.status === false) throw new Error(user.data);
-      
+
       navigate("/login");
       toastifySuccess("Đăng ký thành công!");
     } catch (error) {

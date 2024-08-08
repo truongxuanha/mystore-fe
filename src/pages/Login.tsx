@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { FormEvent, InputEvent } from "../types/EventValidate.type";
+
 import { useAppDispatch, useAppSelector } from "../hooks/useAppDispatch";
 import { authLogin } from "../services/AuthServices";
 import Loader from "./Loader";
 import { toastifySuccess, toastifyWarning } from "../utils/toastify";
 import { unwrapResult } from "@reduxjs/toolkit";
+import { FormEvent, InputEvent } from "../types/AllType.type";
 
 interface FormValues {
   value: string;
@@ -32,9 +33,8 @@ export default function Login() {
       const action = authLogin(formValues);
       const resultsAction = await dispatch(action);
       const user = unwrapResult(resultsAction);
-      console.log(user);
       if (user.status === false) throw new Error(user.data);
-      navigate("/product");
+      navigate("/san-pham");
       toastifySuccess("Đăng nhập thành công!");
     } catch (error) {
       toastifyWarning(`${error}`);

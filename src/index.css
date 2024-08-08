@@ -9,7 +9,6 @@
 
 .loader {
   width: 45px;
-  z-index: 999;
   aspect-ratio: 0.75;
   --c: no-repeat linear-gradient(theme(colors.orange.500) 0 0);
   background: var(--c) 0% 50%, var(--c) 50% 50%, var(--c) 100% 50%;

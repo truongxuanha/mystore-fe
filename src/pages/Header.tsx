@@ -28,21 +28,22 @@ export default function Header() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { currentUser } = useAppSelector((state) => state.auth);
-  const isLoggedIn = currentUser ? currentUser.id : null;
+
+  const isLoggedIn = currentUser ? currentUser.user.id : null;
 
   function handleLogout() {
     dispatch(logout());
     localStorage.removeItem("currentUser");
-    navigate("/login");
+    navigate("/dang-nhap");
     setMobileMenuOpen(false);
   }
 
   function handleCart() {
     if (isLoggedIn) {
-      navigate("/cart");
+      navigate("/gio-hang");
     } else {
       alert("Vui lòng đăng nhập");
-      navigate("/login");
+      navigate("/dang-nhap");
     }
   }
 
@@ -74,16 +75,16 @@ export default function Header() {
             Trang chủ
           </NavLink>
           <NavLink
-            to='/product'
+            to='/san-pham'
             className='text-sm font-semibold leading-6 text-gray-900'
           >
             Sản phẩm
           </NavLink>
           <NavLink
-            to='/product'
+            to='/lien-he'
             className='text-sm font-semibold leading-6 text-gray-900'
           >
-            Tính năng
+            Liên hệ
           </NavLink>
           <div className='flex items-center gap-4 text-sm font-semibold leading-6 text-gray-900'>
             <SearchProduct />
@@ -109,7 +110,7 @@ export default function Header() {
                 <div className='py-1 flex flex-col'>
                   <MenuItem>
                     <NavLink
-                      to='/login'
+                      to='/dang-nhap'
                       className='text-sm font-semibold text-gray-900 p-2'
                       onClick={closeMobileMenu}
                     >
@@ -118,7 +119,7 @@ export default function Header() {
                   </MenuItem>
                   <MenuItem>
                     <NavLink
-                      to='/register'
+                      to='/dang-ky'
                       className='text-sm font-semibold leading-6 text-gray-900 p-2'
                       onClick={closeMobileMenu}
                     >
@@ -129,7 +130,7 @@ export default function Header() {
               ) : (
                 <div className='p-3 flex flex-col'>
                   <MenuItem>
-                    <span>User: {currentUser?.account_name}</span>
+                    <span>User: {currentUser?.user.account_name}</span>
                   </MenuItem>
                   <MenuItem>
                     <span
@@ -185,18 +186,18 @@ export default function Header() {
                   Trang chủ
                 </NavLink>
                 <NavLink
-                  to='/product'
+                  to='/san-pham'
                   className='text-sm font-semibold leading-6 text-gray-900'
                   onClick={closeMobileMenu}
                 >
                   Sản phẩm
                 </NavLink>
                 <NavLink
-                  to='/product'
+                  to='/lien-he'
                   className='text-sm font-semibold leading-6 text-gray-900'
                   onClick={closeMobileMenu}
                 >
-                  Tính năng
+                  Liên hệ
                 </NavLink>
                 <div className='flex items-center justify-between'>
                   <SearchProduct />
@@ -213,7 +214,7 @@ export default function Header() {
                 {!isLoggedIn ? (
                   <div className='flex gap-2'>
                     <NavLink
-                      to='/login'
+                      to='/dang-nhap'
                       className='text-sm font-semibold leading-6 text-gray-900'
                       onClick={closeMobileMenu}
                     >
@@ -221,7 +222,7 @@ export default function Header() {
                     </NavLink>
                     <span> / </span>
                     <NavLink
-                      to='/register'
+                      to='/dang-ky'
                       className='text-sm font-semibold leading-6 text-gray-900'
                       onClick={closeMobileMenu}
                     >
@@ -231,7 +232,7 @@ export default function Header() {
                 ) : (
                   <div className='p-3 flex flex-col'>
                     <div>
-                      <span>User: {currentUser?.account_name}</span>
+                      <span>User: {currentUser?.user.account_name}</span>
                     </div>
                     <div>
                       <span

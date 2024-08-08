@@ -1,4 +1,4 @@
-import { ProductsType } from "../../types/ProductType.type";
+import { ProductsType } from "../../types/AllType.type";
 import formatVND from "../../utils/formatVND";
 
 interface ProductsProp {

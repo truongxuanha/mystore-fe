@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 import Loader from "../../pages/Loader";
 import Product from "./Product";
-import { ProductsType } from "../../types/ProductType.type";
+import { ProductsType } from "../../types/AllType.type";
 
 function Products() {
   const [products, setProducts] = useState<ProductsType[]>([]);

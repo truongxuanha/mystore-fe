@@ -1,16 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { authLogin, authRegister } from "../../services/AuthServices";
-import { UserAccount } from "../../types/UserType.type";
-
-export type LoadingState = "idle" | "pending" | "succeeded" | "failed";
-
-export interface IAuthState {
-  loading: LoadingState;
-  error: string | null;
-  isLogin: boolean;
-  currentUser: UserAccount | null;
-  token: string | null;
-}
+import { IAuthState } from "../../types/AllType.type";
 
 const initialState: IAuthState = {
   loading: "idle",
@@ -60,13 +50,8 @@ const authSlice = createSlice({
         state.loading = "succeeded";
         state.error = null;
         state.isLogin = action.payload.data.user.id;
-        state.currentUser = action.payload.data.user;
+        state.currentUser = action.payload.data;
         state.token = action.payload.data.token;
-        localStorage.setItem("access_token", action.payload.data.token);
-        localStorage.setItem(
-          "currentUser",
-          JSON.stringify(action.payload.data.user)
-        );
       })
       .addCase(authLogin.rejected, (state, action) => {
         state.loading = "failed";
