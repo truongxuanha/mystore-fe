@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { axiosIntance } from "../../utils/axiosConfig";
+
 import { getBanner } from "../../services/bannerService";
 
 export interface BannerType {
