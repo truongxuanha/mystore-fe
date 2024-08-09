@@ -27,9 +27,8 @@ const Banner: React.FC = () => {
     const fetchBanners = async () => {
       try {
         const { data } = await axiosIntance.get("/banner");
-        console.log(data);
-        if (data.status === false) throw Error("Error");
-        setBanners(data.data);
+
+        if (data.status === true) setBanners(data.data);
       } catch (err) {
         console.error("Error fetching data:", err);
       }
