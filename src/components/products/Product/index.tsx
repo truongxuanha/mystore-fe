@@ -16,7 +16,7 @@ const ProductDetail: React.FC = () => {
       if (slug) {
         try {
           const data = await getInFoProduct(slug);
-          setProduct(data.data[0]);
+          if (data?.data.status === true) setProduct(data?.data.data[0]);
         } catch (err) {
           setError("Failed to fetch product details.");
         } finally {

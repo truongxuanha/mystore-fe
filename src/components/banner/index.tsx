@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { axiosIntance } from "../../utils/axiosConfig";
+import { getBanner } from "../../services/bannerService";
 
 export interface BannerType {
   id: number;
@@ -26,9 +27,8 @@ const Banner: React.FC = () => {
   useEffect(() => {
     const fetchBanners = async () => {
       try {
-        const { data } = await axiosIntance.get("/banner");
-
-        if (data.status === true) setBanners(data.data);
+        const data = await getBanner();
+        if (data?.data.status === true) setBanners(data.data.data);
       } catch (err) {
         console.error("Error fetching data:", err);
       }
