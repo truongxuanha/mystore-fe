@@ -30,8 +30,8 @@ export default function Header() {
   const dispatch = useAppDispatch();
   const { currentUser } = useAppSelector((state) => state.auth);
 
+  console.log(currentUser);
   const isLoggedIn = currentUser ? currentUser?.user.id : null;
-
   function handleLogout() {
     dispatch(logout());
     localStorage.removeItem("currentUser");

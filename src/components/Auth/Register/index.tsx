@@ -9,7 +9,7 @@ import {
   InputEvent,
   InitialRegisterState,
 } from "../../../types/AllType.type";
-import getTime from "utils/timeNow";
+import getTime from "../../../utils/timeNow";
 import { toastifySuccess, toastifyWarning } from "../../../utils/toastify";
 
 const initialState: InitialRegisterState = {
@@ -38,7 +38,7 @@ export default function Regiter() {
       const action = authRegister(formValue);
       const resultsAction = await dispatch(action);
       const user = unwrapResult(resultsAction);
-      console.log(user);
+
       if (user.status === false) throw new Error(user.data);
 
       navigate("/dang-nhap");
@@ -162,7 +162,7 @@ export default function Regiter() {
           <p className='mt-5 text-center text-sm text-gray-500'>
             Đã có tài khoản?{" "}
             <Link
-              to='/login'
+              to='/dang-nhap'
               className='font-semibold leading-6 text-orange-600 hover:text-orange-500 underline'
             >
               Đăng nhập
