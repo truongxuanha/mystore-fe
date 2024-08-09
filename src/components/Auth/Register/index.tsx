@@ -1,18 +1,16 @@
+import { unwrapResult } from "@reduxjs/toolkit";
+import Loader from "../../Loader/";
+import { useAppDispatch, useAppSelector } from "../../../hooks/useAppDispatch";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-
-import { useAppDispatch, useAppSelector } from "../hooks/useAppDispatch";
-import { authRegister } from "../services/AuthServices";
+import { authRegister } from "../../../services/authService";
 import {
   FormEvent,
-  InitialRegisterState,
   InputEvent,
-} from "../types/AllType.type";
-import Loader from "./Loader";
-
-import { unwrapResult } from "@reduxjs/toolkit";
-import getTime from "../utils/timeNow";
-import { toastifySuccess, toastifyWarning } from "../utils/toastify";
+  InitialRegisterState,
+} from "../../../types/AllType.type";
+import getTime from "utils/timeNow";
+import { toastifySuccess, toastifyWarning } from "../../../utils/toastify";
 
 const initialState: InitialRegisterState = {
   account_name: "",

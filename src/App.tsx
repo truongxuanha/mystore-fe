@@ -1,17 +1,23 @@
+export const BASE_API = process.env.REACT_APP_URL_API_AUTHqq;
+
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import AppLayout from "./pages/AppLayout";
 import { lazy, Suspense } from "react";
-import Loader from "./pages/Loader";
-import About from "./components/abouts/About";
-import InforProduct from "./components/products/ProductDetail";
-// import InforProduct from "./components/products/InforProduct";
+import Loader from "./components/Loader";
+import About from "./components/Abouts";
+import InforProduct from "./components/products/Product";
+import AppLayout from "./layouts/AppLayout";
+import axios from "axios";
 
 const Home = lazy(() => import("./pages/Home"));
 const Cart = lazy(() => import("./components/cart/Cart"));
 const Error = lazy(() => import("./pages/Error"));
-const Products = lazy(() => import("./components/products/Products"));
-const Login = lazy(() => import("./pages/Login"));
-const Register = lazy(() => import("./pages/Register"));
+const Products = lazy(() => import("./components/products"));
+const Login = lazy(() => import("./components/Auth/Login"));
+const Register = lazy(() => import("./components/Auth/Register"));
+
+axios.create({
+  baseURL: "https://some-domain.com/api/",
+});
 
 const router = createBrowserRouter([
   {

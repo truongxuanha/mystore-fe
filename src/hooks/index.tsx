@@ -1,14 +1,13 @@
 import { Link } from "react-router-dom";
-import { ProductsType } from "../../types/AllType.type";
-import formatVND from "../../utils/formatVND";
-import { getInFoProduct } from "../../services/InfoProduct";
+import { getInFoProduct } from "../services/productService";
+import { ProductsType } from "types/AllType.type";
+import formatVND from "../utils/formatVND";
 
 interface ProductsProp {
   product: ProductsType;
 }
 
 function Product({ product }: ProductsProp) {
-  // You can handle additional product fetching logic if needed
   async function handleInfo(slug: string) {
     getInFoProduct(slug);
   }

@@ -7,12 +7,16 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+# Thư mục và tệp liên quan đến xây dựng
 node_modules
 dist
 dist-ssr
 *.local
 
-# Editor directories and files
+# Cấu hình môi trường
+.env
+
+# Thư mục và tệp của trình chỉnh sửa
 .vscode/*
 !.vscode/extensions.json
 .idea

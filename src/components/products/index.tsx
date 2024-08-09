@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
-import Loader from "../../pages/Loader";
-import Product from "./Product";
+import Loader from "../Loader";
+import Product from "../../hooks";
 import { ProductsType } from "../../types/AllType.type";
 
 function Products() {

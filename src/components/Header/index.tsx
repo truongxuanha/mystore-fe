@@ -7,7 +7,7 @@ import {
   MenuItem,
   MenuItems,
 } from "@headlessui/react";
-import logo from "../assets/logo.png";
+
 import {
   Bars3Icon,
   XMarkIcon,
@@ -17,10 +17,10 @@ import {
 } from "@heroicons/react/24/outline";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 
-import { logout } from "../redux/user/userSlice";
-import SearchProduct from "../components/search/SearchProduct";
-import { useAppDispatch, useAppSelector } from "../hooks/useAppDispatch";
-import { toastifyWarning } from "../utils/toastify";
+import { logout } from "../../redux/user/userSlice";
+import logo from "../../assets/logo.png";
+import { useAppDispatch, useAppSelector } from "../../hooks/useAppDispatch";
+import { toastifyWarning } from "../../utils/toastify";
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -30,7 +30,7 @@ export default function Header() {
   const dispatch = useAppDispatch();
   const { currentUser } = useAppSelector((state) => state.auth);
 
-  const isLoggedIn = currentUser ? currentUser.user.id : null;
+  const isLoggedIn = currentUser ? currentUser?.user.id : null;
 
   function handleLogout() {
     dispatch(logout());
@@ -88,7 +88,7 @@ export default function Header() {
             Liên hệ
           </NavLink>
           <div className='flex items-center gap-4 text-sm font-semibold leading-6 text-gray-900'>
-            <SearchProduct />
+            {/* <Search /> */}
             <ShoppingCartIcon
               onClick={handleCart}
               aria-hidden='true'
@@ -201,7 +201,7 @@ export default function Header() {
                   Liên hệ
                 </NavLink>
                 <div className='flex items-center justify-between'>
-                  <SearchProduct />
+                  {/* <Search /> */}
                   <div className='text-xl mr-5 font-semibold leading-6 text-gray-900'>
                     <ShoppingCartIcon
                       onClick={handleCart}

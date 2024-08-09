@@ -62,14 +62,12 @@ export interface ProductsType {
   other_discount: number;
   description: string;
   total_quantity: number;
-  img: string;
-}
-export interface InfoProduct extends ProductsType {
-  remaining_quantity: string;
   product_slug: string;
+  remaining_quantity: string;
   website: string;
   img: string;
 }
+
 export interface IAuthState {
   loading: LoadingState;
   error: string | null;

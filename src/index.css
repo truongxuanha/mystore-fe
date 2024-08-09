@@ -36,3 +36,14 @@
 .btn-auth {
   @apply bg-colorPrimary p-1 text-xs md:text-[11px] rounded-md text-white font-semibold;
 }
+.carousel-main {
+  display: flex;
+  white-space: nowrap;
+  transition: transform 0.7s ease-in-out;
+  width: 100%;
+}
+
+.carousel-item {
+  flex: 0 0 100%;
+  width: 100%;
+}

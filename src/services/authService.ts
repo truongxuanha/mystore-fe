@@ -1,14 +1,14 @@
-import axios from "axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { URL_API_AUTH } from "../utils/api";
+
 import { InitialRegisterState, InitialLoginState } from "../types/AllType.type";
+import { axiosIntance } from "../utils/axiosConfig";
 
 export const authRegister = createAsyncThunk(
   "auth/authRegister",
   async (initAccount: InitialRegisterState, { rejectWithValue }) => {
     try {
-      const response = await axios.post(
-        `${URL_API_AUTH}/account/register`,
+      const response = await axiosIntance.post(
+        `/account/register`,
         initAccount
       );
       return response.data;
@@ -22,10 +22,7 @@ export const authLogin = createAsyncThunk(
   "auth/authLogin",
   async (initAccount: InitialLoginState, { rejectWithValue }) => {
     try {
-      const response = await axios.post(
-        `${URL_API_AUTH}/account/login`,
-        initAccount
-      );
+      const response = await axiosIntance.post(`/account/login`, initAccount);
 
       const { data } = response;
       localStorage.setItem("currentUser", JSON.stringify(data.data));
@@ -33,6 +30,23 @@ export const authLogin = createAsyncThunk(
       return data;
     } catch (error) {
       return rejectWithValue("Login failed!!!");
+    }
+  }
+);
+export interface initialTokenRefresh {
+  refresh: string;
+}
+export const authRefreshToken = createAsyncThunk(
+  "auth/authRefresh",
+  async (initialTokenRefresh: initialTokenRefresh) => {
+    try {
+      const res = await axiosIntance.post(
+        "/account/refresh",
+        initialTokenRefresh
+      );
+      return res.data;
+    } catch (err) {
+      console.log(err);
     }
   }
 );

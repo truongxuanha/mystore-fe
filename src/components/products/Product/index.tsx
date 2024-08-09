@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { getInFoProduct } from "../../services/InfoProduct";
-import formatVND from "../../utils/formatVND";
-import { ProductsType } from "../../types/AllType.type";
-import Loader from "../../pages/Loader";
+import { getInFoProduct } from "../../../services/productService";
+import formatVND from "../../../utils/formatVND";
+import { ProductsType } from "../../../types/AllType.type";
+import Loader from "../../Loader";
 
 const ProductDetail: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();

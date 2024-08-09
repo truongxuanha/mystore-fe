@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-import { useAppDispatch, useAppSelector } from "../hooks/useAppDispatch";
-import { authLogin } from "../services/AuthServices";
-import Loader from "./Loader";
-import { toastifySuccess, toastifyWarning } from "../utils/toastify";
+import { useAppDispatch, useAppSelector } from "../../../hooks/useAppDispatch";
+import { authLogin } from "../../../services/authService";
+import Loader from "../../Loader";
+import { toastifySuccess, toastifyWarning } from "../../../utils/toastify";
 import { unwrapResult } from "@reduxjs/toolkit";
-import { FormEvent, InputEvent } from "../types/AllType.type";
+import { FormEvent, InputEvent } from "../../../types/AllType.type";
 
 interface FormValues {
   value: string;
