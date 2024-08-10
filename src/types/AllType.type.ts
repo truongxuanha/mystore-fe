@@ -72,6 +72,6 @@ export interface IAuthState {
   loading: LoadingState;
   error: string | null;
   isLogin: boolean;
-  currentUser: CurrentAccount | null;
+  currentUser: Account | null;
   token: string | null;
 }

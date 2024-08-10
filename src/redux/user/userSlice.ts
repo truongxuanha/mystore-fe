@@ -1,12 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { authLogin, authRegister } from "../../services/authService";
 import { IAuthState } from "../../types/AllType.type";
-const currentUserStr = (localStorage.getItem("currentUser") as string) ?? null;
+
 const initialState: IAuthState = {
   loading: "idle",
   error: null,
   isLogin: false,
-  currentUser: currentUserStr ? JSON.parse(currentUserStr) : null,
+  currentUser: localStorage.getItem("currentUser")
+    ? JSON.parse(localStorage.getItem("currentUser") || "null")
+    : null,
   token: localStorage.getItem("access_token") || null,
 };
 
@@ -46,8 +48,8 @@ const authSlice = createSlice({
       .addCase(authLogin.fulfilled, (state, action) => {
         state.loading = "succeeded";
         state.error = null;
-        state.currentUser = action.payload;
-        state.token = action.payload.token;
+        state.currentUser = action.payload.data.user;
+        state.token = action.payload.data.token;
       })
       .addCase(authLogin.rejected, (state, action) => {
         state.loading = "failed";

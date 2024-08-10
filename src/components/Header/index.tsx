@@ -29,7 +29,7 @@ export default function Header() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { currentUser } = useAppSelector((state) => state.auth);
-  console.log(currentUser);
+  const userLogin = !!currentUser;
   function handleLogout() {
     dispatch(logout());
     localStorage.removeItem("currentUser");
@@ -105,7 +105,7 @@ export default function Header() {
               transition
               className='absolute right-0 z-10 mt-2 w-40 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 transition focus:outline-none data-[closed]:scale-95 data-[closed]:transform data-[closed]:opacity-0 data-[enter]:duration-100 data-[leave]:duration-75 data-[enter]:ease-out data-[leave]:ease-in cursor-pointer'
             >
-              {!currentUser ? (
+              {!userLogin ? (
                 <div className='py-1 flex flex-col'>
                   <MenuItem>
                     <NavLink
@@ -129,7 +129,7 @@ export default function Header() {
               ) : (
                 <div className='p-3 flex flex-col'>
                   <MenuItem>
-                    <span>User: {currentUser?.user.account_name}</span>
+                    <span>User: {currentUser?.account_name}</span>
                   </MenuItem>
                   <MenuItem>
                     <span
@@ -231,7 +231,7 @@ export default function Header() {
                 ) : (
                   <div className='p-3 flex flex-col'>
                     <div>
-                      <span>User: {currentUser?.user.account_name}</span>
+                      <span>User: {currentUser?.account_name}</span>
                     </div>
                     <div>
                       <span
