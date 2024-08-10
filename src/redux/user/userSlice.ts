@@ -2,13 +2,18 @@ import { createSlice } from "@reduxjs/toolkit";
 import { authLogin, authRegister } from "../../services/authService";
 import { IAuthState } from "../../types/AllType.type";
 
+const currentUserString = localStorage.getItem("currentUser");
+let currentUser = null;
+
+if (currentUserString && currentUserString !== "undefined") {
+  currentUser = JSON.parse(currentUserString);
+}
+
 const initialState: IAuthState = {
   loading: "idle",
   error: null,
   isLogin: false,
-  currentUser: localStorage.getItem("currentUser")
-    ? JSON.parse(localStorage.getItem("currentUser") || "null")
-    : null,
+  currentUser: currentUser,
   token: localStorage.getItem("access_token") || null,
 };
 
