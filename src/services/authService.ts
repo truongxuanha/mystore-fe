@@ -24,11 +24,12 @@ export const authLogin = createAsyncThunk(
     try {
       const response = await axiosIntance.post(`/account/login`, initAccount);
 
-      const { data } = response;
-      localStorage.setItem("access_token", data.data.token);
+      const { data } = response.data;
+      console.log(data);
+      localStorage.setItem("access_token", data.token);
       return data;
     } catch (error) {
-      return rejectWithValue("Login failed!!!");
+      return rejectWithValue(error);
     }
   }
 );

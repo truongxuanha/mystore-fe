@@ -35,6 +35,7 @@ export default function Login() {
       const action = authLogin(formValues);
       const resultsAction = await dispatch(action);
       const user = unwrapResult(resultsAction);
+      console.log(user);
       if (user.status === false) throw new Error(user.data);
       localStorage.setItem("currentUser", JSON.stringify(user.user));
       setIsLoginLoading(false);

@@ -23,11 +23,6 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <AppLayout />,
-    errorElement: (
-      <Suspense fallback={<Loader />}>
-        <Error />
-      </Suspense>
-    ),
     children: [
       {
         path: "/",
@@ -80,6 +75,10 @@ const router = createBrowserRouter([
       {
         path: "san-pham/:slug",
         element: <InforProduct />,
+      },
+      {
+        path: "*",
+        element: <Error />,
       },
     ],
   },

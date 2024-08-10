@@ -6,10 +6,7 @@ const initialState: IAuthState = {
   loading: "idle",
   error: null,
   isLogin: false,
-  currentUser: (() => {
-    const userFromLocalStorage = localStorage.getItem("currentUser");
-    return userFromLocalStorage ? JSON.parse(userFromLocalStorage) : null;
-  })(),
+  currentUser: JSON.parse(localStorage.getItem("currenUser")) || null,
   token: localStorage.getItem("access_token") || null,
 };
 
@@ -49,8 +46,8 @@ const authSlice = createSlice({
       .addCase(authLogin.fulfilled, (state, action) => {
         state.loading = "succeeded";
         state.error = null;
-        state.currentUser = action.payload.data.user;
-        state.token = action.payload.data.token;
+        state.currentUser = action.payload;
+        state.token = action.payload.token;
       })
       .addCase(authLogin.rejected, (state, action) => {
         state.loading = "failed";

@@ -29,9 +29,7 @@ export default function Header() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { currentUser } = useAppSelector((state) => state.auth);
-
   console.log(currentUser);
-  const isLoggedIn = currentUser ? currentUser?.user.id : null;
   function handleLogout() {
     dispatch(logout());
     localStorage.removeItem("currentUser");
@@ -40,7 +38,7 @@ export default function Header() {
   }
 
   function handleCart() {
-    if (isLoggedIn) {
+    if (currentUser) {
       navigate("/gio-hang");
     } else {
       toastifyWarning("Vui lòng đăng nhập!!!");
@@ -107,7 +105,7 @@ export default function Header() {
               transition
               className='absolute right-0 z-10 mt-2 w-40 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 transition focus:outline-none data-[closed]:scale-95 data-[closed]:transform data-[closed]:opacity-0 data-[enter]:duration-100 data-[leave]:duration-75 data-[enter]:ease-out data-[leave]:ease-in cursor-pointer'
             >
-              {!isLoggedIn ? (
+              {!currentUser ? (
                 <div className='py-1 flex flex-col'>
                   <MenuItem>
                     <NavLink
@@ -212,7 +210,7 @@ export default function Header() {
                 </div>
               </div>
               <div className='py-6'>
-                {!isLoggedIn ? (
+                {!currentUser ? (
                   <div className='flex gap-2'>
                     <NavLink
                       to='/dang-nhap'
