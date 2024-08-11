@@ -85,7 +85,6 @@ export interface ProductsType {
   final_price: number;
   mn_name: string;
   starType: number;
-  closeMobileMenu: boolean;
 }
 
 export interface IAuthState {

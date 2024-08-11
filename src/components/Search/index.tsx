@@ -6,7 +6,10 @@ import { getResultSearch } from "../../services/searchService";
 import Loader from "../../components/Loader";
 import useDebounce from "../../hooks/useDebouncs";
 
-function Search() {
+export interface SearchProps {
+  handleCloseNav?: (open: boolean) => void;
+}
+function Search({ handleCloseNav }: SearchProps) {
   const [searchQuery, setSearchQuery] = useState("");
   const [resultSearch, setResultSearch] = useState<ProductsType[]>([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -55,7 +58,15 @@ function Search() {
 
       {searchQuery && resultSearch.length > 0 && (
         <div className='absolute top-full left-0 w-[120%] bg-white border border-t-0 rounded-b-md shadow-lg z-50'>
-          {isLoading ? <Loader /> : <SearchResults products={resultSearch} />}
+          {isLoading ? (
+            <Loader />
+          ) : (
+            <SearchResults
+              products={resultSearch}
+              setSearchQuery={setSearchQuery}
+              handleCloseNav={handleCloseNav}
+            />
+          )}
         </div>
       )}
     </div>

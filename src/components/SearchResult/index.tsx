@@ -5,14 +5,24 @@ import { Link } from "react-router-dom";
 
 interface SearchResultsProps {
   products: ProductsType[];
+  setSearchQuery: (query: string) => void;
+  handleCloseNav?: (open: boolean) => void;
 }
 
-const SearchResults: React.FC<SearchResultsProps> = ({ products }) => {
+const SearchResults: React.FC<SearchResultsProps> = ({
+  products,
+  setSearchQuery,
+  handleCloseNav,
+}) => {
   async function handleInfo(slug: string) {
     getInFoProduct(slug);
+    setSearchQuery("");
+    if (handleCloseNav) {
+      handleCloseNav(false);
+    }
   }
   return (
-    <ul className='max-h-60 overflow-y-auto'>
+    <ul className='max-h-60 overflow-y-auto transition-all'>
       {products.map((product) => (
         <li
           key={product.id}

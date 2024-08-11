@@ -14,6 +14,7 @@ const ProductDetail: React.FC = () => {
 
   useEffect(() => {
     async function fetchProduct() {
+      setLoading(true);
       if (slug) {
         try {
           const data = await getInFoProduct(slug);

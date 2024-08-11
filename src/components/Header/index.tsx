@@ -89,7 +89,7 @@ export default function Header() {
             Liên hệ
           </NavLink>
           <div className='flex items-center gap-4 text-sm font-semibold leading-6 text-gray-900'>
-            <Search />
+            <Search handleCloseNav={closeMobileMenu} />
             <ShoppingCartIcon
               onClick={handleCart}
               aria-hidden='true'
@@ -202,7 +202,7 @@ export default function Header() {
                   Liên hệ
                 </NavLink>
                 <div className='flex items-center gap-2'>
-                  <Search />
+                  <Search handleCloseNav={setMobileMenuOpen} />
                   <ShoppingCartIcon
                     onClick={handleCart}
                     aria-hidden='true'
