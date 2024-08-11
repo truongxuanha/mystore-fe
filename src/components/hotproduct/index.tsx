@@ -36,7 +36,7 @@ const HotProducts: React.FC = () => {
         <h1 className='text-2xl mb-5'>Sản phẩm bán chạy nhất</h1>
         <div className='relative overflow-hidden w-full min-h-48 sm:min-h-64 md:min-h-96 lg:min-h-96 bg-white rounded-lg'>
           <div
-            className='flex w-full transition-transform duration-500'
+            className='flex transition-transform duration-500'
             style={{
               transform: `translateX(-${(activeIndex * 100) / 3}%)`,
             }}

@@ -18,11 +18,12 @@ export interface InitialLoginState {
 }
 export interface InputProps {
   placeholder: string;
-  type: string;
-  value: string;
+  typeInput: string;
+  valueBtn: string;
   className: string;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
+
 export interface UserAccount {
   id: string;
   account_name: string;
@@ -84,6 +85,7 @@ export interface ProductsType {
   final_price: number;
   mn_name: string;
   starType: number;
+  closeMobileMenu: boolean;
 }
 
 export interface IAuthState {

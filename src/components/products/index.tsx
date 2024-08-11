@@ -8,6 +8,7 @@ import {
   ChevronDoubleRightIcon,
 } from "@heroicons/react/24/outline";
 import { axiosIntance } from "../../utils/axiosConfig";
+import { Button } from "@headlessui/react";
 
 function Products() {
   const [products, setProducts] = useState<ProductsType[]>([]);
@@ -48,7 +49,7 @@ function Products() {
         <Loader />
       ) : (
         <>
-          <h1 className='text-2xl font-bold mb-10'>Danh sách sản phẩm:</h1>
+          <h1 className='text-2xl mb-10'>Danh sách sản phẩm:</h1>
           <div className='grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 w-full'>
             {products.map((product) => (
               <Product
@@ -86,7 +87,7 @@ function Products() {
               )
             )}
 
-            <button
+            <Button
               className={`px-3 py-1 mx-1 border rounded ${
                 currentPage === totalPages
                   ? "opacity-50 cursor-not-allowed"
@@ -96,7 +97,7 @@ function Products() {
               disabled={currentPage === totalPages}
             >
               <ChevronDoubleRightIcon className='w-4 h-4' />
-            </button>
+            </Button>
           </div>
         </>
       )}

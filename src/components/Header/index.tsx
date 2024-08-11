@@ -1,5 +1,6 @@
 import { useState } from "react";
 import {
+  Button,
   Dialog,
   DialogPanel,
   Menu,
@@ -60,13 +61,13 @@ export default function Header() {
           </Link>
         </div>
         <div className='flex md:hidden'>
-          <button
+          <Button
             type='button'
             onClick={() => setMobileMenuOpen(true)}
             className='-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700'
           >
             <Bars3Icon aria-hidden='true' className='h-6 w-6' />
-          </button>
+          </Button>
         </div>
         <div className='hidden md:flex md:gap-x-4 lg:gap-x-12 items-center'>
           <NavLink
@@ -157,7 +158,7 @@ export default function Header() {
         className='md:hidden'
       >
         <div className='fixed inset-0 z-10' />
-        <DialogPanel className='fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10'>
+        <DialogPanel className='fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-white px-8 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10'>
           <div className='flex items-center justify-between'>
             <Link to='/'>
               <img
@@ -167,47 +168,46 @@ export default function Header() {
                 onClick={closeMobileMenu}
               />
             </Link>
-            <button
+            <Button
               type='button'
               onClick={() => setMobileMenuOpen(false)}
               className='-m-2.5 rounded-md p-2.5 text-gray-700'
             >
               <span className='sr-only'>Close menu</span>
               <XMarkIcon aria-hidden='true' className='h-6 w-6' />
-            </button>
+            </Button>
           </div>
           <div className='mt-6 flow-root'>
             <div className='-my-6 divide-y divide-gray-500/10'>
               <div className='space-y-2 py-6 flex flex-col'>
                 <NavLink
                   to='/'
-                  className='nav-link text-sm font-semibold leading-6 text-gray-900'
+                  className='nav-link w-16 text-xs font-semibold leading-6 text-gray-900'
                   onClick={closeMobileMenu}
                 >
                   Trang chủ
                 </NavLink>
                 <NavLink
                   to='/san-pham'
-                  className='nav-link text-sm font-semibold leading-6 text-gray-900'
+                  className='nav-link w-16 text-xs font-semibold leading-6 text-gray-900'
                   onClick={closeMobileMenu}
                 >
                   Sản phẩm
                 </NavLink>
                 <NavLink
                   to='/lien-he'
-                  className='nav-link text-sm font-semibold leading-6 text-gray-900'
+                  className='nav-link w-12 text-xs font-semibold leading-6 text-gray-900'
                   onClick={closeMobileMenu}
                 >
                   Liên hệ
                 </NavLink>
-                <div className='flex items-center justify-between'>
-                  <div className='text-xl mr-5 font-semibold leading-6 text-gray-900'>
-                    <ShoppingCartIcon
-                      onClick={handleCart}
-                      aria-hidden='true'
-                      className='h-6 w-6 cursor-pointer'
-                    />
-                  </div>
+                <div className='flex items-center gap-2'>
+                  <Search />
+                  <ShoppingCartIcon
+                    onClick={handleCart}
+                    aria-hidden='true'
+                    className='h-6 w-6 cursor-pointer'
+                  />
                 </div>
               </div>
               <div className='py-6'>
@@ -215,7 +215,7 @@ export default function Header() {
                   <div className='flex gap-2'>
                     <NavLink
                       to='/dang-nhap'
-                      className='nav-link text-sm font-semibold leading-6 text-gray-900'
+                      className='nav-link text-xs font-semibold leading-6 text-gray-900'
                       onClick={closeMobileMenu}
                     >
                       Đăng nhập
@@ -223,7 +223,7 @@ export default function Header() {
                     <span> / </span>
                     <NavLink
                       to='/dang-ky'
-                      className='nav-link text-sm font-semibold leading-6 text-gray-900'
+                      className='nav-link text-xs font-semibold leading-6 text-gray-900'
                       onClick={closeMobileMenu}
                     >
                       Đăng ký

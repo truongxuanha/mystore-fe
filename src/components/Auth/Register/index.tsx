@@ -11,6 +11,7 @@ import {
 } from "../../../types/AllType.type";
 import getTime from "../../../utils/timeNow";
 import { toastifySuccess, toastifyWarning } from "../../../utils/toastify";
+import { Button, Input } from "@headlessui/react";
 
 const initialState: InitialRegisterState = {
   account_name: "",
@@ -72,7 +73,7 @@ export default function Regiter() {
                 Tên tài khoản
               </label>
               <div className='mt-2'>
-                <input
+                <Input
                   id='account_name'
                   name='account_name'
                   type='text'
@@ -92,7 +93,7 @@ export default function Regiter() {
                 Số điện thoại
               </label>
               <div className='mt-2'>
-                <input
+                <Input
                   id='phone'
                   name='phone'
                   type='tel'
@@ -112,7 +113,7 @@ export default function Regiter() {
                 Email
               </label>
               <div className='mt-2'>
-                <input
+                <Input
                   id='email'
                   name='email'
                   type='email'
@@ -135,7 +136,7 @@ export default function Regiter() {
                 </label>
               </div>
               <div className='mt-2'>
-                <input
+                <Input
                   id='password'
                   name='password'
                   type='password'
@@ -150,12 +151,12 @@ export default function Regiter() {
             </div>
 
             <div className='flex justify-end mr-2'>
-              <button
+              <Button
                 type='submit'
-                className='w-[80px] text-center rounded-md bg-orange-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600'
+                className='w-[100px] text-center rounded-md bg-orange-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600'
               >
-                Đăng ký
-              </button>
+                Đăng nhập
+              </Button>
             </div>
           </form>
 

@@ -24,7 +24,7 @@ function Product({ product, typeCss }: ProductsProp) {
           alt={product.name}
         />
       </div>
-      <p className='row-span-2 sm:row-span-1 md:row-span-5 mt-2'>
+      <p className='multiline-truncate h-9 sm:h-28 row-span-2 sm:row-span-1 md:row-span-5 mt-2'>
         {product.name}
       </p>
       <div className='row-span-1 sm:row-span-1 md:row-span-2 my-auto'>

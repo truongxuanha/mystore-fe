@@ -7,6 +7,7 @@ import Loader from "../../Loader";
 import { toastifySuccess, toastifyWarning } from "../../../utils/toastify";
 import { unwrapResult } from "@reduxjs/toolkit";
 import { FormEvent, InputEvent } from "../../../types/AllType.type";
+import { Button, Input } from "@headlessui/react";
 
 interface FormValues {
   value: string;
@@ -100,7 +101,7 @@ export default function Login() {
                 </div>
               </div>
               <div className='mt-2'>
-                <input
+                <Input
                   id='password'
                   name='password'
                   type='password'
@@ -114,12 +115,12 @@ export default function Login() {
               </div>
             </div>
             <div className='flex justify-end mr-2'>
-              <button
+              <Button
                 type='submit'
                 className='w-[100px] text-center rounded-md bg-orange-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600'
               >
                 Đăng nhập
-              </button>
+              </Button>
             </div>
 
             {error && (

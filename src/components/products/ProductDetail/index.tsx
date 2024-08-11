@@ -4,6 +4,7 @@ import { getInFoProduct } from "../../../services/productService";
 import formatVND from "../../../utils/formatVND";
 import { ProductsType } from "../../../types/AllType.type";
 import Loader from "../../Loader";
+import { Button } from "@headlessui/react";
 
 const ProductDetail: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -77,9 +78,9 @@ const ProductDetail: React.FC = () => {
         </div>
 
         <div className='mt-4 flex items-center justify-end gap-x-2'>
-          <button className='bg-red-500 text-white px-4 py-2 rounded-lg'>
+          <Button className='bg-red-500 text-white px-4 py-2 rounded-lg'>
             Mua ngay
-          </button>
+          </Button>
           <button className='bg-colorPrimary text-white px-4 py-2 rounded-lg'>
             Thêm giỏ hàng
           </button>
