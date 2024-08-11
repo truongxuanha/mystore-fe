@@ -4,7 +4,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { lazy, Suspense } from "react";
 import Loader from "./components/Loader";
 import About from "./components/Abouts";
-import InforProduct from "./components/products/Product";
+import InforProduct from "./components/products/ProductDetail";
 import AppLayout from "./layouts/AppLayout";
 import axios from "axios";
 
@@ -80,6 +80,10 @@ const router = createBrowserRouter([
         path: "*",
         element: <Error />,
       },
+      // {
+      //   path: "/tim-kiem",
+      //   element: <SearchResults />,
+      // },
     ],
   },
 ]);

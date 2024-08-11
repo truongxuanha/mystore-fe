@@ -54,11 +54,8 @@ const Banner: React.FC = () => {
   };
 
   return (
-    <div
-      className='relative'
-      data-hs-carousel='{"loadingClassNameclassNamees": "opacity-0", "isAutoPlay": true}'
-    >
-      <div className='relative overflow-hidden w-full min-h-64 md:min-h-80 lg:min-h-96 bg-white rounded-lg'>
+    <div className='relative bg-white'>
+      <div className='relative overflow-hidden w-full min-h-56 sm:min-h-72 md:min-h-96 lg:min-h-[400px] rounded-lg'>
         <div
           className='carousel-main absolute top-0 bottom-0 start-0 flex flex-nowrap transition-transform duration-700'
           style={{
@@ -128,7 +125,7 @@ const Banner: React.FC = () => {
         {banners.map((_, index) => (
           <span
             key={index}
-            className={`size-3 border border-gray-400 rounded-full cursor-pointer ${
+            className={`size-3 border border-gray-400 mb-2 rounded-full cursor-pointer ${
               activeIndex === index ? "bg-gray-300" : "bg-white"
             }`}
             onClick={() => handleIndicatorClick(index)}

@@ -22,6 +22,8 @@ import logo from "../../assets/logo.png";
 import { useAppDispatch, useAppSelector } from "../../hooks/useAppDispatch";
 import { toastifyWarning } from "../../utils/toastify";
 
+import Search from "../Search";
+
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -30,9 +32,9 @@ export default function Header() {
   const dispatch = useAppDispatch();
   const { currentUser } = useAppSelector((state) => state.auth);
   const userLogin = !!currentUser;
+
   function handleLogout() {
     dispatch(logout());
-    localStorage.removeItem("currentUser");
     navigate("/dang-nhap");
     setMobileMenuOpen(false);
   }
@@ -47,7 +49,7 @@ export default function Header() {
   }
 
   return (
-    <header className='bg-white'>
+    <header className='bg-white fixed z-50 w-full'>
       <nav
         aria-label='Global'
         className='mx-auto flex max-w-full items-center justify-between p-6 lg:px-8'
@@ -69,28 +71,28 @@ export default function Header() {
         <div className='hidden md:flex md:gap-x-4 lg:gap-x-12 items-center'>
           <NavLink
             to='/'
-            className='text-sm font-semibold leading-6 text-gray-900'
+            className='nav-link text-sm font-semibold leading-6 text-gray-900'
           >
             Trang chủ
           </NavLink>
           <NavLink
             to='/san-pham'
-            className='text-sm font-semibold leading-6 text-gray-900'
+            className='nav-link text-sm font-semibold leading-6 text-gray-900'
           >
             Sản phẩm
           </NavLink>
           <NavLink
             to='/lien-he'
-            className='text-sm font-semibold leading-6 text-gray-900'
+            className='nav-link text-sm font-semibold leading-6 text-gray-900'
           >
             Liên hệ
           </NavLink>
           <div className='flex items-center gap-4 text-sm font-semibold leading-6 text-gray-900'>
-            {/* <Search /> */}
+            <Search />
             <ShoppingCartIcon
               onClick={handleCart}
               aria-hidden='true'
-              className='h-6 w-6'
+              className='h-6 w-6 cursor-pointer'
             />
           </div>
 
@@ -179,32 +181,31 @@ export default function Header() {
               <div className='space-y-2 py-6 flex flex-col'>
                 <NavLink
                   to='/'
-                  className='text-sm font-semibold leading-6 text-gray-900'
+                  className='nav-link text-sm font-semibold leading-6 text-gray-900'
                   onClick={closeMobileMenu}
                 >
                   Trang chủ
                 </NavLink>
                 <NavLink
                   to='/san-pham'
-                  className='text-sm font-semibold leading-6 text-gray-900'
+                  className='nav-link text-sm font-semibold leading-6 text-gray-900'
                   onClick={closeMobileMenu}
                 >
                   Sản phẩm
                 </NavLink>
                 <NavLink
                   to='/lien-he'
-                  className='text-sm font-semibold leading-6 text-gray-900'
+                  className='nav-link text-sm font-semibold leading-6 text-gray-900'
                   onClick={closeMobileMenu}
                 >
                   Liên hệ
                 </NavLink>
                 <div className='flex items-center justify-between'>
-                  {/* <Search /> */}
                   <div className='text-xl mr-5 font-semibold leading-6 text-gray-900'>
                     <ShoppingCartIcon
                       onClick={handleCart}
                       aria-hidden='true'
-                      className='h-6 w-6'
+                      className='h-6 w-6 cursor-pointer'
                     />
                   </div>
                 </div>
@@ -214,7 +215,7 @@ export default function Header() {
                   <div className='flex gap-2'>
                     <NavLink
                       to='/dang-nhap'
-                      className='text-sm font-semibold leading-6 text-gray-900'
+                      className='nav-link text-sm font-semibold leading-6 text-gray-900'
                       onClick={closeMobileMenu}
                     >
                       Đăng nhập
@@ -222,7 +223,7 @@ export default function Header() {
                     <span> / </span>
                     <NavLink
                       to='/dang-ky'
-                      className='text-sm font-semibold leading-6 text-gray-900'
+                      className='nav-link text-sm font-semibold leading-6 text-gray-900'
                       onClick={closeMobileMenu}
                     >
                       Đăng ký

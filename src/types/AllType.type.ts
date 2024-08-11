@@ -16,7 +16,13 @@ export interface InitialLoginState {
   value: string;
   password: string;
 }
-
+export interface InputProps {
+  placeholder: string;
+  type: string;
+  value: string;
+  className: string;
+  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+}
 export interface UserAccount {
   id: string;
   account_name: string;
@@ -53,7 +59,7 @@ export interface ProductsType {
   updateAt: string;
   quantity: number;
   pd_id: number;
-  id_manu: string;
+  id_manu: number;
   thumbnail: string;
   product_name: string;
   price: number;
@@ -66,6 +72,18 @@ export interface ProductsType {
   remaining_quantity: string;
   website: string;
   img: string;
+  totalStar: number;
+  screen_size: null;
+  ram: null;
+  point: number;
+  parent_id: null;
+  cpu: null;
+  content: string;
+  hard_disk: null;
+  startType: number;
+  final_price: number;
+  mn_name: string;
+  starType: number;
 }
 
 export interface IAuthState {

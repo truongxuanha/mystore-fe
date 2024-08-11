@@ -77,7 +77,7 @@ export default function Login() {
                   placeholder='Tên đăng nhập / Email / Số điện thoại'
                   onChange={handleOnChange}
                   required
-                  className='block w-full rounded-md p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-orange-300 placeholder:text-gray-400 focus:ring-1 focus:ring-orange-600 sm:text-sm sm:leading-6'
+                  className='input-global'
                 />
               </div>
             </div>
@@ -109,7 +109,7 @@ export default function Login() {
                   required
                   placeholder='Mật khẩu...'
                   autoComplete='current-password'
-                  className='block w-full rounded-md p-1.5 text-gray-900 shadow-sm ring-1 ring-inset  ring-orange-300 placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-orange-600 sm:text-sm sm:leading-6'
+                  className='input-global'
                 />
               </div>
             </div>
