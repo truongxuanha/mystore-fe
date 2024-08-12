@@ -1,5 +1,5 @@
-import HotProducts from "../components/hotproduct";
-import Banner from "../components/banner";
+import HotProducts from "../hotproduct";
+import Banner from "../banner";
 
 function Home() {
   return (

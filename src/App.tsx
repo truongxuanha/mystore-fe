@@ -8,7 +8,7 @@ import InforProduct from "./components/products/ProductDetail";
 import AppLayout from "./layouts/AppLayout";
 import axios from "axios";
 
-const Home = lazy(() => import("./pages/Home"));
+const Home = lazy(() => import("./components/Home/Home"));
 const Cart = lazy(() => import("./components/cart/Cart"));
 const Error = lazy(() => import("./pages/Error"));
 const Products = lazy(() => import("./components/products"));

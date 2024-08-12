@@ -69,6 +69,11 @@ function Search({ handleCloseNav }: SearchProps) {
           )}
         </div>
       )}
+      {searchQuery && resultSearch.length <= 0 && (
+        <div className='absolute top-full left-0 w-[120%] bg-white border border-t-0 rounded-b-md shadow-lg z-50'>
+          {isLoading ? <Loader /> : <div>Không tìm thấy sản phẩm!!!</div>}
+        </div>
+      )}
     </div>
   );
 }

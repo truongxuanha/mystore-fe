@@ -34,7 +34,12 @@ const SearchResults: React.FC<SearchResultsProps> = ({
             onClick={() => handleInfo(product.slug)}
             className='nav-link text-sm cursor-pointer'
           >
-            {product.name} - {product.price.toLocaleString()} VND
+            <span className='flex'>
+              <img className='w-10 rounded-full' src={product.thumbnail} />
+              <p>
+                {product.name} - {product.price.toLocaleString()} VND
+              </p>
+            </span>
           </Link>
         </li>
       ))}
