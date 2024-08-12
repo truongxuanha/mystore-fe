@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
-import { ProductsType } from "../../types/AllType.type";
+import { ProductsType } from "../../types";
 import SearchResults from "../SearchResult";
 import { getResultSearch } from "../../services/searchService";
 import Loader from "../../components/Loader";

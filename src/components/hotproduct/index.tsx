@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { getHotProduct } from "../../services/hotproductService";
-import { ProductsType } from "../../types/AllType.type";
+import { ProductsType } from "../../types";
 import Product from "../products/Product";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/outline";
 

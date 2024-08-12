@@ -1,40 +1,62 @@
 import { unwrapResult } from "@reduxjs/toolkit";
 import Loader from "../../Loader/";
 import { useAppDispatch, useAppSelector } from "../../../hooks/useAppDispatch";
-import { useState } from "react";
+
 import { Link, useNavigate } from "react-router-dom";
 import { authRegister } from "../../../services/authService";
-import {
-  FormEvent,
-  InputEvent,
-  InitialRegisterState,
-} from "../../../types/AllType.type";
-import getTime from "../../../utils/timeNow";
+import { InitialRegisterState } from "../../../types";
+
 import { toastifySuccess, toastifyWarning } from "../../../utils/toastify";
 import { Button, Input } from "@headlessui/react";
 
-const initialState: InitialRegisterState = {
-  account_name: "",
-  email: "",
-  phone: "",
-  password: "",
-  permission: 1,
-  createAt: getTime(),
-};
+import { useForm, SubmitHandler } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
 
-export default function Regiter() {
-  const [formValue, setFormValue] = useState(initialState);
+const schema = yup.object().shape({
+  account_name: yup
+    .string()
+    .required("Vui lòng nhập tên tài khoản.")
+    .min(3, "Tên tài khoản phải có ít nhất 3 ký tự."),
+  email: yup
+    .string()
+    .email("Email không hợp lệ.")
+    .required("Vui lòng nhập email."),
+  phone: yup
+    .string()
+    .required("Vui lòng nhập số điện thoại.")
+    .matches(/^[0-9]{10}$/, "Số điện thoại phải có 10 chữ số."),
+  password: yup
+    .string()
+    .required("Vui lòng nhập mật khẩu.")
+    .min(6, "Mật khẩu phải có ít nhất 6 ký tự.")
+    .matches(/[A-Z]/, "Mật khẩu phải có ít nhất một chữ hoa.")
+    .matches(
+      /[!@#$%^&*(),.?":{}|<>]/,
+      "Mật khẩu phải có ít nhất một ký tự đặc biệt."
+    ),
+});
+
+export default function Register() {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<InitialRegisterState>({
+    resolver: yupResolver(schema),
+    defaultValues: {
+      account_name: "",
+      email: "",
+      phone: "",
+      password: "",
+    },
+  });
+
   const dispatch = useAppDispatch();
   const { loading } = useAppSelector((state) => state.auth);
-  const { account_name, email, phone, password } = formValue;
-
   const navigate = useNavigate();
-  function handleOnChange(e: InputEvent) {
-    const { name, value } = e.target;
-    setFormValue({ ...formValue, [name]: value });
-  }
-  async function handleSubmit(e: FormEvent) {
-    e.preventDefault();
+
+  const onSubmit: SubmitHandler<InitialRegisterState> = async (formValue) => {
     try {
       const action = authRegister(formValue);
       const resultsAction = await dispatch(action);
@@ -47,7 +69,8 @@ export default function Regiter() {
     } catch (error) {
       toastifyWarning(`${error}`);
     }
-  }
+  };
+
   return (
     <>
       {loading === "pending" ? <Loader /> : ""}
@@ -59,15 +82,10 @@ export default function Regiter() {
         </div>
 
         <div className='mt-5 sm:mx-auto sm:w-full sm:max-w-sm shadow-xl p-5 rounded-lg'>
-          <form
-            action='#'
-            onSubmit={handleSubmit}
-            method='POST'
-            className='space-y-3'
-          >
+          <form onSubmit={handleSubmit(onSubmit)} className='space-y-3'>
             <div>
               <label
-                htmlFor='email'
+                htmlFor='account_name'
                 className='block text-sm font-medium leading-6 text-gray-900'
               >
                 Tên tài khoản
@@ -75,19 +93,22 @@ export default function Regiter() {
               <div className='mt-2'>
                 <Input
                   id='account_name'
-                  name='account_name'
+                  {...register("account_name")}
                   type='text'
-                  value={account_name}
-                  onChange={handleOnChange}
-                  required
                   placeholder='Tên tài khoản'
                   className='block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-orange-300 placeholder:text-gray-400 focus:ring-1 focus:ring-orange-600 sm:text-sm sm:leading-6'
                 />
+                {errors.account_name && (
+                  <p className='text-red-500 text-sm mt-1'>
+                    {errors.account_name.message}
+                  </p>
+                )}
               </div>
             </div>
+
             <div>
               <label
-                htmlFor='email'
+                htmlFor='phone'
                 className='block text-sm font-medium leading-6 text-gray-900'
               >
                 Số điện thoại
@@ -95,16 +116,19 @@ export default function Regiter() {
               <div className='mt-2'>
                 <Input
                   id='phone'
-                  name='phone'
+                  {...register("phone")}
                   type='tel'
-                  value={phone}
-                  onChange={handleOnChange}
                   placeholder='Số điện thoại'
-                  required
                   className='block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-orange-300 placeholder:text-gray-400 focus:ring-1 focus:ring-orange-600 sm:text-sm sm:leading-6'
                 />
+                {errors.phone && (
+                  <p className='text-red-500 text-sm mt-1'>
+                    {errors.phone.message}
+                  </p>
+                )}
               </div>
             </div>
+
             <div>
               <label
                 htmlFor='email'
@@ -115,17 +139,20 @@ export default function Regiter() {
               <div className='mt-2'>
                 <Input
                   id='email'
-                  name='email'
+                  {...register("email")}
                   type='email'
-                  value={email}
-                  onChange={handleOnChange}
-                  required
                   placeholder='Email'
                   autoComplete='email'
                   className='block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-orange-300 placeholder:text-gray-400 focus:ring-1 focus:ring-orange-600 sm:text-sm sm:leading-6'
                 />
+                {errors.email && (
+                  <p className='text-red-500 text-sm mt-1'>
+                    {errors.email.message}
+                  </p>
+                )}
               </div>
             </div>
+
             <div>
               <div className='flex items-center justify-between'>
                 <label
@@ -138,15 +165,17 @@ export default function Regiter() {
               <div className='mt-2'>
                 <Input
                   id='password'
-                  name='password'
+                  {...register("password")}
                   type='password'
-                  value={password}
-                  onChange={handleOnChange}
-                  required
                   placeholder='Mật khẩu'
                   autoComplete='current-password'
                   className='block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-orange-300 placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-orange-600 sm:text-sm sm:leading-6'
                 />
+                {errors.password && (
+                  <p className='text-red-500 text-sm mt-1'>
+                    {errors.password.message}
+                  </p>
+                )}
               </div>
             </div>
 
@@ -155,7 +184,7 @@ export default function Regiter() {
                 type='submit'
                 className='w-[100px] text-center rounded-md bg-orange-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600'
               >
-                Đăng nhập
+                Đăng Ký
               </Button>
             </div>
           </form>

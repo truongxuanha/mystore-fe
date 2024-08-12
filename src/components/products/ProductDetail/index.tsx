@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getInFoProduct } from "../../../services/productService";
 import formatVND from "../../../utils/formatVND";
-import { ProductsType } from "../../../types/AllType.type";
+import { ProductsType } from "../../../types";
 import Loader from "../../Loader";
 import { Button } from "@headlessui/react";
 

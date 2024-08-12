@@ -10,7 +10,7 @@ import axios from "axios";
 
 const Home = lazy(() => import("./components/Home/Home"));
 const Cart = lazy(() => import("./components/cart/Cart"));
-const Error = lazy(() => import("./pages/Error"));
+const Error = lazy(() => import("./components/Error/Error"));
 const Products = lazy(() => import("./components/products"));
 const Login = lazy(() => import("./components/Auth/Login"));
 const Register = lazy(() => import("./components/Auth/Register"));

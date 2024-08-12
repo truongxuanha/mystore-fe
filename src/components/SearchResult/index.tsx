@@ -1,5 +1,5 @@
 import React from "react";
-import { ProductsType } from "../../types/AllType.type";
+import { ProductsType } from "../../types";
 import { getInFoProduct } from "../../services/productService";
 import { Link } from "react-router-dom";
 

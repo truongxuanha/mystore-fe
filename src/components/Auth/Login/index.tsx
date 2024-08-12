@@ -1,12 +1,14 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useForm, SubmitHandler } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
 
 import { useAppDispatch, useAppSelector } from "../../../hooks/useAppDispatch";
 import { authLogin } from "../../../services/authService";
 import Loader from "../../Loader";
 import { toastifySuccess, toastifyWarning } from "../../../utils/toastify";
 import { unwrapResult } from "@reduxjs/toolkit";
-import { FormEvent, InputEvent } from "../../../types/AllType.type";
 import { Button, Input } from "@headlessui/react";
 
 interface FormValues {
@@ -14,23 +16,31 @@ interface FormValues {
   password: string;
 }
 
+const schema = yup.object().shape({
+  value: yup
+    .string()
+    .required("Vui lòng nhập tên đăng nhập, email hoặc số điện thoại."),
+  password: yup
+    .string()
+    .required("Vui lòng nhập mật khẩu.")
+    .min(6, "Mật khẩu phải có ít nhất 6 ký tự."),
+});
+
 export default function Login() {
-  const [formValues, setFormValues] = useState<FormValues>({
-    value: "",
-    password: "",
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormValues>({
+    resolver: yupResolver(schema),
   });
+
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const [loginLoading, setIsLoginLoading] = useState<boolean>(false);
   const { error } = useAppSelector((state) => state.auth);
-  const { value, password } = formValues;
 
-  function handleOnChange(e: InputEvent) {
-    const { name, value } = e.target;
-    setFormValues((prev) => ({ ...prev, [name]: value }));
-  }
-  async function handleSubmit(e: FormEvent) {
-    e.preventDefault();
+  const onSubmit: SubmitHandler<FormValues> = async (formValues) => {
     try {
       setIsLoginLoading(true);
       const action = authLogin(formValues);
@@ -47,7 +57,7 @@ export default function Login() {
     } finally {
       setIsLoginLoading(false);
     }
-  }
+  };
 
   return (
     <>
@@ -61,7 +71,7 @@ export default function Login() {
         </div>
 
         <div className='mt-10 sm:mx-auto sm:w-full sm:max-w-sm shadow-xl p-6 rounded-md'>
-          <form onSubmit={handleSubmit} className='space-y-3'>
+          <form onSubmit={handleSubmit(onSubmit)} className='space-y-3'>
             <div>
               <label
                 htmlFor='value'
@@ -72,14 +82,16 @@ export default function Login() {
               <div className='mt-2'>
                 <input
                   id='value'
-                  name='value'
                   type='text'
-                  value={value}
                   placeholder='Tên đăng nhập / Email / Số điện thoại'
-                  onChange={handleOnChange}
-                  required
+                  {...register("value")}
                   className='input-global'
                 />
+                {errors.value && (
+                  <p className='text-red-500 text-sm mt-1'>
+                    {errors.value.message}
+                  </p>
+                )}
               </div>
             </div>
 
@@ -103,15 +115,17 @@ export default function Login() {
               <div className='mt-2'>
                 <Input
                   id='password'
-                  name='password'
                   type='password'
-                  value={password}
-                  onChange={handleOnChange}
-                  required
                   placeholder='Mật khẩu...'
                   autoComplete='current-password'
+                  {...register("password")}
                   className='input-global'
                 />
+                {errors.password && (
+                  <p className='text-red-500 text-sm mt-1'>
+                    {errors.password.message}
+                  </p>
+                )}
               </div>
             </div>
             <div className='flex justify-end mr-2'>

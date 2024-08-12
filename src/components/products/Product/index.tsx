@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { getInFoProduct } from "../../../services/productService";
-import { ProductsType } from "types/AllType.type";
+import { ProductsType } from "types";
 import formatVND from "../../../utils/formatVND";
 import { ShoppingCartIcon } from "@heroicons/react/24/outline";
 

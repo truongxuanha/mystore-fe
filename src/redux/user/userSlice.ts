@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { authLogin, authRegister } from "../../services/authService";
-import { IAuthState } from "../../types/AllType.type";
+import { IAuthState } from "../../types";
 
 const currentUserString = localStorage.getItem("currentUser");
 let currentUser = null;

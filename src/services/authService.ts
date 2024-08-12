@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
-import { InitialRegisterState, InitialLoginState } from "../types/AllType.type";
+import { InitialRegisterState, InitialLoginState } from "../types";
 import { axiosIntance } from "../utils/axiosConfig";
 
 export const authRegister = createAsyncThunk(

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 import Loader from "../Loader";
 import Product from "./Product";
-import { ProductsType } from "../../types/AllType.type";
+import { ProductsType } from "../../types";
 import {
   ChevronDoubleLeftIcon,
   ChevronDoubleRightIcon,

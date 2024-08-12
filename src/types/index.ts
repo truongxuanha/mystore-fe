@@ -5,11 +5,9 @@ export type LoadingState = "idle" | "pending" | "succeeded" | "failed";
 
 export interface InitialRegisterState {
   account_name: string;
-  phone: number | string;
+  phone: string;
   email: string;
   password: string;
-  permission: number;
-  createAt: string;
 }
 
 export interface InitialLoginState {
