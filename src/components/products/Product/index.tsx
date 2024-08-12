@@ -1,24 +1,48 @@
-import { Link } from "react-router-dom";
+import React, { memo } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { getInFoProduct } from "../../../services/productService";
 import { ProductsType } from "types";
 import formatVND from "../../../utils/formatVND";
 import { ShoppingCartIcon } from "@heroicons/react/24/outline";
+import { useAppSelector } from "../../../hooks/useAppDispatch";
+import { toastifyWarning } from "../../../utils/toastify";
+import { postCreateCart } from "../../../services/cartService";
 
 export interface ProductsProp {
   product: ProductsType;
   typeCss: string;
-  key: string | number;
   style?: React.CSSProperties;
 }
 
-function Product({ product, typeCss, style }: ProductsProp) {
-  async function handleInfo(slug: string) {
-    getInFoProduct(slug);
-  }
+const Product: React.FC<ProductsProp> = ({ product, typeCss, style }) => {
+  const { currentUser } = useAppSelector((state) => state.auth);
+  const navigate = useNavigate();
+  const userLogin = !!currentUser;
+
+  const handleCart = async () => {
+    if (userLogin) {
+      try {
+        await postCreateCart({
+          token: currentUser.token,
+          id_product: product.id,
+          quantity: 1,
+        });
+        navigate("/gio-hang");
+      } catch (error) {
+        console.error("Error adding to cart:", error);
+      }
+    } else {
+      navigate("/dang-nhap");
+      toastifyWarning("Vui lòng đăng nhập!");
+    }
+  };
+
+  const handleInfo = async (slug: string) => {
+    await getInFoProduct(slug);
+  };
 
   return (
     <div
-      key={product.id}
       className={`${typeCss} bg-white transition-transform duration-500`}
       style={style}
     >
@@ -45,17 +69,20 @@ function Product({ product, typeCss, style }: ProductsProp) {
           <Link
             to={`/san-pham/${product.slug}`}
             onClick={() => handleInfo(product.slug)}
-            className='nav-link text-sm cursor-pointer'
+            className='nav-link text-xs md:text-sm cursor-pointer'
           >
             Thông tin
           </Link>
-          <span className='cursor-pointer'>
-            <ShoppingCartIcon aria-hidden='true' className='h-6 w-6' />
+          <span className='cursor-pointer' onClick={handleCart}>
+            <ShoppingCartIcon
+              aria-hidden='true'
+              className='h-4 w-4 md:h-6 md:w-6'
+            />
           </span>
         </div>
       </div>
     </div>
   );
-}
+};
 
-export default Product;
+export default memo(Product);

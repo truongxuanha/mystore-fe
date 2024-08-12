@@ -41,12 +41,16 @@ export interface CurrentAccount {
 }
 
 export interface Account {
-  id: string;
-  account_name: string;
-  permission: number;
-  status: number;
-  avatar: null;
-  type: number;
+  user: {
+    id: string;
+    account_name: string;
+    permission: number;
+    status: number;
+    avatar: null;
+    type: number;
+  };
+  token: string;
+  refresh: string;
 }
 
 export interface ProductsType {
@@ -83,6 +87,7 @@ export interface ProductsType {
   final_price: number;
   mn_name: string;
   starType: number;
+  totalPage: number;
 }
 
 export interface IAuthState {

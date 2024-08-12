@@ -21,10 +21,18 @@ function Products() {
     async function fetchProduct() {
       setIsLoading(true);
       try {
-        const res = await axiosIntance.get(
-          `/product/search?q=i&min=150000&max=80000000&sort=ASC&page=${currentPage}&item=${itemsPerPage}`
-        );
-        console.log(res);
+        const res = await axiosIntance.get(`/product/search`, {
+          params: {
+            q: "i",
+            min: "150000",
+            max: "80000000",
+            sort: "ASC",
+            page: currentPage,
+            item: itemsPerPage,
+          },
+        });
+
+        if (!res) return;
         setProducts(res.data.data);
         setTotalPages(res.data.totalPage);
         setIsLoading(false);

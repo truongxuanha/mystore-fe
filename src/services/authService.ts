@@ -26,28 +26,11 @@ export const authLogin = createAsyncThunk(
       const data = response.data;
       if (data.status === true) {
         localStorage.setItem("access_token", data.data.token);
-        localStorage.setItem("currentUser", JSON.stringify(data.data.user));
+        localStorage.setItem("currentUser", JSON.stringify(data.data));
       }
       return data;
     } catch (error) {
       return rejectWithValue(error);
-    }
-  }
-);
-export interface initialTokenRefresh {
-  refresh: string;
-}
-export const authRefreshToken = createAsyncThunk(
-  "auth/authRefresh",
-  async (initialTokenRefresh: initialTokenRefresh) => {
-    try {
-      const res = await axiosIntance.post(
-        "/account/refresh",
-        initialTokenRefresh
-      );
-      return res.data;
-    } catch (err) {
-      console.log(err);
     }
   }
 );

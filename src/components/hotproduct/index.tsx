@@ -33,7 +33,7 @@ const HotProducts: React.FC = () => {
   return (
     <div className='my-5 p-5 bg-white rounded-md'>
       <div className='relative w-full max-w-5xl mx-auto'>
-        <h1 className='text-2xl mb-5'>Sản phẩm bán chạy nhất</h1>
+        <h1 className='text xl md:text-2xl mb-5'>Sản phẩm bán chạy nhất</h1>
         <div className='relative overflow-hidden w-full min-h-48 sm:min-h-64 md:min-h-96 lg:min-h-96 bg-white rounded-lg'>
           <div className='flex'>
             {hotProducts.map((product) => (

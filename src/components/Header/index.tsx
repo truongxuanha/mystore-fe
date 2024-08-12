@@ -132,7 +132,7 @@ export default function Header() {
               ) : (
                 <div className='p-3 flex flex-col'>
                   <MenuItem>
-                    <span>User: {currentUser?.account_name}</span>
+                    <span>User: {currentUser?.user?.account_name}</span>
                   </MenuItem>
                   <MenuItem>
                     <span
@@ -232,7 +232,7 @@ export default function Header() {
                 ) : (
                   <div className='p-3 flex flex-col'>
                     <div>
-                      <span>User: {currentUser?.account_name}</span>
+                      <span>User: {currentUser?.user?.account_name}</span>
                     </div>
                     <div>
                       <span
