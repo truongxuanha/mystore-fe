@@ -17,4 +17,3 @@ export async function getResultSearch(query: string) {
     console.log(err);
   }
 }
-// https://mystore-api-v1.onrender.com/v1/product/search?q=as&min=150000&max=80000000&page=1&item=10

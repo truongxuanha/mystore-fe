@@ -8,15 +8,20 @@ export interface ProductsProp {
   product: ProductsType;
   typeCss: string;
   key: string | number;
+  style?: React.CSSProperties;
 }
 
-function Product({ product, typeCss }: ProductsProp) {
+function Product({ product, typeCss, style }: ProductsProp) {
   async function handleInfo(slug: string) {
     getInFoProduct(slug);
   }
 
   return (
-    <div key={product.id} className={`${typeCss} bg-white`}>
+    <div
+      key={product.id}
+      className={`${typeCss} bg-white transition-transform duration-500`}
+      style={style}
+    >
       <div className='row-span-3 sm:row-span-2 md:row-span-5 w-full flex items-center'>
         <img
           className='rounded-md object-cover hover:translate-y-[-10px] duration-500'
@@ -28,7 +33,7 @@ function Product({ product, typeCss }: ProductsProp) {
         {product.name}
       </p>
       <div className='row-span-1 sm:row-span-1 md:row-span-2 my-auto'>
-        <span className='text-xs sm:text-base md:text-[18px] flex justify-between'>
+        <span className='text-xs sm:text-base md:text-[18px] flex flex-wrap justify-between'>
           <p className='text-red-600'>
             {formatVND(product.price, product.discount)}
           </p>
@@ -36,7 +41,7 @@ function Product({ product, typeCss }: ProductsProp) {
             {formatVND(product.price, 0)}
           </p>
         </span>
-        <div className='flex justify-between items-center gap-3 mt-5 mx-2'>
+        <div className='flex flex-wrap justify-between items-center gap-3 mt-5 mx-2'>
           <Link
             to={`/san-pham/${product.slug}`}
             onClick={() => handleInfo(product.slug)}
