@@ -6,7 +6,7 @@ import InforProduct from "./components/products/ProductDetail";
 import AppLayout from "./layouts/AppLayout";
 
 const Home = lazy(() => import("./components/Home"));
-const Cart = lazy(() => import("./components/Cart"));
+const Cart = lazy(() => import("./components/Carts"));
 const Error = lazy(() => import("./components/Error/Error"));
 const Products = lazy(() => import("./components/products"));
 const Login = lazy(() => import("./components/Auth/Login"));
