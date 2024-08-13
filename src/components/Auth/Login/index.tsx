@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -37,33 +36,27 @@ export default function Login() {
 
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const [loginLoading, setIsLoginLoading] = useState<boolean>(false);
-  const { error } = useAppSelector((state) => state.auth);
+
+  const { error, loading } = useAppSelector((state) => state.auth);
 
   const onSubmit: SubmitHandler<FormValues> = async (formValues) => {
     try {
-      setIsLoginLoading(true);
       const action = authLogin(formValues);
       const resultsAction = await dispatch(action);
       const user = unwrapResult(resultsAction);
 
       if (user.status === false) throw new Error(user.data);
 
-      setIsLoginLoading(false);
       navigate("/san-pham");
       toastifySuccess("Đăng nhập thành công!");
     } catch (error) {
-      setIsLoginLoading(false);
       toastifyWarning(`${error}`);
-    } finally {
-      setIsLoginLoading(false);
     }
   };
 
   return (
     <>
-      {loginLoading && <Loader />}
-
+      {loading && <Loader />}
       <div className='flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8'>
         <div className='sm:mx-auto sm:w-full sm:max-w-sm'>
           <h2 className='mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900'>

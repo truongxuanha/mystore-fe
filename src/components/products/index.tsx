@@ -63,7 +63,7 @@ function Products() {
               <Product
                 key={product.id}
                 product={product}
-                typeCss='grid grid-rows-6 sm:grid-rows-4 md:grid-rows-12 gap-2 h-full w-full p-2 md:px-5 pt-2 border border-gray-300 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 ease-in-out text-sm sm:text-xl lg:text-xl'
+                typeCss='grid grid-rows-3 gap-2 h-full w-full p-2 md:px-5 pt-2 border border-gray-300 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 ease-in-out text-xs sm:text-base'
               />
             ))}
           </div>

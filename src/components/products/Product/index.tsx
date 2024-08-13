@@ -24,18 +24,18 @@ const Product: React.FC<ProductsProp> = ({ product, typeCss, style }) => {
       className={`${typeCss} bg-white transition-transform duration-500`}
       style={style}
     >
-      <div className='row-span-3 sm:row-span-2 md:row-span-5 w-full flex items-center'>
+      <div className='row-span-3 sm:row-span-2 pt-2 md:row-span-3 w-full flex items-center'>
         <img
           className='rounded-md object-cover hover:translate-y-[-10px] duration-500'
           src={product.thumbnail}
           alt={product.name}
         />
       </div>
-      <p className='multiline-truncate h-9 sm:h-28 row-span-2 sm:row-span-1 md:row-span-5 mt-2'>
+      <p className='multiline-truncate font-medium h-8 sm:h-14 row-span-1 sm:row-span-1 md:row-span-5 mt-2'>
         {product.name}
       </p>
-      <div className='row-span-1 sm:row-span-1 md:row-span-2 my-auto'>
-        <span className='text-xs sm:text-base md:text-[18px] flex flex-wrap justify-between'>
+      <div className='row-span-1 sm:row-span-1 md:row-span-2 my-auto pt-5'>
+        <span className='text-xs sm:text-base md:text-[16px] flex flex-wrap justify-between'>
           <p className='text-red-600'>
             {formatVND(product.price, product.discount)}
           </p>
@@ -47,7 +47,7 @@ const Product: React.FC<ProductsProp> = ({ product, typeCss, style }) => {
           <Link
             to={`/san-pham/${product.slug}`}
             onClick={() => handleInfo(product.slug)}
-            className='nav-link text-xs md:text-sm cursor-pointer'
+            className='text-xs md:text-sm cursor-pointer px-2 rounded-md bg-colorPrimary hover:bg-orange-300 text-gray-100'
           >
             Thông tin
           </Link>

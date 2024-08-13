@@ -10,7 +10,7 @@ if (currentUserString && currentUserString !== "undefined") {
 }
 
 const initialState: IAuthState = {
-  loading: "idle",
+  loading: false,
   error: null,
   isLogin: false,
   currentUser: currentUser,
@@ -24,7 +24,7 @@ const authSlice = createSlice({
     logout: (state) => {
       state.currentUser = null;
       state.isLogin = false;
-      state.loading = "idle";
+      state.loading = false;
       localStorage.removeItem("currentUser");
       localStorage.removeItem("access_token");
     },
@@ -32,26 +32,26 @@ const authSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(authRegister.pending, (state) => {
-        state.loading = "pending";
+        state.loading = true;
         state.error = null;
       })
       .addCase(authRegister.fulfilled, (state) => {
-        state.loading = "succeeded";
+        state.loading = false;
         state.error = null;
       })
       .addCase(authRegister.rejected, (state, action) => {
-        state.loading = "failed";
+        state.loading = false;
         state.error = action.payload as string;
       });
 
     builder
       .addCase(authLogin.pending, (state) => {
-        state.loading = "pending";
+        state.loading = true;
         state.error = null;
         state.isLogin = false;
       })
       .addCase(authLogin.fulfilled, (state, action) => {
-        state.loading = "succeeded";
+        state.loading = false;
         state.error = null;
         state.currentUser = action.payload.data.user
           ? action.payload.data
@@ -59,7 +59,7 @@ const authSlice = createSlice({
         state.token = action.payload.data.token;
       })
       .addCase(authLogin.rejected, (state, action) => {
-        state.loading = "failed";
+        state.loading = false;
         state.error = action.payload as string;
         state.currentUser = null;
         state.isLogin = false;

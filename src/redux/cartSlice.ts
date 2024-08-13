@@ -3,6 +3,7 @@ import {
   getProductByAccount,
   postCreateCart,
   removeCartItem,
+  updateCartItem,
 } from "../services/cartService";
 
 import { CartState } from "../types";
@@ -28,6 +29,7 @@ const cartSlice = createSlice({
       .addCase(postCreateCart.rejected, (state) => {
         state.loadingCart = false;
       })
+
       .addCase(getProductByAccount.pending, (state) => {
         state.loadingCart = true;
       })
@@ -38,6 +40,7 @@ const cartSlice = createSlice({
       .addCase(getProductByAccount.rejected, (state) => {
         state.loadingCart = false;
       })
+
       .addCase(removeCartItem.pending, (state) => {
         state.loadingCart = true;
       })
@@ -45,6 +48,16 @@ const cartSlice = createSlice({
         state.loadingCart = false;
       })
       .addCase(removeCartItem.rejected, (state) => {
+        state.loadingCart = false;
+      })
+
+      .addCase(updateCartItem.pending, (state) => {
+        state.loadingCart = true;
+      })
+      .addCase(updateCartItem.fulfilled, (state) => {
+        state.loadingCart = false;
+      })
+      .addCase(updateCartItem.rejected, (state) => {
         state.loadingCart = false;
       });
   },

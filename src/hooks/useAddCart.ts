@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../hooks/useAppDispatch";
 import { toastifySuccess, toastifyWarning } from "../utils/toastify";
-import { postCreateCart } from "../services/cartService";
+import { getProductByAccount, postCreateCart } from "../services/cartService";
 import { CreateCartType } from "types";
 
 const useAddToCart = () => {
@@ -9,14 +9,15 @@ const useAddToCart = () => {
   const { currentUser, token } = useAppSelector((state) => state.auth);
   const navigate = useNavigate();
   const userLogin = !!currentUser;
-
   const addToCart = async (id_product: CreateCartType["id_product"]) => {
     if (userLogin) {
       try {
         const result = await dispatch(
           postCreateCart({ token, id_product, quantity: 1 })
         );
+
         if (result.payload.success) {
+          await dispatch(getProductByAccount({ token }));
           toastifySuccess("Thêm giỏ hàng thành công!");
         } else {
           toastifyWarning("Thêm giỏ hàng thất bại!");

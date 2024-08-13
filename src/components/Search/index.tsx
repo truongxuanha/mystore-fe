@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import { ProductsType } from "../../types";
 import SearchResults from "../SearchResult";
@@ -91,4 +91,4 @@ function Search({ handleCloseNav }: SearchProps) {
   );
 }
 
-export default Search;
+export default memo(Search);

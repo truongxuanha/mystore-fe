@@ -21,7 +21,7 @@ function Cart() {
   const dispatch = useAppDispatch();
   const { cartItems } = useAppSelector((state) => state.cart);
   const { token } = useAppSelector((state) => state.auth);
-
+  console.log(token);
   useEffect(() => {
     if (token) {
       dispatch(getProductByAccount({ token }));
@@ -31,7 +31,9 @@ function Cart() {
     await dispatch(removeCartItem({ id, token }));
     await dispatch(getProductByAccount({ token }));
   }
-
+  // function handleUpdateQuantity() {
+  //   setItemQuantity((itemQuantity) => itemQuantity + 1);
+  // }
   return (
     <>
       {cartItems.map((item) => (
@@ -85,12 +87,12 @@ function Cart() {
                   className='w-10 text-center bg-transparent text-sm font-medium text-gray-900 outline-none'
                   value={item.quantity}
                 />
-                <button
+                <Button
                   type='button'
                   className='h-5 w-5 rounded-md border bg-gray-100 hover:bg-gray-200 dark:border-gray-600 dark:bg-gray-700 dark:hover:bg-gray-600'
                 >
                   <PlusIcon className='w-5 h-3' />
-                </button>
+                </Button>
               </div>
               <p className='text-base font-bold text-gray-900 dark:text-white md:w-32 text-end'>
                 ${formatVND(item.price, item.discount)}

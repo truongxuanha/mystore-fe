@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import {
   Button,
   Dialog,
@@ -27,9 +27,9 @@ import Search from "../Search";
 
 import { getProductByAccount } from "../../services/cartService";
 
-export default function Header() {
+function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [cartLength, setCartLenght] = useState(0);
+  const [cartLength, setCartLength] = useState(0);
   const closeMobileMenu = () => setMobileMenuOpen(false);
 
   const navigate = useNavigate();
@@ -41,17 +41,22 @@ export default function Header() {
 
   function handleLogout() {
     dispatch(logout());
-    setCartLenght(0);
+    setCartLength(0);
     navigate("/dang-nhap");
     setMobileMenuOpen(false);
   }
   useEffect(() => {
     async function getProduct() {
-      await dispatch(getProductByAccount({ token }));
-      setCartLenght(cartItems.length);
+      if (token) {
+        await dispatch(getProductByAccount({ token }));
+      }
     }
-    if (token) getProduct();
-  }, [dispatch, cartItems.length, token]);
+    getProduct();
+  }, [dispatch, token]);
+
+  useEffect(() => {
+    setCartLength(cartItems.length);
+  }, [cartItems.length]);
 
   async function handleCart() {
     if (currentUser) {
@@ -85,23 +90,23 @@ export default function Header() {
         <div className='hidden md:flex md:gap-x-4 lg:gap-x-12 items-center'>
           <NavLink
             to='/'
-            className='nav-link text-sm font-semibold leading-6 text-gray-900'
+            className='nav-link text-sm font-medium leading-6 text-gray-900 uppercase'
           >
             Trang chủ
           </NavLink>
           <NavLink
             to='/san-pham'
-            className='nav-link text-sm font-semibold leading-6 text-gray-900'
+            className='nav-link text-sm font-medium leading-6 text-gray-900 uppercase'
           >
             Sản phẩm
           </NavLink>
           <NavLink
             to='/lien-he'
-            className='nav-link text-sm font-semibold leading-6 text-gray-900'
+            className='nav-link text-sm font-medium leading-6 text-gray-900 uppercase'
           >
             Liên hệ
           </NavLink>
-          <div className='flex items-center gap-4 text-sm font-semibold leading-6 text-gray-900'>
+          <div className='flex items-center gap-4 text-sm font-medium leading-6 text-gray-900'>
             <Search handleCloseNav={closeMobileMenu} />
             <div className='relative'>
               <ShoppingCartIcon
@@ -276,3 +281,5 @@ export default function Header() {
     </header>
   );
 }
+
+export default memo(Header);
