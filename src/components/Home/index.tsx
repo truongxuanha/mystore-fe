@@ -1,5 +1,5 @@
-import HotProducts from "../hotproduct";
-import Banner from "../Banner";
+import HotProducts from "../HotProducts";
+import Banner from "../Banners";
 import Loader from "../Loader";
 import { useAppSelector } from "../../hooks/useAppDispatch";
 
