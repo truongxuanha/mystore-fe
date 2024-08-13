@@ -26,7 +26,7 @@ async function refreshToken(initialTokenRefresh: InitialTokenRefresh) {
       "/account/refresh",
       initialTokenRefresh
     );
-    console.log(res.data);
+
     return res.data;
   } catch (err) {
     console.error("Failed to refresh token:", err);
@@ -44,11 +44,14 @@ requestJWT.interceptors.request.use(
       if (tokenDecode.exp < currentTime) {
         try {
           const refreshedData = await refreshToken({ refresh });
-          const newToken = refreshedData.accessToken;
+
+          const newToken = refreshedData.data;
 
           if (newToken) {
             currentUser.token = newToken;
+            console.log(newToken);
             localStorage.setItem("currentUser", JSON.stringify(currentUser));
+            localStorage.setItem("access_token", JSON.stringify(newToken));
             config.headers["token"] = `${newToken}`;
           }
         } catch (error) {
