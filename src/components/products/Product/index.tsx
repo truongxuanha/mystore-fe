@@ -47,13 +47,13 @@ const Product: React.FC<ProductsProp> = ({ product, typeCss, style }) => {
           <Link
             to={`/san-pham/${product.slug}`}
             onClick={() => handleInfo(product.slug)}
-            className='text-xs md:text-sm cursor-pointer px-2 rounded-md bg-colorPrimary hover:bg-orange-300 text-gray-100'
+            className='text-xs md:text-sm cursor-pointer px-2 rounded-md bg-colorPrimary hover:bg-orange-300 text-gray-100 animate-bounce'
           >
             Thông tin
           </Link>
           <span
             className='cursor-pointer'
-            onClick={() => addToCart(product.id)} // Use the addToCart function
+            onClick={() => addToCart(product.id)}
           >
             <ShoppingCartIcon
               aria-hidden='true'

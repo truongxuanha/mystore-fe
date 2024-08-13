@@ -7,6 +7,7 @@ let currentUser = null;
 if (currentUserString && currentUserString !== "undefined") {
   currentUser = JSON.parse(currentUserString);
 }
+
 const axiosIntance = axios.create({
   baseURL: process.env.BASE_URL_API,
 });
@@ -14,19 +15,22 @@ const axiosIntance = axios.create({
 const requestJWT = axios.create({
   baseURL: process.env.BASE_URL_API,
 });
-export interface initialTokenRefresh {
+
+export interface InitialTokenRefresh {
   refresh: string;
 }
 
-async function refreshToken(initialTokenRefresh: initialTokenRefresh) {
+async function refreshToken(initialTokenRefresh: InitialTokenRefresh) {
   try {
     const res = await axiosIntance.post(
       "/account/refresh",
       initialTokenRefresh
     );
+    console.log(res.data);
     return res.data;
   } catch (err) {
-    console.log(err);
+    console.error("Failed to refresh token:", err);
+    throw err;
   }
 }
 
@@ -36,26 +40,23 @@ requestJWT.interceptors.request.use(
       const { token, refresh } = currentUser;
       const tokenDecode = jwtDecode<{ exp: number }>(token);
       const currentTime = Date.now() / 1000;
-      console.log(tokenDecode.exp);
-      console.log(currentTime);
-      if (tokenDecode.exp < currentTime) {
-        console.log(currentTime);
 
+      if (tokenDecode.exp < currentTime) {
         try {
-          const resultsAction = await refreshToken({ refresh });
-          const newToken = resultsAction.data;
-          console.log(newToken);
+          const refreshedData = await refreshToken({ refresh });
+          const newToken = refreshedData.accessToken;
+
           if (newToken) {
             currentUser.token = newToken;
             localStorage.setItem("currentUser", JSON.stringify(currentUser));
-            localStorage.setItem("access_token", JSON.stringify(newToken));
             config.headers["token"] = `${newToken}`;
           }
         } catch (error) {
           console.error("Token refresh failed:", error);
+          localStorage.removeItem("currentUser");
         }
       } else {
-        config.headers["Authorization"] = `Bearer ${token}`;
+        config.headers["token"] = `${token}`;
       }
     }
     return config;
