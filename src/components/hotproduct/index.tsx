@@ -4,7 +4,7 @@ import { ProductsType } from "../../types";
 import Product from "../products/Product";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/outline";
 
-const HotProduct: React.FC = () => {
+const HotProducts: React.FC = () => {
   const [activeIndex, setActiveIndex] = useState<number>(1);
   const [hotProducts, setHotProducts] = useState<ProductsType[]>([]);
 
@@ -72,4 +72,4 @@ const HotProduct: React.FC = () => {
   );
 };
 
-export default HotProduct;
+export default HotProducts;
