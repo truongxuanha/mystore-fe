@@ -58,16 +58,16 @@ function Cart() {
           <div className='col-span-1'>
             <img
               src={item.thumbnail}
-              className='object-cover border rounded-2xl'
+              className='object-cover border rounded-md'
             />
           </div>
           <div className='col-span-4'>
-            <span>{item.name}</span>
+            <span className='text-[11px] sm:text-sm'>{item.name}</span>
           </div>
           <div className='col-span-1 mx-auto flex items-center'>
             <Button
               type='button'
-              className='h-5 w-5 rounded-md border bg-gray-100 hover:bg-gray-200'
+              className='h-4 w-4 md:h-5 md:w-5 rounded-md border bg-gray-100 hover:bg-gray-200'
               onClick={() =>
                 handleUpdateQuantity(
                   item.id,
@@ -75,37 +75,37 @@ function Cart() {
                 )
               }
             >
-              <MinusIcon className='w-5 h-3' />
+              <MinusIcon className='w-3 h-3 md:w-5 md:h-3' />
             </Button>
             <input
               type='text'
               disabled
               value={item.quantity}
-              className='w-10 text-center bg-transparent text-sm font-medium text-gray-900 outline-none'
+              className='w-10 text-center bg-transparent text-xs md:text-sm font-medium text-gray-900 outline-none'
             />
             <Button
               type='button'
-              className='h-5 w-5 rounded-md border bg-gray-100 hover:bg-gray-200'
+              className='h-4 w-4 md:h-5 md:w-5 rounded-md border bg-gray-100 hover:bg-gray-200'
               onClick={() => handleUpdateQuantity(item.id, item.quantity + 1)}
             >
-              <PlusIcon />
+              <PlusIcon className='w-3 h-3 md:w-5 md:h-3' />
             </Button>
           </div>
-          <div className='col-span-1 mx-auto'>
+          <div className='col-span-1 mx-auto flex flex-col'>
             <span
               className='block w-9 cursor-pointer'
               onClick={() => handleDeleteItemCart(item.id)}
             >
-              <XMarkIcon className='w-6 absolute top-2 right-2 text-colorPrimary text-center' />
+              <XMarkIcon className='w-6 text-colorPrimary absolute top-2 right-2 text-center' />
             </span>
-            <span className='text-xs md:text-sm'>
-              {formatVND(item.price, item.discount)}
+            <span className='text-[11px] sm:text-xs md:text-sm w-[115px] md:w-[150px] absolute bottom-2 right-1'>
+              Giá: {formatVND(item.price, item.discount)}
             </span>
           </div>
         </div>
       ))}
       <div className='mt-4 p-4 bg-gray-100 rounded-md flex justify-end'>
-        <span className='text-lg font-medium text-colorPrimary'>
+        <span className='text-sm md:text-lg font-medium text-colorPrimary'>
           <strong>Tổng tiền:</strong> {formatVND(totalPrice, 0)}
         </span>
       </div>
