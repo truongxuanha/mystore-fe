@@ -5,8 +5,8 @@ import About from "./components/Abouts";
 import InforProduct from "./components/products/ProductDetail";
 import AppLayout from "./layouts/AppLayout";
 
-const Home = lazy(() => import("./components/Home/Home"));
-const Cart = lazy(() => import("./components/cart"));
+const Home = lazy(() => import("./components/Home"));
+const Cart = lazy(() => import("./components/Cart"));
 const Error = lazy(() => import("./components/Error/Error"));
 const Products = lazy(() => import("./components/products"));
 const Login = lazy(() => import("./components/Auth/Login"));

@@ -1,5 +1,5 @@
-import HotProducts from "../HotProduct";
-import Banner from "../banner";
+import HotProduct from "../HotProduct";
+import Banner from "../Banner";
 import Loader from "../Loader";
 import { useAppSelector } from "../../hooks/useAppDispatch";
 
@@ -12,7 +12,7 @@ function Home() {
     <>
       <div className='w-full mx-auto'>
         <Banner />
-        <HotProducts />
+        <HotProduct />
       </div>
     </>
   );
