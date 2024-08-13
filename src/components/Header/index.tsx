@@ -41,6 +41,7 @@ export default function Header() {
 
   function handleLogout() {
     dispatch(logout());
+    setCartLenght(0);
     navigate("/dang-nhap");
     setMobileMenuOpen(false);
   }
@@ -49,8 +50,8 @@ export default function Header() {
       await dispatch(getProductByAccount({ token }));
       setCartLenght(cartItems.length);
     }
-    getProduct();
-  }, [dispatch, cartItems.length]);
+    if (token) getProduct();
+  }, [dispatch, cartItems.length, token]);
 
   async function handleCart() {
     if (currentUser) {

@@ -48,6 +48,7 @@ export default function Login() {
       const user = unwrapResult(resultsAction);
 
       if (user.status === false) throw new Error(user.data);
+
       setIsLoginLoading(false);
       navigate("/san-pham");
       toastifySuccess("Đăng nhập thành công!");
