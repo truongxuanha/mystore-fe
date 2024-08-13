@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Button,
   Dialog,
@@ -18,20 +18,25 @@ import {
 } from "@heroicons/react/24/outline";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 
-import { logout } from "../../redux/user/userSlice";
+import { logout } from "../../redux/userSlice";
 import logo from "../../assets/logo.png";
 import { useAppDispatch, useAppSelector } from "../../hooks/useAppDispatch";
 import { toastifyWarning } from "../../utils/toastify";
 
 import Search from "../Search";
 
+import { getProductByAccount } from "../../services/cartService";
+
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
+  const [cartLength, setCartLenght] = useState(0);
   const closeMobileMenu = () => setMobileMenuOpen(false);
+
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const { currentUser } = useAppSelector((state) => state.auth);
+  const { currentUser, token } = useAppSelector((state) => state.auth);
+  const { cartItems } = useAppSelector((state) => state.cart);
+
   const userLogin = !!currentUser;
 
   function handleLogout() {
@@ -39,8 +44,15 @@ export default function Header() {
     navigate("/dang-nhap");
     setMobileMenuOpen(false);
   }
+  useEffect(() => {
+    async function getProduct() {
+      await dispatch(getProductByAccount({ token }));
+      setCartLenght(cartItems.length);
+    }
+    getProduct();
+  }, [dispatch, cartItems.length]);
 
-  function handleCart() {
+  async function handleCart() {
     if (currentUser) {
       navigate("/gio-hang");
     } else {
@@ -90,11 +102,18 @@ export default function Header() {
           </NavLink>
           <div className='flex items-center gap-4 text-sm font-semibold leading-6 text-gray-900'>
             <Search handleCloseNav={closeMobileMenu} />
-            <ShoppingCartIcon
-              onClick={handleCart}
-              aria-hidden='true'
-              className='h-6 w-6 cursor-pointer'
-            />
+            <div className='relative'>
+              <ShoppingCartIcon
+                onClick={handleCart}
+                aria-hidden='true'
+                className='h-6 w-6 cursor-pointer'
+              />
+              {cartLength > 0 && (
+                <span className='absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full h-4 w-4 flex items-center justify-center'>
+                  {cartLength}
+                </span>
+              )}
+            </div>
           </div>
 
           <Menu as='div' className='relative'>

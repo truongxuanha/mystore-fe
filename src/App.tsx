@@ -9,7 +9,7 @@ import AppLayout from "./layouts/AppLayout";
 import axios from "axios";
 
 const Home = lazy(() => import("./components/Home/Home"));
-const Cart = lazy(() => import("./components/cart/Cart"));
+const Cart = lazy(() => import("./components/cart"));
 const Error = lazy(() => import("./components/Error/Error"));
 const Products = lazy(() => import("./components/products"));
 const Login = lazy(() => import("./components/Auth/Login"));

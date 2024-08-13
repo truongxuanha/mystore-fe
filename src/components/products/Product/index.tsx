@@ -1,11 +1,11 @@
 import React, { memo } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { getInFoProduct } from "../../../services/productService";
-import { ProductsType } from "types";
+import { CreateCartType, ProductsType } from "types";
 import formatVND from "../../../utils/formatVND";
 import { ShoppingCartIcon } from "@heroicons/react/24/outline";
-import { useAppSelector } from "../../../hooks/useAppDispatch";
-import { toastifyWarning } from "../../../utils/toastify";
+import { useAppDispatch, useAppSelector } from "../../../hooks/useAppDispatch";
+import { toastifySuccess, toastifyWarning } from "../../../utils/toastify";
 import { postCreateCart } from "../../../services/cartService";
 
 export interface ProductsProp {
@@ -15,19 +15,22 @@ export interface ProductsProp {
 }
 
 const Product: React.FC<ProductsProp> = ({ product, typeCss, style }) => {
-  const { currentUser } = useAppSelector((state) => state.auth);
+  const dispatch = useAppDispatch();
+  const { currentUser, token } = useAppSelector((state) => state.auth);
   const navigate = useNavigate();
   const userLogin = !!currentUser;
 
-  const handleCart = async () => {
+  const handleCart = async (id_product: CreateCartType["id_product"]) => {
     if (userLogin) {
       try {
-        await postCreateCart({
-          token: currentUser.token,
-          id_product: product.id,
-          quantity: 1,
-        });
-        navigate("/gio-hang");
+        const result = await dispatch(
+          postCreateCart({ token, id_product, quantity: 1 })
+        );
+        if (result.payload.success) {
+          toastifySuccess("Thêm giỏ hàng thành công!");
+        } else {
+          toastifyWarning("Thêm giỏ hàng thất bại!");
+        }
       } catch (error) {
         console.error("Error adding to cart:", error);
       }
@@ -73,7 +76,10 @@ const Product: React.FC<ProductsProp> = ({ product, typeCss, style }) => {
           >
             Thông tin
           </Link>
-          <span className='cursor-pointer' onClick={handleCart}>
+          <span
+            className='cursor-pointer'
+            onClick={() => handleCart(product.id)}
+          >
             <ShoppingCartIcon
               aria-hidden='true'
               className='h-4 w-4 md:h-6 md:w-6'

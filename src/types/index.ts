@@ -49,15 +49,15 @@ export interface Account {
     avatar: null;
     type: number;
   };
-  token: string;
+  token: string | null;
   refresh: string;
 }
 
 export interface ProductsType {
-  id: number;
+  id: number | string;
   name: string;
   id_account: string;
-  id_product: number;
+  id_product: number | string;
   createAt: string;
   updateAt: string;
   quantity: number;
@@ -96,4 +96,16 @@ export interface IAuthState {
   isLogin: boolean;
   currentUser: Account | null;
   token: string | null;
+}
+
+export interface CreateCartType {
+  token: string;
+  id_product?: string | number;
+  quantity?: number;
+}
+
+export interface CartState {
+  cartItems: ProductsType[];
+  loadingCart: boolean;
+  error: string | null;
 }
