@@ -26,7 +26,6 @@ function Search({ handleCloseNav }: SearchProps) {
       async function fetchData() {
         try {
           const data = await getResultSearch(debounce);
-          console.log(data);
           setResultSearch(data?.data.data);
           setIsLoading(false);
         } catch (err) {
@@ -74,17 +73,22 @@ function Search({ handleCloseNav }: SearchProps) {
             </svg>
           </div>
         ) : (
-          <MagnifyingGlassIcon className='w-6 h-6 cursor-pointer' />
+          <MagnifyingGlassIcon className='w-6 h-6 cursor-pointer mr-2' />
         )}
       </div>
 
       {searchQuery && resultSearch.length > 0 && (
-        <div className='absolute top-full left-0 w-[120%] bg-white border border-t-0 rounded-b-md shadow-lg z-50'>
+        <div className='absolute top-full left-0 w-[150%] bg-white border border-t-0 rounded-b-md shadow-lg z-10 transition-all duration-500'>
           <SearchResults
             products={resultSearch}
             setSearchQuery={setSearchQuery}
             handleCloseNav={handleCloseNav}
           />
+        </div>
+      )}
+      {searchQuery && resultSearch.length === 0 && !isLoading && (
+        <div className='absolute top-full left-0 w-[150%] bg-white border border-t-0 rounded-b-md shadow-lg z-10 transition-all duration-500'>
+          <span>Không tìm thấy sản phẩm nào</span>
         </div>
       )}
     </div>

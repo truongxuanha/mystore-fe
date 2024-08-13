@@ -22,9 +22,8 @@ const cartSlice = createSlice({
       .addCase(postCreateCart.pending, (state) => {
         state.loadingCart = true;
       })
-      .addCase(postCreateCart.fulfilled, (state, action) => {
+      .addCase(postCreateCart.fulfilled, (state) => {
         state.loadingCart = false;
-        state.cartItems = action.payload;
       })
       .addCase(postCreateCart.rejected, (state) => {
         state.loadingCart = false;

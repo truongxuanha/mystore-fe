@@ -1,13 +1,5 @@
 import { memo, useEffect, useState } from "react";
-import {
-  Button,
-  Dialog,
-  DialogPanel,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuItems,
-} from "@headlessui/react";
+import { Button, Dialog, DialogPanel } from "@headlessui/react";
 
 import {
   Bars3Icon,
@@ -15,6 +7,7 @@ import {
   UserCircleIcon,
   ArrowRightStartOnRectangleIcon,
   ShoppingCartIcon,
+  UserIcon,
 } from "@heroicons/react/24/outline";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 
@@ -29,6 +22,7 @@ import { getProductByAccount } from "../../services/cartService";
 
 function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [openAccount, setOpenAccount] = useState(false);
   const [cartLength, setCartLength] = useState(0);
   const closeMobileMenu = () => setMobileMenuOpen(false);
 
@@ -55,8 +49,10 @@ function Header() {
   }, [dispatch, token]);
 
   useEffect(() => {
-    setCartLength(cartItems.length);
-  }, [cartItems.length]);
+    setCartLength(() => {
+      return cartItems.reduce((total, item) => total + item.quantity, 0);
+    });
+  }, [cartItems]);
 
   async function handleCart() {
     if (currentUser) {
@@ -122,20 +118,22 @@ function Header() {
             </div>
           </div>
 
-          <Menu as='div' className='relative'>
-            <div>
-              <MenuButton className='inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50'>
-                <UserCircleIcon aria-hidden='true' className='h-6 w-6' />
-              </MenuButton>
+          <div className='relative'>
+            <div className='rounded-full bg-orange-100/80 p-2'>
+              <UserCircleIcon
+                onClick={() => setOpenAccount(!openAccount)}
+                aria-hidden='true'
+                className='h-6 w-6 cursor-pointer'
+              />
             </div>
-
-            <MenuItems
-              transition
-              className='absolute right-0 z-10 mt-2 w-40 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 transition focus:outline-none data-[closed]:scale-95 data-[closed]:transform data-[closed]:opacity-0 data-[enter]:duration-100 data-[leave]:duration-75 data-[enter]:ease-out data-[leave]:ease-in cursor-pointer'
+            <div
+              className={`absolute w-40 right-0 left-[-120px] bg-white rounded-md shadow-md top-[57px] cursor-pointer transition-all duration-700 transform ${
+                openAccount ? "" : "hidden"
+              }`}
             >
               {!userLogin ? (
                 <div className='py-1 flex flex-col'>
-                  <MenuItem>
+                  <div>
                     <NavLink
                       to='/dang-nhap'
                       className='text-sm font-semibold text-gray-900 p-2'
@@ -143,8 +141,8 @@ function Header() {
                     >
                       Đăng nhập
                     </NavLink>
-                  </MenuItem>
-                  <MenuItem>
+                  </div>
+                  <div>
                     <NavLink
                       to='/dang-ky'
                       className='text-sm font-semibold leading-6 text-gray-900 p-2'
@@ -152,29 +150,28 @@ function Header() {
                     >
                       Đăng ký
                     </NavLink>
-                  </MenuItem>
+                  </div>
                 </div>
               ) : (
-                <div className='p-3 flex flex-col'>
-                  <MenuItem>
-                    <span>User: {currentUser?.user?.account_name}</span>
-                  </MenuItem>
-                  <MenuItem>
-                    <span
-                      className='flex justify-start gap-2 cursor-pointer'
-                      onClick={handleLogout}
-                    >
-                      Đăng xuất
-                      <ArrowRightStartOnRectangleIcon
-                        aria-hidden='true'
-                        className='h-6 w-6'
-                      />
-                    </span>
-                  </MenuItem>
+                <div className='p-3 flex flex-col gap-y-3 z-50'>
+                  <span className='flex gap-2 items-center cursor-pointer'>
+                    <UserIcon className='w-5 h-5' />
+                    <p>Tài khoản</p>
+                  </span>
+                  <span
+                    className='flex justify-start gap-2 cursor-pointer'
+                    onClick={handleLogout}
+                  >
+                    <ArrowRightStartOnRectangleIcon
+                      aria-hidden='true'
+                      className='h-5 w-5'
+                    />
+                    <p>Đăng xuất</p>
+                  </span>
                 </div>
               )}
-            </MenuItems>
-          </Menu>
+            </div>
+          </div>
         </div>
       </nav>
       <Dialog
@@ -228,11 +225,18 @@ function Header() {
                 </NavLink>
                 <div className='flex items-center gap-2'>
                   <Search handleCloseNav={setMobileMenuOpen} />
-                  <ShoppingCartIcon
-                    onClick={handleCart}
-                    aria-hidden='true'
-                    className='h-6 w-6 cursor-pointer'
-                  />
+                  <div className='relative'>
+                    <ShoppingCartIcon
+                      onClick={handleCart}
+                      aria-hidden='true'
+                      className='h-6 w-6 cursor-pointer'
+                    />
+                    {cartLength > 0 && (
+                      <span className='absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full h-4 w-4 flex items-center justify-center'>
+                        {cartLength}
+                      </span>
+                    )}
+                  </div>
                 </div>
               </div>
               <div className='py-6'>

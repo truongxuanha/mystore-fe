@@ -46,8 +46,8 @@ function Products() {
   }, [currentPage, itemsPerPage]);
   const handlePageChange = (newPage: number) => {
     if (newPage >= 1 && newPage <= totalPages) {
-      console.log(newPage);
       setCurrentPage(newPage);
+      window.scrollTo({ top: 0, behavior: "smooth" });
     }
   };
 
