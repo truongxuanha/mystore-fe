@@ -12,6 +12,10 @@ const axiosIntance = axios.create({
   baseURL: process.env.BASE_URL_API,
 });
 
+const requestJWT = axios.create({
+  baseURL: process.env.BASE_URL_API,
+});
+
 export interface InitialTokenRefresh {
   refresh: string;
 }
@@ -30,13 +34,12 @@ async function refreshToken(initialTokenRefresh: InitialTokenRefresh) {
   }
 }
 
-axiosIntance.interceptors.request.use(
+requestJWT.interceptors.request.use(
   async (config) => {
     if (currentUser) {
       const { token, refresh } = currentUser;
       const tokenDecode = jwtDecode<{ exp: number }>(token);
       const currentTime = Date.now() / 1000;
-      console.log(tokenDecode.exp, currentTime);
 
       if (tokenDecode.exp < currentTime) {
         try {
@@ -64,4 +67,4 @@ axiosIntance.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-export { axiosIntance };
+export { axiosIntance, requestJWT };
