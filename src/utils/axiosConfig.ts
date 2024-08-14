@@ -12,10 +12,6 @@ const axiosIntance = axios.create({
   baseURL: process.env.BASE_URL_API,
 });
 
-const requestJWT = axios.create({
-  baseURL: process.env.BASE_URL_API,
-});
-
 export interface InitialTokenRefresh {
   refresh: string;
 }
@@ -34,12 +30,13 @@ async function refreshToken(initialTokenRefresh: InitialTokenRefresh) {
   }
 }
 
-requestJWT.interceptors.request.use(
+axiosIntance.interceptors.request.use(
   async (config) => {
     if (currentUser) {
       const { token, refresh } = currentUser;
       const tokenDecode = jwtDecode<{ exp: number }>(token);
       const currentTime = Date.now() / 1000;
+      console.log(tokenDecode.exp, currentTime);
 
       if (tokenDecode.exp < currentTime) {
         try {
@@ -49,6 +46,7 @@ requestJWT.interceptors.request.use(
 
           if (newToken) {
             currentUser.token = newToken;
+
             localStorage.setItem("currentUser", JSON.stringify(currentUser));
             localStorage.setItem("access_token", JSON.stringify(newToken));
             config.headers["token"] = `${newToken}`;
@@ -66,4 +64,4 @@ requestJWT.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-export { axiosIntance, requestJWT };
+export { axiosIntance };

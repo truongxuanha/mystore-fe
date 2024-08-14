@@ -1,7 +1,7 @@
 import dayjs from "dayjs";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { ProductsType } from "types";
-import { requestJWT } from "../utils/axiosConfig";
+import { axiosIntance } from "../utils/axiosConfig";
 
 interface CreateCartType {
   token: string | null;
@@ -16,7 +16,7 @@ export const postCreateCart = createAsyncThunk(
     { rejectWithValue }
   ) => {
     try {
-      const response = await requestJWT.post(
+      const response = await axiosIntance.post(
         "/cart/create",
         [
           {
@@ -44,7 +44,7 @@ export const getProductByAccount = createAsyncThunk(
   "cart/getProductByAccount",
   async ({ token }: CreateCartType, { rejectWithValue }) => {
     try {
-      const response = await requestJWT.get("/cart/get-by-account", {
+      const response = await axiosIntance.get("/cart/get-by-account", {
         headers: {
           token,
         },
@@ -67,7 +67,7 @@ export const updateCartItem = createAsyncThunk(
   "cart/updateCartItem",
   async ({ id, token, quantity }: UpdateItem, { rejectWithValue }) => {
     try {
-      await requestJWT.put(
+      await axiosIntance.put(
         `cart/${id}/update`,
         { quantity },
         {
@@ -92,7 +92,7 @@ export const removeCartItem = createAsyncThunk(
   "cart/removeCartItem",
   async ({ id, token }: RemoveItem, { rejectWithValue }) => {
     try {
-      await requestJWT.delete(`cart/${id}/remove`, {
+      await axiosIntance.delete(`cart/${id}/remove`, {
         headers: {
           token,
         },
