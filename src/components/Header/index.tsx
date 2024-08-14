@@ -8,6 +8,8 @@ import {
   ArrowRightStartOnRectangleIcon,
   ShoppingCartIcon,
   UserIcon,
+  ArrowsRightLeftIcon,
+  ShieldExclamationIcon,
 } from "@heroicons/react/24/outline";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 
@@ -136,18 +138,20 @@ function Header() {
                   <div>
                     <NavLink
                       to='/dang-nhap'
-                      className='text-sm font-semibold text-gray-900 p-2'
+                      className='text-sm font-semibold text-gray-900 p-2 inline-flex gap-2'
                       onClick={closeMobileMenu}
                     >
+                      <ArrowsRightLeftIcon className='w-5 h-6' />
                       Đăng nhập
                     </NavLink>
                   </div>
                   <div>
                     <NavLink
                       to='/dang-ky'
-                      className='text-sm font-semibold leading-6 text-gray-900 p-2'
+                      className='text-sm font-semibold leading-6 text-gray-900 p-2 inline-flex gap-2'
                       onClick={closeMobileMenu}
                     >
+                      <ShieldExclamationIcon className='w-5 h-6' />
                       Đăng ký
                     </NavLink>
                   </div>

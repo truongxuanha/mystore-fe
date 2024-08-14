@@ -49,7 +49,6 @@ requestJWT.interceptors.request.use(
 
           if (newToken) {
             currentUser.token = newToken;
-            console.log(newToken);
             localStorage.setItem("currentUser", JSON.stringify(currentUser));
             localStorage.setItem("access_token", JSON.stringify(newToken));
             config.headers["token"] = `${newToken}`;

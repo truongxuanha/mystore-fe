@@ -79,6 +79,7 @@ function Search({ handleCloseNav }: SearchProps) {
 
       {searchQuery && resultSearch.length > 0 && (
         <div className='absolute top-full left-0 w-[150%] bg-white border border-t-0 rounded-b-md shadow-lg z-10 transition-all duration-500'>
+          <span>Kết quả tìm kiếm:</span>
           <SearchResults
             products={resultSearch}
             setSearchQuery={setSearchQuery}
@@ -86,9 +87,12 @@ function Search({ handleCloseNav }: SearchProps) {
           />
         </div>
       )}
-      {searchQuery && resultSearch.length === 0 && !isLoading && (
-        <div className='absolute top-full left-0 w-[150%] bg-white border border-t-0 rounded-b-md shadow-lg z-10 transition-all duration-500'>
-          <span>Không tìm thấy sản phẩm nào</span>
+      {searchQuery && resultSearch.length === 0 && !isLoading && debounce && (
+        <div className='absolute top-full left-0 w-[150%] h-24 bg-white border border-t-0 rounded-b-md rounded-r-md shadow-lg z-10 transition-all duration-500'>
+          <span>Kết quả tìm kiếm:</span>
+          <span className='block text-center my-auto'>
+            Không tìm thấy sản phẩm nào
+          </span>
         </div>
       )}
     </div>
