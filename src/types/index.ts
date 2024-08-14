@@ -110,3 +110,7 @@ export interface CartState {
   loadingCart: boolean;
   error: string | null;
 }
+
+export interface InitialTokenRefresh {
+  refresh: string;
+}

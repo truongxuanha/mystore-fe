@@ -1,60 +1,75 @@
 import axios from "axios";
-import { jwtDecode } from "jwt-decode";
-
-const currentUserString = localStorage.getItem("currentUser");
-let currentUser = null;
-
-if (currentUserString && currentUserString !== "undefined") {
-  currentUser = JSON.parse(currentUserString);
-}
+import { InitialTokenRefresh } from "types";
 
 const requestJWT = axios.create({
   baseURL: process.env.BASE_URL_API,
 });
 
-export interface InitialTokenRefresh {
-  refresh: string;
+function currentUsers() {
+  const currentUserLocal = localStorage.getItem("currentUser");
+  return currentUserLocal ? JSON.parse(currentUserLocal) : null;
 }
 
-async function refreshToken(initialTokenRefresh: InitialTokenRefresh) {
+async function refreshToken(refreshToken: InitialTokenRefresh) {
   try {
-    const res = await requestJWT.post("account/refresh", initialTokenRefresh);
-    return res.data;
-  } catch (err) {
-    console.error("Failed to refresh token:", err);
-    throw err;
+    const response = await requestJWT.post("account/refresh", {
+      refresh: refreshToken,
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Failed to refresh token!!!!", error);
+    throw error;
   }
 }
 
 requestJWT.interceptors.request.use(
-  async (config) => {
+  (config) => {
+    const currentUser = currentUsers();
     if (currentUser) {
-      const { token, refresh } = currentUser;
-      const tokenDecode = jwtDecode<{ exp: number }>(token);
-      const currentTime = Date.now() / 1000;
-
-      if (tokenDecode.exp < currentTime) {
-        try {
-          const refreshedData = await refreshToken({ refresh });
-
-          const newToken = refreshedData.token;
-          if (newToken) {
-            currentUser.token = newToken;
-
-            localStorage.setItem("currentUser", JSON.stringify(currentUser));
-            config.headers["token"] = newToken;
-          }
-        } catch (error) {
-          console.error("Token refresh failed:", error);
-          localStorage.removeItem("currentUser");
-        }
-      } else {
-        config.headers["token"] = token;
-      }
+      config.headers["token"] = currentUser.token;
     }
     return config;
   },
   (error) => Promise.reject(error)
+);
+
+requestJWT.interceptors.response.use(
+  (response) => response,
+  async (error) => {
+    const originalRequest = error.config;
+
+    if (
+      error.response &&
+      error.response.status === 401 &&
+      !originalRequest._retry
+    ) {
+      originalRequest._retry = true;
+
+      const currentUser = currentUsers();
+      if (currentUser) {
+        const { refresh } = currentUser;
+        try {
+          const res = await refreshToken(refresh);
+          const newToken = res.data;
+
+          localStorage.setItem(
+            "currentUser",
+            JSON.stringify({ ...currentUser, token: newToken })
+          );
+
+          requestJWT.defaults.headers["token"] = newToken;
+
+          originalRequest.headers["token"] = newToken;
+          return requestJWT(originalRequest);
+        } catch (error) {
+          console.error("Error refreshing!!!", error);
+          localStorage.removeItem("currentUser");
+          return Promise.reject(error);
+        }
+      }
+    }
+    return Promise.reject(error);
+  }
 );
 
 export { requestJWT };
