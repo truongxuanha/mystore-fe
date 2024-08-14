@@ -58,6 +58,7 @@ export interface ProductsType {
   name: string;
   id_account: string;
   id_product: number | string;
+  product_id: number | string;
   createAt: string;
   updateAt: string;
   quantity: number;

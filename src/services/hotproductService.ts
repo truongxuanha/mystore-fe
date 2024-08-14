@@ -1,8 +1,8 @@
-import { axiosIntance } from "../utils/axiosConfig";
+import { requestJWT } from "../utils/axiosConfig";
 
 export async function getHotProduct() {
   try {
-    const res = await axiosIntance.get(`product/hot_product`);
+    const res = await requestJWT.get(`product/hot_product`);
     return res;
   } catch (err) {
     console.log(err);

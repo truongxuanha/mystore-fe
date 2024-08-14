@@ -7,7 +7,7 @@ import {
   ChevronDoubleLeftIcon,
   ChevronDoubleRightIcon,
 } from "@heroicons/react/24/outline";
-import { axiosIntance } from "../../utils/axiosConfig";
+import { requestJWT } from "../../utils/axiosConfig";
 import { Button } from "@headlessui/react";
 
 function Products() {
@@ -21,7 +21,7 @@ function Products() {
     async function fetchProduct() {
       setIsLoading(true);
       try {
-        const res = await axiosIntance.get(`/product/search`, {
+        const res = await requestJWT.get(`/product/search`, {
           params: {
             q: "i",
             min: "150000",

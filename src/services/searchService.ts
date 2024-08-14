@@ -1,8 +1,8 @@
-import { axiosIntance } from "../utils/axiosConfig";
+import { requestJWT } from "../utils/axiosConfig";
 
 export async function getResultSearch(query: string) {
   try {
-    const res = await axiosIntance.get(`product/search`, {
+    const res = await requestJWT.get(`product/search`, {
       params: {
         q: query,
         min: 150000,

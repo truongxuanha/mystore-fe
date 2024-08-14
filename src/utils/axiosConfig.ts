@@ -8,10 +8,6 @@ if (currentUserString && currentUserString !== "undefined") {
   currentUser = JSON.parse(currentUserString);
 }
 
-const axiosIntance = axios.create({
-  baseURL: process.env.BASE_URL_API,
-});
-
 const requestJWT = axios.create({
   baseURL: process.env.BASE_URL_API,
 });
@@ -22,11 +18,7 @@ export interface InitialTokenRefresh {
 
 async function refreshToken(initialTokenRefresh: InitialTokenRefresh) {
   try {
-    const res = await axiosIntance.post(
-      "/account/refresh",
-      initialTokenRefresh
-    );
-
+    const res = await requestJWT.post("account/refresh", initialTokenRefresh);
     return res.data;
   } catch (err) {
     console.error("Failed to refresh token:", err);
@@ -45,21 +37,19 @@ requestJWT.interceptors.request.use(
         try {
           const refreshedData = await refreshToken({ refresh });
 
-          const newToken = refreshedData.data;
-
+          const newToken = refreshedData.token;
           if (newToken) {
             currentUser.token = newToken;
 
             localStorage.setItem("currentUser", JSON.stringify(currentUser));
-            localStorage.setItem("access_token", JSON.stringify(newToken));
-            config.headers["token"] = `${newToken}`;
+            config.headers["token"] = newToken;
           }
         } catch (error) {
           console.error("Token refresh failed:", error);
           localStorage.removeItem("currentUser");
         }
       } else {
-        config.headers["token"] = `${token}`;
+        config.headers["token"] = token;
       }
     }
     return config;
@@ -67,4 +57,4 @@ requestJWT.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-export { axiosIntance, requestJWT };
+export { requestJWT };
