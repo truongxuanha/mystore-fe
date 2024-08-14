@@ -6,6 +6,7 @@ import { ProductsType } from "../../../types";
 import Loader from "../../Loader";
 import { Button } from "@headlessui/react";
 import useAddToCart from "../../../hooks/useAddCart";
+import { toastifyWarning } from "../../../utils/toastify";
 
 const ProductDetail: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -95,20 +96,28 @@ const ProductDetail: React.FC = () => {
         </div>
 
         <div className='mt-4 flex items-center justify-end gap-x-2'>
-          <Button
-            className='bg-red-500 text-white px-4 py-2 rounded-lg'
-            onClick={() => {
-              console.log("Purchase action triggered");
-            }}
-          >
-            Mua ngay
-          </Button>
-          <button
-            className='bg-colorPrimary text-white px-4 py-2 rounded-lg'
-            onClick={() => addToCart(product.id)}
-          >
-            Thêm giỏ hàng
-          </button>
+          {product.quantity > 0 ? (
+            <>
+              <Button
+                className='bg-colorPrimary text-white px-4 py-2 rounded-lg'
+                onClick={() => {
+                  toastifyWarning("Tính năng đặt hàng đang được Update!");
+                }}
+              >
+                Đặt ngay
+              </Button>
+              <button
+                className='bg-colorPrimary text-white px-4 py-2 rounded-lg'
+                onClick={() => addToCart(product.id)}
+              >
+                Thêm giỏ hàng
+              </button>
+            </>
+          ) : (
+            <span className='px-2 py-1 text-white bg-red-500 rounded-md'>
+              Tạm hết hàng
+            </span>
+          )}
         </div>
       </div>
     </div>

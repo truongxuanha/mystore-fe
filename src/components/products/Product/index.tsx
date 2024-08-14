@@ -46,15 +46,21 @@ const Product: React.FC<ProductsProp> = ({ product, typeCss, style }) => {
           >
             Thông tin
           </Link>
-          <span
-            className='cursor-pointer'
-            onClick={() => addToCart(product.id)}
-          >
-            <ShoppingCartIcon
-              aria-hidden='true'
-              className='h-4 w-4 md:h-6 md:w-6'
-            />
-          </span>
+          {product.quantity > 0 ? (
+            <span
+              className='cursor-pointer'
+              onClick={() => addToCart(product.id)}
+            >
+              <ShoppingCartIcon
+                aria-hidden='true'
+                className='h-4 w-4 md:h-6 md:w-6'
+              />
+            </span>
+          ) : (
+            <span className='text-xs md:text-sm text-red-500 line-through'>
+              Hết hàng
+            </span>
+          )}
         </div>
       </div>
     </div>

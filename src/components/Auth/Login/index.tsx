@@ -49,6 +49,7 @@ export default function Login() {
 
       navigate("/san-pham");
       toastifySuccess("Đăng nhập thành công!");
+      toastifySuccess("Xin chào Anh Đẹp Troai!");
     } catch (error) {
       toastifyWarning(`${error}`);
     }

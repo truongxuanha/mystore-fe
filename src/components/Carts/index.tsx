@@ -11,6 +11,7 @@ import {
 } from "../../services/cartService";
 import { ProductsType } from "../../types";
 import formatVND from "../../utils/formatVND";
+import { toastifyWarning } from "../../utils/toastify";
 
 function Cart() {
   const dispatch = useAppDispatch();
@@ -104,10 +105,18 @@ function Cart() {
           </div>
         </div>
       ))}
-      <div className='mt-4 p-4 bg-gray-100 rounded-md flex justify-end'>
+      <div className='mt-4 p-4 bg-gray-100 rounded-md flex justify-end items-center gap-2'>
         <span className='text-sm md:text-lg font-medium text-colorPrimary'>
           <strong>Tổng tiền:</strong> {formatVND(totalPrice, 0)}
         </span>
+        <Button
+          className='bg-colorPrimary text-white px-4 py-2 rounded-lg'
+          onClick={() => {
+            toastifyWarning("Tính năng đặt hàng đang được Update!");
+          }}
+        >
+          Đặt hàng ngay
+        </Button>
       </div>
     </div>
   );
