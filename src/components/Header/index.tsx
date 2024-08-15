@@ -44,7 +44,7 @@ function Header() {
   useEffect(() => {
     async function getProduct() {
       if (token) {
-        await dispatch(getProductByAccount({ token }));
+        await dispatch(getProductByAccount());
       }
     }
     getProduct();
@@ -57,6 +57,7 @@ function Header() {
   }, [cartItems]);
 
   async function handleCart() {
+    closeMobileMenu();
     if (currentUser) {
       navigate("/gio-hang");
     } else {
@@ -134,11 +135,11 @@ function Header() {
               }`}
             >
               {!userLogin ? (
-                <div className='py-1 flex flex-col'>
+                <div className='flex flex-col'>
                   <div>
                     <NavLink
                       to='/dang-nhap'
-                      className='text-sm font-semibold text-gray-900 p-2 inline-flex gap-2'
+                      className='text-sm font-semibold text-gray-900 p-3 inline-flex gap-2 hover:bg-[#f5f5f5] w-full '
                       onClick={closeMobileMenu}
                     >
                       <ArrowsRightLeftIcon className='w-5 h-6' />
@@ -148,7 +149,7 @@ function Header() {
                   <div>
                     <NavLink
                       to='/dang-ky'
-                      className='text-sm font-semibold leading-6 text-gray-900 p-2 inline-flex gap-2'
+                      className='text-sm font-semibold leading-6 text-gray-900 p-3 inline-flex gap-2 hover:bg-[#f5f5f5] w-full'
                       onClick={closeMobileMenu}
                     >
                       <ShieldExclamationIcon className='w-5 h-6' />
@@ -157,13 +158,16 @@ function Header() {
                   </div>
                 </div>
               ) : (
-                <div className='p-3 flex flex-col gap-y-3 z-50'>
-                  <span className='flex gap-2 items-center cursor-pointer'>
+                <div className='flex flex-col'>
+                  <Link
+                    to='/thong-tin-tai-khoan'
+                    className='flex p-3 items-center cursor-pointer hover:bg-[#f5f5f5] w-full gap-x-2'
+                  >
                     <UserIcon className='w-5 h-5' />
                     <p>Tài khoản</p>
-                  </span>
+                  </Link>
                   <span
-                    className='flex justify-start gap-2 cursor-pointer'
+                    className='flex justify-start gap-x-2 p-3 cursor-pointer hover:bg-[#f5f5f5]'
                     onClick={handleLogout}
                   >
                     <ArrowRightStartOnRectangleIcon
@@ -205,10 +209,10 @@ function Header() {
           </div>
           <div className='mt-6 flow-root'>
             <div className='-my-6 divide-y divide-gray-500/10'>
-              <div className='space-y-2 py-6 flex flex-col'>
+              <div className='space-y-2 py-6 flex flex-col uppercase'>
                 <NavLink
                   to='/'
-                  className='nav-link w-16 text-xs font-semibold leading-6 text-gray-900'
+                  className='nav-link w-20 text-xs font-semibold leading-6 text-gray-900'
                   onClick={closeMobileMenu}
                 >
                   Trang chủ
@@ -245,40 +249,47 @@ function Header() {
               </div>
               <div className='py-6'>
                 {!currentUser ? (
-                  <div className='flex gap-2'>
-                    <NavLink
-                      to='/dang-nhap'
-                      className='nav-link text-xs font-semibold leading-6 text-gray-900'
-                      onClick={closeMobileMenu}
-                    >
-                      Đăng nhập
-                    </NavLink>
-                    <span> / </span>
-                    <NavLink
-                      to='/dang-ky'
-                      className='nav-link text-xs font-semibold leading-6 text-gray-900'
-                      onClick={closeMobileMenu}
-                    >
-                      Đăng ký
-                    </NavLink>
+                  <div className='py-1 flex flex-col'>
+                    <div>
+                      <NavLink
+                        to='/dang-nhap'
+                        className='text-sm font-semibold text-gray-900 p-2 inline-flex gap-2'
+                        onClick={closeMobileMenu}
+                      >
+                        <ArrowsRightLeftIcon className='w-5 h-6' />
+                        Đăng nhập
+                      </NavLink>
+                    </div>
+                    <div>
+                      <NavLink
+                        to='/dang-ky'
+                        className='text-sm font-semibold leading-6 text-gray-900 p-2 inline-flex gap-2'
+                        onClick={closeMobileMenu}
+                      >
+                        <ShieldExclamationIcon className='w-5 h-6' />
+                        Đăng ký
+                      </NavLink>
+                    </div>
                   </div>
                 ) : (
-                  <div className='p-3 flex flex-col'>
-                    <div>
-                      <span>User: {currentUser?.user?.account_name}</span>
-                    </div>
-                    <div>
-                      <span
-                        className='flex justify-start gap-2 cursor-pointer'
-                        onClick={handleLogout}
-                      >
-                        Đăng xuất
-                        <ArrowRightStartOnRectangleIcon
-                          aria-hidden='true'
-                          className='h-6 w-6'
-                        />
-                      </span>
-                    </div>
+                  <div className='flex flex-col gap-y-3 z-50'>
+                    <span
+                      className='flex w-32 gap-2 items-center cursor-pointer'
+                      onClick={closeMobileMenu}
+                    >
+                      <UserIcon className='w-5 h-5' />
+                      <p>Tài khoản</p>
+                    </span>
+                    <span
+                      className='flex w-32 justify-start gap-2 cursor-pointer'
+                      onClick={handleLogout}
+                    >
+                      <ArrowRightStartOnRectangleIcon
+                        aria-hidden='true'
+                        className='h-5 w-5'
+                      />
+                      <p>Đăng xuất</p>
+                    </span>
                   </div>
                 )}
               </div>

@@ -75,13 +75,12 @@ export default function Register() {
     <>
       {loading && <Loader />}
       <div className='flex min-h-full flex-1 flex-col justify-center px-6 py-6 lg:px-8'>
-        <div className='sm:mx-auto sm:w-full sm:max-w-sm'>
-          <h2 className='mt-5 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900'>
-            Đăng Ký
-          </h2>
-        </div>
-
-        <div className='mt-5 sm:mx-auto sm:w-full sm:max-w-sm shadow-xl p-5 rounded-lg'>
+        <div className='mt-5 sm:mx-auto sm:w-full sm:max-w-sm shadow-xl p-5 rounded-lg bg-white'>
+          <div className='sm:mx-auto sm:w-full sm:max-w-sm'>
+            <h2 className='text-center text-xl font-bold leading-9 tracking-tight text-gray-900'>
+              Đăng ký
+            </h2>
+          </div>
           <form onSubmit={handleSubmit(onSubmit)} className='space-y-3'>
             <div>
               <label

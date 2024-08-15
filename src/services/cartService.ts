@@ -11,27 +11,15 @@ interface CreateCartType {
 
 export const postCreateCart = createAsyncThunk(
   "cart/postCreateCart",
-  async (
-    { token, id_product, quantity }: CreateCartType,
-    { rejectWithValue }
-  ) => {
+  async ({ id_product, quantity }: CreateCartType, { rejectWithValue }) => {
     try {
-      const response = await requestJWT.post(
-        "/cart/create",
-        [
-          {
-            createAt: dayjs().format("YYYY-MM-DD"),
-            id_product,
-            quantity,
-          },
-        ],
+      const response = await requestJWT.post("/cart/create", [
         {
-          headers: {
-            "Content-Type": "application/json",
-            token,
-          },
-        }
-      );
+          createAt: dayjs().format("YYYY-MM-DD"),
+          id_product,
+          quantity,
+        },
+      ]);
       return response.data;
     } catch (err) {
       console.error("Error creating cart:", err);
@@ -42,13 +30,9 @@ export const postCreateCart = createAsyncThunk(
 
 export const getProductByAccount = createAsyncThunk(
   "cart/getProductByAccount",
-  async ({ token }: CreateCartType, { rejectWithValue }) => {
+  async (_, { rejectWithValue }) => {
     try {
-      const response = await requestJWT.get("/cart/get-by-account", {
-        headers: {
-          token,
-        },
-      });
+      const response = await requestJWT.get("/cart/get-by-account");
       return response.data.data;
     } catch (err) {
       console.error("Error fetching products:", err);
@@ -84,19 +68,11 @@ export const updateCartItem = createAsyncThunk(
   }
 );
 
-interface RemoveItem {
-  id: ProductsType["id"];
-  token: string | null;
-}
 export const removeCartItem = createAsyncThunk(
   "cart/removeCartItem",
-  async ({ id, token }: RemoveItem, { rejectWithValue }) => {
+  async (id: ProductsType["id"], { rejectWithValue }) => {
     try {
-      await requestJWT.delete(`cart/${id}/remove`, {
-        headers: {
-          token,
-        },
-      });
+      await requestJWT.delete(`cart/${id}/remove`);
 
       return id;
     } catch (err) {

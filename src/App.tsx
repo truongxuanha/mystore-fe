@@ -4,6 +4,7 @@ import Loader from "./components/Loader";
 import About from "./components/Abouts";
 import InforProduct from "./components/products/ProductDetail";
 import AppLayout from "./layouts/AppLayout";
+import Profile from "./components/Profile";
 
 const Home = lazy(() => import("./components/Home"));
 const Cart = lazy(() => import("./components/Carts"));
@@ -80,6 +81,10 @@ const router = createBrowserRouter([
             <Error />
           </Suspense>
         ),
+      },
+      {
+        path: "/thong-tin-tai-khoan",
+        element: <Profile />,
       },
     ],
   },

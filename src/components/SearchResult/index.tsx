@@ -22,17 +22,17 @@ const SearchResults: React.FC<SearchResultsProps> = ({
     }
   }
   return (
-    <ul className='max-h-80 w-full overflow-y-auto transition-all'>
+    <ul className='max-h-80 w-full overflow-y-auto scroll transition-all'>
       {products.map((product) => (
         <li
           key={product.id}
-          className='p-2 hover:bg-gray-200 cursor-pointer border-b last:border-none'
+          className='p-2 hover:bg-orange-100 cursor-pointer border-b last:border-none'
           onClick={() => handleInfo(product.slug)}
         >
           <Link
             to={`/san-pham/${product.slug}`}
             onClick={() => handleInfo(product.slug)}
-            className='nav-link text-sm cursor-pointer'
+            className='text-sm cursor-pointer'
           >
             <span className='flex'>
               <img className='w-10 rounded-full' src={product.thumbnail} />

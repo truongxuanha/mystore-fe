@@ -57,7 +57,7 @@ const Banner: React.FC = () => {
     <div className='relative bg-white'>
       <div className='relative overflow-hidden w-full min-h-56 sm:min-h-72 md:min-h-96 lg:min-h-[400px] rounded-lg'>
         <div
-          className='carousel-main absolute top-0 bottom-0 start-0 flex flex-nowrap transition-transform duration-700'
+          className='carousel-main absolute top-0 bottom-0 start-0 flex flex-nowrap transition-transform duration-1000 ease-in-out'
           style={{
             transform: `translateX(-${activeIndex * 100}%)`,
           }}

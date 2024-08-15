@@ -27,7 +27,7 @@ const Product: React.FC<ProductsProp> = ({ product, typeCss, style }) => {
           alt={product.name}
         />
       </div>
-      <p className='multiline-truncate font-medium h-8 sm:h-12 row-span-1 sm:row-span-1 md:row-span-5 mt-2'>
+      <p className='multiline-truncate font-medium h-8 sm:h-[43px] row-span-1 sm:row-span-1 md:row-span-5 mt-2 text-xs sm:text-sm'>
         {product.name}
       </p>
       <div className='row-span-1 sm:row-span-1 md:row-span-2 my-auto pt-5'>
@@ -42,22 +42,22 @@ const Product: React.FC<ProductsProp> = ({ product, typeCss, style }) => {
         <div className='flex flex-wrap justify-between items-center gap-3 mt-5 mx-2'>
           <Link
             to={`/san-pham/${product.slug}`}
-            className='text-xs md:text-sm cursor-pointer px-2 rounded-md bg-colorPrimary hover:bg-orange-300 text-gray-100 animate-bounce'
+            className='text-xs md:text-sm cursor-pointer px-2 rounded-md underline'
           >
             Thông tin
           </Link>
           {product.quantity > 0 ? (
             <span
-              className='cursor-pointer'
+              className='cursor-pointer rounded-full bg-colorRed p-1'
               onClick={() => addToCart(product.id)}
             >
               <ShoppingCartIcon
                 aria-hidden='true'
-                className='h-4 w-4 md:h-6 md:w-6'
+                className='h-4 w-4 md:h-5 md:w-5 text-white'
               />
             </span>
           ) : (
-            <span className='text-xs md:text-sm text-red-500 line-through'>
+            <span className='text-xs md:text-sm text-red-500 line-through cursor-pointer'>
               Hết hàng
             </span>
           )}

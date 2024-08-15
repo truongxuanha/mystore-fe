@@ -12,6 +12,7 @@ import {
 import { ProductsType } from "../../types";
 import formatVND from "../../utils/formatVND";
 import { toastifyWarning } from "../../utils/toastify";
+import { Link } from "react-router-dom";
 
 function Cart() {
   const dispatch = useAppDispatch();
@@ -20,13 +21,13 @@ function Cart() {
 
   useEffect(() => {
     if (token) {
-      dispatch(getProductByAccount({ token }));
+      dispatch(getProductByAccount());
     }
   }, [dispatch, token]);
 
   async function handleDeleteItemCart(id: ProductsType["id"]) {
-    await dispatch(removeCartItem({ id, token }));
-    await dispatch(getProductByAccount({ token }));
+    await dispatch(removeCartItem(id));
+    await dispatch(getProductByAccount());
   }
 
   async function handleUpdateQuantity(
@@ -35,9 +36,9 @@ function Cart() {
   ) {
     await dispatch(updateCartItem({ id, token, quantity }));
     if (quantity === 0) {
-      await dispatch(removeCartItem({ id, token }));
+      await dispatch(removeCartItem(id));
     }
-    await dispatch(getProductByAccount({ token }));
+    await dispatch(getProductByAccount());
   }
 
   const totalPrice = useMemo(() => {
@@ -56,16 +57,18 @@ function Cart() {
         return (
           <div
             key={item.id}
-            className='relative grid grid-cols-7 items-center bg-white shadow-sm mt-3 p-5 rounded-md gap-x-3'
+            className='relative grid grid-cols-1 sm:grid-cols-8 bg-white shadow-sm mt-3 p-5 rounded-md gap-x-3'
           >
-            <div className='col-span-1'>
-              <img
-                src={item.thumbnail}
-                className='object-cover border rounded-md'
-              />
+            <div className='col-span-2'>
+              <img src={item.thumbnail} className='border rounded-md' />
             </div>
             <div className='col-span-4'>
-              <span className='text-[11px] sm:text-sm'>{item.name}</span>
+              <Link
+                to={`/san-pham/${item.slug}`}
+                className='text-xs sm:text-sm hover:underline'
+              >
+                {item.name}
+              </Link>
             </div>
             <div className='col-span-1 mx-auto flex items-center'>
               <Button
@@ -94,8 +97,8 @@ function Cart() {
                 <PlusIcon className='w-3 h-3 md:w-5 md:h-3' />
               </Button>
             </div>
-            <div className='col-span-1 mx-auto flex flex-col'>
-              <span className='text-[11px] sm:text-xs md:text-sm w-[115px] md:w-[150px] absolute top-2 right-1'>
+            <div className='col-span-1 mx-auto flex flex-col '>
+              <span className='text-[11px] sm:text-xs md:text-sm w-[115px] md:w-[150px] sm:absolute sm:top-2 sm:right-1'>
                 Giá: {formatVND(priceAfterDiscount, 0)}
               </span>
               <span
@@ -104,25 +107,33 @@ function Cart() {
               >
                 <XMarkIcon className='w-6 text-colorPrimary absolute top-2 right-2 text-center' />
               </span>
-              <span className='text-[11px] sm:text-xs md:text-sm w-[115px] md:w-[150px] absolute bottom-2 right-1'>
+              <span className='text-[11px] sm:text-xs md:text-sm w-[115px] md:w-[150px] sm:absolute sm:bottom-2 sm:right-1'>
                 Tạm tính: {formatVND(priceAfterDiscount * item.quantity, 0)}
               </span>
             </div>
           </div>
         );
       })}
-      <div className='mt-4 p-4 bg-gray-100 rounded-md flex justify-end items-center gap-2'>
-        <span className='text-sm md:text-lg font-medium text-colorPrimary'>
-          <strong>Tổng tiền:</strong> {formatVND(totalPrice, 0)}
-        </span>
-        <Button
-          className='bg-colorPrimary text-white px-4 py-2 rounded-lg'
-          onClick={() => {
-            toastifyWarning("Tính năng đặt hàng đang được Update!");
-          }}
-        >
-          Đặt hàng ngay
-        </Button>
+      <div className='mt-4 w-full h-30 bg-white p-4 rounded-md gap-2 flex flex-col items-end'>
+        <div className='flex flex-col w-32 md:w-44 h-full'>
+          <span className='text-xs md:text-base font-medium '>
+            <strong>Tổng tiền:</strong> {formatVND(totalPrice, 0)}
+          </span>
+          <span className='text-xs md:text-base font-medium '>
+            <strong>Giảm giá:</strong> 0
+          </span>
+          <span className='text-xs md:text-base font-medium '>
+            <strong>Tổng tiền:</strong> {formatVND(totalPrice, 0)}
+          </span>
+          <Button
+            className='bg-red-500 text-white text-xs px-2 py-[4px] rounded-lg hover:bg-red-300 w-24 mt-2 '
+            onClick={() => {
+              toastifyWarning("Tính năng đặt hàng đang được Update!");
+            }}
+          >
+            Đặt hàng ngay
+          </Button>
+        </div>
       </div>
     </div>
   );
