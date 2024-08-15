@@ -6,14 +6,14 @@ import { CreateCartType } from "types";
 
 const useAddToCart = () => {
   const dispatch = useAppDispatch();
-  const { currentUser, token } = useAppSelector((state) => state.auth);
+  const { currentUser } = useAppSelector((state) => state.auth);
   const navigate = useNavigate();
   const userLogin = !!currentUser;
   const addToCart = async (id_product: CreateCartType["id_product"]) => {
     if (userLogin) {
       try {
         const result = await dispatch(
-          postCreateCart({ token, id_product, quantity: 1 })
+          postCreateCart({ id_product, quantity: 1 })
         );
 
         if (result.payload.success) {

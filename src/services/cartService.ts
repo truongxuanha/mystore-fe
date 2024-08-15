@@ -4,7 +4,6 @@ import { ProductsType } from "types";
 import { requestJWT } from "../utils/axiosConfig";
 
 interface CreateCartType {
-  token: string | null;
   id_product?: ProductsType["id_product"];
   quantity?: number;
 }
