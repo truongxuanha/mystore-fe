@@ -22,7 +22,7 @@ const Product: React.FC<ProductsProp> = ({ product, typeCss, style }) => {
     >
       <div className='row-span-3 sm:row-span-2 pt-2 md:row-span-3 w-full flex items-center'>
         <img
-          className='rounded-md object-cover hover:translate-y-[-10px] duration-500'
+          className='rounded-md object-cover h-full hover:translate-y-[-10px] duration-500'
           src={product.thumbnail}
           alt={product.name}
         />

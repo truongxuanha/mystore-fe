@@ -17,7 +17,7 @@ const useAddToCart = () => {
         );
 
         if (result.payload.success) {
-          await dispatch(getProductByAccount({ token }));
+          await dispatch(getProductByAccount());
           toastifySuccess("Thêm giỏ hàng thành công!");
         } else {
           toastifyWarning("Thêm giỏ hàng thất bại!");
