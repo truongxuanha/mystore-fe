@@ -5,6 +5,7 @@ import About from "./components/Abouts";
 import InforProduct from "./components/products/ProductDetail";
 import AppLayout from "./layouts/AppLayout";
 import Profile from "./components/Profile";
+import PrivateRoute from "./Routes/PrivateRouter";
 
 const Home = lazy(() => import("./components/Home"));
 const Cart = lazy(() => import("./components/Carts"));
@@ -45,9 +46,11 @@ const router = createBrowserRouter([
       {
         path: "/gio-hang",
         element: (
-          <Suspense fallback={<Loader />}>
-            <Cart />
-          </Suspense>
+          <PrivateRoute>
+            <Suspense fallback={<Loader />}>
+              <Cart />
+            </Suspense>
+          </PrivateRoute>
         ),
       },
       {
@@ -84,7 +87,11 @@ const router = createBrowserRouter([
       },
       {
         path: "/thong-tin-tai-khoan",
-        element: <Profile />,
+        element: (
+          <PrivateRoute>
+            <Profile />
+          </PrivateRoute>
+        ),
       },
     ],
   },

@@ -43,22 +43,13 @@ export const getProductByAccount = createAsyncThunk(
 export interface UpdateItem {
   id: ProductsType["id"];
   quantity: ProductsType["quantity"];
-  token: string | null;
 }
 
 export const updateCartItem = createAsyncThunk(
   "cart/updateCartItem",
-  async ({ id, token, quantity }: UpdateItem, { rejectWithValue }) => {
+  async ({ id, quantity }: UpdateItem, { rejectWithValue }) => {
     try {
-      await requestJWT.put(
-        `cart/${id}/update`,
-        { quantity },
-        {
-          headers: {
-            token,
-          },
-        }
-      );
+      await requestJWT.put(`cart/${id}/update`, { quantity });
       return id;
     } catch (err) {
       console.error("Error updating cart item:", err);

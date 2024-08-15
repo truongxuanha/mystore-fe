@@ -12,7 +12,6 @@ if (currentUserString && currentUserString !== "undefined") {
 const initialState: IAuthState = {
   loading: false,
   error: null,
-  isLogin: false,
   currentUser: currentUser,
   token: localStorage.getItem("access_token") || null,
 };
@@ -23,7 +22,6 @@ const authSlice = createSlice({
   reducers: {
     logout: (state) => {
       state.currentUser = null;
-      state.isLogin = false;
       state.loading = false;
       localStorage.removeItem("currentUser");
       localStorage.removeItem("access_token");
@@ -48,11 +46,11 @@ const authSlice = createSlice({
       .addCase(authLogin.pending, (state) => {
         state.loading = true;
         state.error = null;
-        state.isLogin = false;
       })
       .addCase(authLogin.fulfilled, (state, action) => {
         state.loading = false;
         state.error = null;
+
         state.currentUser = action.payload.data.user
           ? action.payload.data
           : null;
@@ -62,7 +60,6 @@ const authSlice = createSlice({
         state.loading = false;
         state.error = action.payload as string;
         state.currentUser = null;
-        state.isLogin = false;
       });
   },
 });

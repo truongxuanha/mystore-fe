@@ -34,7 +34,7 @@ function Cart() {
     id: ProductsType["id"],
     quantity: UpdateItem["quantity"]
   ) {
-    await dispatch(updateCartItem({ id, token, quantity }));
+    await dispatch(updateCartItem({ id, quantity }));
     if (quantity === 0) {
       await dispatch(removeCartItem(id));
     }

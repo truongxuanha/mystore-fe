@@ -94,7 +94,7 @@ export interface ProductsType {
 export interface IAuthState {
   loading: boolean;
   error: string | null;
-  isLogin: boolean;
+
   currentUser: Account | null;
   token: string | null;
 }
