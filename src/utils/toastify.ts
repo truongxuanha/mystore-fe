@@ -15,8 +15,9 @@ type ToastTransitionType =
 
 const toastOptions = {
   position: "top-right" as ToastPosition,
-  autoClose: 3000,
-  hideProgressBar: false,
+  autoClose: 2000,
+  hideProgressBar: true,
+  pauseOnHover: false,
   closeOnClick: true,
   progress: undefined,
   theme: "light",

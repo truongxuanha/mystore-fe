@@ -1,5 +1,5 @@
 import axios from "axios";
-import { InitialTokenRefresh } from "types";
+import { Account } from "types";
 
 const requestJWT = axios.create({
   baseURL: process.env.BASE_URL_API,
@@ -10,7 +10,7 @@ function currentUsers() {
   return currentUserLocal ? JSON.parse(currentUserLocal) : null;
 }
 
-async function refreshToken(refreshToken: InitialTokenRefresh) {
+async function refreshToken(refreshToken: Account) {
   try {
     const response = await requestJWT.post("account/refresh", {
       refresh: refreshToken,
@@ -25,9 +25,10 @@ async function refreshToken(refreshToken: InitialTokenRefresh) {
 requestJWT.interceptors.request.use(
   (config) => {
     const currentUser = currentUsers();
-    if (currentUser) {
-      config.headers["token"] = currentUser.token;
+    if (currentUser && currentUser.token) {
+      config.headers["token"] = `${currentUser.token}`;
     }
+
     return config;
   },
   (error) => Promise.reject(error)
@@ -57,7 +58,7 @@ requestJWT.interceptors.response.use(
             JSON.stringify({ ...currentUser, token: newToken })
           );
 
-          requestJWT.defaults.headers["token"] = newToken;
+          // requestJWT.defaults.headers["token"] = newToken;
 
           originalRequest.headers["token"] = newToken;
           return requestJWT(originalRequest);

@@ -42,13 +42,13 @@ const Product: React.FC<ProductsProp> = ({ product, typeCss, style }) => {
         <div className='flex flex-wrap justify-between items-center gap-3 mt-5 mx-2'>
           <Link
             to={`/san-pham/${product.slug}`}
-            className='text-xs md:text-sm cursor-pointer px-2 rounded-md underline'
+            className='text-xs md:text-sm cursor-pointer px-2 rounded-md underline hover:text-red-500'
           >
             Thông tin
           </Link>
           {product.quantity > 0 ? (
             <span
-              className='cursor-pointer rounded-full bg-colorRed p-1'
+              className='cursor-pointer rounded-full bg-colorRed hover:bg-red-400 p-1'
               onClick={() => addToCart(product.id)}
             >
               <ShoppingCartIcon

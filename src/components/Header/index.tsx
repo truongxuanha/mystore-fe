@@ -58,11 +58,8 @@ function Header() {
 
   async function handleCart() {
     closeMobileMenu();
-    if (currentUser) {
-      navigate("/gio-hang");
-    } else {
+    if (!currentUser) {
       toastifyWarning("Vui lòng đăng nhập!!!");
-      navigate("/dang-nhap");
     }
   }
 
@@ -107,7 +104,7 @@ function Header() {
           </NavLink>
           <div className='flex items-center gap-4 text-sm font-medium leading-6 text-gray-900'>
             <Search handleCloseNav={closeMobileMenu} />
-            <div className='relative'>
+            <Link to='/gio-hang' className='relative'>
               <ShoppingCartIcon
                 onClick={handleCart}
                 aria-hidden='true'
@@ -118,7 +115,7 @@ function Header() {
                   {cartLength}
                 </span>
               )}
-            </div>
+            </Link>
           </div>
 
           <div className='relative'>

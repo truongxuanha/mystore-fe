@@ -94,13 +94,11 @@ export interface ProductsType {
 export interface IAuthState {
   loading: boolean;
   error: string | null;
-
   currentUser: Account | null;
   token: string | null;
 }
 
 export interface CreateCartType {
-  token: string;
   id_product?: string | number;
   quantity?: number;
 }
@@ -109,8 +107,4 @@ export interface CartState {
   cartItems: ProductsType[];
   loadingCart: boolean;
   error: string | null;
-}
-
-export interface InitialTokenRefresh {
-  refresh: string;
 }

@@ -15,7 +15,7 @@ const SearchResults: React.FC<SearchResultsProps> = ({
   handleCloseNav,
 }) => {
   async function handleInfo(slug: string) {
-    getInFoProduct(slug);
+    await getInFoProduct(slug);
     setSearchQuery("");
     if (handleCloseNav) {
       handleCloseNav(false);

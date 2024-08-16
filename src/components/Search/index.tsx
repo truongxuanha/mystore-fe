@@ -53,6 +53,7 @@ function Search({ handleCloseNav }: SearchProps) {
           placeholder='Tìm kiếm...'
           className='outline-none px-2 py-1 w-full border-r mr-2'
         />
+
         {isLoading ? (
           <div role='status' className='flex items-center justify-center'>
             <svg
