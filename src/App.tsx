@@ -2,7 +2,7 @@ import { lazy, Suspense } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Loader from "./components/Loader";
 import About from "./components/Abouts";
-import InforProduct from "./components/Products/ProductDetail";
+import InforProduct from "./components/Productss/ProductDetail";
 import PrivateLayout from "./layouts/PrivateLayout";
 import PublicLayout from "./layouts/PublicLayout";
 import Profile from "./components/Profile";
@@ -10,7 +10,7 @@ import Profile from "./components/Profile";
 const Home = lazy(() => import("./components/Home"));
 const Cart = lazy(() => import("./components/Carts"));
 const Error = lazy(() => import("./components/Error/Error"));
-const Products = lazy(() => import("./components/Products"));
+const Products = lazy(() => import("./components/Productss"));
 const Login = lazy(() => import("./components/Auth/Login"));
 const Register = lazy(() => import("./components/Auth/Register"));
 

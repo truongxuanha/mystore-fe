@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { getHotProduct } from "../../api/product";
 import { ProductsType } from "../../types";
-import Product from "../Products/Product";
+import Product from "../Productss/Product";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/outline";
 
 const HotProducts: React.FC = () => {
