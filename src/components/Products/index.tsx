@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 import Loader from "../Loader";
-import Product from "../components/Products/Product";
+import Product from "./Product";
 import { ProductsType } from "../../types";
 import {
   ChevronDoubleLeftIcon,

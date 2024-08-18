@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 import { ProductsType } from "../../types";
-import Product from "../Productss/Product";
+import Product from "../Products/Product";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/outline";
 import { getProductNew } from "../../api/product";
 
