@@ -12,7 +12,6 @@ const HotProducts: React.FC = () => {
     const fetchBanners = async () => {
       try {
         const data = await getHotProduct();
-        console.log(data);
         if (data?.data.status === true) setHotProducts(data.data.data);
       } catch (err) {
         console.error("Error fetching data:", err);
