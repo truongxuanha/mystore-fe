@@ -4,7 +4,7 @@ import Footer from "../components/Footer";
 import { useAppSelector } from "../hooks/useAppDispatch";
 import Loader from "../components/Loader";
 
-function AppLayout() {
+function PrivateLayout() {
   const { loadingCart } = useAppSelector((state) => state.cart);
   return (
     <>
@@ -20,4 +20,4 @@ function AppLayout() {
   );
 }
 
-export default AppLayout;
+export default PrivateLayout;

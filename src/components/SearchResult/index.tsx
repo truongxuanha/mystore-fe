@@ -1,6 +1,6 @@
 import React from "react";
 import { ProductsType } from "../../types";
-import { getInFoProduct } from "../../services/productService";
+import { getInFoProduct } from "../../api/product";
 import { Link } from "react-router-dom";
 
 interface SearchResultsProps {

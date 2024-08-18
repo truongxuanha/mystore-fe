@@ -7,34 +7,25 @@ import {
   ChevronDoubleLeftIcon,
   ChevronDoubleRightIcon,
 } from "@heroicons/react/24/outline";
-import { requestJWT } from "../../utils/axiosConfig";
+
 import { Button } from "@headlessui/react";
+import { getProduct } from "../../api/product";
 
 function Products() {
   const [products, setProducts] = useState<ProductsType[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [totalPages, setTotalPages] = useState<number>(1);
   const itemsPerPage = 8;
 
   useEffect(() => {
-    async function fetchProduct() {
+    async function fetchProduct(): Promise<void> {
       setIsLoading(true);
       try {
-        const res = await requestJWT.get(`/product/search`, {
-          params: {
-            q: "i",
-            min: "150000",
-            max: "80000000",
-            sort: "ASC",
-            page: currentPage,
-            item: itemsPerPage,
-          },
-        });
-
+        const res = await getProduct(currentPage, itemsPerPage);
         if (!res) return;
         setProducts(res.data.data);
-        setTotalPages(res.data.totalPage);
+        setTotalPages(res.data.totalPage ?? []);
         setIsLoading(false);
       } catch (error) {
         setIsLoading(false);

@@ -1,14 +1,8 @@
 import React, { useState, useEffect } from "react";
 
-import { getBanner } from "../../services/bannerService";
+import { getBanner } from "../../api/banner";
+import { BannerType } from "api/banner/type";
 
-export interface BannerType {
-  id: number;
-  image: string;
-  path: null;
-  updateAt: null;
-  createAt: null;
-}
 const Banner: React.FC = () => {
   const [activeIndex, setActiveIndex] = useState<number>(0);
 
@@ -28,7 +22,7 @@ const Banner: React.FC = () => {
     const fetchBanners = async () => {
       try {
         const data = await getBanner();
-        if (data?.data.status === true) setBanners(data.data.data);
+        if (data?.data.status) setBanners(data.data.data);
       } catch (err) {
         console.error("Error fetching data:", err);
       }

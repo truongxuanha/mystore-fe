@@ -2,7 +2,7 @@ import { memo, useEffect, useState } from "react";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import { ProductsType } from "../../types";
 import SearchResults from "../SearchResult";
-import { getResultSearch } from "../../services/searchService";
+import { getResultSearch } from "../../api/search";
 
 import useDebounce from "../../hooks/useDebouncs";
 import { Input } from "@headlessui/react";
@@ -23,10 +23,11 @@ function Search({ handleCloseNav }: SearchProps) {
       }
 
       setIsLoading(true);
-      async function fetchData() {
+      async function fetchData(): Promise<void> {
         try {
-          const data = await getResultSearch(debounce);
-          setResultSearch(data?.data.data);
+          const res = await getResultSearch(debounce);
+          console.log(res);
+          setResultSearch(res?.data.data ?? []);
           setIsLoading(false);
         } catch (err) {
           console.log(err);

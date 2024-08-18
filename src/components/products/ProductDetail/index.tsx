@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { getInFoProduct } from "../../../services/productService";
+import { getInFoProduct } from "../../../api/product";
 import formatVND from "../../../utils/formatVND";
 import { ProductsType } from "../../../types";
 import Loader from "../../Loader";

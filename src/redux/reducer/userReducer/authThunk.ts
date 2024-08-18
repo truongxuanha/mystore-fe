@@ -1,7 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
-import { InitialRegisterState, InitialLoginState } from "../types";
-import { requestJWT } from "../utils/axiosConfig";
+import { InitialRegisterState, InitialLoginState } from "../../../types";
+import { requestJWT } from "../../../utils/axiosConfig";
 
 export const authRegister = createAsyncThunk(
   "auth/authRegister",

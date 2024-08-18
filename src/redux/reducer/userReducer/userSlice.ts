@@ -1,19 +1,17 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { authLogin, authRegister } from "../services/authService";
-import { IAuthState } from "../types";
-
-const currentUserString = localStorage.getItem("currentUser");
-let currentUser = null;
-
-if (currentUserString && currentUserString !== "undefined") {
-  currentUser = JSON.parse(currentUserString);
-}
+import { authLogin, authRegister } from "./authThunk";
+import { IAuthState } from "../../../types";
+import {
+  getTokenStorage,
+  getUserStorage,
+  removeUserStorage,
+} from "../../../services/storage";
 
 const initialState: IAuthState = {
   loading: false,
   error: null,
-  currentUser: currentUser,
-  token: localStorage.getItem("access_token") || null,
+  currentUser: getUserStorage(),
+  token: getTokenStorage(),
 };
 
 const authSlice = createSlice({
@@ -23,8 +21,7 @@ const authSlice = createSlice({
     logout: (state) => {
       state.currentUser = null;
       state.loading = false;
-      localStorage.removeItem("currentUser");
-      localStorage.removeItem("access_token");
+      removeUserStorage();
     },
   },
   extraReducers: (builder) => {

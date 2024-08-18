@@ -4,7 +4,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 
 import { useAppDispatch, useAppSelector } from "../../../hooks/useAppDispatch";
-import { authLogin } from "../../../services/authService";
+import { authLogin } from "../../../redux/reducer/userReducer/authThunk";
 import Loader from "../../Loader";
 import { toastifySuccess, toastifyWarning } from "../../../utils/toastify";
 import { unwrapResult } from "@reduxjs/toolkit";
@@ -45,7 +45,7 @@ export default function Login() {
       const resultsAction = await dispatch(action);
       const user = unwrapResult(resultsAction);
 
-      if (user.status === false) throw new Error(user.data);
+      if (user.status) throw new Error(user.data);
 
       navigate("/san-pham");
       toastifySuccess("Đăng nhập thành công!");

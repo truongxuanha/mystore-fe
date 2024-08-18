@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 
 import { ProductsType } from "../../types";
-import Product from "../products/Product";
+import Product from "../Products/Product";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/outline";
-import { getProductNew } from "../../services/productNewsService";
+import { getProductNew } from "../../api/product";
 
 const ProductNews: React.FC = () => {
   const [activeIndex, setActiveIndex] = useState<number>(1);

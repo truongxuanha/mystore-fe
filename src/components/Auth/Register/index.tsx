@@ -3,7 +3,7 @@ import Loader from "../../Loader/";
 import { useAppDispatch, useAppSelector } from "../../../hooks/useAppDispatch";
 
 import { Link, useNavigate } from "react-router-dom";
-import { authRegister } from "../../../services/authService";
+import { authRegister } from "../../../redux/reducer/userReducer/authThunk";
 import { InitialRegisterState } from "../../../types";
 
 import { toastifySuccess, toastifyWarning } from "../../../utils/toastify";
@@ -13,7 +13,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 
-const schema = yup.object().shape({
+const schemaRegister = yup.object().shape({
   account_name: yup
     .string()
     .required("Vui lòng nhập tên tài khoản.")
@@ -43,7 +43,7 @@ export default function Register() {
     handleSubmit,
     formState: { errors },
   } = useForm<InitialRegisterState>({
-    resolver: yupResolver(schema),
+    resolver: yupResolver(schemaRegister),
     defaultValues: {
       account_name: "",
       email: "",

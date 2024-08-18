@@ -1,6 +1,7 @@
+import { UserAccount } from "types";
 import { useAppSelector } from "./useAppDispatch";
 
-const useAuth = () => {
+const useAuth = (): UserAccount | undefined => {
   const { currentUser } = useAppSelector((state) => state.auth);
 
   return currentUser?.user;

@@ -1,12 +1,7 @@
 import dayjs from "dayjs";
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { ProductsType } from "types";
-import { requestJWT } from "../utils/axiosConfig";
-
-interface CreateCartType {
-  id_product?: ProductsType["id_product"];
-  quantity?: number;
-}
+import { CreateCartType, ProductsType, UpdateItem } from "types";
+import { requestJWT } from "../../../utils/axiosConfig";
 
 export const postCreateCart = createAsyncThunk(
   "cart/postCreateCart",
@@ -39,11 +34,6 @@ export const getProductByAccount = createAsyncThunk(
     }
   }
 );
-
-export interface UpdateItem {
-  id: ProductsType["id"];
-  quantity: ProductsType["quantity"];
-}
 
 export const updateCartItem = createAsyncThunk(
   "cart/updateCartItem",

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { getHotProduct } from "../../services/hotproductService";
+import { getHotProduct } from "../../api/product";
 import { ProductsType } from "../../types";
-import Product from "../products/Product";
+import Product from "../Products/Product";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/outline";
 
 const HotProducts: React.FC = () => {
@@ -12,6 +12,7 @@ const HotProducts: React.FC = () => {
     const fetchBanners = async () => {
       try {
         const data = await getHotProduct();
+        console.log(data);
         if (data?.data.status === true) setHotProducts(data.data.data);
       } catch (err) {
         console.error("Error fetching data:", err);

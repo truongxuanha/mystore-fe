@@ -1,30 +1,18 @@
 import axios from "axios";
-import { Account } from "types";
+import {
+  getUserStorage,
+  removeUserStorage,
+  setUserStorage,
+} from "../services/storage";
+import { refreshToken } from "../api/refreshToken";
 
 const requestJWT = axios.create({
   baseURL: process.env.BASE_URL_API,
 });
 
-function currentUsers() {
-  const currentUserLocal = localStorage.getItem("currentUser");
-  return currentUserLocal ? JSON.parse(currentUserLocal) : null;
-}
-
-async function refreshToken(refreshToken: Account) {
-  try {
-    const response = await requestJWT.post("account/refresh", {
-      refresh: refreshToken,
-    });
-    return response.data;
-  } catch (error) {
-    console.error("Failed to refresh token!!!!", error);
-    throw error;
-  }
-}
-
 requestJWT.interceptors.request.use(
   (config) => {
-    const currentUser = currentUsers();
+    const currentUser = getUserStorage();
     if (currentUser && currentUser.token) {
       config.headers["token"] = `${currentUser.token}`;
     }
@@ -46,17 +34,14 @@ requestJWT.interceptors.response.use(
     ) {
       originalRequest._retry = true;
 
-      const currentUser = currentUsers();
+      const currentUser = getUserStorage();
       if (currentUser) {
         const { refresh } = currentUser;
         try {
           const res = await refreshToken(refresh);
           const newToken = res.data;
 
-          localStorage.setItem(
-            "currentUser",
-            JSON.stringify({ ...currentUser, token: newToken })
-          );
+          setUserStorage(currentUser, newToken);
 
           // requestJWT.defaults.headers["token"] = newToken;
 
@@ -64,7 +49,7 @@ requestJWT.interceptors.response.use(
           return requestJWT(originalRequest);
         } catch (error) {
           console.error("Error refreshing!!!", error);
-          localStorage.removeItem("currentUser");
+          removeUserStorage();
           return Promise.reject(error);
         }
       }

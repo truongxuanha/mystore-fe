@@ -2,22 +2,22 @@ import { lazy, Suspense } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Loader from "./components/Loader";
 import About from "./components/Abouts";
-import InforProduct from "./components/products/ProductDetail";
-import AppLayout from "./layouts/AppLayout";
+import InforProduct from "./components/Products/ProductDetail";
+import PrivateLayout from "./layouts/PrivateLayout";
+import PublicLayout from "./layouts/PublicLayout";
 import Profile from "./components/Profile";
-import PrivateRoute from "./Routes/PrivateRouter";
 
 const Home = lazy(() => import("./components/Home"));
 const Cart = lazy(() => import("./components/Carts"));
 const Error = lazy(() => import("./components/Error/Error"));
-const Products = lazy(() => import("./components/products"));
+const Products = lazy(() => import("./components/Products"));
 const Login = lazy(() => import("./components/Auth/Login"));
 const Register = lazy(() => import("./components/Auth/Register"));
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <AppLayout />,
+    element: <PublicLayout />,
     children: [
       {
         path: "/",
@@ -41,16 +41,6 @@ const router = createBrowserRouter([
           <Suspense fallback={<Loader />}>
             <About />
           </Suspense>
-        ),
-      },
-      {
-        path: "/gio-hang",
-        element: (
-          <PrivateRoute>
-            <Suspense fallback={<Loader />}>
-              <Cart />
-            </Suspense>
-          </PrivateRoute>
         ),
       },
       {
@@ -85,12 +75,26 @@ const router = createBrowserRouter([
           </Suspense>
         ),
       },
+    ],
+  },
+  {
+    path: "/",
+    element: <PrivateLayout />,
+    children: [
+      {
+        path: "/gio-hang",
+        element: (
+          <Suspense fallback={<Loader />}>
+            <Cart />
+          </Suspense>
+        ),
+      },
       {
         path: "/thong-tin-tai-khoan",
         element: (
-          <PrivateRoute>
+          <Suspense fallback={<Loader />}>
             <Profile />
-          </PrivateRoute>
+          </Suspense>
         ),
       },
     ],

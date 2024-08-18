@@ -1,7 +1,10 @@
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../hooks/useAppDispatch";
 import { toastifySuccess, toastifyWarning } from "../utils/toastify";
-import { getProductByAccount, postCreateCart } from "../services/cartService";
+import {
+  getProductByAccount,
+  postCreateCart,
+} from "../redux/reducer/cartReducer/cartThunk";
 import { CreateCartType } from "types";
 
 const useAddToCart = () => {

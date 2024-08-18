@@ -13,19 +13,19 @@ import {
 } from "@heroicons/react/24/outline";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 
-import { logout } from "../../redux/userSlice";
+import { logout } from "../../redux/reducer/userReducer/userSlice";
 import logo from "../../assets/logo.png";
 import { useAppDispatch, useAppSelector } from "../../hooks/useAppDispatch";
 import { toastifyWarning } from "../../utils/toastify";
 
 import Search from "../Search";
 
-import { getProductByAccount } from "../../services/cartService";
+import { getProductByAccount } from "../../redux/reducer/cartReducer/cartThunk";
 
 function Header() {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [openAccount, setOpenAccount] = useState(false);
-  const [cartLength, setCartLength] = useState(0);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
+  const [openAccount, setOpenAccount] = useState<boolean>(false);
+  const [cartLength, setCartLength] = useState<number>(0);
   const closeMobileMenu = () => setMobileMenuOpen(false);
 
   const navigate = useNavigate();

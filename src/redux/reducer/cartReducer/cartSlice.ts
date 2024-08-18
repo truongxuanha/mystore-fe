@@ -4,9 +4,9 @@ import {
   postCreateCart,
   removeCartItem,
   updateCartItem,
-} from "../services/cartService";
+} from "./cartThunk";
 
-import { CartState } from "../types";
+import { CartState } from "../../../types";
 
 const initialState: CartState = {
   cartItems: [],

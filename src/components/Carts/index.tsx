@@ -7,9 +7,8 @@ import {
   getProductByAccount,
   removeCartItem,
   updateCartItem,
-  UpdateItem,
-} from "../../services/cartService";
-import { ProductsType } from "../../types";
+} from "../../redux/reducer/cartReducer/cartThunk";
+import { ProductsType, UpdateItem } from "../../types";
 import formatVND from "../../utils/formatVND";
 import { toastifyWarning } from "../../utils/toastify";
 import { Link } from "react-router-dom";
