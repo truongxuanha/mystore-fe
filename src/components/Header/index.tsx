@@ -21,34 +21,39 @@ import { toastifyWarning } from "../../utils/toastify";
 import Search from "../Search";
 
 import { getProductByAccount } from "../../redux/reducer/cartReducer/cartThunk";
+import { clearCart } from "../../redux/reducer/cartReducer/cartSlice";
 
 function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
   const [openAccount, setOpenAccount] = useState<boolean>(false);
   const [cartLength, setCartLength] = useState<number>(0);
-  const closeMobileMenu = () => setMobileMenuOpen(false);
+  const closeMobileMenu = (): void => setMobileMenuOpen(false);
 
   const navigate = useNavigate();
+
   const dispatch = useAppDispatch();
-  const { currentUser, token } = useAppSelector((state) => state.auth);
+  const { currentUser } = useAppSelector((state) => state.auth);
   const { cartItems } = useAppSelector((state) => state.cart);
 
   const userLogin = !!currentUser;
 
   function handleLogout() {
     dispatch(logout());
+    dispatch(clearCart());
+
     setCartLength(0);
-    navigate("/dang-nhap");
     setMobileMenuOpen(false);
+
+    navigate("/dang-nhap");
   }
   useEffect(() => {
     async function getProduct() {
-      if (token) {
+      if (currentUser) {
         await dispatch(getProductByAccount());
       }
     }
     getProduct();
-  }, [dispatch, token]);
+  }, [dispatch, currentUser]);
 
   useEffect(() => {
     setCartLength(() => {
@@ -111,7 +116,7 @@ function Header() {
                 className='h-6 w-6 cursor-pointer'
               />
               {cartLength > 0 && (
-                <span className='absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full h-4 w-4 flex items-center justify-center'>
+                <span className='absolute -top-[6px] -right-[6px] bg-orange-500 text-white text-xs font-bold rounded-full h-4 w-4 flex items-center justify-center'>
                   {cartLength}
                 </span>
               )}
@@ -119,7 +124,7 @@ function Header() {
           </div>
 
           <div className='relative'>
-            <div className='rounded-full bg-orange-100/80 p-2'>
+            <div className='rounded-full bg-orange-100/80 p-2 hover:bg-orange-300 transition-all duration-500'>
               <UserCircleIcon
                 onClick={() => setOpenAccount(!openAccount)}
                 aria-hidden='true'
@@ -206,24 +211,24 @@ function Header() {
           </div>
           <div className='mt-6 flow-root'>
             <div className='-my-6 divide-y divide-gray-500/10'>
-              <div className='space-y-2 py-6 flex flex-col uppercase'>
+              <div className='space-y-2 py-6 flex flex-col '>
                 <NavLink
                   to='/'
-                  className='nav-link w-20 text-xs font-semibold leading-6 text-gray-900'
+                  className='nav-link w-20 text-xs font-semibold leading-6 text-gray-900 uppercase'
                   onClick={closeMobileMenu}
                 >
                   Trang chủ
                 </NavLink>
                 <NavLink
                   to='/san-pham'
-                  className='nav-link w-16 text-xs font-semibold leading-6 text-gray-900'
+                  className='nav-link w-16 text-xs font-semibold leading-6 text-gray-900 uppercase'
                   onClick={closeMobileMenu}
                 >
                   Sản phẩm
                 </NavLink>
                 <NavLink
                   to='/lien-he'
-                  className='nav-link w-12 text-xs font-semibold leading-6 text-gray-900'
+                  className='nav-link w-12 text-xs font-semibold leading-6 text-gray-900 uppercase'
                   onClick={closeMobileMenu}
                 >
                   Liên hệ
@@ -231,16 +236,18 @@ function Header() {
                 <div className='flex items-center gap-2'>
                   <Search handleCloseNav={setMobileMenuOpen} />
                   <div className='relative'>
-                    <ShoppingCartIcon
-                      onClick={handleCart}
-                      aria-hidden='true'
-                      className='h-6 w-6 cursor-pointer'
-                    />
-                    {cartLength > 0 && (
-                      <span className='absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full h-4 w-4 flex items-center justify-center'>
-                        {cartLength}
-                      </span>
-                    )}
+                    <Link to='/gio-hang'>
+                      <ShoppingCartIcon
+                        onClick={handleCart}
+                        aria-hidden='true'
+                        className='h-6 w-6 cursor-pointer'
+                      />
+                      {cartLength > 0 && (
+                        <span className='absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full h-4 w-4 flex items-center justify-center'>
+                          {cartLength}
+                        </span>
+                      )}
+                    </Link>
                   </div>
                 </div>
               </div>

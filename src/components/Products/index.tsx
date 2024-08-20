@@ -24,8 +24,9 @@ function Products() {
       try {
         const res = await getProduct(currentPage, itemsPerPage);
         if (!res) return;
-        setProducts(res.data.data);
-        setTotalPages(res.data.totalPage ?? []);
+        console.log(res);
+        setProducts(res.data.data ?? []);
+        setTotalPages(res.data.totalPage);
         setIsLoading(false);
       } catch (error) {
         setIsLoading(false);
@@ -49,12 +50,12 @@ function Products() {
       ) : (
         <>
           <h1 className='text-2xl mb-10'>Danh sách sản phẩm:</h1>
-          <div className='grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 w-full'>
+          <div className='grid grid-cols-2 gap-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4  w-full'>
             {products.map((product) => (
               <Product
                 key={product.id}
                 product={product}
-                typeCss='grid grid-rows-3 gap-2 h-full w-full p-2 md:px-5 pt-2 border border-gray-300 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 ease-in-out text-xs sm:text-base'
+                typeCss='grid grid-rows-3gap-2 h-full w-full p-2 md:px-5 pt-2 border border-gray-300 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 ease-in-out text-xs sm:text-base hover:transform hover:scale-105 duration-300'
               />
             ))}
           </div>
@@ -67,7 +68,7 @@ function Products() {
               onClick={() => handlePageChange(currentPage - 1)}
               disabled={currentPage === 1}
             >
-              <ChevronDoubleLeftIcon className='w-4 h-4' />
+              <ChevronDoubleLeftIcon className='w-3 h-3' />
             </button>
 
             {Array.from({ length: totalPages }, (_, i) => i + 1).map(
@@ -95,7 +96,7 @@ function Products() {
               onClick={() => handlePageChange(currentPage + 1)}
               disabled={currentPage === totalPages}
             >
-              <ChevronDoubleRightIcon className='w-4 h-4' />
+              <ChevronDoubleRightIcon className='w-3 h-3' />
             </Button>
           </div>
         </>

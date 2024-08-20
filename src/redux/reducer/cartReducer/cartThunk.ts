@@ -1,13 +1,13 @@
 import dayjs from "dayjs";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { CreateCartType, ProductsType, UpdateItem } from "types";
-import { requestJWT } from "../../../utils/axiosConfig";
+import { axiosInstance } from "../../../utils/axiosConfig";
 
 export const postCreateCart = createAsyncThunk(
   "cart/postCreateCart",
   async ({ id_product, quantity }: CreateCartType, { rejectWithValue }) => {
     try {
-      const response = await requestJWT.post("/cart/create", [
+      const response = await axiosInstance.post("/cart/create", [
         {
           createAt: dayjs().format("YYYY-MM-DD"),
           id_product,
@@ -26,7 +26,7 @@ export const getProductByAccount = createAsyncThunk(
   "cart/getProductByAccount",
   async (_, { rejectWithValue }) => {
     try {
-      const response = await requestJWT.get("/cart/get-by-account");
+      const response = await axiosInstance.get("/cart/get-by-account");
       return response.data.data;
     } catch (err) {
       console.error("Error fetching products:", err);
@@ -39,7 +39,7 @@ export const updateCartItem = createAsyncThunk(
   "cart/updateCartItem",
   async ({ id, quantity }: UpdateItem, { rejectWithValue }) => {
     try {
-      await requestJWT.put(`cart/${id}/update`, { quantity });
+      await axiosInstance.put(`cart/${id}/update`, { quantity });
       return id;
     } catch (err) {
       console.error("Error updating cart item:", err);
@@ -52,7 +52,7 @@ export const removeCartItem = createAsyncThunk(
   "cart/removeCartItem",
   async (id: ProductsType["id"], { rejectWithValue }) => {
     try {
-      await requestJWT.delete(`cart/${id}/remove`);
+      await axiosInstance.delete(`cart/${id}/remove`);
 
       return id;
     } catch (err) {

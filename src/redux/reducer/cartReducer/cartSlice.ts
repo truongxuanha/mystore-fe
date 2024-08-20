@@ -21,7 +21,11 @@ const setLoading = (state: CartState, loading: boolean) => {
 const cartSlice = createSlice({
   name: "cart",
   initialState,
-  reducers: {},
+  reducers: {
+    clearCart: (state) => {
+      state.cartItems = [];
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(postCreateCart.pending, (state) => setLoading(state, true))
@@ -46,5 +50,5 @@ const cartSlice = createSlice({
       .addCase(updateCartItem.rejected, (state) => setLoading(state, false));
   },
 });
-
+export const { clearCart } = cartSlice.actions;
 export default cartSlice.reducer;

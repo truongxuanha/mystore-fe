@@ -1,6 +1,6 @@
-import { ApiResponseType, ProductsType } from "types";
+import { ProductsType } from "types";
 
-export interface ResProductType extends ApiResponseType {
+export interface ResProductType {
   data: {
     status: boolean;
     data: ProductsType[];

@@ -34,18 +34,21 @@ const ProductNews: React.FC = () => {
   return (
     <div className='my-5 p-5 bg-white rounded-md'>
       <div className='relative w-full max-w-5xl mx-auto'>
-        <h1 className='text xl md:text-2xl mb-5'>Sản phẩm bán chạy nhất</h1>
+        <h1 className='text xl md:text-2xl mb-5'>Sản phẩm mới</h1>
         <div className='relative overflow-hidden w-full min-h-48 sm:min-h-64 md:min-h-96 lg:min-h-96 bg-white rounded-lg'>
           <div className='flex'>
             {newsProducts.map((product) => (
-              <Product
-                key={product.id}
-                product={product}
-                style={{
-                  transform: `translateX(-${activeIndex * 100}%)`,
-                }}
-                typeCss='w-1/2 md:w-1/3 flex-shrink-0 p-4 grid grid-rows-3 text-xs sm:text-xl lg:text-xl border border-gray-200'
-              />
+              <>
+                <Product
+                  key={product.id}
+                  product={product}
+                  productNew={true}
+                  style={{
+                    transform: `translateX(-${activeIndex * 100}%)`,
+                  }}
+                  typeCss='w-1/2 md:w-1/3 flex-shrink-0 p-4 grid grid-rows-3 text-xs sm:text-xl lg:text-xl border border-gray-200 relative'
+                />
+              </>
             ))}
           </div>
         </div>

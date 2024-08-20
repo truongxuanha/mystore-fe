@@ -1,15 +1,3 @@
-export interface InitialRegisterState {
-  account_name: string;
-  phone: string;
-  email: string;
-  password: string;
-}
-
-export interface InitialLoginState {
-  value: string;
-  password: string;
-}
-
 export interface UserAccount {
   id: string;
   account_name: string;

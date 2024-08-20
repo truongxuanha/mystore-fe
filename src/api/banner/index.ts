@@ -1,11 +1,7 @@
-import { requestJWT } from "../../utils/axiosConfig";
+import { axiosInstance } from "../../utils/axiosConfig";
 import { ResponseBanner } from "./type";
 
-export async function getBanner() {
-  try {
-    const res: ResponseBanner = await requestJWT.get("/banner");
-    return res;
-  } catch (err) {
-    console.log(err);
-  }
+export async function getBanner(): Promise<ResponseBanner> {
+  const res: ResponseBanner = await axiosInstance.get("/banner");
+  return res;
 }

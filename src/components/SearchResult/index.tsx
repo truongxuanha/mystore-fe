@@ -22,7 +22,7 @@ const SearchResults: React.FC<SearchResultsProps> = ({
     }
   }
   return (
-    <ul className='max-h-80 w-full overflow-y-auto scroll transition-all'>
+    <ul className='max-h-80 overflow-y-auto scroll transition-all'>
       {products.map((product) => (
         <li
           key={product.id}

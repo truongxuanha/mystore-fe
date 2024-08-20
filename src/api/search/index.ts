@@ -1,9 +1,9 @@
-import { requestJWT } from "../../utils/axiosConfig";
+import { axiosInstance } from "../../utils/axiosConfig";
 import { ResSearchType } from "./type";
 
 export async function getResultSearch(query: string) {
   try {
-    const res: ResSearchType = await requestJWT.get(`product/search`, {
+    const res: ResSearchType = await axiosInstance.get(`product/search`, {
       params: {
         q: query,
         min: 150000,

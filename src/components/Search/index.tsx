@@ -1,5 +1,5 @@
-import { memo, useEffect, useState } from "react";
-import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
+import { memo, useEffect, useRef, useState } from "react";
+import { MagnifyingGlassIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { ProductsType } from "../../types";
 import SearchResults from "../SearchResult";
 import { getResultSearch } from "../../api/search";
@@ -13,6 +13,7 @@ export interface SearchProps {
 function Search({ handleCloseNav }: SearchProps) {
   const [searchQuery, setSearchQuery] = useState("");
   const [resultSearch, setResultSearch] = useState<ProductsType[]>([]);
+  const inputRef = useRef<HTMLInputElement>(null);
   const [isLoading, setIsLoading] = useState(false);
   const debounce = useDebounce({ value: searchQuery, delay: 500 });
   useEffect(
@@ -43,23 +44,28 @@ function Search({ handleCloseNav }: SearchProps) {
     const query = e.target.value;
     setSearchQuery(query);
   };
-
+  function handleDeleteText() {
+    setSearchQuery("");
+    inputRef.current?.focus();
+  }
   return (
     <div className='relative w-full max-w-xs'>
-      <div className='flex items-center gap-1 border p-1 rounded-md'>
+      <form className='form w-52 md:w-60 lg:w-72 border border-orange-300'>
+        <button>
+          <MagnifyingGlassIcon className='w-6 h-6' />
+        </button>
         <Input
+          ref={inputRef}
           onChange={handleChange}
           value={searchQuery}
-          type='search'
           placeholder='Tìm kiếm...'
-          className='outline-none px-2 py-1 w-full border-r mr-2'
+          className='input outline-none px-2 py-1 w-full border-r mr-2'
         />
-
         {isLoading ? (
-          <div role='status' className='flex items-center justify-center'>
+          <div role='status'>
             <svg
               aria-hidden='true'
-              className='w-4 h-4 text-gray-200 animate-spin dark:text-gray-600 fill-colorPrimary'
+              className='w-8 h-8 text-gray-200 animate-spin fill-colorPrimary'
               viewBox='0 0 100 101'
               fill='none'
               xmlns='http://www.w3.org/2000/svg'
@@ -75,12 +81,14 @@ function Search({ handleCloseNav }: SearchProps) {
             </svg>
           </div>
         ) : (
-          <MagnifyingGlassIcon className='w-6 h-6 cursor-pointer mr-2' />
+          <button className='reset' type='reset' onClick={handleDeleteText}>
+            <XMarkIcon className='w-6 h-6' />
+          </button>
         )}
-      </div>
+      </form>
 
       {searchQuery && resultSearch.length > 0 && (
-        <div className='absolute top-full left-0 w-[150%] bg-white border border-t-0 rounded-b-md shadow-lg z-10 transition-all duration-500'>
+        <div className='absolute top-full left-0 w-[110%] sm:w-[120%] md:w-[130%] bg-white border border-t-0 rounded-b-md shadow-lg z-10 transition-all duration-500'>
           <span>Kết quả tìm kiếm:</span>
           <SearchResults
             products={resultSearch}
@@ -90,7 +98,7 @@ function Search({ handleCloseNav }: SearchProps) {
         </div>
       )}
       {searchQuery && resultSearch.length === 0 && !isLoading && debounce && (
-        <div className='absolute top-full left-0 w-[150%] h-24 bg-white border border-t-0 rounded-b-md rounded-r-md shadow-lg z-10 transition-all duration-500'>
+        <div className='absolute top-full left-0 w-[130%] h-24 bg-white border border-t-0 rounded-b-md rounded-r-md shadow-lg z-10 transition-all duration-500'>
           <span>Kết quả tìm kiếm:</span>
           <span className='block text-center my-auto'>
             Không tìm thấy sản phẩm nào
