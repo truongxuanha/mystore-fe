@@ -1,24 +1,4 @@
-// export interface BannerType {
-//   id: number;
-//   image: string;
-//   path: string;
-//   createAt: string;
-//   updateAt: string | null;
-// }
-
-// interface BannerResponseData {
-//   status: boolean;
-//   data: BannerType[];
-// }
-
-// export interface ResponseBanner {
-//   data: BannerResponseData;
-// }
-
-export interface ApiResponse<T> {
-  status: boolean;
-  data: T;
-}
+import { ResApi } from "types/api.type";
 
 export interface BannerType {
   id: number;
@@ -30,4 +10,4 @@ export interface BannerType {
 
 export type BannerResponseData = BannerType[];
 
-export type ResponseBanner = ApiResponse<BannerResponseData>;
+export type ApiResponse = ResApi<BannerResponseData>;

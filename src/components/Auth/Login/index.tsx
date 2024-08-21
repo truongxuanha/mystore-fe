@@ -6,11 +6,11 @@ import * as yup from "yup";
 import { useAppDispatch, useAppSelector } from "../../../hooks/useAppDispatch";
 import { authLogin } from "../../../redux/reducer/userReducer/authThunk";
 import Loader from "../../Loader";
-import { toastifySuccess, toastifyWarning } from "../../../utils/toastify";
 
 import { Button, Input } from "@headlessui/react";
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
 import { useState } from "react";
+import { toastifySuccess, toastifyWarning } from "../../../utils/toastify";
 
 interface FormValues {
   value: string;
@@ -43,14 +43,15 @@ export default function Login() {
   const [show, setShow] = useState<boolean>(false);
   const onSubmit: SubmitHandler<FormValues> = async (formValues) => {
     try {
-      const action = authLogin(formValues);
-      await dispatch(action);
-
-      navigate("/san-pham");
+      const actionResult = await dispatch(authLogin(formValues));
+      if (authLogin.rejected.match(actionResult)) {
+        toastifyWarning(error);
+        return;
+      }
       toastifySuccess("Đăng nhập thành công!");
-      toastifySuccess("Xin chào Anh Đẹp Troai!");
+      navigate("/san-pham");
     } catch (error) {
-      toastifyWarning(`${error}`);
+      console.error(error);
     }
   };
   function handleShowPass() {

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 
 import { getBanner } from "../../api/banner";
 import { BannerType } from "api/banner/type";
-// import Loader from "../Loader";
+
 
 const Banner: React.FC = () => {
   const [activeIndex, setActiveIndex] = useState<number>(0);
@@ -25,7 +25,7 @@ const Banner: React.FC = () => {
       setLoading(true);
       try {
         const data = await getBanner();
-        if (data?.data.status) setBanners(data.data.data);
+        setBanners(data.data ?? []);
       } catch (err) {
         console.error("Error fetching data:", err);
       } finally {

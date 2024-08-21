@@ -1,10 +1,9 @@
-import { unwrapResult } from "@reduxjs/toolkit";
+
 import Loader from "../../Loader/";
 import { useAppDispatch, useAppSelector } from "../../../hooks/useAppDispatch";
 
 import { Link, useNavigate } from "react-router-dom";
 import { authRegister } from "../../../redux/reducer/userReducer/authThunk";
-import { InitialRegisterState } from "../../../types";
 
 import { toastifySuccess, toastifyWarning } from "../../../utils/toastify";
 import { Button, Input } from "@headlessui/react";
@@ -12,6 +11,7 @@ import { Button, Input } from "@headlessui/react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import { InitialRegisterState } from "api/register/type";
 
 const schemaRegister = yup.object().shape({
   account_name: yup
@@ -53,21 +53,21 @@ export default function Register() {
   });
 
   const dispatch = useAppDispatch();
-  const { loading } = useAppSelector((state) => state.auth);
+  const { loading, error } = useAppSelector((state) => state.auth);
   const navigate = useNavigate();
 
   const onSubmit: SubmitHandler<InitialRegisterState> = async (formValue) => {
     try {
-      const action = authRegister(formValue);
-      const resultsAction = await dispatch(action);
-      const user = unwrapResult(resultsAction);
+      const resultsAction = await dispatch(authRegister(formValue));
 
-      if (user.status === false) throw new Error(user.data);
-
+      if (authRegister.rejected.match(resultsAction)) {
+        toastifyWarning(error);
+        return;
+      }
       navigate("/dang-nhap");
       toastifySuccess("Đăng ký thành công!");
-    } catch (error) {
-      toastifyWarning(`${error}`);
+    } catch (err) {
+      console.error(err);
     }
   };
 

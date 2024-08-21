@@ -1,9 +1,9 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
-import { InitialRegisterState, InitialLoginState } from "../../../types";
-
 import { registerUser } from "../../../api/register";
 import { loginUser } from "../../../api/login";
+import { InitialRegisterState } from "../../../api/register/type";
+import { InitialLoginState } from "../../../api/login/type";
 
 export const authRegister = createAsyncThunk(
   "auth/authRegister",
@@ -12,7 +12,11 @@ export const authRegister = createAsyncThunk(
       const data = await registerUser(initAccount);
       return data;
     } catch (error) {
-      return rejectWithValue("Registration failed. Please try again.");
+      let errorMessage = "";
+      if (error instanceof Error) {
+        errorMessage = error.message;
+      }
+      return rejectWithValue(errorMessage);
     }
   }
 );
@@ -27,7 +31,11 @@ export const authLogin = createAsyncThunk(
       localStorage.setItem("currentUser", JSON.stringify(data.data));
       return data;
     } catch (error) {
-      return rejectWithValue(error);
+      let errorMessage = "";
+      if (error instanceof Error) {
+        errorMessage = error.message;
+      }
+      return rejectWithValue(errorMessage);
     }
   }
 );
