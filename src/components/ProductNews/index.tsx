@@ -1,24 +1,19 @@
 import React, { useState, useEffect } from "react";
 
-import { ProductsType } from "../../types";
 import Product from "../Products/Product";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/outline";
-import { getProductNew } from "../../api/product";
+
+import { useAppDispatch, useAppSelector } from "../../hooks/useAppDispatch";
+import { getProductNews } from "../../redux/reducer/productReducer/productThunk";
 
 const ProductNews: React.FC = () => {
   const [activeIndex, setActiveIndex] = useState<number>(1);
-  const [newsProducts, setNewsProducts] = useState<ProductsType[]>([]);
+
+  const dispatch = useAppDispatch();
+  const { productNews } = useAppSelector((state) => state.product);
 
   useEffect(() => {
-    const fetchBanners = async () => {
-      try {
-        const data = await getProductNew();
-        if (data?.data.status === true) setNewsProducts(data.data.data);
-      } catch (err) {
-        console.error("Error fetching data:", err);
-      }
-    };
-    fetchBanners();
+    dispatch(getProductNews());
   }, []);
 
   const handlePrev = () => {
@@ -29,7 +24,7 @@ const ProductNews: React.FC = () => {
     setActiveIndex((prevIndex) => prevIndex + 1);
   };
 
-  const totalItems = newsProducts.length;
+  const totalItems = productNews.length;
 
   return (
     <div className='my-5 p-5 bg-white rounded-md'>
@@ -37,7 +32,7 @@ const ProductNews: React.FC = () => {
         <h1 className='text xl md:text-2xl mb-5'>Sản phẩm mới</h1>
         <div className='relative overflow-hidden w-full min-h-48 sm:min-h-64 md:min-h-96 lg:min-h-96 bg-white rounded-lg'>
           <div className='flex'>
-            {newsProducts.map((product) => (
+            {productNews.map((product) => (
               <Product
                 key={product.id}
                 product={product}

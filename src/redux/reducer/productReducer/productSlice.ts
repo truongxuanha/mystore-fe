@@ -9,23 +9,27 @@ import {
 
 export interface ProductStateType {
   products: ProductsType[];
+  productNews: ProductsType[];
+  productHots: ProductsType[];
   isLoading: boolean;
   totalPage: number;
   infoProduct: ProductsType | null;
 }
 
-const setisLoading = (state: ProductStateType, isLoading: boolean) => {
+const setIsLoading = (state: ProductStateType, isLoading: boolean) => {
   state.isLoading = isLoading;
 };
 
 const initialState: ProductStateType = {
   isLoading: false,
   products: [],
+  productNews: [],
+  productHots: [],
   totalPage: 1,
   infoProduct: null,
 };
 
-const cartSlice = createSlice({
+const productSlice = createSlice({
   name: "product",
   initialState,
   reducers: {},
@@ -40,13 +44,13 @@ const cartSlice = createSlice({
           state,
           action: PayloadAction<{ data: ProductsType[]; totalPage: number }>
         ) => {
-          setisLoading(state, false);
+          setIsLoading(state, false);
           state.products = action.payload.data;
           state.totalPage = action.payload.totalPage;
         }
       )
       .addCase(getProducts.rejected, (state) => {
-        setisLoading(state, false);
+        setIsLoading(state, false);
         state.products = [];
         state.totalPage = 1;
       });
@@ -56,14 +60,38 @@ const cartSlice = createSlice({
         state.isLoading = true;
       })
       .addCase(getInFoProducts.fulfilled, (state, action) => {
-        setisLoading(state, false);
+        setIsLoading(state, false);
         state.infoProduct = action.payload ?? null;
       })
       .addCase(getInFoProducts.rejected, (state) => {
-        setisLoading(state, false);
+        setIsLoading(state, false);
+      });
+
+    builder
+      .addCase(getProductNews.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getProductNews.fulfilled, (state, action) => {
+        setIsLoading(state, false);
+        state.productNews = action.payload;
+      })
+      .addCase(getProductNews.rejected, (state) => {
+        setIsLoading(state, false);
+        state.productNews = [];
+      });
+    builder
+      .addCase(getHotProducts.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getHotProducts.fulfilled, (state, action) => {
+        setIsLoading(state, false);
+        state.productHots = action.payload;
+      })
+      .addCase(getHotProducts.rejected, (state) => {
+        setIsLoading(state, false);
+        state.productHots = [];
       });
   },
 });
 
-export const {} = cartSlice.actions;
-export default cartSlice.reducer;
+export default productSlice.reducer;

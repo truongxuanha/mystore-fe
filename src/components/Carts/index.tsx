@@ -12,11 +12,12 @@ import { ProductsType, UpdateItem } from "../../types";
 import formatVND from "../../utils/formatVND";
 import { toastifyWarning } from "../../utils/toastify";
 import { Link } from "react-router-dom";
+import Loader from "../../components/Loader";
 
 function Cart() {
   const dispatch = useAppDispatch();
 
-  const { cartItems } = useAppSelector((state) => state.cart);
+  const { cartItems, loadingCart } = useAppSelector((state) => state.cart);
   const { token } = useAppSelector((state) => state.auth);
   useEffect(() => {
     if (token) {
@@ -45,7 +46,7 @@ function Cart() {
       return total + priceAfterDiscount * item.quantity;
     }, 0);
   }, [cartItems]);
-
+  if (loadingCart) return <Loader />;
   return (
     <div className=''>
       {cartItems.map((item) => {
@@ -130,6 +131,7 @@ function Cart() {
           >
             Đặt hàng ngay
           </Button>
+          
         </div>
       </div>
     </div>
