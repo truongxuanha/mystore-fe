@@ -1,7 +1,11 @@
+import { ProductsType } from "types";
 import { axiosInstance } from "../../utils/axiosConfig";
-import { ResProductType } from "./type";
+import { ProductParaType, ResProductType } from "./type";
 
-export async function getProduct(currentPage: number, itemsPerPage: number) {
+export async function getProduct({
+  currentPage,
+  itemsPerPage,
+}: ProductParaType) {
   try {
     const res: ResProductType = await axiosInstance.get(`/product/search`, {
       params: {
@@ -13,15 +17,17 @@ export async function getProduct(currentPage: number, itemsPerPage: number) {
         item: itemsPerPage,
       },
     });
+    if (!res.data.status) throw new Error("Faill");
     return res;
   } catch (err) {
-    console.log(err);
+    throw err;
   }
 }
 
-export async function getInFoProduct(slug: string) {
+export async function getInFoProduct(slug: ProductsType["slug"]) {
   try {
     const res: ResProductType = await axiosInstance.get(`product/${slug}`);
+
     return res;
   } catch (err) {
     console.log(err);

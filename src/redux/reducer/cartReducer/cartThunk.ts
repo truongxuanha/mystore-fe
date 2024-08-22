@@ -37,10 +37,12 @@ export const getProductByAccount = createAsyncThunk(
 
 export const updateCartItem = createAsyncThunk(
   "cart/updateCartItem",
-  async ({ id, quantity }: UpdateItem, { rejectWithValue }) => {
+  async ({ id, quantity }: UpdateItem, { dispatch, rejectWithValue }) => {
     try {
-      await axiosInstance.put(`cart/${id}/update`, { quantity });
-      return id;
+      const res = await axiosInstance.put(`cart/${id}/update`, { quantity });
+      await dispatch(getProductByAccount());
+
+      return res.data.data;
     } catch (err) {
       console.error("Error updating cart item:", err);
       return rejectWithValue(err);
@@ -50,10 +52,10 @@ export const updateCartItem = createAsyncThunk(
 
 export const removeCartItem = createAsyncThunk(
   "cart/removeCartItem",
-  async (id: ProductsType["id"], { rejectWithValue }) => {
+  async (id: ProductsType["id"], { dispatch, rejectWithValue }) => {
     try {
       await axiosInstance.delete(`cart/${id}/remove`);
-
+      await dispatch(getProductByAccount());
       return id;
     } catch (err) {
       console.error("Error removing cart item:", err);

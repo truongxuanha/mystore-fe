@@ -3,7 +3,6 @@ import React, { useState, useEffect } from "react";
 import { getBanner } from "../../api/banner";
 import { BannerType } from "api/banner/type";
 
-
 const Banner: React.FC = () => {
   const [activeIndex, setActiveIndex] = useState<number>(0);
 
@@ -15,9 +14,7 @@ const Banner: React.FC = () => {
       setActiveIndex((prevIndex) => (prevIndex + 1) % banners.length);
     }, 3000);
 
-    return () => {
-      if (interval) clearInterval(interval);
-    };
+    return () => clearInterval(interval);
   }, [banners.length]);
 
   useEffect(() => {
@@ -78,9 +75,9 @@ const Banner: React.FC = () => {
               </div>
             </div>
           )}
-          {banners.map((banner, index) => (
+          {banners.map((banner) => (
             <div
-              key={index}
+              key={banner.id}
               className={`carousel-item flex justify-center w-full h-full p-6 rounded-md`}
             >
               <img className='w-full rounded-md' src={banner.image} />

@@ -1,4 +1,4 @@
-import { ProductsType } from "types";
+import { ProductsType } from "../../types";
 
 export interface ResProductType {
   data: {
@@ -6,4 +6,9 @@ export interface ResProductType {
     data: ProductsType[];
     totalPage: number;
   };
+}
+
+export interface ProductParaType {
+  currentPage: number;
+  itemsPerPage: number;
 }

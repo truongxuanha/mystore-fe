@@ -12,7 +12,7 @@ export interface ProductsType {
   thumbnail: string;
   product_name: string;
   price: number;
-  slug: string;
+  slug: string | undefined;
   discount: number;
   other_discount: number;
   description: string;
@@ -21,7 +21,6 @@ export interface ProductsType {
   remaining_quantity: string;
   website: string;
   img: string;
-  totalStar: number;
   screen_size: null;
   ram: null;
   point: number;
@@ -34,4 +33,5 @@ export interface ProductsType {
   mn_name: string;
   starType: number;
   totalPage: number;
+  totalStar: number
 }
