@@ -14,13 +14,14 @@ const SearchResults: React.FC<SearchResultsProps> = ({
   setSearchQuery,
   handleCloseNav,
 }) => {
-  async function handleInfo(slug: string) {
+  async function handleInfo(slug: ProductsType["slug"]) {
     await getInFoProduct(slug);
     setSearchQuery("");
     if (handleCloseNav) {
       handleCloseNav(false);
     }
   }
+
   return (
     <ul className='max-h-80 overflow-y-auto scroll transition-all'>
       {products.map((product) => (
