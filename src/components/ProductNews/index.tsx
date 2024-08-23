@@ -5,6 +5,7 @@ import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/outline";
 
 import { useAppDispatch, useAppSelector } from "../../hooks/useAppDispatch";
 import { getProductNews } from "../../redux/reducer/productReducer/productThunk";
+import Loader from "../../components/Loader";
 
 const ProductNews: React.FC = () => {
   const [activeIndex, setActiveIndex] = useState<number>(1);
@@ -25,7 +26,7 @@ const ProductNews: React.FC = () => {
   };
 
   const totalItems = productNews.length;
-
+  if (!productNews) return <Loader />;
   return (
     <div className='my-5 p-5 bg-white rounded-md'>
       <div className='relative w-full max-w-5xl mx-auto'>

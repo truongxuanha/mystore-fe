@@ -1,4 +1,4 @@
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -7,10 +7,10 @@ import { useAppDispatch, useAppSelector } from "../../../hooks/useAppDispatch";
 import { authLogin } from "../../../redux/reducer/userReducer/authThunk";
 import Loader from "../../Loader";
 
-import { Button, Input } from "@headlessui/react";
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
 import { useState } from "react";
 import { toastifySuccess, toastifyWarning } from "../../../utils/toastify";
+import { Button, Input } from "@headlessui/react";
 
 interface FormValues {
   value: string;
@@ -44,7 +44,7 @@ export default function Login() {
 
   const onSubmit: SubmitHandler<FormValues> = async (formValues) => {
     try {
-      const actionResult = await dispatch(authLogin(formValues));
+      const actionResult = dispatch(authLogin(formValues));
       if (authLogin.rejected.match(actionResult)) {
         toastifyWarning(error);
         return;
@@ -67,7 +67,6 @@ export default function Login() {
             <h2 className='text-center text-xl font-bold leading-9 tracking-tight text-gray-900'>
               Đăng nhập
             </h2>
-            
           </div>
           <form onSubmit={handleSubmit(onSubmit)} className='space-y-3'>
             <div>

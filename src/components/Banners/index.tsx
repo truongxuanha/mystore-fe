@@ -1,35 +1,24 @@
 import React, { useState, useEffect } from "react";
 
-import { getBanner } from "../../api/banner";
-import { BannerType } from "api/banner/type";
+import { useAppDispatch, useAppSelector } from "../../hooks/useAppDispatch";
+import { getBanners } from "../../redux/reducer/productReducer/productThunk";
+import { INTERVAL_DURATION } from "../../contains";
 
 const Banner: React.FC = () => {
   const [activeIndex, setActiveIndex] = useState<number>(0);
 
-  const [banners, setBanners] = useState<BannerType[]>([]);
-  const [loading, setLoading] = useState<boolean>(false);
-
+  const dispatch = useAppDispatch();
+  const { banners, isLoading } = useAppSelector((state) => state.product);
   useEffect(() => {
     const interval: NodeJS.Timeout = setInterval(() => {
       setActiveIndex((prevIndex) => (prevIndex + 1) % banners.length);
-    }, 3000);
+    }, INTERVAL_DURATION);
 
     return () => clearInterval(interval);
   }, [banners.length]);
 
   useEffect(() => {
-    const fetchBanners = async () => {
-      setLoading(true);
-      try {
-        const data = await getBanner();
-        setBanners(data.data ?? []);
-      } catch (err) {
-        console.error("Error fetching data:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchBanners();
+    dispatch(getBanners());
   }, []);
 
   useEffect(function () {}, []);
@@ -58,7 +47,7 @@ const Banner: React.FC = () => {
             transform: `translateX(-${activeIndex * 100}%)`,
           }}
         >
-          {loading && (
+          {isLoading && (
             <div
               role='status'
               className='flex justify-center items-center w-full h-full'

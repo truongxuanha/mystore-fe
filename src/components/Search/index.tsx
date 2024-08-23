@@ -1,42 +1,27 @@
 import { memo, useEffect, useRef, useState } from "react";
 import { MagnifyingGlassIcon, XMarkIcon } from "@heroicons/react/24/outline";
-import { ProductsType } from "../../types";
+
 import SearchResults from "../SearchResult";
-import { getResultSearch } from "../../api/search";
 
 import useDebounce from "../../hooks/useDebouncs";
 import { Input } from "@headlessui/react";
+import { useAppDispatch, useAppSelector } from "../../hooks/useAppDispatch";
+import { fetchSearchResults } from "../../redux/reducer/searchReducer/searchThunk";
 
 export interface SearchProps {
   handleCloseNav?: (open: boolean) => void;
 }
 function Search({ handleCloseNav }: SearchProps) {
   const [searchQuery, setSearchQuery] = useState("");
-  const [resultSearch, setResultSearch] = useState<ProductsType[]>([]);
+
   const inputRef = useRef<HTMLInputElement>(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const dispatch = useAppDispatch();
+  const { results, isLoading } = useAppSelector((state) => state.search);
   const debounce = useDebounce({ value: searchQuery, delay: 500 });
   useEffect(
     function () {
-      if (!debounce.trim()) {
-        setResultSearch([]);
-        return;
-      }
-
-      setIsLoading(true);
-      async function fetchData(): Promise<void> {
-        try {
-          const res = await getResultSearch(debounce);
-          console.log(res);
-          setResultSearch(res?.data.data ?? []);
-          setIsLoading(false);
-        } catch (err) {
-          console.log(err);
-        } finally {
-          setIsLoading(false);
-        }
-      }
-      fetchData();
+      if (!debounce.trim()) return;
+      dispatch(fetchSearchResults(searchQuery));
     },
     [debounce]
   );
@@ -87,17 +72,17 @@ function Search({ handleCloseNav }: SearchProps) {
         )}
       </form>
 
-      {searchQuery && resultSearch.length > 0 && (
+      {searchQuery && results.length > 0 && (
         <div className='absolute top-full left-0 w-[110%] sm:w-[120%] md:w-[130%] bg-white border border-t-0 rounded-b-md shadow-lg z-10 transition-all duration-500'>
           <span>Kết quả tìm kiếm:</span>
           <SearchResults
-            products={resultSearch}
+            products={results}
             setSearchQuery={setSearchQuery}
             handleCloseNav={handleCloseNav}
           />
         </div>
       )}
-      {searchQuery && resultSearch.length === 0 && !isLoading && debounce && (
+      {searchQuery && results.length === 0 && !isLoading && debounce && (
         <div className='absolute top-full left-0 w-[130%] h-24 bg-white border border-t-0 rounded-b-md rounded-r-md shadow-lg z-10 transition-all duration-500'>
           <span>Kết quả tìm kiếm:</span>
           <span className='block text-center my-auto'>

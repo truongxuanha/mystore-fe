@@ -32,7 +32,7 @@ const Products: React.FC = () => {
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
   };
-
+  if (!products) return <Loader />;
   return (
     <>
       {isLoading ? (

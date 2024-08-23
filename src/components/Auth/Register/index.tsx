@@ -1,4 +1,3 @@
-
 import Loader from "../../Loader/";
 import { useAppDispatch, useAppSelector } from "../../../hooks/useAppDispatch";
 
@@ -12,6 +11,11 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { InitialRegisterState } from "api/register/type";
+import {
+  PHONE_REGEX,
+  SPECIAL_CHARACTERS_REGEX,
+  UPPERCASE_LETTER_REGEX,
+} from "../../../contains";
 
 const schemaRegister = yup.object().shape({
   account_name: yup
@@ -25,14 +29,14 @@ const schemaRegister = yup.object().shape({
   phone: yup
     .string()
     .required("Vui lòng nhập số điện thoại.")
-    .matches(/^[0-9]{10}$/, "Số điện thoại phải có 10 chữ số."),
+    .matches(PHONE_REGEX, "Số điện thoại phải có 10 chữ số."),
   password: yup
     .string()
     .required("Vui lòng nhập mật khẩu.")
     .min(6, "Mật khẩu phải có ít nhất 6 ký tự.")
-    .matches(/[A-Z]/, "Mật khẩu phải có ít nhất một chữ hoa.")
+    .matches(UPPERCASE_LETTER_REGEX, "Mật khẩu phải có ít nhất một chữ hoa.")
     .matches(
-      /[!@#$%^&*(),.?":{}|<>]/,
+      SPECIAL_CHARACTERS_REGEX,
       "Mật khẩu phải có ít nhất một ký tự đặc biệt."
     ),
 });
@@ -58,7 +62,7 @@ export default function Register() {
 
   const onSubmit: SubmitHandler<InitialRegisterState> = async (formValue) => {
     try {
-      const resultsAction = await dispatch(authRegister(formValue));
+      const resultsAction = dispatch(authRegister(formValue));
 
       if (authRegister.rejected.match(resultsAction)) {
         toastifyWarning(error);

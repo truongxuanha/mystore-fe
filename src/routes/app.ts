@@ -8,7 +8,7 @@ const navLink = [
     title: "Sản phẩm",
   },
   {
-    path: "/gio-hang",
+    path: "/lien-he",
     title: "Liên hệ",
   },
 ];

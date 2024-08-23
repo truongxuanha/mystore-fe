@@ -1,11 +1,13 @@
 import { ProductsType } from "./../../../types/product.type";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import {
+  getBanners,
   getHotProducts,
   getInFoProducts,
   getProductNews,
   getProducts,
 } from "./productThunk";
+import { BannerType } from "../../../api/banner/type";
 
 export interface ProductStateType {
   products: ProductsType[];
@@ -13,6 +15,7 @@ export interface ProductStateType {
   productHots: ProductsType[];
   isLoading: boolean;
   totalPage: number;
+  banners: BannerType[];
   infoProduct: ProductsType | null;
 }
 
@@ -26,6 +29,7 @@ const initialState: ProductStateType = {
   productNews: [],
   productHots: [],
   totalPage: 1,
+  banners: [],
   infoProduct: null,
 };
 
@@ -45,7 +49,7 @@ const productSlice = createSlice({
           action: PayloadAction<{ data: ProductsType[]; totalPage: number }>
         ) => {
           setIsLoading(state, false);
-          state.products = action.payload.data;
+          state.products = action.payload.data ?? [];
           state.totalPage = action.payload.totalPage;
         }
       )
@@ -65,6 +69,7 @@ const productSlice = createSlice({
       })
       .addCase(getInFoProducts.rejected, (state) => {
         setIsLoading(state, false);
+        state.infoProduct = null;
       });
 
     builder
@@ -73,7 +78,7 @@ const productSlice = createSlice({
       })
       .addCase(getProductNews.fulfilled, (state, action) => {
         setIsLoading(state, false);
-        state.productNews = action.payload;
+        state.productNews = action.payload ?? [];
       })
       .addCase(getProductNews.rejected, (state) => {
         setIsLoading(state, false);
@@ -85,11 +90,22 @@ const productSlice = createSlice({
       })
       .addCase(getHotProducts.fulfilled, (state, action) => {
         setIsLoading(state, false);
-        state.productHots = action.payload;
+        state.productHots = action.payload ?? [];
       })
       .addCase(getHotProducts.rejected, (state) => {
         setIsLoading(state, false);
         state.productHots = [];
+      });
+    builder
+      .addCase(getBanners.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getBanners.fulfilled, (state, action) => {
+        setIsLoading(state, false);
+        state.banners = action.payload ?? [];
+      })
+      .addCase(getBanners.rejected, (state) => {
+        setIsLoading(state, false);
       });
   },
 });

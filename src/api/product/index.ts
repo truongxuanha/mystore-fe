@@ -35,13 +35,13 @@ export async function getInFoProduct(slug: ProductsType["slug"]) {
 }
 
 export async function getHotProduct() {
-  const res = await axiosInstance.get(`product/hot_product`);
+  const res: ResProductType = await axiosInstance.get(`product/hot_product`);
   return res.data;
 }
 
 export async function getProductNew() {
   try {
-    const res = await axiosInstance.get(`product/new_product`);
+    const res: ResProductType = await axiosInstance.get(`product/new_product`);
     return res.data;
   } catch (err) {
     console.log(err);
