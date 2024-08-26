@@ -1,33 +1,24 @@
 import React, { useState, useEffect } from "react";
 
-import { getBanner } from "../../api/banner";
-import { BannerType } from "api/banner/type";
+import { useAppDispatch, useAppSelector } from "../../hooks/useAppDispatch";
+import { getBanners } from "../../redux/reducer/productReducer/productThunk";
+import { INTERVAL_DURATION } from "../../contains";
 
 const Banner: React.FC = () => {
   const [activeIndex, setActiveIndex] = useState<number>(0);
 
-  const [banners, setBanners] = useState<BannerType[]>([]);
-
+  const dispatch = useAppDispatch();
+  const { banners, isLoading } = useAppSelector((state) => state.product);
   useEffect(() => {
     const interval: NodeJS.Timeout = setInterval(() => {
       setActiveIndex((prevIndex) => (prevIndex + 1) % banners.length);
-    }, 3000);
+    }, INTERVAL_DURATION);
 
-    return () => {
-      if (interval) clearInterval(interval);
-    };
+    return () => clearInterval(interval);
   }, [banners.length]);
 
   useEffect(() => {
-    const fetchBanners = async () => {
-      try {
-        const data = await getBanner();
-        if (data?.data.status) setBanners(data.data.data);
-      } catch (err) {
-        console.error("Error fetching data:", err);
-      }
-    };
-    fetchBanners();
+    dispatch(getBanners());
   }, []);
 
   useEffect(function () {}, []);
@@ -56,9 +47,26 @@ const Banner: React.FC = () => {
             transform: `translateX(-${activeIndex * 100}%)`,
           }}
         >
-          {banners.map((banner, index) => (
+          {isLoading && (
             <div
-              key={index}
+              role='status'
+              className='flex justify-center items-center w-full h-full'
+            >
+              <div className='dot-spinner'>
+                <div className='dot-spinner__dot'></div>
+                <div className='dot-spinner__dot'></div>
+                <div className='dot-spinner__dot'></div>
+                <div className='dot-spinner__dot'></div>
+                <div className='dot-spinner__dot'></div>
+                <div className='dot-spinner__dot'></div>
+                <div className='dot-spinner__dot'></div>
+                <div className='dot-spinner__dot'></div>
+              </div>
+            </div>
+          )}
+          {banners.map((banner) => (
+            <div
+              key={banner.id}
               className={`carousel-item flex justify-center w-full h-full p-6 rounded-md`}
             >
               <img className='w-full rounded-md' src={banner.image} />

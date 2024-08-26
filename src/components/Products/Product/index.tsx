@@ -10,9 +10,15 @@ export interface ProductsProp {
   product: ProductsType;
   typeCss: string;
   style?: React.CSSProperties;
+  productNew?: boolean | undefined;
 }
 
-const Product: React.FC<ProductsProp> = ({ product, typeCss, style }) => {
+const Product: React.FC<ProductsProp> = ({
+  product,
+  typeCss,
+  style,
+  productNew,
+}) => {
   const { addToCart } = useAddToCart();
 
   return (
@@ -63,6 +69,11 @@ const Product: React.FC<ProductsProp> = ({ product, typeCss, style }) => {
           )}
         </div>
       </div>
+      {productNew && (
+        <div className='absolute top-1 left-1 bg-red-500 text-white px-2 rounded-sm'>
+          New
+        </div>
+      )}
     </div>
   );
 };

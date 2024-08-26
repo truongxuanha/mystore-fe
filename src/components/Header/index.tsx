@@ -21,42 +21,39 @@ import { toastifyWarning } from "../../utils/toastify";
 import Search from "../Search";
 
 import { getProductByAccount } from "../../redux/reducer/cartReducer/cartThunk";
+import { clearCart } from "../../redux/reducer/cartReducer/cartSlice";
+import { navLink } from "../../routes/app";
 
 function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
   const [openAccount, setOpenAccount] = useState<boolean>(false);
-  const [cartLength, setCartLength] = useState<number>(0);
-  const closeMobileMenu = () => setMobileMenuOpen(false);
+
+  const closeMobileMenu = (): void => setMobileMenuOpen(false);
 
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const { currentUser, token } = useAppSelector((state) => state.auth);
-  const { cartItems } = useAppSelector((state) => state.cart);
 
-  const userLogin = !!currentUser;
+  const { currentUser } = useAppSelector((state) => state.auth);
+  const { cartLength } = useAppSelector((state) => state.cart);
 
   function handleLogout() {
     dispatch(logout());
-    setCartLength(0);
-    navigate("/dang-nhap");
+    dispatch(clearCart());
+
     setMobileMenuOpen(false);
+
+    navigate("/dang-nhap");
   }
   useEffect(() => {
-    async function getProduct() {
-      if (token) {
-        await dispatch(getProductByAccount());
+    function getProduct() {
+      if (currentUser) {
+        dispatch(getProductByAccount());
       }
     }
     getProduct();
-  }, [dispatch, token]);
+  }, [dispatch, currentUser]);
 
-  useEffect(() => {
-    setCartLength(() => {
-      return cartItems.reduce((total, item) => total + item.quantity, 0);
-    });
-  }, [cartItems]);
-
-  async function handleCart() {
+  function handleCart() {
     closeMobileMenu();
     if (!currentUser) {
       toastifyWarning("Vui lòng đăng nhập!!!");
@@ -84,24 +81,16 @@ function Header() {
           </Button>
         </div>
         <div className='hidden md:flex md:gap-x-4 lg:gap-x-12 items-center'>
-          <NavLink
-            to='/'
-            className='nav-link text-sm font-medium leading-6 text-gray-900 uppercase'
-          >
-            Trang chủ
-          </NavLink>
-          <NavLink
-            to='/san-pham'
-            className='nav-link text-sm font-medium leading-6 text-gray-900 uppercase'
-          >
-            Sản phẩm
-          </NavLink>
-          <NavLink
-            to='/lien-he'
-            className='nav-link text-sm font-medium leading-6 text-gray-900 uppercase'
-          >
-            Liên hệ
-          </NavLink>
+          {navLink.map((nav) => (
+            <NavLink
+              key={nav.title}
+              to={nav.path}
+              className='nav-link text-sm font-medium leading-6 text-gray-900 uppercase'
+            >
+              {nav.title}
+            </NavLink>
+          ))}
+
           <div className='flex items-center gap-4 text-sm font-medium leading-6 text-gray-900'>
             <Search handleCloseNav={closeMobileMenu} />
             <Link to='/gio-hang' className='relative'>
@@ -111,7 +100,7 @@ function Header() {
                 className='h-6 w-6 cursor-pointer'
               />
               {cartLength > 0 && (
-                <span className='absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full h-4 w-4 flex items-center justify-center'>
+                <span className='absolute -top-[6px] -right-[6px] bg-orange-500 text-white text-xs font-bold rounded-full h-4 w-4 flex items-center justify-center'>
                   {cartLength}
                 </span>
               )}
@@ -119,7 +108,7 @@ function Header() {
           </div>
 
           <div className='relative'>
-            <div className='rounded-full bg-orange-100/80 p-2'>
+            <div className='rounded-full bg-orange-100/80 p-2 hover:bg-orange-300 transition-all duration-500'>
               <UserCircleIcon
                 onClick={() => setOpenAccount(!openAccount)}
                 aria-hidden='true'
@@ -131,7 +120,27 @@ function Header() {
                 openAccount ? "" : "hidden"
               }`}
             >
-              {!userLogin ? (
+              {currentUser ? (
+                <div className='flex flex-col'>
+                  <Link
+                    to='/thong-tin-tai-khoan'
+                    className='flex p-3 items-center cursor-pointer hover:bg-[#f5f5f5] w-full gap-x-2'
+                  >
+                    <UserIcon className='w-5 h-5' />
+                    <p>Tài khoản</p>
+                  </Link>
+                  <span
+                    className='flex justify-start gap-x-2 p-3 cursor-pointer hover:bg-[#f5f5f5]'
+                    onClick={handleLogout}
+                  >
+                    <ArrowRightStartOnRectangleIcon
+                      aria-hidden='true'
+                      className='h-5 w-5'
+                    />
+                    <p>Đăng xuất</p>
+                  </span>
+                </div>
+              ) : (
                 <div className='flex flex-col'>
                   <div>
                     <NavLink
@@ -153,26 +162,6 @@ function Header() {
                       Đăng ký
                     </NavLink>
                   </div>
-                </div>
-              ) : (
-                <div className='flex flex-col'>
-                  <Link
-                    to='/thong-tin-tai-khoan'
-                    className='flex p-3 items-center cursor-pointer hover:bg-[#f5f5f5] w-full gap-x-2'
-                  >
-                    <UserIcon className='w-5 h-5' />
-                    <p>Tài khoản</p>
-                  </Link>
-                  <span
-                    className='flex justify-start gap-x-2 p-3 cursor-pointer hover:bg-[#f5f5f5]'
-                    onClick={handleLogout}
-                  >
-                    <ArrowRightStartOnRectangleIcon
-                      aria-hidden='true'
-                      className='h-5 w-5'
-                    />
-                    <p>Đăng xuất</p>
-                  </span>
                 </div>
               )}
             </div>
@@ -206,46 +195,58 @@ function Header() {
           </div>
           <div className='mt-6 flow-root'>
             <div className='-my-6 divide-y divide-gray-500/10'>
-              <div className='space-y-2 py-6 flex flex-col uppercase'>
-                <NavLink
-                  to='/'
-                  className='nav-link w-20 text-xs font-semibold leading-6 text-gray-900'
-                  onClick={closeMobileMenu}
-                >
-                  Trang chủ
-                </NavLink>
-                <NavLink
-                  to='/san-pham'
-                  className='nav-link w-16 text-xs font-semibold leading-6 text-gray-900'
-                  onClick={closeMobileMenu}
-                >
-                  Sản phẩm
-                </NavLink>
-                <NavLink
-                  to='/lien-he'
-                  className='nav-link w-12 text-xs font-semibold leading-6 text-gray-900'
-                  onClick={closeMobileMenu}
-                >
-                  Liên hệ
-                </NavLink>
+              <div className='space-y-2 py-6 flex flex-col '>
+                {navLink.map((nav) => (
+                  <NavLink
+                    key={nav.title}
+                    to={nav.path}
+                    className='nav-link w-20 text-xs font-semibold leading-6 text-gray-900 uppercase'
+                    onClick={closeMobileMenu}
+                  >
+                    {nav.title}
+                  </NavLink>
+                ))}
+
                 <div className='flex items-center gap-2'>
                   <Search handleCloseNav={setMobileMenuOpen} />
                   <div className='relative'>
-                    <ShoppingCartIcon
-                      onClick={handleCart}
-                      aria-hidden='true'
-                      className='h-6 w-6 cursor-pointer'
-                    />
-                    {cartLength > 0 && (
-                      <span className='absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full h-4 w-4 flex items-center justify-center'>
-                        {cartLength}
-                      </span>
-                    )}
+                    <Link to='/gio-hang'>
+                      <ShoppingCartIcon
+                        onClick={handleCart}
+                        aria-hidden='true'
+                        className='h-6 w-6 cursor-pointer'
+                      />
+                      {cartLength > 0 && (
+                        <span className='absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full h-4 w-4 flex items-center justify-center'>
+                          {cartLength}
+                        </span>
+                      )}
+                    </Link>
                   </div>
                 </div>
               </div>
               <div className='py-6'>
-                {!currentUser ? (
+                {currentUser ? (
+                  <div className='flex flex-col gap-y-3 z-50'>
+                    <span
+                      className='flex w-32 gap-2 items-center cursor-pointer'
+                      onClick={closeMobileMenu}
+                    >
+                      <UserIcon className='w-5 h-5' />
+                      <p>Tài khoản</p>
+                    </span>
+                    <span
+                      className='flex w-32 justify-start gap-2 cursor-pointer'
+                      onClick={handleLogout}
+                    >
+                      <ArrowRightStartOnRectangleIcon
+                        aria-hidden='true'
+                        className='h-5 w-5'
+                      />
+                      <p>Đăng xuất</p>
+                    </span>
+                  </div>
+                ) : (
                   <div className='py-1 flex flex-col'>
                     <div>
                       <NavLink
@@ -267,26 +268,6 @@ function Header() {
                         Đăng ký
                       </NavLink>
                     </div>
-                  </div>
-                ) : (
-                  <div className='flex flex-col gap-y-3 z-50'>
-                    <span
-                      className='flex w-32 gap-2 items-center cursor-pointer'
-                      onClick={closeMobileMenu}
-                    >
-                      <UserIcon className='w-5 h-5' />
-                      <p>Tài khoản</p>
-                    </span>
-                    <span
-                      className='flex w-32 justify-start gap-2 cursor-pointer'
-                      onClick={handleLogout}
-                    >
-                      <ArrowRightStartOnRectangleIcon
-                        aria-hidden='true'
-                        className='h-5 w-5'
-                      />
-                      <p>Đăng xuất</p>
-                    </span>
                   </div>
                 )}
               </div>

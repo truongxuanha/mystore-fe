@@ -1,47 +1,38 @@
-import { useEffect, useState } from "react";
-
+import React, { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { useSearchParams } from "react-router-dom";
 import Loader from "../Loader";
 import Product from "./Product";
-import { ProductsType } from "../../types";
 import {
   ChevronDoubleLeftIcon,
   ChevronDoubleRightIcon,
 } from "@heroicons/react/24/outline";
-
 import { Button } from "@headlessui/react";
-import { getProduct } from "../../api/product";
+import { useAppSelector } from "../../hooks/useAppDispatch";
+import { getProducts } from "../../redux/reducer/productReducer/productThunk";
+import { AppDispatch } from "../../redux/store";
+const Products: React.FC = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const currentPage: number = parseInt(searchParams.get("page") || "1");
+  const itemsPerPage: number = 4;
 
-function Products() {
-  const [products, setProducts] = useState<ProductsType[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [currentPage, setCurrentPage] = useState<number>(1);
-  const [totalPages, setTotalPages] = useState<number>(1);
-  const itemsPerPage = 8;
+  const { products, totalPage, isLoading } = useAppSelector(
+    (state) => state.product
+  );
+  const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
-    async function fetchProduct(): Promise<void> {
-      setIsLoading(true);
-      try {
-        const res = await getProduct(currentPage, itemsPerPage);
-        if (!res) return;
-        setProducts(res.data.data);
-        setTotalPages(res.data.totalPage ?? []);
-        setIsLoading(false);
-      } catch (error) {
-        setIsLoading(false);
-      } finally {
-        setIsLoading(false);
-      }
-    }
-    fetchProduct();
-  }, [currentPage, itemsPerPage]);
+    const para = { currentPage, itemsPerPage };
+    dispatch(getProducts(para)).unwrap();
+  }, [currentPage, itemsPerPage, searchParams, setSearchParams, dispatch]);
+
   const handlePageChange = (newPage: number) => {
-    if (newPage >= 1 && newPage <= totalPages) {
-      setCurrentPage(newPage);
+    if (newPage >= 1 && newPage <= totalPage) {
+      setSearchParams({ page: newPage.toString() });
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
   };
-
+  if (!products) return <Loader />;
   return (
     <>
       {isLoading ? (
@@ -49,12 +40,12 @@ function Products() {
       ) : (
         <>
           <h1 className='text-2xl mb-10'>Danh sách sản phẩm:</h1>
-          <div className='grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 w-full'>
+          <div className='grid grid-cols-2 gap-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 w-full'>
             {products.map((product) => (
               <Product
                 key={product.id}
                 product={product}
-                typeCss='grid grid-rows-3 gap-2 h-full w-full p-2 md:px-5 pt-2 border border-gray-300 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 ease-in-out text-xs sm:text-base'
+                typeCss='grid grid-rows-3 gap-2 h-full w-full p-2 md:px-5 pt-2 border border-gray-300 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 ease-in-out text-xs sm:text-base hover:transform hover:scale-105 duration-300'
               />
             ))}
           </div>
@@ -67,10 +58,10 @@ function Products() {
               onClick={() => handlePageChange(currentPage - 1)}
               disabled={currentPage === 1}
             >
-              <ChevronDoubleLeftIcon className='w-4 h-4' />
+              <ChevronDoubleLeftIcon className='w-3 h-3' />
             </button>
 
-            {Array.from({ length: totalPages }, (_, i) => i + 1).map(
+            {Array.from({ length: totalPage }, (_, i) => i + 1).map(
               (_, index) => (
                 <button
                   key={index}
@@ -88,20 +79,18 @@ function Products() {
 
             <Button
               className={`px-3 py-1 mx-1 border rounded ${
-                currentPage === totalPages
-                  ? "opacity-50 cursor-not-allowed"
-                  : ""
+                currentPage === totalPage ? "opacity-50 cursor-not-allowed" : ""
               }`}
               onClick={() => handlePageChange(currentPage + 1)}
-              disabled={currentPage === totalPages}
+              disabled={currentPage === totalPage}
             >
-              <ChevronDoubleRightIcon className='w-4 h-4' />
+              <ChevronDoubleRightIcon className='w-3 h-3' />
             </Button>
           </div>
         </>
       )}
     </>
   );
-}
+};
 
 export default Products;

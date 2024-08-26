@@ -1,4 +1,4 @@
-import { ApiResponseType } from "types";
+import { ResApi } from "types/api.type";
 
 export interface BannerType {
   id: number;
@@ -8,11 +8,6 @@ export interface BannerType {
   updateAt: string | null;
 }
 
-interface BannerResponseData {
-  status: boolean;
-  data: BannerType[];
-}
+export type BannerResponseData = BannerType[];
 
-export interface ResponseBanner extends ApiResponseType {
-  data: BannerResponseData;
-}
+export type ApiResponse = ResApi<BannerResponseData>;

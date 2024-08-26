@@ -1,79 +1,52 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { getInFoProduct } from "../../../api/product";
+
 import formatVND from "../../../utils/formatVND";
-import { ProductsType } from "../../../types";
+
 import Loader from "../../Loader";
 import { Button } from "@headlessui/react";
 import useAddToCart from "../../../hooks/useAddCart";
 import { toastifyWarning } from "../../../utils/toastify";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../../../redux/store";
+import { useAppSelector } from "../../../hooks/useAppDispatch";
+import { getInFoProducts } from "../../../redux/reducer/productReducer/productThunk";
 
 const ProductDetail: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
-  const [product, setProduct] = useState<ProductsType | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string>("");
+
   const { addToCart } = useAddToCart();
+  const dispatch = useDispatch<AppDispatch>();
+  const { infoProduct, isLoading } = useAppSelector((state) => state.product);
 
   useEffect(() => {
-    async function fetchProduct() {
-      setLoading(true);
-      if (slug) {
-        try {
-          const data = await getInFoProduct(slug);
-          if (data?.data.status === true) {
-            setProduct(data?.data.data[0]);
-          } else {
-            setError("Product not found.");
-          }
-        } catch (err) {
-          setError("Failed to fetch product details.");
-        } finally {
-          setLoading(false);
-        }
-      }
-    }
-    fetchProduct();
+    dispatch(getInFoProducts(slug)).unwrap();
   }, [slug]);
-
-  if (loading) return <Loader />;
-  if (error)
-    return (
-      <div className='flex flex-col items-center'>
-        <div>Error: {error}</div>
-        <button
-          className='mt-4 bg-colorRed text-white px-4 py-2 rounded-lg'
-          onClick={() => window.location.reload()}
-        >
-          Retry
-        </button>
-      </div>
-    );
-  if (!product) return <div>No product found.</div>;
-
+  if (isLoading) return <Loader />;
+  if (!infoProduct) return <div>Thông tin sản phẩm không tồn tại!</div>;
   return (
     <div className='grid grid-cols-1 sm:grid-cols-4 max-w-5xl mx-auto overflow-hidden shadow-lg rounded-md py-3 bg-white mt-3'>
       <div className='p-4 col-span-2'>
         <img
           className='w-full h-full object-cover'
-          src={product.thumbnail}
-          alt={product.name}
+          src={infoProduct?.thumbnail}
+          alt={infoProduct?.name}
         />
       </div>
       <div className='px-4 py-2 col-span-2 mt-3 flex flex-col justify-between'>
         <div>
           <h2 className='text-lg font-semibold text-gray-800'>
-            {product.product_name}
+            {infoProduct?.product_name}
           </h2>
           <div className='flex items-baseline mt-2 gap-x-10'>
             <div className='text-red-500 font-bold text-xl'>
-              {formatVND(product.price, product.discount)}
+              {formatVND(infoProduct?.price, infoProduct?.discount)}
             </div>
             <div className='text-gray-500 line-through'>
-              {formatVND(product.price, 0)}
+              {formatVND(infoProduct?.price, 0)}
             </div>
             <div className='text-colorPrimary text-sm font-semibold'>
-              -{product.discount}%
+              -{infoProduct?.discount}%
             </div>
           </div>
           <div className='mt-4 grid grid-rows-3 gap-1'>
@@ -96,7 +69,7 @@ const ProductDetail: React.FC = () => {
           </div>
         </div>
         <div className='flex items-center justify-end gap-x-2'>
-          {product.quantity > 0 ? (
+          {infoProduct?.quantity > 0 ? (
             <>
               <Button
                 className='bg-red-500 text-white text-xs px-2 py-1 rounded-lg hover:bg-red-300'
@@ -108,7 +81,7 @@ const ProductDetail: React.FC = () => {
               </Button>
               <button
                 className='bg-colorPrimary text-white text-xs px-2 py-1 rounded-lg hover:bg-orange-300'
-                onClick={() => addToCart(product.product_id)}
+                onClick={() => addToCart(infoProduct?.product_id)}
               >
                 Thêm giỏ hàng
               </button>

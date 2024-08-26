@@ -6,8 +6,10 @@ import * as yup from "yup";
 import { useAppDispatch, useAppSelector } from "../../../hooks/useAppDispatch";
 import { authLogin } from "../../../redux/reducer/userReducer/authThunk";
 import Loader from "../../Loader";
+
+import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
+import { useState } from "react";
 import { toastifySuccess, toastifyWarning } from "../../../utils/toastify";
-import { unwrapResult } from "@reduxjs/toolkit";
 import { Button, Input } from "@headlessui/react";
 
 interface FormValues {
@@ -38,23 +40,24 @@ export default function Login() {
   const dispatch = useAppDispatch();
 
   const { error, loading } = useAppSelector((state) => state.auth);
+  const [show, setShow] = useState<boolean>(false);
 
   const onSubmit: SubmitHandler<FormValues> = async (formValues) => {
     try {
-      const action = authLogin(formValues);
-      const resultsAction = await dispatch(action);
-      const user = unwrapResult(resultsAction);
-
-      if (user.status) throw new Error(user.data);
-
-      navigate("/san-pham");
+      const actionResult = dispatch(authLogin(formValues));
+      if (authLogin.rejected.match(actionResult)) {
+        toastifyWarning(error);
+        return;
+      }
+      navigate("/");
       toastifySuccess("Đăng nhập thành công!");
-      toastifySuccess("Xin chào Anh Đẹp Troai!");
     } catch (error) {
-      toastifyWarning(`${error}`);
+      console.error(error);
     }
   };
-
+  function handleShowPass() {
+    setShow((show) => !show);
+  }
   return (
     <>
       {loading && <Loader />}
@@ -74,13 +77,15 @@ export default function Login() {
                 Tài khoản
               </label>
               <div className='mt-2'>
-                <input
-                  id='value'
-                  type='text'
-                  placeholder='Tên đăng nhập / Email / Số điện thoại'
-                  {...register("value")}
-                  className='input-global'
-                />
+                <div className='input-global'>
+                  <Input
+                    id='value'
+                    type='text'
+                    className='w-full'
+                    placeholder='Tên đăng nhập / Email / Số điện thoại'
+                    {...register("value")}
+                  />
+                </div>
                 {errors.value && (
                   <p className='text-red-500 text-sm mt-1'>
                     {errors.value.message}
@@ -107,14 +112,23 @@ export default function Login() {
                 </div>
               </div>
               <div className='mt-2'>
-                <Input
-                  id='password'
-                  type='password'
-                  placeholder='Mật khẩu...'
-                  autoComplete='current-password'
-                  {...register("password")}
-                  className='input-global'
-                />
+                <div className='input-global'>
+                  <Input
+                    id='password'
+                    type={`${show ? "text" : "password"}`}
+                    className='w-full'
+                    placeholder='Mật khẩu...'
+                    autoComplete='current-password'
+                    {...register("password")}
+                  />
+                  <span onClick={handleShowPass}>
+                    {show ? (
+                      <EyeIcon className='w-4 h-4 cursor-pointer' />
+                    ) : (
+                      <EyeSlashIcon className='w-4 h-4 cursor-pointer' />
+                    )}
+                  </span>
+                </div>
                 {errors.password && (
                   <p className='text-red-500 text-sm mt-1'>
                     {errors.password.message}

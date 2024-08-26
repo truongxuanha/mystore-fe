@@ -1,18 +1,22 @@
-import { Outlet } from "react-router-dom";
+import { Navigate, Outlet, useLocation } from "react-router-dom";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import { useAppSelector } from "../hooks/useAppDispatch";
-import Loader from "../components/Loader";
+import useAuth from "../hooks/useAuth";
 
 function PrivateLayout() {
-  const { loadingCart } = useAppSelector((state) => state.cart);
+  const isAuth = useAuth();
+  const location = useLocation();
+  
   return (
     <>
-      {loadingCart && <Loader />}
       <div className='mx-auto h-full flex flex-col min-h-screen'>
         <Header />
         <main className='flex-grow mx-auto w-full max-w-7xl px-5 lg:px-16 mt-24'>
-          <Outlet />
+          {isAuth ? (
+            <Outlet />
+          ) : (
+            <Navigate to='/dang-nhap' replace state={{ from: location }} />
+          )}
         </main>
         <Footer />
       </div>

@@ -6,11 +6,11 @@ import {
 } from "../services/storage";
 import { refreshToken } from "../api/refreshToken";
 
-const requestJWT = axios.create({
+const axiosInstance = axios.create({
   baseURL: process.env.BASE_URL_API,
 });
 
-requestJWT.interceptors.request.use(
+axiosInstance.interceptors.request.use(
   (config) => {
     const currentUser = getUserStorage();
     if (currentUser && currentUser.token) {
@@ -22,7 +22,7 @@ requestJWT.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-requestJWT.interceptors.response.use(
+axiosInstance.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest = error.config;
@@ -43,10 +43,10 @@ requestJWT.interceptors.response.use(
 
           setUserStorage(currentUser, newToken);
 
-          // requestJWT.defaults.headers["token"] = newToken;
+          // axiosInstance.defaults.headers["token"] = newToken;
 
           originalRequest.headers["token"] = newToken;
-          return requestJWT(originalRequest);
+          return axiosInstance(originalRequest);
         } catch (error) {
           console.error("Error refreshing!!!", error);
           removeUserStorage();
@@ -58,4 +58,4 @@ requestJWT.interceptors.response.use(
   }
 );
 
-export { requestJWT };
+export { axiosInstance };

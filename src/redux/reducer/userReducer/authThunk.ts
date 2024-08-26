@@ -1,16 +1,22 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
-import { InitialRegisterState, InitialLoginState } from "../../../types";
-import { requestJWT } from "../../../utils/axiosConfig";
+import { registerUser } from "../../../api/register";
+import { loginUser } from "../../../api/login";
+import { InitialRegisterState } from "../../../api/register/type";
+import { InitialLoginState } from "../../../api/login/type";
 
 export const authRegister = createAsyncThunk(
   "auth/authRegister",
   async (initAccount: InitialRegisterState, { rejectWithValue }) => {
     try {
-      const response = await requestJWT.post(`account/register`, initAccount);
-      return response.data;
+      const data = await registerUser(initAccount);
+      return data;
     } catch (error) {
-      return rejectWithValue("Registration failed. Please try again.");
+      let errorMessage = "";
+      if (error instanceof Error) {
+        errorMessage = error.message;
+      }
+      return rejectWithValue(errorMessage);
     }
   }
 );
@@ -19,15 +25,17 @@ export const authLogin = createAsyncThunk(
   "auth/authLogin",
   async (initAccount: InitialLoginState, { rejectWithValue }) => {
     try {
-      const response = await requestJWT.post(`account/login`, initAccount);
-      const data = response.data;
-      if (data.status === true) {
-        localStorage.setItem("access_token", data.data.token);
-        localStorage.setItem("currentUser", JSON.stringify(data.data));
-      }
+      const data = await loginUser(initAccount);
+
+      localStorage.setItem("access_token", data.data.token);
+      localStorage.setItem("currentUser", JSON.stringify(data.data));
       return data;
     } catch (error) {
-      return rejectWithValue(error);
+      let errorMessage = "";
+      if (error instanceof Error) {
+        errorMessage = error.message;
+      }
+      return rejectWithValue(errorMessage);
     }
   }
 );

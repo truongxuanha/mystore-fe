@@ -9,6 +9,7 @@ export interface CartState {
   cartItems: ProductsType[];
   loadingCart: boolean;
   error: string | null;
+  cartLength: number;
 }
 
 export interface UpdateItem {

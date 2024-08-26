@@ -24,11 +24,11 @@ const toastOptions = {
   transition: Bounce as ToastTransitionType,
 };
 
-const toastifySuccess = function (txt: string) {
+const toastifySuccess = function (txt: string | null) {
   return toast.success(txt, toastOptions);
 };
 
-const toastifyWarning = function (txt: string) {
+const toastifyWarning = function (txt: string | null) {
   return toast.warning(txt, toastOptions);
 };
 

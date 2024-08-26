@@ -1,9 +1,13 @@
-import { requestJWT } from "../../utils/axiosConfig";
-import { ResProductType } from "./type";
+import { ProductsType } from "types";
+import { axiosInstance } from "../../utils/axiosConfig";
+import { ProductParaType, ResProductType } from "./type";
 
-export async function getProduct(currentPage: number, itemsPerPage: number) {
+export async function getProduct({
+  currentPage,
+  itemsPerPage,
+}: ProductParaType) {
   try {
-    const res: ResProductType = await requestJWT.get(`/product/search`, {
+    const res: ResProductType = await axiosInstance.get(`/product/search`, {
       params: {
         q: "i",
         min: "150000",
@@ -13,15 +17,17 @@ export async function getProduct(currentPage: number, itemsPerPage: number) {
         item: itemsPerPage,
       },
     });
+    if (!res.data.status) throw new Error("Faill");
     return res;
   } catch (err) {
-    console.log(err);
+    throw err;
   }
 }
 
-export async function getInFoProduct(slug: string) {
+export async function getInFoProduct(slug: ProductsType["slug"]) {
   try {
-    const res: ResProductType = await requestJWT.get(`product/${slug}`);
+    const res: ResProductType = await axiosInstance.get(`product/${slug}`);
+
     return res;
   } catch (err) {
     console.log(err);
@@ -29,19 +35,14 @@ export async function getInFoProduct(slug: string) {
 }
 
 export async function getHotProduct() {
-  try {
-    const res: ResProductType = await requestJWT.get(`product/hot_product`);
-
-    return res;
-  } catch (err) {
-    console.log(err);
-  }
+  const res: ResProductType = await axiosInstance.get(`product/hot_product`);
+  return res.data;
 }
 
 export async function getProductNew() {
   try {
-    const res = await requestJWT.get(`product/new_product`);
-    return res;
+    const res: ResProductType = await axiosInstance.get(`product/new_product`);
+    return res.data;
   } catch (err) {
     console.log(err);
   }

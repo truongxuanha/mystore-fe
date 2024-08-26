@@ -22,5 +22,6 @@ function setUserStorage(
     "currentUser",
     JSON.stringify({ ...currentUser, token: newToken })
   );
+  localStorage.setItem("access_token", JSON.stringify(newToken));
 }
 export { setUserStorage, removeUserStorage, getUserStorage, getTokenStorage };

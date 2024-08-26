@@ -12,32 +12,31 @@ import { ProductsType, UpdateItem } from "../../types";
 import formatVND from "../../utils/formatVND";
 import { toastifyWarning } from "../../utils/toastify";
 import { Link } from "react-router-dom";
+import Loader from "../../components/Loader";
 
 function Cart() {
   const dispatch = useAppDispatch();
-  const { cartItems } = useAppSelector((state) => state.cart);
-  const { token } = useAppSelector((state) => state.auth);
 
+  const { cartItems, loadingCart } = useAppSelector((state) => state.cart);
+  const { token } = useAppSelector((state) => state.auth);
   useEffect(() => {
     if (token) {
       dispatch(getProductByAccount());
+      console.log("shop");
     }
   }, [dispatch, token]);
 
-  async function handleDeleteItemCart(id: ProductsType["id"]) {
-    await dispatch(removeCartItem(id));
-    await dispatch(getProductByAccount());
+  function handleDeleteItemCart(id: ProductsType["id"]): void {
+    dispatch(removeCartItem(id));
   }
 
-  async function handleUpdateQuantity(
+  function handleUpdateQuantity(
     id: ProductsType["id"],
     quantity: UpdateItem["quantity"]
-  ) {
-    await dispatch(updateCartItem({ id, quantity }));
-    if (quantity === 0) {
-      await dispatch(removeCartItem(id));
-    }
-    await dispatch(getProductByAccount());
+  ): void {
+    dispatch(updateCartItem({ id, quantity }));
+
+    if (quantity === 0) dispatch(removeCartItem(id));
   }
 
   const totalPrice = useMemo(() => {
@@ -47,7 +46,7 @@ function Cart() {
       return total + priceAfterDiscount * item.quantity;
     }, 0);
   }, [cartItems]);
-
+  if (loadingCart) return <Loader />;
   return (
     <div className=''>
       {cartItems.map((item) => {
@@ -132,6 +131,7 @@ function Cart() {
           >
             Đặt hàng ngay
           </Button>
+          
         </div>
       </div>
     </div>
