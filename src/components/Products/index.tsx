@@ -20,7 +20,7 @@ const Products: React.FC = () => {
     (state) => state.product
   );
   const dispatch = useDispatch<AppDispatch>();
-
+  
   useEffect(() => {
     const para = { currentPage, itemsPerPage };
     dispatch(getProducts(para)).unwrap();

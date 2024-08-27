@@ -26,6 +26,7 @@ const ProductNews: React.FC = () => {
   };
 
   const totalItems = productNews.length;
+
   if (!productNews) return <Loader />;
   return (
     <div className='my-5 p-5 bg-white rounded-md'>

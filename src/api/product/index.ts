@@ -42,8 +42,10 @@ export async function getHotProduct() {
 export async function getProductNew() {
   try {
     const res: ResProductType = await axiosInstance.get(`product/new_product`);
+
+    if (!res.data.status) throw Error("Faill fetch product new!!");
     return res.data;
   } catch (err) {
-    console.log(err);
+    throw err;
   }
 }

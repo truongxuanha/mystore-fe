@@ -1,13 +1,23 @@
 import { UserCircleIcon } from "@heroicons/react/24/outline";
-import React from "react";
+
+import React, { useEffect } from "react";
+import { useAppDispatch, useAppSelector } from "../../hooks/useAppDispatch";
+import { authProfle } from "../../redux/reducer/userReducer/authThunk";
 
 const Profile: React.FC = () => {
+  const dispatch = useAppDispatch();
+  const { infoUser } = useAppSelector((state) => state.auth);
+  const { account_name, email, phone } = infoUser;
+  
+  useEffect(() => {
+    dispatch(authProfle());
+  }, []);
   return (
     <div className='flex max-w-4xl mx-auto mt-8'>
       <div className='w-1/4 bg-gray-100 p-4 rounded-l-lg shadow-md'>
         <div className='text-center mb-6'>
           <UserCircleIcon className='w-24 h-24 mx-auto rounded-full bg-orange-200/80 mb-3' />
-          <p className='text-lg font-semibold'>xtruong27</p>
+          <p className='text-lg font-semibold'>{account_name}</p>
         </div>
         <ul className='space-y-4 text-gray-700'>
           <li className='hover:text-colorRed hover:cursor-pointer'>
@@ -34,6 +44,7 @@ const Profile: React.FC = () => {
             <label className='w-1/4'>Tên đăng nhập</label>
             <input
               type='text'
+              value={account_name}
               className='w-2/4 border rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-500'
             />
             <button
@@ -60,6 +71,7 @@ const Profile: React.FC = () => {
             <label className='w-1/4'>Số điện thoại</label>
             <input
               type='text'
+              value={phone}
               className='w-2/4 border rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-500'
             />
             <button
@@ -73,6 +85,7 @@ const Profile: React.FC = () => {
             <label className='w-1/4'>Email</label>
             <input
               type='text'
+              value={email}
               className='w-2/4 border rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-500'
             />
             <button
