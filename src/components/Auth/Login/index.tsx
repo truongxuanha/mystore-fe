@@ -44,7 +44,7 @@ export default function Login() {
 
   const onSubmit: SubmitHandler<FormValues> = async (formValues) => {
     try {
-      const actionResult = dispatch(authLogin(formValues));
+      const actionResult = await dispatch(authLogin(formValues));
       if (authLogin.rejected.match(actionResult)) {
         toastifyWarning(error);
         return;
