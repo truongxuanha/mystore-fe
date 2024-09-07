@@ -84,7 +84,7 @@ const Banner: React.FC = () => {
           <svg
             className='shrink-0 size-5'
             xmlns='http://www.w3.org/2000/svg'
-            width='24'
+            width='50'
             height='24'
             viewBox='0 0 24 24'
             fill='none'
@@ -127,8 +127,8 @@ const Banner: React.FC = () => {
         {banners.map((_, index) => (
           <span
             key={index}
-            className={`size-3 border border-gray-400 mb-2 rounded-full cursor-pointer ${
-              activeIndex === index ? "bg-gray-300" : "bg-white"
+            className={`w-[30px] h-1 border border-gray-400 mb-2  cursor-pointer ${
+              activeIndex === index ? "bg-black" : "bg-white"
             }`}
             onClick={() => handleIndicatorClick(index)}
           ></span>

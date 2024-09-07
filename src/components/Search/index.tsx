@@ -25,6 +25,7 @@ function Search({ handleCloseNav }: SearchProps) {
     },
     [debounce]
   );
+  
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const query = e.target.value;
     setSearchQuery(query);
@@ -46,7 +47,7 @@ function Search({ handleCloseNav }: SearchProps) {
           placeholder='Tìm kiếm...'
           className='input outline-none px-2 py-1 w-full border-r mr-2'
         />
-        {isLoading ? (
+        {isLoading && (
           <div role='status'>
             <svg
               aria-hidden='true'
@@ -65,7 +66,8 @@ function Search({ handleCloseNav }: SearchProps) {
               />
             </svg>
           </div>
-        ) : (
+        )}
+        {searchQuery && (
           <button className='reset' type='reset' onClick={handleDeleteText}>
             <XMarkIcon className='w-6 h-6' />
           </button>

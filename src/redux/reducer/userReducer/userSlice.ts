@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { authLogin, authRegister } from "./authThunk";
-import { IAuthState } from "../../../types";
+import { authLogin, authProfle, authRegister } from "./authThunk";
+import { IAuthState, UserAccount } from "../../../types";
 import {
   getTokenStorage,
   getUserStorage,
@@ -12,8 +12,8 @@ const initialState: IAuthState = {
   error: null,
   currentUser: getUserStorage(),
   token: getTokenStorage(),
+  infoUser: <UserAccount>{},
 };
-
 const authSlice = createSlice({
   name: "auth",
   initialState,
@@ -57,6 +57,19 @@ const authSlice = createSlice({
         state.loading = false;
         state.currentUser = null;
         state.error = action.payload as string;
+      });
+    builder
+      .addCase(authProfle.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(authProfle.fulfilled, (state, action) => {
+        state.loading = false;
+        state.error = null;
+        state.infoUser = action.payload;
+      })
+      .addCase(authProfle.rejected, (state) => {
+        state.loading = false;
       });
   },
 });

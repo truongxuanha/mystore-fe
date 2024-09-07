@@ -6,7 +6,7 @@ import useAuth from "../hooks/useAuth";
 function PrivateLayout() {
   const isAuth = useAuth();
   const location = useLocation();
-  
+
   return (
     <>
       <div className='mx-auto h-full flex flex-col min-h-screen'>

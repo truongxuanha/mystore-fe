@@ -9,6 +9,7 @@ export interface UserAccount {
   birth_day: string;
   permission: number;
   status: number;
+  phone: number;
 }
 
 export interface CurrentAccount {
@@ -22,4 +23,5 @@ export interface IAuthState {
   error: string | null;
   currentUser: CurrentAccount | null;
   token: string | null;
+  infoUser: UserAccount;
 }

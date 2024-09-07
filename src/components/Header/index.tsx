@@ -1,6 +1,5 @@
-import { memo, useEffect, useState } from "react";
+import { memo, useEffect, useRef, useState } from "react";
 import { Button, Dialog, DialogPanel } from "@headlessui/react";
-
 import {
   Bars3Icon,
   XMarkIcon,
@@ -10,6 +9,7 @@ import {
   UserIcon,
   ArrowsRightLeftIcon,
   ShieldExclamationIcon,
+  GlobeAltIcon,
 } from "@heroicons/react/24/outline";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 
@@ -27,6 +27,7 @@ import { navLink } from "../../routes/app";
 function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
   const [openAccount, setOpenAccount] = useState<boolean>(false);
+  const accountMenuRef = useRef<HTMLDivElement>(null);
 
   const closeMobileMenu = (): void => setMobileMenuOpen(false);
 
@@ -44,6 +45,7 @@ function Header() {
 
     navigate("/dang-nhap");
   }
+
   useEffect(() => {
     function getProduct() {
       if (currentUser) {
@@ -59,6 +61,22 @@ function Header() {
       toastifyWarning("Vui lòng đăng nhập!!!");
     }
   }
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (
+        accountMenuRef.current &&
+        !accountMenuRef.current.contains(event.target as Node)
+      ) {
+        setOpenAccount(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   return (
     <header className='bg-white fixed z-50 w-full'>
@@ -107,7 +125,7 @@ function Header() {
             </Link>
           </div>
 
-          <div className='relative'>
+          <div className='relative' ref={accountMenuRef}>
             <div className='rounded-full bg-orange-100/80 p-2 hover:bg-orange-300 transition-all duration-500'>
               <UserCircleIcon
                 onClick={() => setOpenAccount(!openAccount)}
@@ -128,6 +146,13 @@ function Header() {
                   >
                     <UserIcon className='w-5 h-5' />
                     <p>Tài khoản</p>
+                  </Link>
+                  <Link
+                    className='flex p-3 items-center cursor-pointer hover:bg-[#f5f5f5] w-full gap-x-2'
+                    to='/admin'
+                  >
+                    <GlobeAltIcon className='w-5 h-6' />
+                    <p>Quản trị</p>
                   </Link>
                   <span
                     className='flex justify-start gap-x-2 p-3 cursor-pointer hover:bg-[#f5f5f5]'
@@ -189,7 +214,6 @@ function Header() {
               onClick={() => setMobileMenuOpen(false)}
               className='-m-2.5 rounded-md p-2.5 text-gray-700'
             >
-              <span className='sr-only'>Close menu</span>
               <XMarkIcon aria-hidden='true' className='h-6 w-6' />
             </Button>
           </div>

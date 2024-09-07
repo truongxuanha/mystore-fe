@@ -6,6 +6,7 @@ import InforProduct from "./components/Products/ProductDetail";
 import PrivateLayout from "./layouts/PrivateLayout";
 import PublicLayout from "./layouts/PublicLayout";
 import Profile from "./components/Profile";
+import Admin from "./components/Auth/Admin";
 
 const Home = lazy(() => import("./components/Home"));
 const Cart = lazy(() => import("./components/Carts"));
@@ -106,6 +107,14 @@ const router = createBrowserRouter([
         ),
       },
     ],
+  },
+  {
+    path: "/admin",
+    element: (
+      <Suspense fallback={<Loader />}>
+        <Admin />
+      </Suspense>
+    ),
   },
 ]);
 

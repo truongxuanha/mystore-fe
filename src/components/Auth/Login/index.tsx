@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -37,19 +37,22 @@ export default function Login() {
   });
 
   const navigate = useNavigate();
+  const location = useLocation();
   const dispatch = useAppDispatch();
 
   const { error, loading } = useAppSelector((state) => state.auth);
   const [show, setShow] = useState<boolean>(false);
+  const from = location.state?.from.pathname || "/";
 
   const onSubmit: SubmitHandler<FormValues> = async (formValues) => {
     try {
-      const actionResult = dispatch(authLogin(formValues));
+      const actionResult = await dispatch(authLogin(formValues));
+      console.log(actionResult);
       if (authLogin.rejected.match(actionResult)) {
         toastifyWarning(error);
         return;
       }
-      navigate("/");
+      navigate(from, { replace: true });
       toastifySuccess("Đăng nhập thành công!");
     } catch (error) {
       console.error(error);
