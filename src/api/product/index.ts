@@ -7,12 +7,11 @@ export async function getProduct({
   itemsPerPage,
 }: ProductParaType) {
   try {
-    const res: ResProductType = await axiosInstance.get(`/product/search`, {
+    const res: ResProductType = await axiosInstance.get(`product/get-all`, {
       params: {
-        q: "i",
-        min: "150000",
-        max: "80000000",
+        manufacturer: "all",
         sort: "ASC",
+        query: "",
         page: currentPage,
         item: itemsPerPage,
       },

@@ -47,7 +47,7 @@ const Product: React.FC<ProductsProp> = ({
         </span>
         <div className='flex flex-wrap justify-between items-center gap-3 mt-5 mx-2'>
           <Link
-            to={`/san-pham/${product.slug}`}
+            to={`/san-pham/${product.product_slug}`}
             className='text-xs md:text-sm cursor-pointer px-2 rounded-md underline hover:text-red-500'
           >
             Thông tin

@@ -11,16 +11,17 @@ import { Button } from "@headlessui/react";
 import { useAppSelector } from "../../hooks/useAppDispatch";
 import { getProducts } from "../../redux/reducer/productReducer/productThunk";
 import { AppDispatch } from "../../redux/store";
+import { TOTAL_ITEM_PRODUCT } from "../../contains";
 const Products: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const currentPage: number = parseInt(searchParams.get("page") || "1");
-  const itemsPerPage: number = 4;
+  const itemsPerPage: number = TOTAL_ITEM_PRODUCT;
 
   const { products, totalPage, isLoading } = useAppSelector(
     (state) => state.product
   );
   const dispatch = useDispatch<AppDispatch>();
-  
+
   useEffect(() => {
     const para = { currentPage, itemsPerPage };
     dispatch(getProducts(para)).unwrap();
