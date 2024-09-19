@@ -11,7 +11,6 @@ import {
 } from "chart.js";
 import { useEffect, useState } from "react";
 import { getRevenue } from "../../../../../../../api/revenue";
-import dayjs from "dayjs";
 
 // Register the components required for the Line chart
 ChartJS.register(
