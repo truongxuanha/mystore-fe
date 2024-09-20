@@ -3,7 +3,7 @@ export interface UserAccount {
   account_name: string;
   phone_number: number;
   email: string;
-  avatar: string | null;
+  avatar: string | undefined;
   full_name: string | null;
   sex: string | null;
   birth_day: string;

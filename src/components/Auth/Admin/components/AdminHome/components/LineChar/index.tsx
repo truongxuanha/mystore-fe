@@ -9,6 +9,8 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
+import { useEffect, useState } from "react";
+import { getRevenue } from "../../../../../../../api/revenue";
 
 // Register the components required for the Line chart
 ChartJS.register(
@@ -20,16 +22,30 @@ ChartJS.register(
   Tooltip,
   Legend
 );
-
+interface DataType {
+  date: string;
+  total: number;
+}
 function LineChar() {
+  const [datas, setDatas] = useState<DataType[]>([]);
+  const [dateLine, setDateLine] = useState<DataType[]>([]);
+  useEffect(function () {
+    async function fetchRevenue() {
+      const res = await getRevenue();
+      const data = res.data;
+      setDatas(data.map((item: DataType) => item.total));
+      setDateLine(data.map((item: DataType) => item.date));
+    }
+    fetchRevenue();
+  }, []);
   return (
     <Line
       data={{
-        labels: ["11/07", "12/07", "13/07", "14/07", "15/07", "16/07", "17/07"],
+        labels: dateLine,
         datasets: [
           {
             label: "Doanh thu",
-            data: [10, 20, 30, 42, 51, 82, 31],
+            data: datas,
             backgroundColor: "#ff6801",
             borderColor: "green",
             tension: 0.4,
