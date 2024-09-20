@@ -5,6 +5,7 @@ import { loginUser } from "../../../api/login";
 import { InitialRegisterState } from "../../../api/register/type";
 import { InitialLoginState } from "../../../api/login/type";
 import { getInfo } from "../../../api/profile";
+import { getAllCustomer } from "../../../api/account";
 
 export const authRegister = createAsyncThunk(
   "auth/authRegister",
@@ -46,7 +47,7 @@ export const authProfle = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const data = await getInfo();
-      console.log(data);
+
       return data;
     } catch (error) {
       let errorMessage = "";
@@ -54,6 +55,19 @@ export const authProfle = createAsyncThunk(
         errorMessage = error.message;
       }
       return rejectWithValue(errorMessage);
+    }
+  }
+);
+
+export const authCustomer = createAsyncThunk(
+  "auth/customer",
+  async (_, { rejectWithValue }) => {
+    try {
+      const data = await getAllCustomer();
+
+      return data;
+    } catch (errer) {
+      rejectWithValue(errer);
     }
   }
 );

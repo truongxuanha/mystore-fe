@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { authLogin, authProfle, authRegister } from "./authThunk";
+import { authCustomer, authLogin, authProfle, authRegister } from "./authThunk";
 import { IAuthState, UserAccount } from "../../../types";
 import {
   getTokenStorage,
@@ -13,6 +13,8 @@ const initialState: IAuthState = {
   currentUser: getUserStorage(),
   token: getTokenStorage(),
   infoUser: <UserAccount>{},
+  all_customers: [],
+  totalCustomer: 0,
 };
 const authSlice = createSlice({
   name: "auth",
@@ -69,6 +71,20 @@ const authSlice = createSlice({
         state.infoUser = action.payload;
       })
       .addCase(authProfle.rejected, (state) => {
+        state.loading = false;
+      });
+    builder
+      .addCase(authCustomer.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(authCustomer.fulfilled, (state, action) => {
+        state.loading = false;
+        state.error = null;
+        state.all_customers = action.payload;
+        state.totalCustomer = action.payload.totalItem;
+      })
+      .addCase(authCustomer.rejected, (state) => {
         state.loading = false;
       });
   },

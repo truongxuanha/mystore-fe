@@ -17,6 +17,7 @@ export interface ProductStateType {
   totalPage: number;
   banners: BannerType[];
   infoProduct: ProductsType | null;
+  totalProduct: number;
 }
 
 const setIsLoading = (state: ProductStateType, isLoading: boolean) => {
@@ -29,6 +30,7 @@ const initialState: ProductStateType = {
   productNews: [],
   productHots: [],
   totalPage: 1,
+  totalProduct: 0,
   banners: [],
   infoProduct: null,
 };
@@ -42,17 +44,12 @@ const productSlice = createSlice({
       .addCase(getProducts.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(
-        getProducts.fulfilled,
-        (
-          state,
-          action: PayloadAction<{ data: ProductsType[]; totalPage: number }>
-        ) => {
-          setIsLoading(state, false);
-          state.products = action.payload.data ?? [];
-          state.totalPage = action.payload.totalPage;
-        }
-      )
+      .addCase(getProducts.fulfilled, (state, action) => {
+        setIsLoading(state, false);
+        state.products = action.payload.data ?? [];
+        state.totalPage = action.payload.totalPage;
+        state.totalProduct = action.payload.totalItem;
+      })
       .addCase(getProducts.rejected, (state) => {
         setIsLoading(state, false);
         state.products = [];

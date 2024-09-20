@@ -22,13 +22,16 @@ ChartJS.register(
   Tooltip,
   Legend
 );
+
 interface DataType {
   date: string;
   total: number;
 }
+
 function LineChar() {
   const [datas, setDatas] = useState<DataType[]>([]);
   const [dateLine, setDateLine] = useState<DataType[]>([]);
+
   useEffect(function () {
     async function fetchRevenue() {
       const res = await getRevenue();
@@ -38,6 +41,7 @@ function LineChar() {
     }
     fetchRevenue();
   }, []);
+
   return (
     <Line
       data={{
@@ -46,7 +50,7 @@ function LineChar() {
           {
             label: "Doanh thu",
             data: datas,
-            backgroundColor: "#ff6801",
+            backgroundColor: "rgba(255, 165, 0, 0.5)",
             borderColor: "green",
             tension: 0.4,
             fill: true,
@@ -58,12 +62,21 @@ function LineChar() {
         ],
       }}
       options={{
+        responsive: true,
         plugins: {
           title: {
             display: false,
           },
         },
+        scales: {
+          x: {
+            ticks: {
+              autoSkip: true,
+            },
+          },
+        },
       }}
+      style={{ maxWidth: "100%" }}
     />
   );
 }

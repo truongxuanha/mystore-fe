@@ -22,7 +22,15 @@ export async function getProduct({
     throw err;
   }
 }
+export async function fetchAllProduct() {
+  try {
+    const res = await axiosInstance.get(`/product`);
 
+    return res.data;
+  } catch (err) {
+    console.log(err);
+  }
+}
 export async function getInFoProduct(slug: ProductsType["slug"]) {
   try {
     const res: ResProductType = await axiosInstance.get(`product/${slug}`);
