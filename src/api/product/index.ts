@@ -7,12 +7,11 @@ export async function getProduct({
   itemsPerPage,
 }: ProductParaType) {
   try {
-    const res: ResProductType = await axiosInstance.get(`/product/search`, {
+    const res: ResProductType = await axiosInstance.get(`product/get-all`, {
       params: {
-        q: "i",
-        min: "150000",
-        max: "80000000",
+        manufacturer: "all",
         sort: "ASC",
+        query: "",
         page: currentPage,
         item: itemsPerPage,
       },
@@ -23,7 +22,15 @@ export async function getProduct({
     throw err;
   }
 }
+export async function fetchAllProduct() {
+  try {
+    const res = await axiosInstance.get(`/product`);
 
+    return res.data;
+  } catch (err) {
+    console.log(err);
+  }
+}
 export async function getInFoProduct(slug: ProductsType["slug"]) {
   try {
     const res: ResProductType = await axiosInstance.get(`product/${slug}`);
@@ -42,6 +49,17 @@ export async function getHotProduct() {
 export async function getProductNew() {
   try {
     const res: ResProductType = await axiosInstance.get(`product/new_product`);
+
+    if (!res.data.status) throw Error("Faill fetch product new!!");
+    return res.data;
+  } catch (err) {
+    throw err;
+  }
+}
+
+export async function randomProduct() {
+  try {
+    const res: ResProductType = await axiosInstance.get(`product/random`);
 
     if (!res.data.status) throw Error("Faill fetch product new!!");
     return res.data;

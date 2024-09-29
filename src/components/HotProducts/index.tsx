@@ -11,9 +11,10 @@ const HotProducts: React.FC = () => {
   const dispatch = useAppDispatch();
   const { productHots } = useAppSelector((state) => state.product);
   useEffect(() => {
-    dispatch(getHotProducts());
+    if (!productHots || productHots.length === 0) {
+      dispatch(getHotProducts());
+    }
   }, []);
-
   const handlePrev = () => {
     setActiveIndex((prevIndex) => prevIndex - 1);
   };

@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../hooks/useAppDispatch";
 import { getBanners } from "../../redux/reducer/productReducer/productThunk";
 import { INTERVAL_DURATION } from "../../contains";
+import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/outline";
 
 const Banner: React.FC = () => {
   const [activeIndex, setActiveIndex] = useState<number>(0);
@@ -18,7 +19,9 @@ const Banner: React.FC = () => {
   }, [banners.length]);
 
   useEffect(() => {
-    dispatch(getBanners());
+    if (!banners || banners.length === 0) {
+      dispatch(getBanners());
+    }
   }, []);
 
   useEffect(function () {}, []);
@@ -80,23 +83,7 @@ const Banner: React.FC = () => {
         className='disabled:pointer-events-none absolute inset-y-0 start-0 inline-flex justify-center items-center w-[46px] h-full text-gray-800  focus:outline-none marker:rounded-s-lg'
         onClick={handlePrev}
       >
-        <span className='text-2xl' aria-hidden='true'>
-          <svg
-            className='shrink-0 size-5'
-            xmlns='http://www.w3.org/2000/svg'
-            width='50'
-            height='24'
-            viewBox='0 0 24 24'
-            fill='none'
-            stroke='currentColor'
-            strokeWidth='2'
-            strokeLinecap='round'
-            strokeLinejoin='round'
-          >
-            <path d='m15 18-6-6 6-6'></path>
-          </svg>
-        </span>
-        <span className='sr-only'>Previous</span>
+        <ChevronLeftIcon className='w-10 h-10' />
       </button>
 
       <button
@@ -104,23 +91,7 @@ const Banner: React.FC = () => {
         className='disabled:pointer-events-none absolute inset-y-0 end-0 inline-flex justify-center items-center w-[46px] h-full text-gray-800 rounded-e-lg'
         onClick={handleNext}
       >
-        <span className='sr-only'>Next</span>
-        <span className='text-2xl' aria-hidden='true'>
-          <svg
-            className='shrink-0 size-5'
-            xmlns='http://www.w3.org/2000/svg'
-            width='24'
-            height='24'
-            viewBox='0 0 24 24'
-            fill='none'
-            stroke='currentColor'
-            strokeWidth='2'
-            strokeLinecap='round'
-            strokeLinejoin='round'
-          >
-            <path d='m9 18 6-6-6-6'></path>
-          </svg>
-        </span>
+        <ChevronRightIcon className='w-10 h-10 ' />
       </button>
 
       <div className='flex justify-center absolute bottom-0 start-0 end-0 space-x-2'>

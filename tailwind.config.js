@@ -6,6 +6,13 @@ export default {
       colors: {
         colorPrimary: "#ff8f26",
         colorRed: "#ED1b24",
+        colorBody: "#f5f5f5",
+      },
+      height: {
+        header: "64px",
+      },
+      margin: {
+        header: "64px",
       },
     },
   },

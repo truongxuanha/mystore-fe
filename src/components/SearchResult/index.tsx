@@ -28,11 +28,9 @@ const SearchResults: React.FC<SearchResultsProps> = ({
         <li
           key={product.id}
           className='p-2 hover:bg-orange-100 cursor-pointer border-b last:border-none'
-          onClick={() => handleInfo(product.slug)}
         >
           <Link
-            to={`/san-pham/${product.slug}`}
-            onClick={() => handleInfo(product.slug)}
+            to={`/san-pham/${product.product_slug}`}
             className='text-sm cursor-pointer'
           >
             <span className='flex'>

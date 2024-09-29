@@ -1,41 +1,60 @@
+import { ChevronRightIcon } from "@heroicons/react/24/outline";
 import React from "react";
 
-const Sidebar: React.FC = () => {
+interface MenuItem {
+  id: string;
+  title: string;
+}
+
+interface SidebarProps {
+  menuSidebar: MenuItem[];
+  activeTab: string;
+  onClick: (id: string) => void;
+}
+
+const Sidebar: React.FC<SidebarProps> = ({
+  menuSidebar,
+  activeTab,
+  onClick,
+}) => {
   return (
-    <div className='col-span-1 bg-[#19163A] h-screen w-64 p-4 flex flex-col items-center'>
-      <div className='flex flex-col items-center mb-8'>
+    <div className='col-span-2 xl:col-span-1 bg-[#19163A] h-full w-full p-4 flex flex-col items-center'>
+      <div className='flex flex-col items-center '>
         <div className='w-24 h-24 bg-gray-300 rounded-full'></div>
         <h2 className='text-white text-lg mt-4'>xtruong27</h2>
         <span className='text-red-400 text-sm'>o Quản lý</span>
       </div>
 
-      <ul className='w-full'>
-        <MenuItem icon='home' label='Trang chủ' />
-        <MenuItem icon='user' label='Nhân viên' />
-        <MenuItem icon='users' label='Khách hàng' />
-        <MenuItem icon='building' label='Nhà cung cấp' />
-        <MenuItem icon='box' label='Sản phẩm' />
-        <MenuItem icon='shopping-bag' label='Đơn đặt hàng' />
-        <MenuItem icon='chart-bar' label='Thống kê' />
-        <MenuItem icon='tag' label='Banner' />
-        <MenuItem icon='folder' label='Danh mục bài viết' />
-        <MenuItem icon='newspaper' label='Bài viết' />
+      <ul className='w-full grid grid-rows-10'>
+        {menuSidebar.map((item) => (
+          <MenuItem
+            key={item.id}
+            title={item.title}
+            onClick={() => onClick(item.id)}
+            activeTab={activeTab === item.id}
+          />
+        ))}
       </ul>
     </div>
   );
 };
 
 interface MenuItemProps {
-  icon: string;
-  label: string;
+  title: string;
+  onClick: () => void;
+  activeTab: boolean;
 }
 
-const MenuItem: React.FC<MenuItemProps> = ({ icon, label }) => {
+const MenuItem: React.FC<MenuItemProps> = ({ title, activeTab, onClick }) => {
   return (
-    <li className='text-gray-400 hover:bg-gray-800 hover:text-white p-3 rounded-lg mb-1 flex items-center cursor-pointer transition-colors'>
-      <i className={`fas fa-${icon} mr-3`}></i>
-      <span>{label}</span>
-      <i className='fas fa-chevron-right ml-auto'></i>
+    <li
+      onClick={onClick}
+      className={`flex items-center p-2  w-full ${
+        activeTab ? "bg-white text-black" : "text-white"
+      } rounded-lg cursor-pointer transition-colors`}
+    >
+      <span>{title}</span>
+      <ChevronRightIcon className='w-4 h-4' />
     </li>
   );
 };
