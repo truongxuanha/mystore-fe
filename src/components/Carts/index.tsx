@@ -13,6 +13,7 @@ import formatVND from "../../utils/formatVND";
 import { toastifyWarning } from "../../utils/toastify";
 import { Link } from "react-router-dom";
 import Loader from "../../components/Loader";
+import ProductRandom from "../../components/ProductRandom";
 
 function Cart() {
   const dispatch = useAppDispatch();
@@ -131,9 +132,9 @@ function Cart() {
           >
             Đặt hàng ngay
           </Button>
-          
         </div>
       </div>
+      <ProductRandom />
     </div>
   );
 }

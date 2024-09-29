@@ -4,6 +4,7 @@ import {
   getInFoProduct,
   getProduct,
   getProductNew,
+  randomProduct,
 } from "../../../api/product";
 import { ProductParaType } from "../../../api/product/type";
 import { ProductsType } from "../../../types";
@@ -81,6 +82,20 @@ export const getBanners = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const data = await getBanner();
+
+      return data?.data;
+    } catch (err) {
+      console.error("Error fetching products:", err);
+      return rejectWithValue(err);
+    }
+  }
+);
+
+export const getProductRandom = createAsyncThunk(
+  "product/getRandom",
+  async (_, { rejectWithValue }) => {
+    try {
+      const data = await randomProduct();
 
       return data?.data;
     } catch (err) {

@@ -14,7 +14,9 @@ const ProductNews: React.FC = () => {
   const { productNews } = useAppSelector((state) => state.product);
 
   useEffect(() => {
-    dispatch(getProductNews());
+    if (!productNews || productNews.length === 0) {
+      dispatch(getProductNews());
+    }
   }, []);
 
   const handlePrev = () => {

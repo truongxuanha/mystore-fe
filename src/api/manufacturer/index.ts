@@ -4,8 +4,7 @@ export async function getManufacturer() {
   try {
     const res = await axiosInstance.get(`/manufacturer`);
     if (!res.data.status) throw new Error("Faill");
-    console.log(res);
-    return res;
+    return res.data.data;
   } catch (err) {
     throw err;
   }

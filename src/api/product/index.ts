@@ -48,3 +48,14 @@ export async function getProductNew() {
     throw err;
   }
 }
+
+export async function randomProduct() {
+  try {
+    const res: ResProductType = await axiosInstance.get(`product/random`);
+
+    if (!res.data.status) throw Error("Faill fetch product new!!");
+    return res.data;
+  } catch (err) {
+    throw err;
+  }
+}

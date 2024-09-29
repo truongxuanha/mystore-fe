@@ -5,6 +5,7 @@ import {
   getHotProducts,
   getInFoProducts,
   getProductNews,
+  getProductRandom,
   getProducts,
 } from "./productThunk";
 import { BannerType } from "../../../api/banner/type";
@@ -17,6 +18,7 @@ export interface ProductStateType {
   totalPage: number;
   banners: BannerType[];
   infoProduct: ProductsType | null;
+  productRandom: ProductsType[];
 }
 
 const setIsLoading = (state: ProductStateType, isLoading: boolean) => {
@@ -31,6 +33,7 @@ const initialState: ProductStateType = {
   totalPage: 1,
   banners: [],
   infoProduct: null,
+  productRandom: [],
 };
 
 const productSlice = createSlice({
@@ -105,6 +108,17 @@ const productSlice = createSlice({
         state.banners = action.payload ?? [];
       })
       .addCase(getBanners.rejected, (state) => {
+        setIsLoading(state, false);
+      });
+    builder
+      .addCase(getProductRandom.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getProductRandom.fulfilled, (state, action) => {
+        setIsLoading(state, false);
+        state.productRandom = action.payload ?? [];
+      })
+      .addCase(getProductRandom.rejected, (state) => {
         setIsLoading(state, false);
       });
   },

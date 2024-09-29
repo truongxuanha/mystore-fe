@@ -79,10 +79,10 @@ function Header() {
   }, []);
 
   return (
-    <header className='bg-white fixed z-50 w-full'>
+    <header className='bg-white fixed z-50 w-full h-header'>
       <nav
         aria-label='Global'
-        className='mx-auto flex max-w-full items-center justify-between p-6 lg:px-8'
+        className='mx-auto flex max-w-full items-center justify-between h-full lg:px-8'
       >
         <div>
           <Link to='/'>
