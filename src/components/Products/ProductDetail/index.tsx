@@ -19,7 +19,6 @@ const ProductDetail: React.FC = () => {
   const { addToCart } = useAddToCart();
   const dispatch = useDispatch<AppDispatch>();
   const { infoProduct, isLoading } = useAppSelector((state) => state.product);
-  console.log(infoProduct);
   useEffect(() => {
     if (infoProduct?.slug !== slug) {
       dispatch(getInFoProducts(slug)).unwrap();

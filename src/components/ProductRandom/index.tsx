@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-import Product from "../Products/Product";
+import Product from "../Products/ProductCard";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/outline";
 import { randomProduct } from "../../api/product";
 import { ProductsType } from "types";

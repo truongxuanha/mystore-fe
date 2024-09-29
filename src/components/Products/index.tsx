@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useSearchParams } from "react-router-dom";
 import Loader from "../Loader";
-import Product from "./Product";
+import Product from "./ProductCard";
 import {
   ChevronDoubleLeftIcon,
   ChevronDoubleRightIcon,
@@ -20,7 +20,7 @@ const Products: React.FC = () => {
   const { products, totalPage, isLoading } = useAppSelector(
     (state) => state.product
   );
-  
+
   const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
