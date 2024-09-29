@@ -24,4 +24,6 @@ export interface IAuthState {
   currentUser: CurrentAccount | null;
   token: string | null;
   infoUser: UserAccount;
+  all_customers: UserAccount[];
+  totalCustomer: number;
 }

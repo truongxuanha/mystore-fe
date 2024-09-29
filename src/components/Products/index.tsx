@@ -20,6 +20,7 @@ const Products: React.FC = () => {
   const { products, totalPage, isLoading } = useAppSelector(
     (state) => state.product
   );
+  
   const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {

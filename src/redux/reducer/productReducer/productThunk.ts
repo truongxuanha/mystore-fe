@@ -13,13 +13,11 @@ import { getBanner } from "../../../api/banner";
 interface GetProductsResponse {
   status: boolean;
   data: ProductsType[];
+  totalItem: number;
   totalPage: number;
 }
 
-export const getProducts = createAsyncThunk<
-  GetProductsResponse,
-  ProductParaType
->(
+export const getProducts = createAsyncThunk(
   "product/getProducts",
   async (
     { currentPage, itemsPerPage }: ProductParaType,
