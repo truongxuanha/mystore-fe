@@ -20,7 +20,7 @@ function AdminHome() {
   useEffect(function () {
     dispath(authCustomer());
     dispath(getProducts(para));
-  }, []);
+  }, [dispath,para]);
   const items = [
     {
       title: "Khách hàng",

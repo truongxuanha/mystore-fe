@@ -23,7 +23,7 @@ function Search({ handleCloseNav }: SearchProps) {
       if (!debounce.trim()) return;
       dispatch(fetchSearchResults(searchQuery));
     },
-    [debounce]
+    [dispatch,searchQuery,debounce]
   );
   
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {

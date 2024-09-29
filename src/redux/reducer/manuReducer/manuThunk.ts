@@ -3,12 +3,11 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { getManufacturer } from "../../../api/manufacturer";
 
 export const getManuThunk = createAsyncThunk(
-  "cart/postCreateCart",
+  "manufacturer/getManufacturer",
   async (_, { rejectWithValue }) => {
     try {
       const res = await getManufacturer();
-      console.log(res);
-      return res.data;
+      return res;
     } catch (err) {
       return rejectWithValue(err);
     }

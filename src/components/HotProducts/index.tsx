@@ -4,6 +4,7 @@ import Product from "../Products/ProductCard";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/outline";
 import { useAppDispatch, useAppSelector } from "../../hooks/useAppDispatch";
 import { getHotProducts } from "../../redux/reducer/productReducer/productThunk";
+import { texts } from "../../contains/texts";
 
 const HotProducts: React.FC = () => {
   const [activeIndex, setActiveIndex] = useState<number>(1);
@@ -14,7 +15,7 @@ const HotProducts: React.FC = () => {
     if (!productHots || productHots.length === 0) {
       dispatch(getHotProducts());
     }
-  }, []);
+  }, [dispatch]);
   const handlePrev = () => {
     setActiveIndex((prevIndex) => prevIndex - 1);
   };
@@ -35,6 +36,7 @@ const HotProducts: React.FC = () => {
               <Product
                 key={product.id}
                 product={product}
+                productCategory={texts.HOT}
                 style={{
                   transform: `translateX(-${activeIndex * 100}%)`,
                 }}

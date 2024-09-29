@@ -22,7 +22,7 @@ const Banner: React.FC = () => {
     if (!banners || banners.length === 0) {
       dispatch(getBanners());
     }
-  }, []);
+  }, [dispatch]);
 
   useEffect(function () {}, []);
   const handlePrev = () => {

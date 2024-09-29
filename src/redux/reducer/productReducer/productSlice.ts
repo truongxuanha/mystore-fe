@@ -1,5 +1,5 @@
 import { ProductsType } from "./../../../types/product.type";
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 import {
   getBanners,
   getHotProducts,

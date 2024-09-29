@@ -23,7 +23,7 @@ const ProductDetail: React.FC = () => {
     if (infoProduct?.slug !== slug) {
       dispatch(getInFoProducts(slug)).unwrap();
     }
-  }, [dispatch]);
+  }, [slug]);
   if (isLoading) return <Loader />;
   if (!infoProduct) return <div>Thông tin sản phẩm không tồn tại!</div>;
   return (

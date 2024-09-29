@@ -1,7 +1,16 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { getManuThunk } from "./manuThunk";
-
-const initialState = {
+export interface ManufactureType {
+  id: number;
+  img: string;
+  name: string;
+  slug: string;
+}
+export interface InitialStateType {
+  manuItems: ManufactureType[];
+  loading: boolean;
+}
+const initialState: InitialStateType = {
   manuItems: [],
   loading: false,
 };
@@ -17,7 +26,7 @@ const manuSlice = createSlice({
       })
       .addCase(getManuThunk.fulfilled, (state, action) => {
         state.loading = false;
-        state.manuItems = action.payload;
+        state.manuItems = action.payload || [];
       })
       .addCase(getManuThunk.rejected, (state) => {
         state.loading = false;

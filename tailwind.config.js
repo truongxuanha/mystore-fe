@@ -14,6 +14,9 @@ export default {
       margin: {
         header: "64px",
       },
+      backgroundImage: {
+        tagProduct: "url('./src/assets/tag.png')",
+      },
     },
   },
   plugins: [],

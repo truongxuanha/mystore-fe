@@ -5,19 +5,21 @@ import { ProductsType } from "types";
 import formatVND from "../../../utils/formatVND";
 import { ShoppingCartIcon } from "@heroicons/react/24/outline";
 import useAddToCart from "../../../hooks/useAddCart";
+import { texts } from "../../../contains/texts";
+import { assets } from "../../../assets";
 
 export interface ProductsProp {
   product: ProductsType;
   typeCss: string;
   style?: React.CSSProperties;
-  productNew?: boolean | undefined;
+  productCategory?: string;
 }
 
 const Product: React.FC<ProductsProp> = ({
   product,
   typeCss,
   style,
-  productNew,
+  productCategory,
 }) => {
   const { addToCart } = useAddToCart();
 
@@ -69,11 +71,18 @@ const Product: React.FC<ProductsProp> = ({
           )}
         </div>
       </div>
-      {productNew && (
-        <div className='absolute top-1 left-1 bg-red-500 text-white px-2 rounded-sm'>
-          New
+      {(productCategory === texts.NEW || productCategory === texts.HOT) && (
+        <div className='absolute top-1 left-0 text-white w-12 h-5 rounded-sm'>
+          <img className='w-14 h-6 rounded-sm' src={assets.tag} alt='' />
+          <p className='absolute inset-0 text-xs flex items-center ml-2 z-10'>
+            {productCategory}
+          </p>
         </div>
       )}
+
+      <div className='absolute top-1 right-1 text-white px-2 rounded-sm'>
+        {product.discount}
+      </div>
     </div>
   );
 };
