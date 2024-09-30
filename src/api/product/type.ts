@@ -13,4 +13,5 @@ export interface ProductParaType {
   currentPage?: number;
   itemsPerPage?: number;
   totalItem?: number;
+  manufacturer: string;
 }

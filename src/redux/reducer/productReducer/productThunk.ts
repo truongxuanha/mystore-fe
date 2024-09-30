@@ -20,11 +20,15 @@ import { getBanner } from "../../../api/banner";
 export const getProducts = createAsyncThunk(
   "product/getProducts",
   async (
-    { currentPage, itemsPerPage }: ProductParaType,
+    { currentPage, itemsPerPage, manufacturer }: ProductParaType,
     { rejectWithValue }
   ) => {
     try {
-      const data = await getProduct({ currentPage, itemsPerPage });
+      const data = await getProduct({
+        currentPage,
+        itemsPerPage,
+        manufacturer,
+      });
 
       return data?.data;
     } catch (err) {

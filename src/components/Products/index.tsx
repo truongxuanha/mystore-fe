@@ -19,6 +19,7 @@ const Products: React.FC = () => {
   const [activeIndex, setActiveIndex] = useState<number>(0); // Luôn chọn "Tất cả" ban đầu
   const currentPage: number = parseInt(searchParams.get("page") || "1");
   const itemsPerPage: number = TOTAL_ITEM_PRODUCT;
+  const [manufacturer, setManufacturer] = useState<string>("all");
 
   const { products, totalPage, isLoading } = useAppSelector(
     (state) => state.product
@@ -28,10 +29,17 @@ const Products: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
-    const para = { currentPage, itemsPerPage };
+    const para = { currentPage, itemsPerPage, manufacturer };
     dispatch(getProducts(para)).unwrap();
     dispatch(getManuThunk());
-  }, [currentPage, itemsPerPage, searchParams, setSearchParams, dispatch]);
+  }, [
+    currentPage,
+    itemsPerPage,
+    searchParams,
+    manufacturer,
+    setSearchParams,
+    dispatch,
+  ]);
 
   const handlePageChange = (newPage: number) => {
     if (newPage >= 1 && newPage <= totalPage) {
@@ -40,12 +48,14 @@ const Products: React.FC = () => {
     }
   };
 
-  const handleItemClick = (index: number) => {
-    setActiveIndex(index); // Cập nhật index khi người dùng click
+  const handleItemClick = (index: number, manufacturer: string) => {
+    setActiveIndex(index);
+    setManufacturer(manufacturer);
+    setSearchParams({ hang_san_xuat: manufacturer.toString() });
   };
 
   if (!products) return <Loader />;
-
+  console.log(manuItems);
   return (
     <>
       {isLoading ? (
@@ -64,7 +74,7 @@ const Products: React.FC = () => {
                   className={`border-t border-l border-r pl-5 py-2 ${
                     activeIndex === 0 ? "bg-black  text-white" : ""
                   }`}
-                  onClick={() => handleItemClick(0)}
+                  onClick={() => handleItemClick(0, "all")}
                 >
                   Tất cả
                 </li>
@@ -74,7 +84,7 @@ const Products: React.FC = () => {
                     className={`border-l border-r border-b pl-5 py-2 flex justify-between ${
                       index + 1 === activeIndex ? "bg-black text-white" : ""
                     } ${index === manuItems.length - 1 ? "border-b" : ""}`}
-                    onClick={() => handleItemClick(index + 1)}
+                    onClick={() => handleItemClick(index + 1, item.slug)}
                   >
                     <span>{item.name}</span>
                   </li>

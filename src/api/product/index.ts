@@ -5,11 +5,12 @@ import { ProductParaType, ResProductType } from "./type";
 export async function getProduct({
   currentPage,
   itemsPerPage,
+  manufacturer,
 }: ProductParaType) {
   try {
     const res: ResProductType = await axiosInstance.get(`product/get-all`, {
       params: {
-        manufacturer: "all",
+        manufacturer,
         sort: "ASC",
         query: "",
         page: currentPage,
