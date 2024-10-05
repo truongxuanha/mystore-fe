@@ -36,7 +36,7 @@ const HotProducts: React.FC = () => {
               <Product
                 key={product.id}
                 product={product}
-                productCategory={texts.HOT}
+                productCategory={texts.product.HOT}
                 style={{
                   transform: `translateX(-${activeIndex * 100}%)`,
                 }}

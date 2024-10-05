@@ -5,7 +5,12 @@ import { loginUser } from "../../../api/login";
 import { InitialRegisterState } from "../../../api/register/type";
 import { InitialLoginState } from "../../../api/login/type";
 import { getInfo } from "../../../api/profile";
-import { getAllCustomer } from "../../../api/account";
+import {
+  createAddressUser,
+  getAddressUser,
+  getAllCustomer,
+} from "../../../api/account";
+import { AddressType } from "../../../api/account/type";
 
 export const authRegister = createAsyncThunk(
   "auth/authRegister",
@@ -64,6 +69,45 @@ export const authCustomer = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const data = await getAllCustomer();
+
+      return data;
+    } catch (errer) {
+      rejectWithValue(errer);
+    }
+  }
+);
+
+export const authCreateAddress = createAsyncThunk(
+  "auth/createAddress",
+  async (_, { rejectWithValue }) => {
+    try {
+      const data = await getAllCustomer();
+
+      return data;
+    } catch (errer) {
+      rejectWithValue(errer);
+    }
+  }
+);
+
+export const authGetAddressAcc = createAsyncThunk(
+  "auth/getAddressAcc",
+  async (_, { rejectWithValue }) => {
+    try {
+      const data = await getAddressUser();
+
+      return data;
+    } catch (errer) {
+      rejectWithValue(errer);
+    }
+  }
+);
+
+export const authCreateAddressThunk = createAsyncThunk(
+  "auth/getAddressAcc",
+  async (address: AddressType, { rejectWithValue }) => {
+    try {
+      const data = await createAddressUser(address);
 
       return data;
     } catch (errer) {

@@ -1,3 +1,7 @@
-const HOT = "Hot";
-const NEW = "New";
-export const texts = { HOT, NEW };
+export const texts = {
+  product: {
+    HOT: "Hot",
+    NEW: "New",
+    PRODUCT_NOT_FOUND: "Thông tin sản phẩm không tồn tại!",
+  },
+};

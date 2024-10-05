@@ -7,6 +7,7 @@ export default {
         colorPrimary: "#ff8f26",
         colorRed: "#ED1b24",
         colorBody: "#f5f5f5",
+        corlorButton: "#2f80ed",
       },
       height: {
         header: "64px",

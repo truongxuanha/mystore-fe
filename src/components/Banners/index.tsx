@@ -43,7 +43,7 @@ const Banner: React.FC = () => {
 
   return (
     <div className='relative bg-white'>
-      <div className='relative overflow-hidden w-full min-h-56 sm:min-h-72 md:min-h-96 lg:min-h-[400px] rounded-lg'>
+      <div className='relative overflow-hidden w-full min-h-32 sm:min-h-72 md:min-h-96 lg:min-h-[400px] rounded-lg'>
         <div
           className='carousel-main absolute top-0 bottom-0 start-0 flex flex-nowrap transition-transform duration-1000 ease-in-out'
           style={{
@@ -72,7 +72,10 @@ const Banner: React.FC = () => {
               key={banner.id}
               className={`carousel-item flex justify-center w-full h-full p-6 rounded-md`}
             >
-              <img className='w-full rounded-md' src={banner.image} />
+              <img
+                className='w-full rounded-md object-contain'
+                src={banner.image}
+              />
             </div>
           ))}
         </div>

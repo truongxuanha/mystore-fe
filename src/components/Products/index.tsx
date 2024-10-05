@@ -16,11 +16,11 @@ import { getManuThunk } from "../../redux/reducer/manuReducer/manuThunk";
 
 const Products: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const [activeIndex, setActiveIndex] = useState<number>(0); // Luôn chọn "Tất cả" ban đầu
+  const [activeIndex, setActiveIndex] = useState<number>(0);
   const currentPage: number = parseInt(searchParams.get("page") || "1");
   const itemsPerPage: number = TOTAL_ITEM_PRODUCT;
-  const [manufacturer, setManufacturer] = useState<string>("all");
-
+  const [manufacturer, setManufacturer] = useState<string | number>("all");
+  const [sortOf, setSortOf] = useState<string>("");
   const { products, totalPage, isLoading } = useAppSelector(
     (state) => state.product
   );
@@ -29,9 +29,11 @@ const Products: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
-    const para = { currentPage, itemsPerPage, manufacturer };
+    const para = { currentPage, itemsPerPage, sort: sortOf, manufacturer };
     dispatch(getProducts(para)).unwrap();
-    dispatch(getManuThunk());
+    if (manuItems.length === 0) {
+      dispatch(getManuThunk());
+    }
   }, [
     currentPage,
     itemsPerPage,
@@ -39,6 +41,7 @@ const Products: React.FC = () => {
     manufacturer,
     setSearchParams,
     dispatch,
+    sortOf,
   ]);
 
   const handlePageChange = (newPage: number) => {
@@ -48,103 +51,113 @@ const Products: React.FC = () => {
     }
   };
 
-  const handleItemClick = (index: number, manufacturer: string) => {
+  const handleItemClick = (index: number, manufacturer: string | number) => {
     setActiveIndex(index);
     setManufacturer(manufacturer);
     setSearchParams({ hang_san_xuat: manufacturer.toString() });
   };
 
   if (!products) return <Loader />;
-  console.log(manuItems);
   return (
     <>
-      {isLoading ? (
-        <Loader />
-      ) : (
-        <>
-          <div>
-            <h1 className='text-center my-5 p-5 border uppercase bg-white'>
-              Danh sách sản phẩm
-            </h1>
-          </div>
-          <div className='flex gap-5'>
-            <div className='w-[200px]'>
-              <ul className='bg-white flex flex-col cursor-pointer'>
-                <li
-                  className={`border-t border-l border-r pl-5 py-2 ${
-                    activeIndex === 0 ? "bg-black  text-white" : ""
-                  }`}
-                  onClick={() => handleItemClick(0, "all")}
-                >
-                  Tất cả
-                </li>
-                {manuItems.map((item, index) => (
-                  <li
-                    key={index}
-                    className={`border-l border-r border-b pl-5 py-2 flex justify-between ${
-                      index + 1 === activeIndex ? "bg-black text-white" : ""
-                    } ${index === manuItems.length - 1 ? "border-b" : ""}`}
-                    onClick={() => handleItemClick(index + 1, item.slug)}
-                  >
-                    <span>{item.name}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div className='flex-1'>
-              <div className='grid grid-cols-2 gap-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 w-full'>
-                {products.map((product) => (
+      <div className='bg-white flex border items-center justify-between  my-5 p-5'>
+        <h1 className='text-center uppercase '>Danh sách sản phẩm</h1>
+        <div className='flex gap-3 items-center'>
+          <span>Sắp xếp: </span>
+          <select
+            className='border pr-5 py-2 rounded-md'
+            onChange={(e) => setSortOf(e.target.value)}
+          >
+            <option value=''></option>
+            <option value='ASC'>Giá tăng dần</option>
+            <option value='DESC'>Giá giảm dần</option>
+          </select>
+        </div>
+      </div>
+      <div className='flex gap-5'>
+        <div className='w-[200px]'>
+          <ul className='bg-white flex flex-col cursor-pointer'>
+            <li
+              className={`border-t border-l border-r pl-5 py-2 ${
+                activeIndex === 0 ? "bg-black  text-white" : ""
+              }`}
+              onClick={() => handleItemClick(0, "all")}
+            >
+              Tất cả
+            </li>
+            {manuItems.map((item, index) => (
+              <li
+                key={index}
+                className={`border-l border-r border-b pl-5 py-2 flex justify-between ${
+                  index + 1 === activeIndex ? "bg-black text-white" : ""
+                } ${index === manuItems.length - 1 ? "border-b" : ""}`}
+                onClick={() => handleItemClick(index + 1, item.id)}
+              >
+                <span>{item.name}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+        {isLoading ? (
+          <Loader />
+        ) : (
+          <div className='flex-1'>
+            <div className='grid grid-cols-2 gap-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 w-full'>
+              {products.length > 0 ? (
+                products.map((product) => (
                   <Product
                     key={product.product_name}
                     product={product}
                     typeCss='grid grid-rows-3 gap-2 h-full w-full p-2 md:px-5 pt-2 border border-gray-300 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 ease-in-out text-xs sm:text-base hover:transform hover:scale-105 duration-300'
                   />
-                ))}
-              </div>
+                ))
+              ) : (
+                <div>Không có sản phẩm nào</div>
+              )}
+            </div>
 
-              <div className='flex justify-center mt-8'>
-                <button
-                  className={`px-3 py-1 mx-1 border rounded ${
-                    currentPage === 1 ? "opacity-50 cursor-not-allowed" : ""
-                  }`}
-                  onClick={() => handlePageChange(currentPage - 1)}
-                  disabled={currentPage === 1}
-                >
-                  <ChevronDoubleLeftIcon className='w-3 h-3' />
-                </button>
+            <div className='flex justify-center mt-8'>
+              <button
+                className={`px-3 py-1 mx-1 border rounded ${
+                  currentPage === 1 ? "opacity-50 cursor-not-allowed" : ""
+                }`}
+                onClick={() => handlePageChange(currentPage - 1)}
+                disabled={currentPage === 1}
+              >
+                <ChevronDoubleLeftIcon className='w-3 h-3' />
+              </button>
 
-                {Array.from({ length: totalPage }, (_, i) => i + 1).map(
-                  (_, index) => (
-                    <button
-                      key={index}
-                      className={`px-3 py-1 mx-1 border rounded ${
-                        currentPage === index + 1
-                          ? "bg-colorPrimary text-white"
-                          : "bg-white text-black"
-                      }`}
-                      onClick={() => handlePageChange(index + 1)}
-                    >
-                      {index + 1}
-                    </button>
-                  )
-                )}
+              {Array.from({ length: totalPage }, (_, i) => i + 1).map(
+                (_, index) => (
+                  <button
+                    key={index}
+                    className={`px-3 py-1 mx-1 border rounded ${
+                      currentPage === index + 1
+                        ? "bg-colorPrimary text-white"
+                        : "bg-white text-black"
+                    }`}
+                    onClick={() => handlePageChange(index + 1)}
+                  >
+                    {index + 1}
+                  </button>
+                )
+              )}
 
-                <Button
-                  className={`px-3 py-1 mx-1 border rounded ${
-                    currentPage === totalPage
-                      ? "opacity-50 cursor-not-allowed"
-                      : ""
-                  }`}
-                  onClick={() => handlePageChange(currentPage + 1)}
-                  disabled={currentPage === totalPage}
-                >
-                  <ChevronDoubleRightIcon className='w-3 h-3' />
-                </Button>
-              </div>
+              <Button
+                className={`px-3 py-1 mx-1 border rounded ${
+                  currentPage === totalPage
+                    ? "opacity-50 cursor-not-allowed"
+                    : ""
+                }`}
+                onClick={() => handlePageChange(currentPage + 1)}
+                disabled={currentPage === totalPage}
+              >
+                <ChevronDoubleRightIcon className='w-3 h-3' />
+              </Button>
             </div>
           </div>
-        </>
-      )}
+        )}
+      </div>
     </>
   );
 };

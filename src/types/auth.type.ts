@@ -11,7 +11,18 @@ export interface UserAccount {
   status: number;
   phone: number;
 }
-
+export interface AddressAccountType {
+  createAt: string;
+  detail_address: string;
+  district: string;
+  full_name: string;
+  id: 37;
+  id_account: string;
+  phone: string;
+  province: string;
+  updateAt: string | null;
+  wards: string;
+}
 export interface CurrentAccount {
   user: UserAccount;
   token: string | null;
@@ -26,4 +37,5 @@ export interface IAuthState {
   infoUser: UserAccount;
   all_customers: UserAccount[];
   totalCustomer: number;
+  addressAcc: AddressAccountType[];
 }

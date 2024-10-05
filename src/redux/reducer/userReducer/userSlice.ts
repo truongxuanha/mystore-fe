@@ -1,5 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { authCustomer, authLogin, authProfle, authRegister } from "./authThunk";
+import {
+  authCreateAddress,
+  authCustomer,
+  authGetAddressAcc,
+  authLogin,
+  authProfle,
+  authRegister,
+} from "./authThunk";
 import { IAuthState, UserAccount } from "../../../types";
 import {
   getTokenStorage,
@@ -15,6 +22,7 @@ const initialState: IAuthState = {
   infoUser: <UserAccount>{},
   all_customers: [],
   totalCustomer: 0,
+  addressAcc: [],
 };
 const authSlice = createSlice({
   name: "auth",
@@ -85,6 +93,31 @@ const authSlice = createSlice({
         state.totalCustomer = action.payload.totalItem;
       })
       .addCase(authCustomer.rejected, (state) => {
+        state.loading = false;
+      });
+    builder
+      .addCase(authGetAddressAcc.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(authGetAddressAcc.fulfilled, (state, action) => {
+        state.loading = false;
+        state.error = null;
+        state.addressAcc = action.payload;
+      })
+      .addCase(authGetAddressAcc.rejected, (state) => {
+        state.loading = false;
+      });
+    builder
+      .addCase(authCreateAddress.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(authCreateAddress.fulfilled, (state) => {
+        state.loading = false;
+        state.error = null;
+      })
+      .addCase(authCreateAddress.rejected, (state) => {
         state.loading = false;
       });
   },

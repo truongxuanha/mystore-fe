@@ -23,7 +23,7 @@ function AdminHome() {
       dispath(authCustomer());
       dispath(getProducts(para));
     },
-    [dispath, para]
+    [dispath]
   );
   const items = [
     {
