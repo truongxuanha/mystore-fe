@@ -5,19 +5,22 @@ import { ProductsType } from "types";
 import formatVND from "../../../utils/formatVND";
 import { ShoppingCartIcon } from "@heroicons/react/24/outline";
 import useAddToCart from "../../../hooks/useAddCart";
+import { texts } from "../../../contains/texts";
+import { assets } from "../../../assets";
+import { PAGE } from "../../../contains";
 
 export interface ProductsProp {
   product: ProductsType;
   typeCss: string;
   style?: React.CSSProperties;
-  productNew?: boolean | undefined;
+  productCategory?: string;
 }
 
 const Product: React.FC<ProductsProp> = ({
   product,
   typeCss,
   style,
-  productNew,
+  productCategory,
 }) => {
   const { addToCart } = useAddToCart();
 
@@ -28,7 +31,7 @@ const Product: React.FC<ProductsProp> = ({
     >
       <div className='row-span-3 sm:row-span-2 pt-2 md:row-span-3 w-full flex items-center'>
         <img
-          className='rounded-md object-cover h-full hover:translate-y-[-10px] duration-500'
+          className='rounded-md  object-contain h-full hover:translate-y-[-10px] duration-500'
           src={product.thumbnail}
           alt={product.name}
         />
@@ -47,7 +50,7 @@ const Product: React.FC<ProductsProp> = ({
         </span>
         <div className='flex flex-wrap justify-between items-center gap-3 mt-5 mx-2'>
           <Link
-            to={`/san-pham/${product.product_slug}`}
+            to={`${PAGE.PRODUCT}/${product.product_slug}`}
             className='text-xs md:text-sm cursor-pointer px-2 rounded-md underline hover:text-red-500'
           >
             Thông tin
@@ -69,11 +72,19 @@ const Product: React.FC<ProductsProp> = ({
           )}
         </div>
       </div>
-      {productNew && (
-        <div className='absolute top-1 left-1 bg-red-500 text-white px-2 rounded-sm'>
-          New
+      {(productCategory === texts.product.NEW ||
+        productCategory === texts.product.HOT) && (
+        <div className='absolute top-1 left-0 text-white w-12 h-5 rounded-sm'>
+          <img className='w-14 h-6 rounded-sm' src={assets.tag} alt='' />
+          <p className='absolute inset-0 text-xs flex items-center ml-2 z-10'>
+            {productCategory}
+          </p>
         </div>
       )}
+
+      <div className='absolute top-1 right-1 text-white px-2 rounded-sm'>
+        {product.discount}
+      </div>
     </div>
   );
 };

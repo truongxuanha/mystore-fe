@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 
-import Product from "../Products/Product";
+import Product from "../Products/ProductCard";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/outline";
 
 import { useAppDispatch, useAppSelector } from "../../hooks/useAppDispatch";
 import { getProductNews } from "../../redux/reducer/productReducer/productThunk";
 import Loader from "../../components/Loader";
+import { texts } from "../../contains/texts";
 
 const ProductNews: React.FC = () => {
   const [activeIndex, setActiveIndex] = useState<number>(1);
@@ -17,7 +18,7 @@ const ProductNews: React.FC = () => {
     if (!productNews || productNews.length === 0) {
       dispatch(getProductNews());
     }
-  }, []);
+  }, [dispatch]);
 
   const handlePrev = () => {
     setActiveIndex((prevIndex) => prevIndex - 1);
@@ -40,7 +41,7 @@ const ProductNews: React.FC = () => {
               <Product
                 key={product.id}
                 product={product}
-                productNew={true}
+                productCategory={texts.NEW}
                 style={{
                   transform: `translateX(-${activeIndex * 100}%)`,
                 }}

@@ -11,15 +11,16 @@ const useAddToCart = () => {
   const { currentUser } = useAppSelector((state) => state.auth);
 
   const userLogin = !!currentUser;
-  const addToCart = async (id_product: CreateCartType["id_product"]) => {
+  const addToCart = async (
+    id_product: CreateCartType["id_product"],
+    quantity?: number
+  ) => {
     if (!userLogin) {
       toastifyWarning("Vui lòng đăng nhập!");
       return;
     }
     try {
-      const result = await dispatch(
-        postCreateCart({ id_product, quantity: 1 })
-      );
+      const result = await dispatch(postCreateCart({ id_product, quantity }));
 
       if (!result.payload.success) {
         toastifyWarning("Thêm giỏ hàng thất bại!");

@@ -11,7 +11,7 @@ const Profile: React.FC = () => {
   
   useEffect(() => {
     dispatch(authProfle());
-  }, []);
+  }, [dispatch]);
   return (
     <div className='flex max-w-4xl mx-auto mt-8'>
       <div className='w-1/4 bg-gray-100 p-4 rounded-l-lg shadow-md'>

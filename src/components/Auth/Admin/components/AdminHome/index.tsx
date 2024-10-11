@@ -16,11 +16,15 @@ function AdminHome() {
   const { totalProduct } = useAppSelector((state) => state.product);
   const currentPage = 1;
   const itemsPerPage = 5;
-  const para = { currentPage, itemsPerPage };
-  useEffect(function () {
-    dispath(authCustomer());
-    dispath(getProducts(para));
-  }, []);
+  const manufacturer = "all";
+  const para = { currentPage, itemsPerPage, manufacturer };
+  useEffect(
+    function () {
+      dispath(authCustomer());
+      dispath(getProducts(para));
+    },
+    [dispath]
+  );
   const items = [
     {
       title: "Khách hàng",

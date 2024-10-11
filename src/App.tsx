@@ -7,6 +7,7 @@ import PrivateLayout from "./layouts/PrivateLayout";
 import PublicLayout from "./layouts/PublicLayout";
 import Profile from "./components/Profile";
 import Admin from "./components/Auth/Admin";
+import OrderView from "./components/Oders";
 
 const Home = lazy(() => import("./components/Home"));
 const Cart = lazy(() => import("./components/Carts"));
@@ -75,6 +76,10 @@ const router = createBrowserRouter([
             <Error />
           </Suspense>
         ),
+      },
+      {
+        path: "dat-hang",
+        element: <OrderView />,
       },
     ],
   },
