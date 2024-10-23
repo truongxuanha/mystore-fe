@@ -1,18 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
-import {
-  authCreateAddress,
-  authCustomer,
-  authGetAddressAcc,
-  authLogin,
-  authProfle,
-  authRegister,
-} from "./authThunk";
+import { authCreateAddress, authCustomer, authGetAddressAcc, authLogin, authProfle, authRegister } from "./authThunk";
 import { IAuthState, UserAccount } from "../../../types";
-import {
-  getTokenStorage,
-  getUserStorage,
-  removeUserStorage,
-} from "../../../services/storage";
+import { getTokenStorage, getUserStorage, removeUserStorage } from "../../../services/storage";
 
 const initialState: IAuthState = {
   loading: false,
@@ -58,9 +47,7 @@ const authSlice = createSlice({
         state.loading = false;
         state.error = null;
 
-        state.currentUser = action.payload.data.user
-          ? action.payload.data
-          : null;
+        state.currentUser = action.payload.data.user ? action.payload.data : null;
         state.token = action.payload.data.token;
       })
       .addCase(authLogin.rejected, (state, action) => {

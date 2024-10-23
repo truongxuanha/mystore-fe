@@ -1,10 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import {
-  getProductByAccount,
-  postCreateCart,
-  removeCartItem,
-  updateCartItem,
-} from "./cartThunk";
+import { getProductByAccount, postCreateCart, removeCartItem, updateCartItem } from "./cartThunk";
 
 import { CartState, ProductsType } from "../../../types";
 
@@ -18,7 +13,7 @@ const initialState: CartState = {
 const setLoading = (state: CartState, loading: boolean) => {
   state.loadingCart = loading;
 };
-const total = function (action: ProductsType[]) {
+const total = function(action: ProductsType[]) {
   return action.reduce((total, item) => total + item.quantity, 0);
 };
 const cartSlice = createSlice({
