@@ -6,21 +6,18 @@ function Manufacture() {
   const dispatch = useAppDispatch();
   const { manuItems } = useAppSelector((state) => state.manufacturer);
   useEffect(
-    function () {
+    function() {
       if (manuItems.length === 0 || !manuItems) {
         dispatch(getManuThunk());
       }
     },
-    [dispatch]
+    [dispatch],
   );
   return (
-    <div className='grid grid-flow-col h-[50px]'>
+    <div className="grid grid-flow-col h-[50px]">
       {manuItems.map((data) => (
-        <div
-          key={data.id}
-          className='bg-white flex justify-center items-center border h-[50px]'
-        >
-          <img src={data.img} alt='' />
+        <div key={data.id} className="bg-white flex justify-center items-center border h-[50px]">
+          <img src={data.img} alt="" />
         </div>
       ))}
     </div>

@@ -1,12 +1,10 @@
 import { Button } from "@headlessui/react";
 import { useAppDispatch } from "../../hooks/useAppDispatch";
 import { useState, useEffect } from "react";
-import {
-  authCreateAddressThunk,
-  authGetAddressAcc,
-} from "../../redux/reducer/userReducer/authThunk";
+import { authCreateAddressThunk, authGetAddressAcc } from "../../redux/reducer/userReducer/authThunk";
 import { AddressStateType } from "../../api/account/type";
 import dayjs from "dayjs";
+import { texts } from "../../contains/texts";
 
 type AddressComponent = {
   code: number | string;
@@ -47,9 +45,7 @@ function AddressUser(props: Props) {
   // Fetch districts when a city is selected
   useEffect(() => {
     if (address.province.code) {
-      fetch(
-        `https://provinces.open-api.vn/api/p/${address.province.code}?depth=2`
-      )
+      fetch(`https://provinces.open-api.vn/api/p/${address.province.code}?depth=2`)
         .then((res) => res.json())
         .then((data) => setDistricts(data.districts))
         .catch((error) => console.error("Error fetching districts:", error));
@@ -59,9 +55,7 @@ function AddressUser(props: Props) {
   // Fetch wards when a district is selected
   useEffect(() => {
     if (address.district.code) {
-      fetch(
-        `https://provinces.open-api.vn/api/d/${address.district.code}?depth=2`
-      )
+      fetch(`https://provinces.open-api.vn/api/d/${address.district.code}?depth=2`)
         .then((res) => res.json())
         .then((data) => setWards(data.wards))
         .catch((error) => console.error("Error fetching wards:", error));
@@ -82,57 +76,52 @@ function AddressUser(props: Props) {
       console.error("Error creating address:", error);
     }
     dispatch(authGetAddressAcc());
+    ``;
   }
 
   return (
-    <div className='fixed top-0 left-0 right-0 bottom-0 w-full h-full bg-[rgba(0,0,0,0.5)] justify-center items-center z-50'>
-      <div className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2'>
-        <div className='bg-white w-[500px] relative shadow-md rounded-sm'>
-          <div className='border-b py-4 text-center'>
-            <h1 className='uppercase'>Thêm địa chỉ mới</h1>
+    <div className="fixed top-0 left-0 right-0 bottom-0 w-full h-full bg-[rgba(0,0,0,0.5)] justify-center items-center z-50">
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+        <div className="bg-white w-[500px] relative shadow-md rounded-sm">
+          <div className="border-b py-4 text-center">
+            <h1 className="uppercase">{texts.order.ADD_ADRESS}</h1>
           </div>
           <form onSubmit={(e) => e.preventDefault()}>
-            <div className='py-3 px-5 grid grid-cols-[100px_auto] gap-5'>
-              <label htmlFor='name'>Họ và tên:</label>
+            <div className="py-3 px-5 grid grid-cols-[100px_auto] gap-5">
+              <label htmlFor="name">{texts.account.FULL_NAME}:</label>
               <input
-                className='border px-2 py-1 rounded-sm'
-                type='text'
-                placeholder='Họ và tên'
+                className="border px-2 py-1 rounded-sm"
+                type="text"
+                placeholder="Họ và tên"
                 value={address.full_name}
-                onChange={(e) =>
-                  setAddress({ ...address, full_name: e.target.value })
-                }
+                onChange={(e) => setAddress({ ...address, full_name: e.target.value })}
               />
             </div>
-            <div className='py-3 px-5 grid grid-cols-[100px_auto] gap-5'>
-              <label htmlFor='phone'>Số điện thoại:</label>
+            <div className="py-3 px-5 grid grid-cols-[100px_auto] gap-5">
+              <label htmlFor="phone">{texts.account.PHONE_NUMBER}:</label>
               <input
-                className='border px-2 py-1 rounded-sm'
-                type='text'
-                placeholder='SĐT'
+                className="border px-2 py-1 rounded-sm"
+                type="text"
+                placeholder="SĐT"
                 value={address.phone}
-                onChange={(e) =>
-                  setAddress({ ...address, phone: e.target.value })
-                }
+                onChange={(e) => setAddress({ ...address, phone: e.target.value })}
               />
             </div>
-            <div className='py-3 px-5 grid grid-cols-[100px_auto] gap-5'>
-              <label htmlFor='address'>Địa chỉ:</label>
+            <div className="py-3 px-5 grid grid-cols-[100px_auto] gap-5">
+              <label htmlFor="address">{texts.account.ADDRESS}:</label>
               <textarea
-                className='border px-2 py-1 rounded-sm outline-none'
-                placeholder='Địa chỉ'
+                className="border px-2 py-1 rounded-sm outline-none"
+                placeholder="Địa chỉ"
                 value={address.detail_address}
-                onChange={(e) =>
-                  setAddress({ ...address, detail_address: e.target.value })
-                }
+                onChange={(e) => setAddress({ ...address, detail_address: e.target.value })}
               />
             </div>
 
             {/* Tỉnh/Thành phố */}
-            <div className='py-3 px-5 grid grid-cols-[100px_auto] gap-5'>
+            <div className="py-3 px-5 grid grid-cols-[100px_auto] gap-5">
               <label>Tỉnh/Thành phố:</label>
               <select
-                className='border px-2 py-1 rounded-sm'
+                className="border px-2 py-1 rounded-sm"
                 value={address.province.code}
                 onChange={(e) => {
                   const selectedProvince = cities.find((city) => {
@@ -148,7 +137,7 @@ function AddressUser(props: Props) {
                   setWards([]);
                 }}
               >
-                <option value=''>Chọn tỉnh/thành phố</option>
+                <option value="">Chọn tỉnh/thành phố</option>
                 {cities.map((city) => (
                   <option key={city.code} value={city.code}>
                     {city.name}
@@ -158,15 +147,13 @@ function AddressUser(props: Props) {
             </div>
 
             {/* Quận/Huyện */}
-            <div className='py-3 px-5 grid grid-cols-[100px_auto] gap-5'>
+            <div className="py-3 px-5 grid grid-cols-[100px_auto] gap-5">
               <label>Quận/Huyện:</label>
               <select
-                className='border px-2 py-1 rounded-sm'
+                className="border px-2 py-1 rounded-sm"
                 value={address.district.code}
                 onChange={(e) => {
-                  const selectedDistrict = districts.find(
-                    (district) => district.code === Number(e.target.value)
-                  ) || { code: "", name: "" };
+                  const selectedDistrict = districts.find((district) => district.code === Number(e.target.value)) || { code: "", name: "" };
                   setAddress({
                     ...address,
                     district: selectedDistrict,
@@ -175,7 +162,7 @@ function AddressUser(props: Props) {
                 }}
                 disabled={!address.province.code}
               >
-                <option value=''>Chọn quận/huyện</option>
+                <option value="">Chọn quận/huyện</option>
                 {districts.map((district) => (
                   <option key={district.code} value={district.code}>
                     {district.name}
@@ -185,20 +172,18 @@ function AddressUser(props: Props) {
             </div>
 
             {/* Xã/Phường */}
-            <div className='py-3 px-5 grid grid-cols-[100px_auto] gap-5'>
+            <div className="py-3 px-5 grid grid-cols-[100px_auto] gap-5">
               <label>Xã/Phường:</label>
               <select
-                className='border px-2 py-1 rounded-sm'
+                className="border px-2 py-1 rounded-sm"
                 value={address.wards.code}
                 onChange={(e) => {
-                  const selectedWard = wards.find(
-                    (ward) => ward.code === Number(e.target.value)
-                  ) || { code: "", name: "" };
+                  const selectedWard = wards.find((ward) => ward.code === Number(e.target.value)) || { code: "", name: "" };
                   setAddress({ ...address, wards: selectedWard });
                 }}
                 disabled={!address.district.code}
               >
-                <option value=''>Chọn xã/phường</option>
+                <option value="">Chọn xã/phường</option>
                 {wards.map((ward) => (
                   <option key={ward.code} value={ward.code}>
                     {ward.name}
@@ -208,18 +193,12 @@ function AddressUser(props: Props) {
             </div>
           </form>
 
-          <div className='flex gap-5 justify-end px-5 pb-4 mt-10'>
-            <Button
-              onClick={handleSave}
-              className='px-3 py-[2px] bg-colorPrimary rounded-md'
-            >
-              Lưu
+          <div className="flex gap-5 justify-end px-5 pb-4 mt-10">
+            <Button onClick={handleSave} className="px-3 py-[2px] bg-colorPrimary rounded-md">
+              {texts.common.SAVE}
             </Button>
-            <Button
-              onClick={() => handleClose(false)}
-              className='px-3 py-[2px] bg-corlorButton rounded-md'
-            >
-              Thoát
+            <Button onClick={() => handleClose(false)} className="px-3 py-[2px] bg-corlorButton rounded-md">
+              {texts.common.EXIT}
             </Button>
           </div>
         </div>

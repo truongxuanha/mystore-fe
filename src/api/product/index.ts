@@ -2,12 +2,7 @@ import { ProductsType } from "types";
 import { axiosInstance } from "../../utils/axiosConfig";
 import { ProductParaType, ResProductType } from "./type";
 
-export async function getProduct({
-  currentPage,
-  itemsPerPage,
-  sort,
-  manufacturer,
-}: ProductParaType) {
+export async function getProduct({ currentPage, itemsPerPage, sort, manufacturer }: ProductParaType) {
   try {
     const res: ResProductType = await axiosInstance.get(`product/get-all`, {
       params: {

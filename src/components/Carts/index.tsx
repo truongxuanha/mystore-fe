@@ -1,19 +1,15 @@
 import { useEffect, useMemo } from "react";
 import { Button } from "@headlessui/react";
-import { MinusIcon, PlusIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { useAppDispatch, useAppSelector } from "../../hooks/useAppDispatch";
 
-import {
-  getProductByAccount,
-  removeCartItem,
-  updateCartItem,
-} from "../../redux/reducer/cartReducer/cartThunk";
+import { getProductByAccount, removeCartItem, updateCartItem } from "../../redux/reducer/cartReducer/cartThunk";
 import { ProductsType, UpdateItem } from "../../types";
 import formatVND from "../../utils/formatVND";
 import { toastifyWarning } from "../../utils/toastify";
 import Loader from "../../components/Loader";
 import ProductRandom from "../../components/ProductRandom";
 import CartItem from "./CartItem";
+import { texts } from "../../contains/texts";
 
 function Cart() {
   const dispatch = useAppDispatch();
@@ -31,10 +27,7 @@ function Cart() {
     dispatch(removeCartItem(id));
   }
 
-  function handleUpdateQuantity(
-    id: ProductsType["id"],
-    quantity: UpdateItem["quantity"]
-  ): void {
+  function handleUpdateQuantity(id: ProductsType["id"], quantity: UpdateItem["quantity"]): void {
     dispatch(updateCartItem({ id, quantity }));
 
     if (quantity === 0) dispatch(removeCartItem(id));
@@ -42,17 +35,15 @@ function Cart() {
 
   const totalPrice = useMemo(() => {
     return cartItems.reduce((total, item) => {
-      const priceAfterDiscount =
-        item.price - (item.price * item.discount) / 100;
+      const priceAfterDiscount = item.price - (item.price * item.discount) / 100;
       return total + priceAfterDiscount * item.quantity;
     }, 0);
   }, [cartItems]);
   if (loadingCart) return <Loader />;
   return (
-    <div className=''>
+    <div className="">
       {cartItems.map((cart) => {
-        const priceAfterDiscount =
-          cart.price - (cart.price * cart.discount) / 100;
+        const priceAfterDiscount = cart.price - (cart.price * cart.discount) / 100;
         return (
           <CartItem
             idItemCart={cart.id}
@@ -66,24 +57,25 @@ function Cart() {
           />
         );
       })}
-      <div className='mt-4 w-full h-30 bg-white p-4 rounded-md gap-2 flex flex-col items-end'>
-        <div className='flex flex-col w-32 md:w-44 h-full'>
-          <span className='text-xs md:text-base font-medium '>
-            <strong>Tổng tiền:</strong> {formatVND(totalPrice, 0)}
+      <div className="mt-4 w-full h-30 bg-white p-4 rounded-md gap-2 flex flex-col items-end">
+        <div className="flex flex-col w-32 md:w-44 h-full">
+          <span className="text-xs md:text-base font-medium ">
+            <strong>{texts.common.TOTAL_AMOUNT}:</strong>
+            {formatVND(totalPrice, 0)}
           </span>
-          <span className='text-xs md:text-base font-medium '>
-            <strong>Giảm giá:</strong> 0
+          <span className="text-xs md:text-base font-medium ">
+            <strong>{texts.common.DISCOUNT}:</strong> 0
           </span>
-          <span className='text-xs md:text-base font-medium '>
-            <strong>Tổng tiền:</strong> {formatVND(totalPrice, 0)}
+          <span className="text-xs md:text-base font-medium ">
+            <strong>{texts.common.TOTAL_AMOUNT}:</strong> {formatVND(totalPrice, 0)}
           </span>
           <Button
-            className='bg-red-500 text-white text-xs px-2 py-[4px] rounded-lg hover:bg-red-300 w-24 mt-2 '
+            className="bg-red-500 text-white text-xs px-2 py-[4px] rounded-lg hover:bg-red-300 w-24 mt-2 "
             onClick={() => {
               toastifyWarning("Tính năng đặt hàng đang được Update!");
             }}
           >
-            Đặt hàng ngay
+            {texts.order.ORDER_NOW}
           </Button>
         </div>
       </div>

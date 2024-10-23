@@ -7,7 +7,7 @@ import Manufacture from "../Manufacture";
 function Home() {
   return (
     <>
-      <div className='w-full mx-auto'>
+      <div className="w-full mx-auto">
         <Manufacture />
         <Banner />
         <HotProducts />

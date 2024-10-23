@@ -33,5 +33,5 @@ export interface ProductsType {
   mn_name: string;
   starType: number;
   totalPage: number;
-  totalStar: number
+  totalStar: number;
 }

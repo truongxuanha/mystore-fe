@@ -77,10 +77,6 @@ const router = createBrowserRouter([
           </Suspense>
         ),
       },
-      {
-        path: "dat-hang",
-        element: <OrderView />,
-      },
     ],
   },
   {
@@ -108,6 +104,14 @@ const router = createBrowserRouter([
         element: (
           <Suspense fallback={<Loader />}>
             <Error />
+          </Suspense>
+        ),
+      },
+      {
+        path: "/dat-hang",
+        element: (
+          <Suspense fallback={<Loader />}>
+            <OrderView />
           </Suspense>
         ),
       },

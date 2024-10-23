@@ -1,7 +1,7 @@
 import { axiosInstance } from "../../utils/axiosConfig";
 import { ResSearchType } from "./type";
 
-export async function getSearchResults(query: string) {
+export async function getSearchResults(query: string): Promise<any> {
   try {
     const res: ResSearchType = await axiosInstance.get(`product/search`, {
       params: {
@@ -13,10 +13,13 @@ export async function getSearchResults(query: string) {
         item: 10,
       },
     });
-    if (!res.data.status) throw new Error("No results");
+
+    if (!res.data.status) {
+      throw new Error("No results found for the given query.");
+    }
 
     return res.data.data;
   } catch (err) {
-    throw err;
+    throw new Error("No results");
   }
 }
