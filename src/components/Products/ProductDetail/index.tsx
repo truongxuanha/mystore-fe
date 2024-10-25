@@ -6,7 +6,6 @@ import formatVND from "../../../utils/formatVND";
 import Loader from "../../Loader";
 import { Button } from "@headlessui/react";
 import useAddToCart from "../../../hooks/useAddCart";
-import { toastifyWarning } from "../../../utils/toastify";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../redux/store";
 import { useAppSelector } from "../../../hooks/useAppDispatch";

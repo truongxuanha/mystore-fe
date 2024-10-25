@@ -1,4 +1,4 @@
 export interface InitialLoginState {
-    value: string;
-    password: string;
-  }
+  value: string;
+  password: string;
+}

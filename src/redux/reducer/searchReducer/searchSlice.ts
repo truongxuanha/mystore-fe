@@ -19,13 +19,10 @@ const searchSlice = createSlice({
       .addCase(fetchSearchResults.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(
-        fetchSearchResults.fulfilled,
-        (state, action: PayloadAction<ProductsType[] | undefined>) => {
-          state.isLoading = false;
-          state.results = action.payload ?? [];
-        }
-      )
+      .addCase(fetchSearchResults.fulfilled, (state, action: PayloadAction<ProductsType[] | undefined>) => {
+        state.isLoading = false;
+        state.results = action.payload ?? [];
+      })
       .addCase(fetchSearchResults.rejected, (state) => {
         state.isLoading = false;
         state.results = [];

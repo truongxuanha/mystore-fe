@@ -1,13 +1,8 @@
-import dayjs from "dayjs";
+import { PAGE } from "./../../types/contain.type";
 import { axiosInstance } from "../../utils/axiosConfig";
 import { AddressType } from "./type";
 
-export async function getAllCustomer(
-  query = "",
-  sex = "all",
-  page = 1,
-  item = 5
-) {
+export async function getAllCustomer(query = "", sex = PAGE.all, page = 1, item = 5) {
   try {
     const res = await axiosInstance.get("account/get-all-customer", {
       params: { query, sex, page, item },
@@ -42,11 +37,7 @@ export async function createAddressUser(address: AddressType) {
     });
 
     return res.data.data;
-  } catch (err: any) {
-    console.error(
-      "Error creating address:",
-      err.response ? err.response.data : err.message
-    );
+  } catch (err) {
     throw new Error("Error creating address");
   }
 }

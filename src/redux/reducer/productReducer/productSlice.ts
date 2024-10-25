@@ -1,13 +1,6 @@
 import { ProductsType } from "./../../../types/product.type";
 import { createSlice } from "@reduxjs/toolkit";
-import {
-  getBanners,
-  getHotProducts,
-  getInFoProducts,
-  getProductNews,
-  getProductRandom,
-  getProducts,
-} from "./productThunk";
+import { getBanners, getHotProducts, getInFoProducts, getProductNews, getProductRandom, getProducts } from "./productThunk";
 import { BannerType } from "../../../api/banner/type";
 
 export interface ProductStateType {

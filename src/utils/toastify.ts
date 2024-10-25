@@ -1,17 +1,6 @@
-import {
-  Bounce,
-  Flip,
-  Slide,
-  Zoom,
-  toast,
-  ToastPosition,
-} from "react-toastify";
+import { Bounce, Flip, Slide, Zoom, toast, ToastPosition } from "react-toastify";
 
-type ToastTransitionType =
-  | typeof Bounce
-  | typeof Flip
-  | typeof Slide
-  | typeof Zoom;
+type ToastTransitionType = typeof Bounce | typeof Flip | typeof Slide | typeof Zoom;
 
 const toastOptions = {
   position: "top-right" as ToastPosition,
@@ -24,11 +13,11 @@ const toastOptions = {
   transition: Bounce as ToastTransitionType,
 };
 
-const toastifySuccess = function (txt: string | null) {
+const toastifySuccess = function(txt: string | null) {
   return toast.success(txt, toastOptions);
 };
 
-const toastifyWarning = function (txt: string | null) {
+const toastifyWarning = function(txt: string | null) {
   return toast.warning(txt, toastOptions);
 };
 

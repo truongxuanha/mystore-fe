@@ -3,12 +3,14 @@ import { UserCircleIcon } from "@heroicons/react/24/outline";
 import React, { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../hooks/useAppDispatch";
 import { authProfle } from "../../redux/reducer/userReducer/authThunk";
+import { texts } from "../../contains/texts";
+import { SEX } from "../../types/contain.type";
 
 const Profile: React.FC = () => {
   const dispatch = useAppDispatch();
   const { infoUser } = useAppSelector((state) => state.auth);
   const { account_name, email, phone } = infoUser;
-  
+
   useEffect(() => {
     dispatch(authProfle());
   }, [dispatch]);
@@ -21,27 +23,34 @@ const Profile: React.FC = () => {
         </div>
         <ul className='space-y-4 text-gray-700'>
           <li className='hover:text-colorRed hover:cursor-pointer'>
-            Tài khoản của tôi
-          </li>
-          <li className='hover:text-colorRed hover:cursor-pointer'>Hồ sơ</li>
-          <li className='hover:text-colorRed hover:cursor-pointer'>Địa chỉ</li>
-          <li className='hover:text-colorRed hover:cursor-pointer'>
-            Đổi mật khẩu
+            {texts.account.INFO}
           </li>
           <li className='hover:text-colorRed hover:cursor-pointer'>
-            Đơn hàng của tôi
+            {texts.account.PROFILE}
           </li>
           <li className='hover:text-colorRed hover:cursor-pointer'>
-            Thông báo của tôi
+            {texts.account.ADDRESS}
+          </li>
+          <li className='hover:text-colorRed hover:cursor-pointer'>
+            {texts.account.REPASS}
+          </li>
+          <li className='hover:text-colorRed hover:cursor-pointer'>
+            {texts.account.ORDER}
+          </li>
+          <li className='hover:text-colorRed hover:cursor-pointer'>
+            {texts.account.NOTIFY}
           </li>
         </ul>
       </div>
 
       <div className='w-3/4 bg-white p-6 rounded-r-lg shadow-md'>
-        <h2 className='text-2xl font-semibold mb-6'>Quản lý hồ sơ</h2>
+        <h2 className='text-2xl font-semibold mb-6'>
+          {" "}
+          {texts.account.INFO_MANAGER}
+        </h2>
         <form className='space-y-4'>
           <div className='flex items-center'>
-            <label className='w-1/4'>Tên đăng nhập</label>
+            <label className='w-1/4'>{texts.account.NAME_LOGIN}</label>
             <input
               type='text'
               value={account_name}
@@ -51,11 +60,11 @@ const Profile: React.FC = () => {
               type='button'
               className='ml-4 bg-orange-500 text-white px-4 py-2 rounded-md'
             >
-              Sửa
+              {texts.common.EDIT}
             </button>
           </div>
           <div className='flex items-center'>
-            <label className='w-1/4'>Họ và tên</label>
+            <label className='w-1/4'>{texts.account.FULL_NAME}</label>
             <input
               type='text'
               className='w-2/4 border rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-500'
@@ -64,11 +73,11 @@ const Profile: React.FC = () => {
               type='button'
               className='ml-4 bg-orange-500 text-white px-4 py-2 rounded-md'
             >
-              Sửa
+              {texts.common.EDIT}
             </button>
           </div>
           <div className='flex items-center'>
-            <label className='w-1/4'>Số điện thoại</label>
+            <label className='w-1/4'>{texts.account.PHONE_NUMBER}</label>
             <input
               type='text'
               value={phone}
@@ -78,11 +87,11 @@ const Profile: React.FC = () => {
               type='button'
               className='ml-4 bg-orange-500 text-white px-4 py-2 rounded-md'
             >
-              Sửa
+              {texts.common.EDIT}
             </button>
           </div>
           <div className='flex items-center'>
-            <label className='w-1/4'>Email</label>
+            <label className='w-1/4'>{texts.account.EMAIL}</label>
             <input
               type='text'
               value={email}
@@ -92,25 +101,28 @@ const Profile: React.FC = () => {
               type='button'
               className='ml-4 bg-orange-500 text-white px-4 py-2 rounded-md'
             >
-              Sửa
+              {texts.common.EDIT}
             </button>
           </div>
           <div className='flex items-center'>
-            <label className='w-1/4'>Giới tính</label>
+            <label className='w-1/4'>{texts.account.SEX}</label>
             <div className='w-2/4 flex space-x-4'>
               <label className='flex items-center'>
-                <input type='radio' name='gender' className='mr-2' /> Nam
+                <input type='radio' name='gender' className='mr-2' />
+                {SEX.MALE}
               </label>
               <label className='flex items-center'>
-                <input type='radio' name='gender' className='mr-2' /> Nữ
+                <input type='radio' name='gender' className='mr-2' />
+                {SEX.FEMALE}
               </label>
               <label className='flex items-center'>
-                <input type='radio' name='gender' className='mr-2' /> Khác
+                <input type='radio' name='gender' className='mr-2' />
+                {SEX.OTHER}
               </label>
             </div>
           </div>
           <div className='flex items-center'>
-            <label className='w-1/4'>Ngày sinh</label>
+            <label className='w-1/4'>{texts.account.BIRTHDAY}</label>
             <input
               type='date'
               placeholder='mm/dd/yyyy'
@@ -121,7 +133,7 @@ const Profile: React.FC = () => {
             type='submit'
             className='bg-orange-500 text-white px-6 py-2 rounded-md mt-6'
           >
-            Lưu
+            {texts.common.SAVE}
           </button>
         </form>
       </div>

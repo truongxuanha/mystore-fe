@@ -3,12 +3,8 @@ export interface Amount {
   discount: number;
 }
 
-function formatVND(
-  amount: Amount["amount"],
-  discount: Amount["discount"]
-): string {
-  const numericAmount =
-    typeof amount === "string" ? parseFloat(amount) : amount;
+function formatVND(amount: Amount["amount"], discount: Amount["discount"]): string {
+  const numericAmount = typeof amount === "string" ? parseFloat(amount) : amount;
 
   const formatter = new Intl.NumberFormat("vi-VN", {
     style: "currency",
@@ -16,9 +12,7 @@ function formatVND(
     currencyDisplay: "symbol",
   });
 
-  return isNaN(numericAmount)
-    ? ""
-    : formatter.format(numericAmount - numericAmount * (discount / 100));
+  return isNaN(numericAmount) ? "" : formatter.format(numericAmount - numericAmount * (discount / 100));
 }
 
 export default formatVND;

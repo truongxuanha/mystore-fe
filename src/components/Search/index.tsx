@@ -7,6 +7,7 @@ import useDebounce from "../../hooks/useDebouncs";
 import { Input } from "@headlessui/react";
 import { useAppDispatch, useAppSelector } from "../../hooks/useAppDispatch";
 import { fetchSearchResults } from "../../redux/reducer/searchReducer/searchThunk";
+import { texts } from "../../contains/texts";
 
 export interface SearchProps {
   handleCloseNav?: (open: boolean) => void;
@@ -23,9 +24,9 @@ function Search({ handleCloseNav }: SearchProps) {
       if (!debounce.trim()) return;
       dispatch(fetchSearchResults(searchQuery));
     },
-    [dispatch,searchQuery,debounce]
+    [dispatch, searchQuery, debounce]
   );
-  
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const query = e.target.value;
     setSearchQuery(query);
@@ -76,7 +77,7 @@ function Search({ handleCloseNav }: SearchProps) {
 
       {searchQuery && results.length > 0 && (
         <div className='absolute top-full left-0 w-[110%] sm:w-[120%] md:w-[130%] bg-white border border-t-0 rounded-b-md shadow-lg z-10 transition-all duration-500'>
-          <span>Kết quả tìm kiếm:</span>
+          <span>{texts.search.RESULTS}:</span>
           <SearchResults
             products={results}
             setSearchQuery={setSearchQuery}
@@ -86,9 +87,9 @@ function Search({ handleCloseNav }: SearchProps) {
       )}
       {searchQuery && results.length === 0 && !isLoading && debounce && (
         <div className='absolute top-full left-0 w-[130%] h-24 bg-white border border-t-0 rounded-b-md rounded-r-md shadow-lg z-10 transition-all duration-500'>
-          <span>Kết quả tìm kiếm:</span>
+          <span>{texts.search.RESULTS}:</span>
           <span className='block text-center my-auto'>
-            Không tìm thấy sản phẩm nào
+            {texts.search.NO_RESULTS}
           </span>
         </div>
       )}
