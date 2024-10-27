@@ -29,6 +29,15 @@ export const texts = {
     DISCOUNT: "Giảm giá",
     TOTAL_AMOUNT: "Tổng tiền",
     PROVISIONAL: "Tạm tính",
+    ADD_TO_CART: "Thêm giỏ hàng",
+  },
+  header: {
+    HOME: "Trang chủ",
+    PRODUCT: "Sản phẩm",
+    LOGIN: "Đăng nhập",
+    REGISTER: "Đăng ký",
+    ACCOUNT: "Tài khoản",
+    LOGOUT: "Đăng xuất",
   },
   product: {
     HOT: "Hot",
@@ -40,6 +49,7 @@ export const texts = {
     PRODUCT_OTHER: "Sản phẩm khác",
     PRODUCT_NEW: "Sản phẩm mới",
     BEST_SELLER: "Sản phẩm bán chạy nhất",
+    AUTHENTIC: "Chính hãng",
   },
   order: {
     NO_ADDRESS: "Bạn chưa có địa chỉ giao hàng!",
@@ -49,6 +59,8 @@ export const texts = {
     ADDRESS_SHIP: "Địa chỉ giao hàng",
     TOTAL_PAYMENT: "Tổng tiền thanh toán",
     ORDER_NOW: "Đặt hàng ngay",
+    FREE_SHIP: "Miễn phí ship",
+    FLAS_SHIP: "Giao hàng nhanh",
   },
 
   search: {

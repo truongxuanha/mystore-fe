@@ -60,18 +60,22 @@ function OrderView() {
           </Link>
         </div>
         {addressAcc.length > 0 &&
-          addressAcc.map((address) => {
+          addressAcc.map((address, index) => {
             return (
-              <div className="border-b py-5">
-                <strong>
-                  {address.full_name}, {address.phone}:
-                </strong>
-                <p>
-                  {address.detail_address},{address.province},{address.district},{address.wards}
-                </p>
+              <div className="flex gap-3" key={index}>
+                <input type="radio" name="address" id={`address-${index}`} value={address.id} />
+                <label htmlFor={`address-${index}`} className="border-b py-5">
+                  <strong>
+                    {address.full_name}, {address.phone}:
+                  </strong>
+                  <p>
+                    {address.detail_address}, {address.province}, {address.district}, {address.wards}
+                  </p>
+                </label>
               </div>
             );
           })}
+
         {addressAcc.length === 0 && <div className="text-colorRed text-center">{texts.order.NO_ADDRESS}</div>}
         <div className="text-center flex justify-center py-7 text-white">
           <Button className="bg-colorPrimary px-2 py-1 rounded-md flex items-center">
