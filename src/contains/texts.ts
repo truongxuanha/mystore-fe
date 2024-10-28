@@ -46,6 +46,7 @@ export const texts = {
     PRODUCT_LIST: "Danh sách sản phẩm",
     NO_PRODUCT: "Không có sản phẩm nào!",
     SOLD_OUT: "Hết hàng",
+    OUT_OF_STOCK: "Tạm hết hàng",
     PRODUCT_OTHER: "Sản phẩm khác",
     PRODUCT_NEW: "Sản phẩm mới",
     BEST_SELLER: "Sản phẩm bán chạy nhất",

@@ -13,6 +13,7 @@ interface District {
 }
 
 export interface AddressStateType {
+  
   createAt: string;
   detail_address: string;
   district: District;

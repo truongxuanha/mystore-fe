@@ -14,7 +14,6 @@ const ProductRandom: React.FC = () => {
     async function fetcRandom() {
       const res = await randomProduct();
       setProductRandom(res.data);
-      console.log(res);
     }
     fetcRandom();
   }, []);
@@ -36,9 +35,9 @@ const ProductRandom: React.FC = () => {
           <h1 className="text xl md:text-2xl mb-5 border-b">{texts.product.PRODUCT_OTHER}</h1>
           <div className="relative overflow-hidden w-full min-h-48 sm:min-h-64 md:min-h-96 lg:min-h-96 bg-white rounded-lg">
             <div className="flex">
-              {productRandom.map((product) => (
+              {productRandom.map((product, index) => (
                 <Product
-                  key={product.id}
+                  key={index}
                   product={product}
                   style={{
                     transform: `translateX(-${activeIndex * 100}%)`,

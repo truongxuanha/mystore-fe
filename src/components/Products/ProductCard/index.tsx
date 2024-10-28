@@ -22,9 +22,9 @@ const Product: React.FC<ProductsProp> = ({ product, typeCss, style, productCateg
   return (
     <div className={`${typeCss} bg-white transition-transform duration-500`} style={style}>
       <div className="row-span-3 sm:row-span-2 pt-2 md:row-span-3 w-full flex items-center">
-        <img className="rounded-md  object-contain h-full hover:translate-y-[-10px] duration-500" src={product.thumbnail} alt={product.name} />
+        <img className="rounded-md  object-contain h-full hover:translate-y-[-10px] duration-500" src={product.thumbnail} alt={product.product_name} />
       </div>
-      <p className="multiline-truncate font-medium h-8 sm:h-[43px] row-span-1 sm:row-span-1 md:row-span-5 mt-2 text-xs sm:text-sm">{product.name}</p>
+      <p className="multiline-truncate font-medium h-8 sm:h-[43px] row-span-1 sm:row-span-1 md:row-span-5 mt-2 text-xs sm:text-sm">{product.product_name}</p>
       <div className="row-span-1 sm:row-span-1 md:row-span-2 my-auto pt-5">
         <span className="text-xs sm:text-base md:text-[16px] flex flex-wrap justify-between">
           <p className="text-red-600">{formatVND(product.price, product.discount)}</p>
@@ -35,7 +35,7 @@ const Product: React.FC<ProductsProp> = ({ product, typeCss, style, productCateg
             {texts.common.INFORMATION}
           </Link>
           {product.quantity > 0 ? (
-            <span className="cursor-pointer rounded-full bg-colorRed hover:bg-red-400 p-1" onClick={() => addToCart(product.id)}>
+            <span className="cursor-pointer rounded-full bg-colorRed hover:bg-red-400 p-1" onClick={() => addToCart(product.id, 1)}>
               <ShoppingCartIcon aria-hidden="true" className="h-4 w-4 md:h-5 md:w-5 text-white" />
             </span>
           ) : (

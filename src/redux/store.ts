@@ -5,6 +5,7 @@ import cartReducer from "./reducer/cartReducer/cartSlice";
 import productReducer from "./reducer/productReducer/productSlice";
 import searchReducer from "./reducer/searchReducer/searchSlice";
 import manufactureReducer from "./reducer/manuReducer/manuSlice";
+import orderReducer from "./reducer/orderReducer/orderSlice";
 export const store = configureStore({
   reducer: {
     auth: authReducer,
@@ -12,6 +13,7 @@ export const store = configureStore({
     product: productReducer,
     search: searchReducer,
     manufacturer: manufactureReducer,
+    order: orderReducer,
   },
 });
 

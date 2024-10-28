@@ -1,9 +1,6 @@
 import { useAppDispatch, useAppSelector } from "../hooks/useAppDispatch";
 import { toastifySuccess, toastifyWarning } from "../utils/toastify";
-import {
-  getProductByAccount,
-  postCreateCart,
-} from "../redux/reducer/cartReducer/cartThunk";
+import { getProductByAccount, postCreateCart } from "../redux/reducer/cartReducer/cartThunk";
 import { CreateCartType } from "types";
 
 const useAddToCart = () => {
@@ -11,10 +8,7 @@ const useAddToCart = () => {
   const { currentUser } = useAppSelector((state) => state.auth);
 
   const userLogin = !!currentUser;
-  const addToCart = async (
-    id_product: CreateCartType["id_product"],
-    quantity?: number
-  ) => {
+  const addToCart = async (id_product: CreateCartType["id_product"], quantity?: number) => {
     if (!userLogin) {
       toastifyWarning("Vui lòng đăng nhập!");
       return;

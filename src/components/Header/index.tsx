@@ -57,7 +57,11 @@ function Header() {
       toastifyWarning("Vui lòng đăng nhập!!!");
     }
   };
-
+  useEffect(() => {
+    if (location.pathname !== "/dat-hang") {
+      sessionStorage.removeItem("orderItems");
+    }
+  }, [location.pathname]);
   // Xử lý đóng menu tài khoản khi click ngoài vùng
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
