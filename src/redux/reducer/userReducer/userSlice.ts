@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { authCreateAddress, authCustomer, authGetAddressAcc, authLogin, authProfle, authRegister } from "./authThunk";
+import { authCreateAddressThunk, authCustomer, authGetAddressAcc, authLogin, authProfle, authRegister } from "./authThunk";
 import { IAuthState, UserAccount } from "../../../types";
 import { getTokenStorage, getUserStorage, removeUserStorage } from "../../../services/storage";
 
@@ -96,17 +96,18 @@ const authSlice = createSlice({
         state.loading = false;
       });
     builder
-      .addCase(authCreateAddress.pending, (state) => {
+      .addCase(authCreateAddressThunk.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
-      .addCase(authCreateAddress.fulfilled, (state) => {
+      .addCase(authCreateAddressThunk.fulfilled, (state) => {
         state.loading = false;
         state.error = null;
       })
-      .addCase(authCreateAddress.rejected, (state) => {
+      .addCase(authCreateAddressThunk.rejected, (state) => {
         state.loading = false;
       });
+      
   },
 });
 export const { logout } = authSlice.actions;

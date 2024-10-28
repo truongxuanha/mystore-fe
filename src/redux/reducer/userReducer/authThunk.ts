@@ -61,16 +61,6 @@ export const authCustomer = createAsyncThunk("auth/customer", async (_, { reject
   }
 });
 
-export const authCreateAddress = createAsyncThunk("auth/createAddress", async (_, { rejectWithValue }) => {
-  try {
-    const data = await getAllCustomer();
-
-    return data;
-  } catch (errer) {
-    rejectWithValue(errer);
-  }
-});
-
 export const authGetAddressAcc = createAsyncThunk("auth/getAddressAcc", async (_, { rejectWithValue }) => {
   try {
     const data = await getAddressUser();
@@ -81,7 +71,7 @@ export const authGetAddressAcc = createAsyncThunk("auth/getAddressAcc", async (_
   }
 });
 
-export const authCreateAddressThunk = createAsyncThunk("auth/getAddressAcc", async (address: AddressType, { rejectWithValue }) => {
+export const authCreateAddressThunk = createAsyncThunk("auth/createAddress", async (address: AddressType, { rejectWithValue }) => {
   try {
     const data = await createAddressUser(address);
 

@@ -8,6 +8,8 @@ import PublicLayout from "./layouts/PublicLayout";
 import Profile from "./components/Profile";
 import Admin from "./components/Auth/Admin";
 import OrderView from "./components/Oders";
+import AdminStaff from "./components/Auth/Admin/components/AdminStaff";
+import AdminHome from "./components/Auth/Admin/components/AdminHome";
 
 const Home = lazy(() => import("./components/Home"));
 const Cart = lazy(() => import("./components/Carts"));
@@ -124,6 +126,20 @@ const router = createBrowserRouter([
         <Admin />
       </Suspense>
     ),
+    children: [
+      {
+        index: true,
+        element: <AdminHome />,
+      },
+      {
+        path: "dashboard",
+        element: <AdminHome />,
+      },
+      {
+        path: "staff",
+        element: <AdminStaff />,
+      },
+    ],
   },
 ]);
 
