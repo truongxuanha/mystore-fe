@@ -28,13 +28,14 @@ function AdminStaff() {
     customer.status === 0 ? "Hoạt động" : "Khoá",
   ]);
   
+
   const operations = () => {
     return (
       <div className="flex gap-1 justify-center">
-        <Button padding="5px" background="#2f80ed" width="35px" height="35px" img={<EyeIcon className="w-8 h-8" />} />
-        <Button padding="5px" background="#f86e2e" width="35px" height="35px" img={<PencilSquareIcon className="w-8 h-8" />} />
-        <Button padding="5px" background="#f86e2e" width="35px" height="35px" img={<PaperAirplaneIcon className="w-8 h-8" />} />
-        <Button padding="5px" background="#ff0000" width="35px" height="35px" img={<TrashIcon className="w-8 h-8" />} />
+        <Button padding="5px" background="#2f80ed" width="25px" height="25px" img={<EyeIcon className="w-6 h-6" />} />
+        <Button padding="5px" background="#f86e2e" width="25px" height="25px" img={<PencilSquareIcon className="w-6 h-6" />} />
+        <Button padding="5px" background="#f86e2e" width="25px" height="25px" img={<PaperAirplaneIcon className="w-6 h-6" />} />
+        <Button padding="5px" background="#ff0000" width="25px" height="25px" img={<TrashIcon className="w-6 h-6" />} />
       </div>
     );
   };
@@ -42,7 +43,7 @@ function AdminStaff() {
     <div className="col-span-5 bg-white">
       <HeaderAdmin />
       <div className="flex justify-between mt-2 bg-colorBody p-4">
-        <div className="flex bg-white items-center h-8 border">
+        <div className="flex bg-white items-center h-6 border">
           <Input type="search" className="px-2" />
           <span className="bg-colorPrimary h-full flex items-center px-3 cursor-pointer">
             <MagnifyingGlassIcon className="w-4 h-4 " />

@@ -10,7 +10,7 @@ function Table({ columns, rows, operations }: Props) {
       <thead>
         <tr className="border">
           {columns.map((column) => (
-            <th className="border px-2 py-5 bg-colorBody text-start" key={column}>
+            <th className="border px-2 py-2 bg-colorBody text-start text-[13px]" key={column}>
               {column}
             </th>
           ))}
@@ -20,7 +20,7 @@ function Table({ columns, rows, operations }: Props) {
         {rows.map((row, index) => (
           <tr className="border" key={index}>
             {row.map((cell, cellIndex) => (
-              <td className="border px-2 py-5" key={cellIndex}>
+              <td className="border px-2 py-2  text-sm" key={cellIndex}>
                 {cell}
               </td>
             ))}

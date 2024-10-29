@@ -19,7 +19,7 @@ const Sidebar: React.FC<SidebarProps> = ({ menuSidebar }) => {
     return location.pathname.split("/").includes(url);
   };
   return (
-    <div className="col-span-2 xl:col-span-1 bg-[#19163A] h-full w-full p-4 flex flex-col items-center">
+    <div className="col-span-1 bg-[#19163A] h-full w-full p-4 flex flex-col items-center">
       <div className="flex flex-col items-center ">
         <div className="w-24 h-24 bg-gray-300 rounded-full"></div>
         <h2 className="text-white text-lg mt-4">xtruong27</h2>
