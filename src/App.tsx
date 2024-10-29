@@ -10,6 +10,11 @@ import Admin from "./components/Auth/Admin";
 import OrderView from "./components/Oders";
 import AdminStaff from "./components/Auth/Admin/components/AdminStaff";
 import AdminHome from "./components/Auth/Admin/components/AdminHome";
+import AdminProduct from "./components/Auth/Admin/components/AdminProduct";
+import AdminCustomer from "./components/Auth/Admin/components/AdminCustomer";
+import AdminProvider from "./components/Auth/Admin/components/AdminProvider";
+import AdminOrder from "./components/Auth/Admin/components/AdminBill";
+import AdminBanner from "./components/Auth/Admin/components/AdminBanner";
 
 const Home = lazy(() => import("./components/Home"));
 const Cart = lazy(() => import("./components/Carts"));
@@ -138,6 +143,26 @@ const router = createBrowserRouter([
       {
         path: "staff",
         element: <AdminStaff />,
+      },
+      {
+        path: "product",
+        element: <AdminProduct />,
+      },
+      {
+        path: "provider",
+        element: <AdminProvider />,
+      },
+      {
+        path: "customer",
+        element: <AdminCustomer />,
+      },
+      {
+        path: "order",
+        element: <AdminOrder />,
+      },
+      {
+        path: "banner",
+        element: <AdminBanner />,
       },
     ],
   },

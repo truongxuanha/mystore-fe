@@ -8,7 +8,7 @@ export async function getAllCustomer(query = "", sex = PAGE.all, page = 1, item 
       params: { query, sex, page, item },
     });
 
-    return res.data;
+    return res.data.data;
   } catch (err) {
     console.error("Error fetching customers:", err);
     throw err;

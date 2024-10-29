@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import formatVND from "../../../utils/formatVND";
 
@@ -147,6 +147,7 @@ const ProductDetail: React.FC = () => {
           </div>
         </div>
       </div>
+
       <ProductRandom />
     </main>
   );
