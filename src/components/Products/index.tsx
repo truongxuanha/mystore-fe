@@ -3,8 +3,6 @@ import { useDispatch } from "react-redux";
 import { useSearchParams } from "react-router-dom";
 import Loader from "../Loader";
 import Product from "./ProductCard";
-import { ChevronDoubleLeftIcon, ChevronDoubleRightIcon } from "@heroicons/react/24/outline";
-import { Button } from "@headlessui/react";
 import { useAppSelector } from "../../hooks/useAppDispatch";
 import { getProducts } from "../../redux/reducer/productReducer/productThunk";
 import { AppDispatch } from "../../redux/store";
@@ -12,6 +10,8 @@ import { TOTAL_ITEM_PRODUCT } from "../../contains";
 import { getManuThunk } from "../../redux/reducer/manuReducer/manuThunk";
 import { PAGE } from "../../types/contain.type";
 import { texts } from "../../contains/texts";
+import Pagination from "../../customs/Pagination";
+import { isEmpty } from "../../utils";
 
 const Products: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -65,17 +65,18 @@ const Products: React.FC = () => {
             <li className={`border-t border-l border-r pl-5 py-2 ${activeIndex === 0 ? "bg-black  text-white" : ""}`} onClick={() => handleItemClick(0, "all")}>
               {texts.product.ALL}
             </li>
-            {manuItems.map((item, index) => (
-              <li
-                key={index}
-                className={`border-l border-r border-b pl-5 py-2 flex justify-between ${index + 1 === activeIndex ? "bg-black text-white" : ""} ${
-                  index === manuItems.length - 1 ? "border-b" : ""
-                }`}
-                onClick={() => handleItemClick(index + 1, item.id)}
-              >
-                <span>{item.name}</span>
-              </li>
-            ))}
+            {!isEmpty(manuItems) &&
+              manuItems.map((item, index) => (
+                <li
+                  key={index}
+                  className={`border-l border-r border-b pl-5 py-2 flex justify-between ${index + 1 === activeIndex ? "bg-black text-white" : ""} ${
+                    index === manuItems.length - 1 ? "border-b" : ""
+                  }`}
+                  onClick={() => handleItemClick(index + 1, item.id)}
+                >
+                  <span>{item.name}</span>
+                </li>
+              ))}
           </ul>
         </div>
         {isLoading ? (
@@ -83,7 +84,7 @@ const Products: React.FC = () => {
         ) : (
           <div className="flex-1">
             <div className="grid grid-cols-2 gap-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 w-full">
-              {products.length > 0 ? (
+              {!isEmpty(products) ? (
                 products.map((product) => (
                   <Product
                     key={product.product_name}
@@ -95,34 +96,7 @@ const Products: React.FC = () => {
                 <div>{texts.product.NO_PRODUCT}</div>
               )}
             </div>
-
-            <div className="flex justify-center mt-8">
-              <button
-                className={`px-3 py-1 mx-1 border rounded ${currentPage === 1 ? "opacity-50 cursor-not-allowed" : ""}`}
-                onClick={() => handlePageChange(currentPage - 1)}
-                disabled={currentPage === 1}
-              >
-                <ChevronDoubleLeftIcon className="w-3 h-3" />
-              </button>
-
-              {Array.from({ length: totalPage }, (_, i) => i + 1).map((_, index) => (
-                <button
-                  key={index}
-                  className={`px-3 py-1 mx-1 border rounded ${currentPage === index + 1 ? "bg-colorPrimary text-white" : "bg-white text-black"}`}
-                  onClick={() => handlePageChange(index + 1)}
-                >
-                  {index + 1}
-                </button>
-              ))}
-
-              <Button
-                className={`px-3 py-1 mx-1 border rounded ${currentPage === totalPage ? "opacity-50 cursor-not-allowed" : ""}`}
-                onClick={() => handlePageChange(currentPage + 1)}
-                disabled={currentPage === totalPage}
-              >
-                <ChevronDoubleRightIcon className="w-3 h-3" />
-              </Button>
-            </div>
+            {totalPage > 1 && <Pagination currentPage={currentPage} totalPage={totalPage} onClick={handlePageChange} />}
           </div>
         )}
       </div>

@@ -8,11 +8,12 @@ type Props = {
   color?: string;
   border?: string;
   padding?: string;
+  styles?: string;
   img?: any;
   children?: React.ReactNode;
 } & React.ButtonHTMLAttributes<HTMLButtonElement>;
 
-function Button({ width = "100%", height = "100%", background, color, img, border, padding, children, ...props }: Props) {
+function Button({ width = "100%", height = "100%", background, color, img, border, padding, children, styles, ...props }: Props) {
   const stylesButton = {
     background,
     color,
@@ -22,7 +23,7 @@ function Button({ width = "100%", height = "100%", background, color, img, borde
     padding,
   };
   return (
-    <button style={stylesButton} {...props} className="flex items-center justify-center rounded-md">
+    <button style={stylesButton} {...props} className={`flex items-center justify-center ${styles}`}>
       {img && img}
       {children && children}
     </button>
