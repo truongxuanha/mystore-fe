@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-import Product from "../Products/ProductCard";
+import ProductCard from "../Products/ProductCard";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/outline";
 import { useAppDispatch, useAppSelector } from "../../hooks/useAppDispatch";
 import { getHotProducts } from "../../redux/reducer/productReducer/productThunk";
@@ -35,7 +35,7 @@ const HotProducts: React.FC = () => {
           <div className="flex">
             {!isEmpty(productHots) &&
               productHots.map((product) => (
-                <Product
+                <ProductCard
                   key={product.id}
                   product={product}
                   productCategory={texts.product.HOT}

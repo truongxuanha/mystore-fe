@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-import Product from "../Products/ProductCard";
+import ProductCard from "../Products/ProductCard";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/outline";
 
 import { useAppDispatch, useAppSelector } from "../../hooks/useAppDispatch";
@@ -38,7 +38,7 @@ const ProductNews: React.FC = () => {
         <div className="relative overflow-hidden w-full min-h-48 sm:min-h-64 md:min-h-96 lg:min-h-96 bg-white rounded-lg">
           <div className="flex">
             {productNews.map((product) => (
-              <Product
+              <ProductCard
                 key={product.id}
                 product={product}
                 productCategory={texts.common.NEW}

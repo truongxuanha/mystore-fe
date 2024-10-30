@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useSearchParams } from "react-router-dom";
 import Loader from "../Loader";
-import Product from "./ProductCard";
+import ProductCard from "./ProductCard";
+
 import { useAppSelector } from "../../hooks/useAppDispatch";
 import { getProducts } from "../../redux/reducer/productReducer/productThunk";
 import { AppDispatch } from "../../redux/store";
@@ -12,6 +13,7 @@ import { PAGE } from "../../types/contain.type";
 import { texts } from "../../contains/texts";
 import Pagination from "../../customs/Pagination";
 import { isEmpty } from "../../utils";
+import Nodata from "../../customs/Nodata";
 
 const Products: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -40,9 +42,9 @@ const Products: React.FC = () => {
   };
 
   const handleItemClick = (index: number, manufacturer: string | number) => {
-    setActiveIndex(index);
     setManufacturer(manufacturer);
     setSearchParams({ hang_san_xuat: manufacturer.toString() });
+    setActiveIndex(searchParams.get("hang_san_xuat"));
   };
 
   if (!products) return <Loader />;
@@ -69,7 +71,7 @@ const Products: React.FC = () => {
               manuItems.map((item, index) => (
                 <li
                   key={index}
-                  className={`border-l border-r border-b pl-5 py-2 flex justify-between ${index + 1 === activeIndex ? "bg-black text-white" : ""} ${
+                  className={`border-l border-r border-b pl-5 py-2 flex justify-between ${item.id === activeIndex ? "bg-black text-white" : ""} ${
                     index === manuItems.length - 1 ? "border-b" : ""
                   }`}
                   onClick={() => handleItemClick(index + 1, item.id)}
@@ -83,20 +85,22 @@ const Products: React.FC = () => {
           <Loader />
         ) : (
           <div className="flex-1">
-            <div className="grid grid-cols-2 gap-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 w-full">
-              {!isEmpty(products) ? (
-                products.map((product) => (
-                  <Product
-                    key={product.product_name}
-                    product={product}
-                    typeCss="grid grid-rows-3 gap-2 h-full w-full p-2 md:px-5 pt-2 border border-gray-300 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 ease-in-out text-xs sm:text-base hover:transform hover:scale-105 duration-300"
-                  />
-                ))
-              ) : (
-                <div>{texts.product.NO_PRODUCT}</div>
-              )}
-            </div>
-            {totalPage > 1 && <Pagination currentPage={currentPage} totalPage={totalPage} onClick={handlePageChange} />}
+            {!isEmpty(products) ? (
+              <>
+                <div className="grid grid-cols-2 gap-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 w-full">
+                  {products.map((product) => (
+                    <ProductCard
+                      key={product.product_name}
+                      product={product}
+                      typeCss="grid grid-rows-3 gap-2 h-full w-full p-2 md:px-5 pt-2 border border-gray-300 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 ease-in-out text-xs sm:text-base hover:transform hover:scale-105 duration-300"
+                    />
+                  ))}
+                </div>
+                {totalPage > 1 && <Pagination currentPage={currentPage} totalPage={totalPage} onClick={handlePageChange} />}
+              </>
+            ) : (
+              <Nodata>{texts.product.NO_PRODUCT}</Nodata>
+            )}
           </div>
         )}
       </div>
