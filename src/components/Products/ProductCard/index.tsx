@@ -22,9 +22,9 @@ const ProductCard: React.FC<ProductsProp> = ({ product, typeCss, style, productC
 
   return (
     <div className={`${typeCss} bg-white transition-transform duration-500 relative`} style={style}>
-      <div className="row-span-3 sm:row-span-2 pt-2 md:row-span-3 w-full h-full flex items-center">
+      <div className="row-span-3 sm:row-span-2 pt-2 md:row-span-3 w-full h-28 flex items-center">
         <ImageLazy
-          className="rounded-md  h-full hover:translate-y-[-10px] duration-500"
+          className="rounded-md w-full h-full hover:translate-y-[-10px] duration-500"
           isObjectFitCover="contain"
           src={product.thumbnail}
           alt={product.product_name}

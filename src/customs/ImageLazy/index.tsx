@@ -5,6 +5,7 @@ import loadingImg from "../../assets/loading-img.svg";
 
 const ImageWrapper = styled.img`
   min-width: 100px;
+  height: 100px;
   width: 100%;
   object-fit: cover;
 `;
