@@ -13,7 +13,6 @@ interface District {
 }
 
 export interface AddressStateType {
-  
   createAt: string;
   detail_address: string;
   district: District;
@@ -22,3 +21,10 @@ export interface AddressStateType {
   province: District;
   wards: District;
 }
+
+export type CustomerParamsType = {
+  query?: string;
+  sex?: string;
+  page?: number;
+  item?: number;
+};

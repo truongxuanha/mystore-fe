@@ -6,7 +6,7 @@ import { InitialRegisterState } from "../../../api/register/type";
 import { InitialLoginState } from "../../../api/login/type";
 import { getInfo } from "../../../api/profile";
 import { createAddressUser, getAddressUser, getAllCustomer } from "../../../api/account";
-import { AddressType } from "../../../api/account/type";
+import { AddressType, CustomerParamsType } from "../../../api/account/type";
 
 export const authRegister = createAsyncThunk("auth/authRegister", async (initAccount: InitialRegisterState, { rejectWithValue }) => {
   try {
@@ -51,9 +51,9 @@ export const authProfle = createAsyncThunk("auth/profile", async (_, { rejectWit
   }
 });
 
-export const authCustomer = createAsyncThunk("auth/customer", async (_, { rejectWithValue }) => {
+export const authCustomer = createAsyncThunk("auth/customer", async ({ ...params }: CustomerParamsType, { rejectWithValue }) => {
   try {
-    const data = await getAllCustomer();
+    const data = await getAllCustomer({ ...params });
 
     return data;
   } catch (errer) {

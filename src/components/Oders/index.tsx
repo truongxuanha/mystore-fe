@@ -8,6 +8,7 @@ import { authGetAddressAcc } from "../../redux/reducer/userReducer/authThunk";
 import { texts } from "../../contains/texts";
 import formatVND from "../../utils/formatVND";
 import { createOrderThunk } from "../../redux/reducer/orderReducer/orderThunk";
+import ProductRandom from "../../components/ProductRandom";
 
 function OrderView() {
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -52,9 +53,9 @@ function OrderView() {
   }, [addressAcc]);
   console.log(selectedAddress);
 
-  const handleCreateOrder = () => {
-    dispatch(createOrderThunk({ id_address: selectedAddress, id_account: currentUser?.user.id }));
-  };
+  // const handleCreateOrder = () => {
+  //   dispatch(createOrderThunk({ id_address: selectedAddress, id_account: currentUser?.user.id }));
+  // };
   return (
     <main className="grid grid-cols-2 gap-2 mt-3">
       <div className="col-span-1 ">
@@ -134,6 +135,9 @@ function OrderView() {
             <span>{texts.order.ACCEPT_ORDER}</span>
           </Button>
         </div>
+      </div>
+      <div className="col-span-2">
+        <ProductRandom />
       </div>
       {isOpen && <AddressUser handleClose={setIsOpen} />}
     </main>

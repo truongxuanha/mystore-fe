@@ -1,8 +1,8 @@
-import { PAGE } from "./../../types/contain.type";
 import { axiosInstance } from "../../utils/axiosConfig";
-import { AddressType } from "./type";
+import { AddressType, CustomerParamsType } from "./type";
 
-export async function getAllCustomer(query = "", sex = PAGE.all, page = 1, item = 5) {
+export async function getAllCustomer({ ...params }: CustomerParamsType) {
+  const { query = "", sex = "all", page = 1, item = 5 } = params;
   try {
     const res = await axiosInstance.get("account/get-all-customer", {
       params: { query, sex, page, item },
