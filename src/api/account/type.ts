@@ -27,4 +27,5 @@ export type CustomerParamsType = {
   sex?: string;
   page?: number;
   item?: number;
+  permission?: string | number;
 };

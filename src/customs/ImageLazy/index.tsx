@@ -40,8 +40,6 @@ const Image: FC<Props> = ({ src, alt, handleImageLoaded, isObjectFitCover = "cov
       observer.observe(placeholderRef.current);
     }
   }, [src]);
-  console.log(view);
-
   return (
     <>
       {isLoading && (

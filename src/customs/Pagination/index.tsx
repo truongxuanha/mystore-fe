@@ -1,22 +1,32 @@
 import { ChevronDoubleLeftIcon, ChevronDoubleRightIcon } from "@heroicons/react/24/outline";
 import Button from "../Button";
 import { useSearchParams } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 type Props = {
   currentPage: number;
   totalPage: number;
 };
+
 function Pagination({ currentPage, totalPage }: Props) {
   const [searchParams, setSearchParams] = useSearchParams();
-  const [thisPage, setThisPage] = useState(currentPage);
+  const [thisPage, setThisPage] = useState<number>(currentPage);
+
   const handlePageChange = (newPage: number) => {
     if (newPage >= 1 && newPage <= totalPage) {
       setSearchParams({ page: newPage.toString() });
+      setThisPage(newPage);
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
   };
-  
+
+  useEffect(() => {
+    const page = Number(searchParams.get("page")) || currentPage;
+    console.log(page);
+
+    setThisPage(page);
+  }, [searchParams, currentPage]);
+
   return (
     <div className="flex justify-center mt-8">
       <Button
@@ -29,16 +39,15 @@ function Pagination({ currentPage, totalPage }: Props) {
         <ChevronDoubleLeftIcon className="w-3 h-3" />
       </Button>
 
-      {Array.from({ length: totalPage }, (_, i) => i + 1).map((_, index) => (
+      {Array.from({ length: totalPage }, (_, i) => i + 1).map((pageNum) => (
         <Button
-          key={index}
+          key={pageNum}
           width="40px"
           height="32px"
-          background={`${thisPage === index + 1 ? "colorPrimary" : "white"}`}
-          styles={`border ${thisPage === index + 1 ? "bg-colorPrimary text-white" : "bg-white text-black"}`}
-          onClick={() => handlePageChange(index + 1)}
+          styles={`border ${thisPage === pageNum ? "bg-colorPrimary text-white" : "bg-white text-black"}`}
+          onClick={() => handlePageChange(pageNum)}
         >
-          {index + 1}
+          {pageNum}
         </Button>
       ))}
 
@@ -46,7 +55,7 @@ function Pagination({ currentPage, totalPage }: Props) {
         className={`px-3 py-1 mx-1 border rounded ${thisPage === totalPage ? "opacity-50 cursor-not-allowed" : ""}`}
         width="40px"
         height="32px"
-        onClick={() => handlePageChange(currentPage + 1)}
+        onClick={() => handlePageChange(thisPage + 1)}
         disabled={thisPage === totalPage}
       >
         <ChevronDoubleRightIcon className="w-3 h-3" />
