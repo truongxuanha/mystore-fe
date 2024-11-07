@@ -21,6 +21,30 @@ export const authRegister = createAsyncThunk("auth/authRegister", async (initAcc
   }
 });
 
+export const authUpdate = createAsyncThunk("auth/authUpdate", async (initAccount: InitialRegisterState, { rejectWithValue }) => {
+  try {
+    const data = await registerUser(initAccount);
+    return data;
+  } catch (error) {
+    let errorMessage = "";
+    if (error instanceof Error) {
+      errorMessage = error.message;
+    }
+    return rejectWithValue(errorMessage);
+  }
+});
+export const authDelete = createAsyncThunk("auth/authDelete", async (initAccount: InitialRegisterState, { rejectWithValue }) => {
+  try {
+    const data = await registerUser(initAccount);
+    return data;
+  } catch (error) {
+    let errorMessage = "";
+    if (error instanceof Error) {
+      errorMessage = error.message;
+    }
+    return rejectWithValue(errorMessage);
+  }
+});
 export const authLogin = createAsyncThunk("auth/authLogin", async (initAccount: InitialLoginState, { rejectWithValue }) => {
   try {
     const data = await loginUser(initAccount);
@@ -86,5 +110,19 @@ export const authCreateAddressThunk = createAsyncThunk("auth/createAddress", asy
     return data;
   } catch (errer) {
     rejectWithValue(errer);
+  }
+});
+
+export const authGetInfoUser = createAsyncThunk("auth/inforUser", async (_, { rejectWithValue }) => {
+  try {
+    const data = await getInfo();
+
+    return data;
+  } catch (error) {
+    let errorMessage = "";
+    if (error instanceof Error) {
+      errorMessage = error.message;
+    }
+    return rejectWithValue(errorMessage);
   }
 });

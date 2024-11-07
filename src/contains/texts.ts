@@ -34,9 +34,9 @@ export const texts = {
   },
   common: {
     ALL: "all",
-    SORT: "Sắp xếp",
-    DECREASING: "Giá giảm dần",
-    ASCENDING: "Giá tăng dần",
+    SORT: "Sắp Xếp Theo",
+    DECREASING: "Giá Cao - Thấp",
+    ASCENDING: "Giá Thấp - Cao",
     INFORMATION: "Thông tin",
     EDIT: "Sửa",
     DELETE: "Xóa",

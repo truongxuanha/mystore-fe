@@ -42,7 +42,7 @@ const ProductRandom: React.FC = () => {
                   style={{
                     transform: `translateX(-${activeIndex * 100}%)`,
                   }}
-                  typeCss="w-1/2 md:w-1/3 flex-shrink-0 p-4 grid grid-rows-3 text-xs sm:text-xl lg:text-xl border border-gray-200"
+                  typeCss="w-1/2 md:w-1/5 flex-shrink-0 p-4 grid md:grid-rows-3 text-xs sm:text-xl lg:text-xl border border-gray-200"
                 />
               ))}
             </div>
@@ -57,7 +57,7 @@ const ProductRandom: React.FC = () => {
             </button>
           )}
 
-          {activeIndex <= totalItems - 4 && (
+          {activeIndex <= totalItems - 6 && (
             <button
               type="button"
               className="absolute inset-y-0 right-0 flex justify-center items-center w-[46px] h-3 top-1/2 text-gray-800 focus:outline-none"

@@ -7,6 +7,8 @@ import iConShip from "./ship.svg";
 import tick from "./tick.svg";
 import freeShip from "./free_ship.svg";
 import noAvatar from "./no_avatar.jfif";
+import bannerLeft from "./banner_left.png";
+import bannerRight from "./banner_right.png";
 export const assets = {
   customer,
   calendar,
@@ -17,4 +19,6 @@ export const assets = {
   tick,
   freeShip,
   noAvatar,
+  bannerLeft,
+  bannerRight,
 };

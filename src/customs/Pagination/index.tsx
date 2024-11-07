@@ -14,7 +14,8 @@ function Pagination({ currentPage, totalPage }: Props) {
 
   const handlePageChange = (newPage: number) => {
     if (newPage >= 1 && newPage <= totalPage) {
-      setSearchParams({ page: newPage.toString() });
+      searchParams.set("page", newPage.toString());
+      setSearchParams(searchParams);
       setThisPage(newPage);
       window.scrollTo({ top: 0, behavior: "smooth" });
     }

@@ -13,7 +13,7 @@ import { getBanner } from "../../../api/banner";
 
 export const getProducts = createAsyncThunk(
   "product/getProducts",
-  async ({ currentPage, itemsPerPage, sort = "", manufacturer = "all" }: ProductParaType, { rejectWithValue }) => {
+  async ({ currentPage = 1, itemsPerPage = 8, sort = "", manufacturer = "all" }: ProductParaType, { rejectWithValue }) => {
     try {
       const data = await getProduct({
         currentPage,

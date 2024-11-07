@@ -53,3 +53,12 @@ export async function createAddressUser(address: AddressType) {
     throw new Error("Error creating address");
   }
 }
+
+export async function getInfoUser(id: string) {
+  try {
+    const res = await axiosInstance.get(`/address/${id}/get-by-account`);
+    return res.data.data;
+  } catch (err) {
+    return err;
+  }
+}

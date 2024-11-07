@@ -1,16 +1,19 @@
-import { EyeIcon, MagnifyingGlassIcon, PaperAirplaneIcon, PencilSquareIcon, PlusIcon, TrashIcon } from "@heroicons/react/24/outline";
-import HeaderAdmin from "../HeaderAdmin";
+// AdminStaff.tsx
+
 import { useAppDispatch, useAppSelector } from "../../../../../hooks/useAppDispatch";
 import { Input } from "@headlessui/react";
 import Table from "../../../../../customs/Table";
 import { useEffect, useState } from "react";
 import { authGetAllAccount } from "../../../../../redux/reducer/userReducer/authThunk";
-import Button from "../../../../../customs/Button";
+
 import FormAddStafAdmin from "../../../..//Auth/FormAddStaffAdmin";
 import Pagination from "../../../../../customs/Pagination";
 import { useSearchParams } from "react-router-dom";
 import { PAGE } from "../../../../../types";
 import { texts } from "../../../../../contains/texts";
+import HeaderAdmin from "../HeaderAdmin";
+import { MagnifyingGlassIcon, PlusIcon } from "@heroicons/react/24/outline";
+import ButtonAction from "../../../../../customs/ButtonAction";
 
 function AdminStaff() {
   const { all_accounts, totalAccount } = useAppSelector((state) => state.auth);
@@ -19,7 +22,8 @@ function AdminStaff() {
   const currentPage: number = parseInt(searchParams.get(PAGE.page) || "1");
   const dispatch = useAppDispatch();
   const [show, setShow] = useState<boolean>(false);
-
+  const [actionType, setActionType] = useState<"edit" | "delete" | "add" | "view" | null>(null);
+  const [currentStaff, setCurrentStaff] = useState<any>([]);
   useEffect(() => {
     dispatch(authGetAllAccount({ page: currentPage, permission: selectOption }));
   }, [dispatch, currentPage, selectOption]);
@@ -27,6 +31,31 @@ function AdminStaff() {
   const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedValue = e.target.value;
     setSelectOption(selectedValue);
+  };
+
+  const handleEdit = (id: string) => {
+    setShow(true);
+    setActionType("edit");
+    const acc = all_accounts.filter((acc) => acc.id === id);
+    setCurrentStaff(acc[0]);
+  };
+  const handleAdd = () => {
+    setShow(true);
+    setActionType("add");
+    setCurrentStaff([]);
+  };
+  const handleDelete = (id: string) => {
+    setShow(true);
+    setActionType("delete");
+    const acc = all_accounts.filter((acc) => acc.id === id);
+    setCurrentStaff(acc[0]);
+  };
+
+  const handleView = (id: string) => {
+    setShow(true);
+    setActionType("view");
+    const acc = all_accounts.filter((acc) => acc.id === id);
+    setCurrentStaff(acc[0]);
   };
 
   const columns = [
@@ -41,31 +70,23 @@ function AdminStaff() {
     texts.infor_account.ACTION,
   ];
 
-  const rowCustomer = all_accounts?.map((customer) => [
-    customer.id || "---",
-    customer.account_name || "---",
-    customer.full_name || "---",
-    customer.email || "---",
-    customer.phone || "---",
-    customer.sex === 1 ? "Nam" ? "Nữ" : "---",
-    customer.permission === 2 ? "Nhân viên" : "Quản lý" || "---",
-    customer.status === 0 ? texts.infor_account.STATUS_ON : texts.infor_account.STATUS_BAN,
-  ]);
+  const rowCustomer =
+    all_accounts?.map((customer) => [
+      customer.id || "---",
+      customer.account_name || "---",
+      customer.full_name || "---",
+      customer.email || "---",
+      customer.phone || "---",
+      customer.sex === 0 ? "Nam" : customer.sex === 1 ? "Nữ" : "---",
+      customer.permission === 2 ? "Nhân viên" : "Quản lý",
+      customer.status === 0 ? texts.infor_account.STATUS_ON : texts.infor_account.STATUS_BAN,
+    ]) || [];
 
   const option = [
     { option_id: 1, title: texts.list_staff.ALL_STAFF, value: "all" },
     { option_id: 2, title: texts.list_staff.MANAGER, value: "0" },
     { option_id: 3, title: texts.list_staff.STAFF, value: "2" },
   ];
-
-  const operations = () => (
-    <div className="flex gap-1 justify-center">
-      <Button padding="5px" background="#2f80ed" width="30px" height="30px" img={<EyeIcon className=" text-white" />} />
-      <Button padding="5px" background="#f86e2e" width="30px" height="30px" img={<PencilSquareIcon className=" text-white" />} />
-      <Button padding="5px" background="#f86e2e" width="30px" height="30px" img={<PaperAirplaneIcon className=" text-white" />} />
-      <Button padding="5px" background="#ff0000" width="30px" height="30px" img={<TrashIcon className=" text-white" />} />
-    </div>
-  );
 
   return (
     <div className="col-span-5 bg-white">
@@ -85,16 +106,20 @@ function AdminStaff() {
               </option>
             ))}
           </select>
-          <button onClick={() => setShow(true)} className="bg-colorPrimary px-5 h-8">
+          <button onClick={() => handleAdd()} className="bg-colorPrimary px-5 h-8">
             <PlusIcon className="w-5 h-5 text-white" />
           </button>
         </div>
       </div>
       <div className="mt-2">
-        <Table rows={rowCustomer} columns={columns} operations={operations} />
+        <Table
+          rows={rowCustomer}
+          columns={columns}
+          operations={(id: string) => <ButtonAction id={id} onEdit={handleEdit} onDelete={handleDelete} onView={handleView} />}
+        />
       </div>
       {totalAccount > 1 && <Pagination currentPage={currentPage} totalPage={totalAccount} />}
-      {show && <FormAddStafAdmin setShow={setShow} />}
+      {show && <FormAddStafAdmin initialData={currentStaff} actionType={actionType} setShow={setShow} />}
     </div>
   );
 }

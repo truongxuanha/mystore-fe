@@ -23,6 +23,7 @@ const schemaRegister = yup.object().shape({
     .string()
     .required("Vui lòng nhập số điện thoại.")
     .matches(PHONE_REGEX, "Số điện thoại phải có 10 chữ số."),
+
   birthday: yup
     .date()
     .required("Vui lòng nhập ngày sinh.")
@@ -32,7 +33,8 @@ const schemaRegister = yup.object().shape({
       const age = new Date().getFullYear() - new Date(value).getFullYear();
       return age >= 18;
     }),
-  sex: yup.string(),
+  sex: yup.number().oneOf([0, 1]),
+  permission: yup.number().oneOf([0, 1]),
 });
 
 const schemaLogin = yup.object().shape({
