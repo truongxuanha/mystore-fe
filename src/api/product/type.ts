@@ -24,3 +24,15 @@ export interface ProductManuType {
   itemsPerPage?: number;
   sort?: number;
 }
+
+export type CreateProductType = {
+  price: number;
+  name: string;
+  id_manu: number;
+  discount: number;
+  quantity: number;
+  createAt: string;
+  thumbnail: string;
+  description: string;
+  other_discount: number;
+};

@@ -1,6 +1,15 @@
 import { ProductsType } from "./../../../types/product.type";
 import { createSlice } from "@reduxjs/toolkit";
-import { getBanners, getHotProducts, getInFoProducts, getProductNews, getProductRandom, getProducts } from "./productThunk";
+import {
+  createProductThunk,
+  deleteProductThunk,
+  getBanners,
+  getHotProducts,
+  getInFoProducts,
+  getProductNews,
+  getProductRandom,
+  getProducts,
+} from "./productThunk";
 import { BannerType } from "../../../api/banner/type";
 
 export interface ProductStateType {
@@ -109,6 +118,26 @@ const productSlice = createSlice({
         state.productRandom = action.payload ?? [];
       })
       .addCase(getProductRandom.rejected, (state) => {
+        setIsLoading(state, false);
+      });
+    builder
+      .addCase(createProductThunk.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(createProductThunk.fulfilled, (state) => {
+        setIsLoading(state, false);
+      })
+      .addCase(createProductThunk.rejected, (state) => {
+        setIsLoading(state, false);
+      });
+    builder
+      .addCase(deleteProductThunk.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(deleteProductThunk.fulfilled, (state) => {
+        setIsLoading(state, false);
+      })
+      .addCase(deleteProductThunk.rejected, (state) => {
         setIsLoading(state, false);
       });
   },

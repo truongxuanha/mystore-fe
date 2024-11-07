@@ -45,4 +45,45 @@ const schemaLogin = yup.object().shape({
     .min(6, "Mật khẩu phải có ít nhất 6 ký tự."),
 });
 
-export { schemaRegister, schemaLogin };
+const schemaProduct = yup.object().shape({
+  name: yup
+    .string()
+    .required("Tên sản phẩm là bắt buộc")
+    .min(3, "Tên sản phẩm phải có ít nhất 3 ký tự"),
+
+  id_manu: yup.string().required("Nhà cung cấp là bắt buộc"),
+
+  price: yup
+    .number()
+    .required("Giá là bắt buộc")
+    .positive("Giá phải là một số dương")
+    .typeError("Giá phải là một số"),
+
+  quantity: yup
+    .number()
+    .required("Số lượng nhập là bắt buộc")
+    .integer("Số lượng phải là một số nguyên")
+    .positive("Số lượng phải lớn hơn 0")
+    .typeError("Số lượng phải là một số"),
+
+  thumbnail: yup.mixed().nullable(),
+  discount: yup
+    .number()
+    .nullable()
+    .positive("Chiết khấu phải là một số dương")
+    .typeError("Chiết khấu phải là một số"),
+
+  other_discount: yup
+    .number()
+    .nullable()
+    .positive("Chiết khấu khác phải là một số dương")
+    .typeError("Chiết khấu khác phải là một số"),
+
+  description: yup
+    .string()
+    .nullable()
+    .min(10, "Mô tả sản phẩm phải có ít nhất 10 ký tự"),
+  createAt: yup.string().min(0, "Ngày tạo phải là một giá trị hợp lệ (timestamp)"),
+});
+
+export { schemaRegister, schemaLogin, schemaProduct };

@@ -1,6 +1,6 @@
 type Props = {
   columns: string[];
-  rows: (number | string)[][];
+  rows: any[][];
   operations?: (id: string) => JSX.Element;
 };
 

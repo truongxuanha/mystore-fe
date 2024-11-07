@@ -28,7 +28,7 @@ export const texts = {
     SEX: "Giới tính",
     PERMISTION: "Chức vụ",
     STATUS: "Trạng thái",
-    ACTION: "Hoạt động	Thao tác",
+    ACTION: "Thao tác",
     STATUS_ON: "Hoạt động",
     STATUS_BAN: "Khoá",
   },
@@ -69,6 +69,10 @@ export const texts = {
     PRODUCT_NEW: "Sản phẩm mới",
     BEST_SELLER: "Sản phẩm bán chạy nhất",
     AUTHENTIC: "Chính hãng",
+    PRODUCT_NAME: "Tên sản phẩm",
+    PRODUCT_ID: "Mã sản phẩm",
+    MANUFACTURE: "Nhà cung cấp",
+    
   },
   order: {
     NO_ADDRESS: "Bạn chưa có địa chỉ giao hàng!",
