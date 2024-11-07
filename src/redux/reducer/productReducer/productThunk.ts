@@ -4,12 +4,6 @@ import { ProductParaType } from "../../../api/product/type";
 import { ProductsType } from "../../../types";
 import { getBanner } from "../../../api/banner";
 
-// interface GetProductsResponse {
-//   status: boolean;
-//   data: ProductsType[];
-//   totalItem: number;
-//   totalPage: number;
-// }
 
 export const getProducts = createAsyncThunk(
   "product/getProducts",

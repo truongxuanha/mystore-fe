@@ -17,7 +17,7 @@ import ButtonAction from "../../../../../customs/ButtonAction";
 
 function AdminStaff() {
   const { all_accounts, totalAccount } = useAppSelector((state) => state.auth);
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const [selectOption, setSelectOption] = useState("all");
   const currentPage: number = parseInt(searchParams.get(PAGE.page) || "1");
   const dispatch = useAppDispatch();
@@ -70,17 +70,16 @@ function AdminStaff() {
     texts.infor_account.ACTION,
   ];
 
-  const rowCustomer =
-    all_accounts?.map((customer) => [
-      customer.id || "---",
-      customer.account_name || "---",
-      customer.full_name || "---",
-      customer.email || "---",
-      customer.phone || "---",
-      customer.sex === 0 ? "Nam" : customer.sex === 1 ? "Nữ" : "---",
-      customer.permission === 2 ? "Nhân viên" : "Quản lý",
-      customer.status === 0 ? texts.infor_account.STATUS_ON : texts.infor_account.STATUS_BAN,
-    ]) || [];
+  const rowCustomer = all_accounts?.map((customer) => [
+    customer.id || "---",
+    customer.account_name || "---",
+    customer.full_name || "---",
+    customer.email || "---",
+    customer.phone || "---",
+    customer.sex === 1 ? "Nam" : 0 ? "Nữ" : "---",
+    customer.permission === 2 ? "Nhân viên" : 1 ? "Quản lý" : "---",
+    customer.status === 0 ? texts.infor_account.STATUS_ON : texts.infor_account.STATUS_BAN,
+  ]);
 
   const option = [
     { option_id: 1, title: texts.list_staff.ALL_STAFF, value: "all" },
