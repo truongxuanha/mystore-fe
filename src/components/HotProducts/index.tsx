@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-import Product from "../Products/ProductCard";
+import ProductCard from "../Products/ProductCard";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/outline";
 import { useAppDispatch, useAppSelector } from "../../hooks/useAppDispatch";
 import { getHotProducts } from "../../redux/reducer/productReducer/productThunk";
@@ -8,7 +8,6 @@ import { texts } from "../../contains/texts";
 
 const HotProducts: React.FC = () => {
   const [activeIndex, setActiveIndex] = useState<number>(1);
-
   const dispatch = useAppDispatch();
   const { productHots } = useAppSelector((state) => state.product);
   useEffect(() => {
@@ -19,11 +18,9 @@ const HotProducts: React.FC = () => {
   const handlePrev = () => {
     setActiveIndex((prevIndex) => prevIndex - 1);
   };
-
   const handleNext = () => {
     setActiveIndex((prevIndex) => prevIndex + 1);
   };
-
   const totalItems = productHots.length;
 
   return (
@@ -32,17 +29,18 @@ const HotProducts: React.FC = () => {
         <h1 className="text xl md:text-2xl mb-5">{texts.product.BEST_SELLER}</h1>
         <div className="relative overflow-hidden w-full min-h-48 sm:min-h-64 md:min-h-96 lg:min-h-96 bg-white rounded-lg">
           <div className="flex">
-            {productHots.map((product) => (
-              <Product
-                key={product.id}
-                product={product}
-                productCategory={texts.product.HOT}
-                style={{
-                  transform: `translateX(-${activeIndex * 100}%)`,
-                }}
-                typeCss="w-1/2 md:w-1/3 flex-shrink-0 p-4 grid grid-rows-3 text-xs sm:text-xl lg:text-xl border border-gray-200"
-              />
-            ))}
+            {productHots.length > 0 &&
+              productHots.map((product) => (
+                <ProductCard
+                  key={product.id}
+                  product={product}
+                  productCategory={texts.product.HOT}
+                  style={{
+                    transform: `translateX(-${activeIndex * 100}%)`,
+                  }}
+                  typeCss="w-1/2 md:w-1/5 flex-shrink-0 p-4 grid md:grid-rows-3 text-xs sm:text-xl lg:text-xl border border-gray-200"
+                />
+              ))}
           </div>
         </div>
         {activeIndex > 1 && (
@@ -55,7 +53,7 @@ const HotProducts: React.FC = () => {
           </button>
         )}
 
-        {activeIndex <= totalItems - 4 && (
+        {activeIndex <= totalItems - 6 && (
           <button
             type="button"
             className="absolute inset-y-0 right-0 flex justify-center items-center w-[46px] h-3 top-1/2 text-gray-800 focus:outline-none"

@@ -4,7 +4,7 @@ const navLink = [
     title: "Trang chủ",
   },
   {
-    path: "/san-pham",
+    path: "/san-pham?hang_san_xuat=all",
     title: "Sản phẩm",
   },
   {

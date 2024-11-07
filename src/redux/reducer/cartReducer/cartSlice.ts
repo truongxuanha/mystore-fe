@@ -35,7 +35,7 @@ const cartSlice = createSlice({
       .addCase(getProductByAccount.fulfilled, (state, action) => {
         setLoading(state, false);
         state.cartItems = action.payload ?? [];
-        state.cartLength = total(action.payload);
+        state.cartLength = total(state.cartItems);
       })
       .addCase(getProductByAccount.rejected, (state) => {
         setLoading(state, false);

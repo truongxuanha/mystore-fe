@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { authCreateAddress, authCustomer, authGetAddressAcc, authLogin, authProfle, authRegister } from "./authThunk";
+import { authGetAllAccount, authCreateAddressThunk, authGetAddressAcc, authLogin, authProfle, authRegister, authCustomer } from "./authThunk";
 import { IAuthState, UserAccount } from "../../../types";
 import { getTokenStorage, getUserStorage, removeUserStorage } from "../../../services/storage";
 
@@ -9,7 +9,9 @@ const initialState: IAuthState = {
   currentUser: getUserStorage(),
   token: getTokenStorage(),
   infoUser: <UserAccount>{},
+  all_accounts: [],
   all_customers: [],
+  totalAccount: 0,
   totalCustomer: 0,
   addressAcc: [],
 };
@@ -69,6 +71,20 @@ const authSlice = createSlice({
         state.loading = false;
       });
     builder
+      .addCase(authGetAllAccount.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(authGetAllAccount.fulfilled, (state, action) => {
+        state.loading = false;
+        state.error = null;
+        state.all_accounts = action.payload.data;
+        state.totalAccount = action.payload.totalPage;
+      })
+      .addCase(authGetAllAccount.rejected, (state) => {
+        state.loading = false;
+      });
+    builder
       .addCase(authCustomer.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -76,8 +92,8 @@ const authSlice = createSlice({
       .addCase(authCustomer.fulfilled, (state, action) => {
         state.loading = false;
         state.error = null;
-        state.all_customers = action.payload;
-        state.totalCustomer = action.payload.totalItem;
+        state.all_customers = action.payload.data;
+        state.totalCustomer = action.payload.totalPage;
       })
       .addCase(authCustomer.rejected, (state) => {
         state.loading = false;
@@ -95,16 +111,17 @@ const authSlice = createSlice({
       .addCase(authGetAddressAcc.rejected, (state) => {
         state.loading = false;
       });
+
     builder
-      .addCase(authCreateAddress.pending, (state) => {
+      .addCase(authCreateAddressThunk.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
-      .addCase(authCreateAddress.fulfilled, (state) => {
+      .addCase(authCreateAddressThunk.fulfilled, (state) => {
         state.loading = false;
         state.error = null;
       })
-      .addCase(authCreateAddress.rejected, (state) => {
+      .addCase(authCreateAddressThunk.rejected, (state) => {
         state.loading = false;
       });
   },

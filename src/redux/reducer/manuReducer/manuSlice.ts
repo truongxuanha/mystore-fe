@@ -9,10 +9,12 @@ export interface ManufactureType {
 export interface InitialStateType {
   manuItems: ManufactureType[];
   loading: boolean;
+  error: string;
 }
 const initialState: InitialStateType = {
   manuItems: [],
   loading: false,
+  error: "",
 };
 
 const manuSlice = createSlice({

@@ -22,6 +22,7 @@ import Search from "../Search";
 import { getProductByAccount } from "../../redux/reducer/cartReducer/cartThunk";
 import { clearCart } from "../../redux/reducer/cartReducer/cartSlice";
 import { navLink } from "../../routes/app";
+import { texts } from "../../contains/texts";
 
 function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -56,7 +57,11 @@ function Header() {
       toastifyWarning("Vui lòng đăng nhập!!!");
     }
   };
-
+  useEffect(() => {
+    if (location.pathname !== "/dat-hang") {
+      sessionStorage.removeItem("orderItems");
+    }
+  }, [location.pathname]);
   // Xử lý đóng menu tài khoản khi click ngoài vùng
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -94,11 +99,9 @@ function Header() {
             <Search handleCloseNav={() => setMobileMenuOpen(false)} />
             <Link to="/gio-hang" className="relative">
               <ShoppingCartIcon onClick={handleCart} aria-hidden="true" className="h-6 w-6 cursor-pointer" />
-              {cartLength > 0 && (
-                <span className="absolute -top-[6px] -right-[6px] bg-orange-500 text-white text-xs font-bold rounded-full h-4 w-4 flex items-center justify-center">
-                  {cartLength}
-                </span>
-              )}
+              <span className="absolute -top-[6px] -right-[6px] bg-orange-500 text-white text-xs font-bold rounded-full h-4 w-4 flex items-center justify-center">
+                {cartLength > 0 ? cartLength : 0}
+              </span>
             </Link>
           </div>
 
@@ -112,7 +115,7 @@ function Header() {
                   <div className="flex flex-col">
                     <Link to="/thong-tin-tai-khoan" className="flex p-3 items-center gap-x-2 hover:bg-[#f5f5f5]">
                       <UserIcon className="w-5 h-5" />
-                      <p>Tài khoản</p>
+                      <p>{texts.header.ACCOUNT}</p>
                     </Link>
                     <Link to="/admin" className="flex p-3 items-center gap-x-2 hover:bg-[#f5f5f5]">
                       <GlobeAltIcon className="w-5 h-6" />
@@ -120,18 +123,18 @@ function Header() {
                     </Link>
                     <span onClick={handleLogout} className="flex justify-start gap-x-2 p-3 hover:bg-[#f5f5f5]">
                       <ArrowRightStartOnRectangleIcon className="h-5 w-5" />
-                      <p>Đăng xuất</p>
+                      <p>{texts.header.LOGOUT}</p>
                     </span>
                   </div>
                 ) : (
                   <div className="flex flex-col">
                     <NavLink to="/dang-nhap" className="p-3 gap-2 flex hover:bg-[#f5f5f5]" onClick={() => setMobileMenuOpen(false)}>
                       <ArrowsRightLeftIcon className="w-5 h-6" />
-                      Đăng nhập
+                      {texts.header.LOGIN}
                     </NavLink>
                     <NavLink to="/dang-ky" className="p-3 gap-2 flex hover:bg-[#f5f5f5]" onClick={() => setMobileMenuOpen(false)}>
                       <ShieldExclamationIcon className="w-5 h-6" />
-                      Đăng ký
+                      {texts.header.LOGOUT}
                     </NavLink>
                   </div>
                 )}
@@ -184,20 +187,20 @@ function Header() {
                 <div className="flex flex-col gap-3">
                   <span className="flex items-center gap-2 cursor-pointer p-3 hover:bg-gray-100" onClick={() => setMobileMenuOpen(false)}>
                     <UserIcon className="w-5 h-5" />
-                    <p>Tài khoản</p>
+                    <p>{texts.header.ACCOUNT}</p>
                   </span>
                   <span className="flex items-center gap-2 cursor-pointer p-3 hover:bg-gray-100" onClick={handleLogout}>
                     <ArrowRightStartOnRectangleIcon className="w-5 h-5" />
-                    <p>Đăng xuất</p>
+                    <p>{texts.header.LOGOUT}</p>
                   </span>
                 </div>
               ) : (
                 <div className="flex flex-col gap-2">
                   <NavLink to="/dang-nhap" className="block text-xs font-semibold text-gray-900 p-3 hover:bg-gray-100" onClick={() => setMobileMenuOpen(false)}>
-                    Đăng nhập
+                    {texts.header.LOGIN}
                   </NavLink>
                   <NavLink to="/dang-ky" className="block text-xs font-semibold text-gray-900 p-3 hover:bg-gray-100" onClick={() => setMobileMenuOpen(false)}>
-                    Đăng ký
+                    {texts.header.LOGOUT}
                   </NavLink>
                 </div>
               )}

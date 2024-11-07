@@ -21,3 +21,11 @@ export interface AddressStateType {
   province: District;
   wards: District;
 }
+
+export type CustomerParamsType = {
+  query?: string;
+  sex?: string;
+  page?: number;
+  item?: number;
+  permission?: string | number;
+};

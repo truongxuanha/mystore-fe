@@ -5,8 +5,8 @@ import { loginUser } from "../../../api/login";
 import { InitialRegisterState } from "../../../api/register/type";
 import { InitialLoginState } from "../../../api/login/type";
 import { getInfo } from "../../../api/profile";
-import { createAddressUser, getAddressUser, getAllCustomer } from "../../../api/account";
-import { AddressType } from "../../../api/account/type";
+import { createAddressUser, getAddressUser, getAllAccount, getAllCustomer } from "../../../api/account";
+import { AddressType, CustomerParamsType } from "../../../api/account/type";
 
 export const authRegister = createAsyncThunk("auth/authRegister", async (initAccount: InitialRegisterState, { rejectWithValue }) => {
   try {
@@ -21,6 +21,30 @@ export const authRegister = createAsyncThunk("auth/authRegister", async (initAcc
   }
 });
 
+export const authUpdate = createAsyncThunk("auth/authUpdate", async (initAccount: InitialRegisterState, { rejectWithValue }) => {
+  try {
+    const data = await registerUser(initAccount);
+    return data;
+  } catch (error) {
+    let errorMessage = "";
+    if (error instanceof Error) {
+      errorMessage = error.message;
+    }
+    return rejectWithValue(errorMessage);
+  }
+});
+export const authDelete = createAsyncThunk("auth/authDelete", async (initAccount: InitialRegisterState, { rejectWithValue }) => {
+  try {
+    const data = await registerUser(initAccount);
+    return data;
+  } catch (error) {
+    let errorMessage = "";
+    if (error instanceof Error) {
+      errorMessage = error.message;
+    }
+    return rejectWithValue(errorMessage);
+  }
+});
 export const authLogin = createAsyncThunk("auth/authLogin", async (initAccount: InitialLoginState, { rejectWithValue }) => {
   try {
     const data = await loginUser(initAccount);
@@ -51,26 +75,24 @@ export const authProfle = createAsyncThunk("auth/profile", async (_, { rejectWit
   }
 });
 
-export const authCustomer = createAsyncThunk("auth/customer", async (_, { rejectWithValue }) => {
+export const authGetAllAccount = createAsyncThunk("auth/getAllAccount", async ({ ...params }: CustomerParamsType, { rejectWithValue }) => {
   try {
-    const data = await getAllCustomer();
+    const data = await getAllAccount({ ...params });
 
     return data;
   } catch (errer) {
     rejectWithValue(errer);
   }
 });
-
-export const authCreateAddress = createAsyncThunk("auth/createAddress", async (_, { rejectWithValue }) => {
+export const authCustomer = createAsyncThunk("auth/customer", async ({ ...params }: CustomerParamsType, { rejectWithValue }) => {
   try {
-    const data = await getAllCustomer();
+    const data = await getAllCustomer({ ...params });
 
     return data;
   } catch (errer) {
     rejectWithValue(errer);
   }
 });
-
 export const authGetAddressAcc = createAsyncThunk("auth/getAddressAcc", async (_, { rejectWithValue }) => {
   try {
     const data = await getAddressUser();
@@ -81,12 +103,26 @@ export const authGetAddressAcc = createAsyncThunk("auth/getAddressAcc", async (_
   }
 });
 
-export const authCreateAddressThunk = createAsyncThunk("auth/getAddressAcc", async (address: AddressType, { rejectWithValue }) => {
+export const authCreateAddressThunk = createAsyncThunk("auth/createAddress", async (address: AddressType, { rejectWithValue }) => {
   try {
     const data = await createAddressUser(address);
 
     return data;
   } catch (errer) {
     rejectWithValue(errer);
+  }
+});
+
+export const authGetInfoUser = createAsyncThunk("auth/inforUser", async (_, { rejectWithValue }) => {
+  try {
+    const data = await getInfo();
+
+    return data;
+  } catch (error) {
+    let errorMessage = "";
+    if (error instanceof Error) {
+      errorMessage = error.message;
+    }
+    return rejectWithValue(errorMessage);
   }
 });

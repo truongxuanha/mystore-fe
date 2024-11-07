@@ -28,9 +28,9 @@ const SearchResults: React.FC<SearchResultsProps> = ({ products, setSearchQuery,
         <li key={product.id} className="p-2 hover:bg-orange-100 cursor-pointer border-b last:border-none" onClick={() => handleInfo(product.product_slug)}>
           <Link to={`/san-pham/${product.product_slug}`} className="text-sm cursor-pointer">
             <span className="flex items-center">
-              <img className="w-10 rounded-full" src={product.thumbnail} alt={product.name} />
+              <img className="w-10 rounded-full" src={product.thumbnail} alt={product.product_name} />
               <p className="ml-2">
-                {product.name} - {product.price.toLocaleString()} VND
+                {product.product_name} - {product.price.toLocaleString()} VND
               </p>
             </span>
           </Link>

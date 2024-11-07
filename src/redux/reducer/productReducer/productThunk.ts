@@ -4,16 +4,10 @@ import { ProductParaType } from "../../../api/product/type";
 import { ProductsType } from "../../../types";
 import { getBanner } from "../../../api/banner";
 
-// interface GetProductsResponse {
-//   status: boolean;
-//   data: ProductsType[];
-//   totalItem: number;
-//   totalPage: number;
-// }
 
 export const getProducts = createAsyncThunk(
   "product/getProducts",
-  async ({ currentPage, itemsPerPage, sort = "", manufacturer = "all" }: ProductParaType, { rejectWithValue }) => {
+  async ({ currentPage = 1, itemsPerPage = 8, sort = "", manufacturer = "all" }: ProductParaType, { rejectWithValue }) => {
     try {
       const data = await getProduct({
         currentPage,

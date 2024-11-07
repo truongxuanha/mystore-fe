@@ -1,0 +1,68 @@
+import { ChevronDoubleLeftIcon, ChevronDoubleRightIcon } from "@heroicons/react/24/outline";
+import Button from "../Button";
+import { useSearchParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+
+type Props = {
+  currentPage: number;
+  totalPage: number;
+};
+
+function Pagination({ currentPage, totalPage }: Props) {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [thisPage, setThisPage] = useState<number>(currentPage);
+
+  const handlePageChange = (newPage: number) => {
+    if (newPage >= 1 && newPage <= totalPage) {
+      searchParams.set("page", newPage.toString());
+      setSearchParams(searchParams);
+      setThisPage(newPage);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  };
+
+  useEffect(() => {
+    const page = Number(searchParams.get("page")) || currentPage;
+    console.log(page);
+
+    setThisPage(page);
+  }, [searchParams, currentPage]);
+
+  return (
+    <div className="flex justify-center mt-8">
+      <Button
+        className={`px-3 py-1 mx-1 border rounded ${thisPage === 1 ? "opacity-50 cursor-not-allowed" : ""}`}
+        width="40px"
+        height="32px"
+        onClick={() => handlePageChange(thisPage - 1)}
+        disabled={thisPage === 1}
+      >
+        <ChevronDoubleLeftIcon className="w-3 h-3" />
+      </Button>
+
+      {Array.from({ length: totalPage }, (_, i) => i + 1).map((pageNum) => (
+        <Button
+          key={pageNum}
+          width="40px"
+          height="32px"
+          styles={`border ${thisPage === pageNum ? "bg-colorPrimary text-white" : "bg-white text-black"}`}
+          onClick={() => handlePageChange(pageNum)}
+        >
+          {pageNum}
+        </Button>
+      ))}
+
+      <Button
+        className={`px-3 py-1 mx-1 border rounded ${thisPage === totalPage ? "opacity-50 cursor-not-allowed" : ""}`}
+        width="40px"
+        height="32px"
+        onClick={() => handlePageChange(thisPage + 1)}
+        disabled={thisPage === totalPage}
+      >
+        <ChevronDoubleRightIcon className="w-3 h-3" />
+      </Button>
+    </div>
+  );
+}
+
+export default Pagination;
