@@ -34,17 +34,11 @@ const Products: React.FC = () => {
       dispatch(getManuThunk());
     }
   }, [currentPage, itemsPerPage, searchParams, manufacturer, setSearchParams, dispatch, sortOf, manuItems]);
-  const handlePageChange = (newPage: number) => {
-    if (newPage >= 1 && newPage <= totalPage) {
-      setSearchParams({ page: newPage.toString() });
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    }
-  };
 
   const handleItemClick = (index: number, manufacturer: string | number) => {
     setManufacturer(manufacturer);
     setSearchParams({ hang_san_xuat: manufacturer.toString() });
-    setActiveIndex(searchParams.get("hang_san_xuat"));
+    setActiveIndex(index);
   };
 
   if (!products) return <Loader />;
@@ -96,7 +90,7 @@ const Products: React.FC = () => {
                     />
                   ))}
                 </div>
-                {totalPage > 1 && <Pagination currentPage={currentPage} totalPage={totalPage} onClick={handlePageChange} />}
+                {totalPage > 1 && <Pagination currentPage={currentPage} totalPage={totalPage} />}
               </>
             ) : (
               <Nodata>{texts.product.NO_PRODUCT}</Nodata>

@@ -7,7 +7,6 @@ import { useAppDispatch, useAppSelector } from "../../hooks/useAppDispatch";
 import { authGetAddressAcc } from "../../redux/reducer/userReducer/authThunk";
 import { texts } from "../../contains/texts";
 import formatVND from "../../utils/formatVND";
-import { createOrderThunk } from "../../redux/reducer/orderReducer/orderThunk";
 import ProductRandom from "../../components/ProductRandom";
 
 function OrderView() {
@@ -20,8 +19,6 @@ function OrderView() {
   });
 
   const [selectedAddress, setSelectedAddress] = useState<number>();
-
-  const { currentUser } = useAppSelector((state) => state.auth);
 
   const dispatch = useAppDispatch();
   useEffect(() => {

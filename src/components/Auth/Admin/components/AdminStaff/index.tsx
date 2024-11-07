@@ -14,7 +14,7 @@ import { texts } from "../../../../../contains/texts";
 
 function AdminStaff() {
   const { all_accounts, totalAccount } = useAppSelector((state) => state.auth);
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const [selectOption, setSelectOption] = useState("all");
   const currentPage: number = parseInt(searchParams.get(PAGE.page) || "1");
   const dispatch = useAppDispatch();
@@ -47,8 +47,8 @@ function AdminStaff() {
     customer.full_name || "---",
     customer.email || "---",
     customer.phone || "---",
-    customer.sex === 1 ? "Nam" ? "Nữ" : "---",
-    customer.permission === 2 ? "Nhân viên" : "Quản lý" || "---",
+    customer.sex === 1 ? "Nam" : 0 ? "Nữ" : "---",
+    customer.permission === 2 ? "Nhân viên" : 1 ? "Quản lý" : "---",
     customer.status === 0 ? texts.infor_account.STATUS_ON : texts.infor_account.STATUS_BAN,
   ]);
 
