@@ -10,7 +10,6 @@ export async function getAllAccount({ ...params }: CustomerParamsType) {
 
     return res.data;
   } catch (err) {
-    console.error("Error fetching customers:", err);
     throw err;
   }
 }
@@ -23,7 +22,6 @@ export async function getAllCustomer({ ...params }: CustomerParamsType) {
 
     return res.data;
   } catch (err) {
-    console.error("Error fetching customers:", err);
     throw err;
   }
 }

@@ -14,7 +14,7 @@ const HotProducts: React.FC = () => {
     if (!productHots || productHots.length === 0) {
       dispatch(getHotProducts());
     }
-  }, [dispatch]);
+  }, [dispatch, productHots]);
   const handlePrev = () => {
     setActiveIndex((prevIndex) => prevIndex - 1);
   };

@@ -42,7 +42,7 @@ const ProductDetail: React.FC = () => {
       dispatch(getInFoProducts(idProductParam)).unwrap();
       dispatch(getCommentByIdProductThunk({ product_id: idProductParam })).unwrap();
     }
-  }, [slug, dispatch]);
+  }, [infoProduct?.slug, slug, dispatch, searchParams]);
 
   useEffect(() => {}, [dispatch]);
   if (isLoading) return <Loader />;

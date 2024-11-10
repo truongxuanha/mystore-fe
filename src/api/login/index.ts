@@ -11,7 +11,6 @@ async function loginUser(initAccount: InitialLoginState) {
 
     return res.data;
   } catch (error) {
-    console.error("Error during login:", error);
     throw error;
   }
 }

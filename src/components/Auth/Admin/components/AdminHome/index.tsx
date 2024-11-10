@@ -1,4 +1,3 @@
-
 import LineChar from "./components/LineChar";
 import { assets } from "../../../../../assets";
 import { useAppDispatch, useAppSelector } from "../../../../../hooks/useAppDispatch";
@@ -15,13 +14,13 @@ function AdminHome() {
   const currentPage = 1;
   const itemsPerPage = 5;
   const manufacturer = "all";
-  const para = { currentPage, itemsPerPage, manufacturer };
   useEffect(
-    function() {
+    function () {
+      const para = { currentPage, itemsPerPage, manufacturer };
       dispath(authCustomer({}));
       dispath(getProducts(para));
     },
-    [dispath],
+    [dispath]
   );
   const items = [
     {

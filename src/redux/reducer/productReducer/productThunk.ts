@@ -11,7 +11,6 @@ import {
   randomProduct,
 } from "../../../api/product";
 import { CommentProductType, CreateProductType, EditProductType, ProductParaType } from "../../../api/product/type";
-import { ProductsType } from "../../../types";
 import { getBanner } from "../../../api/banner";
 
 export const getProducts = createAsyncThunk(

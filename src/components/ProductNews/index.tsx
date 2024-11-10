@@ -18,7 +18,7 @@ const ProductNews: React.FC = () => {
     if (!productNews || productNews.length === 0) {
       dispatch(getProductNews());
     }
-  }, [dispatch]);
+  }, [dispatch, productNews]);
 
   const handlePrev = () => {
     setActiveIndex((prevIndex) => prevIndex - 1);

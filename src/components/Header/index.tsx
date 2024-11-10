@@ -58,10 +58,10 @@ function Header() {
     }
   };
   useEffect(() => {
-    if (location.pathname !== "/order") {
+    if (window.location.pathname !== "/order") {
       sessionStorage.removeItem("orderItems");
     }
-  }, [location.pathname]);
+  }, []);
   // Xử lý đóng menu tài khoản khi click ngoài vùng
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {

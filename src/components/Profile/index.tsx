@@ -48,7 +48,9 @@ const Profile: React.FC = () => {
         </div>
         <ul className="space-y-4 text-gray-700">
           {accounts.map((item) => (
-            <li className="hover:text-colorRed hover:cursor-pointer">{item.title}</li>
+            <li key={item.title} className="hover:text-colorRed hover:cursor-pointer">
+              {item.title}
+            </li>
           ))}
         </ul>
       </div>

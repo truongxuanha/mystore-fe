@@ -1,4 +1,3 @@
-import { ProductsType } from "types";
 import { axiosInstance } from "../../utils/axiosConfig";
 import { CommentProductType, CreateProductType, EditProductType, ProductParaType, ResProductType } from "./type";
 import dayjs from "dayjs";
@@ -68,7 +67,6 @@ export async function cretaeProduct({
   description,
 }: CreateProductType) {
   try {
-
     const res = await axiosInstance.post(
       "product/create",
       { id_manu, createAt, thumbnail, name: product_name, price, discount, quantity, description, other_discount },

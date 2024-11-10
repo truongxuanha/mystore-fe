@@ -22,9 +22,9 @@ const Banner: React.FC = () => {
     if (!banners || banners.length === 0) {
       dispatch(getBanners());
     }
-  }, [dispatch]);
+  }, [dispatch, banners]);
 
-  useEffect(function() {}, []);
+  useEffect(function () {}, []);
   const handlePrev = () => {
     setActiveIndex((prevIndex) => (prevIndex === 0 ? banners.length - 1 : prevIndex - 1));
   };

@@ -15,7 +15,7 @@ axiosInstance.interceptors.request.use(
 
     return config;
   },
-  (error) => Promise.reject(error),
+  (error) => Promise.reject(error)
 );
 
 axiosInstance.interceptors.response.use(
@@ -40,14 +40,13 @@ axiosInstance.interceptors.response.use(
           originalRequest.headers["token"] = newToken;
           return axiosInstance(originalRequest);
         } catch (error) {
-          console.error("Error refreshing!!!", error);
           removeUserStorage();
           return Promise.reject(error);
         }
       }
     }
     return Promise.reject(error);
-  },
+  }
 );
 
 export { axiosInstance };

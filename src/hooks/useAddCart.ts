@@ -23,7 +23,6 @@ const useAddToCart = () => {
       dispatch(getProductByAccount());
       toastifySuccess("Thêm giỏ hàng thành công!");
     } catch (error) {
-      console.error("Error adding to cart:", error);
       toastifyWarning("Đã xảy ra lỗi khi thêm sản phẩm vào giỏ hàng.");
     }
   };

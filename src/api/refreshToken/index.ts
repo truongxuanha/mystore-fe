@@ -9,7 +9,6 @@ async function refreshToken(refresh: RefreshTokenType) {
 
     return res.data;
   } catch (error) {
-    console.error("Failed to refresh token!!!!", error);
     throw error;
   }
 }

@@ -46,16 +46,14 @@ function AddressUser(props: Props) {
   useEffect(() => {
     fetch("https://provinces.open-api.vn/api/")
       .then((res) => res.json())
-      .then((data) => setCities(data))
-      .catch((error) => console.error("Error fetching cities:", error));
+      .then((data) => setCities(data));
   }, []);
 
   useEffect(() => {
     if (address.province.code) {
       fetch(`https://provinces.open-api.vn/api/p/${address.province.code}?depth=2`)
         .then((res) => res.json())
-        .then((data) => setDistricts(data.districts))
-        .catch((error) => console.error("Error fetching districts:", error));
+        .then((data) => setDistricts(data.districts));
     }
   }, [address.province]);
 
@@ -63,8 +61,7 @@ function AddressUser(props: Props) {
     if (address.district.code) {
       fetch(`https://provinces.open-api.vn/api/d/${address.district.code}?depth=2`)
         .then((res) => res.json())
-        .then((data) => setWards(data.wards))
-        .catch((error) => console.error("Error fetching wards:", error));
+        .then((data) => setWards(data.wards));
     }
   }, [address.district]);
 
@@ -90,7 +87,6 @@ function AddressUser(props: Props) {
     try {
       await dispatch(authCreateAddressThunk(addressToSave));
     } catch (error) {
-      console.error("Error creating address:", error);
     } finally {
       handleClose(false);
     }

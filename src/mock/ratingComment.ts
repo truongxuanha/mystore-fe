@@ -1,4 +1,4 @@
-const ratingProducts = [
+export const ratingProducts = [
   {
     id: 1,
     account_id: 2051063788,

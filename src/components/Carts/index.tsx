@@ -3,7 +3,6 @@ import { Button } from "@headlessui/react";
 import { useAppDispatch, useAppSelector } from "../../hooks/useAppDispatch";
 
 import { getProductByAccount, removeCartItem, updateCartItem } from "../../redux/reducer/cartReducer/cartThunk";
-import { ProductsType, UpdateItem } from "../../types";
 import formatVND from "../../utils/formatVND";
 import Loader from "../../components/Loader";
 import ProductRandom from "../../components/ProductRandom";

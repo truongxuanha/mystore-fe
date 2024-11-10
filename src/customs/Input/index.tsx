@@ -16,7 +16,6 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
 const Input: FC<InputProps> = ({
   isError = false,
   type = "text",
-  loading = false,
   isEmployee = false,
   isDisable = false,
   needHandleErrorAutoFillByChrome = false,

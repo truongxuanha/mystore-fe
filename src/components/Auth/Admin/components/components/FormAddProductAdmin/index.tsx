@@ -2,7 +2,7 @@ import { Input } from "@headlessui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useAppDispatch } from "../../../../../../hooks/useAppDispatch";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { authUpdate, authDelete } from "../../../../../../redux/reducer/userReducer/authThunk";
+import { authUpdate } from "../../../../../../redux/reducer/userReducer/authThunk";
 import { toastifySuccess, toastifyWarning } from "../../../../../../utils/toastify";
 import { schemaProduct } from "../../../../../../utils/schema";
 import Button from "../../../../../../customs/Button";

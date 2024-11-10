@@ -14,7 +14,6 @@ export const postCreateCart = createAsyncThunk("cart/postCreateCart", async ({ i
     ]);
     return response.data;
   } catch (err) {
-    console.error("Error creating cart:", err);
     return rejectWithValue(err);
   }
 });
@@ -24,7 +23,6 @@ export const getProductByAccount = createAsyncThunk("cart/getProductByAccount", 
     const response = await axiosInstance.get("/cart/get-by-account");
     return response.data.data;
   } catch (err) {
-    console.error("Error fetching products:", err);
     return rejectWithValue(err);
   }
 });
@@ -36,7 +34,6 @@ export const updateCartItem = createAsyncThunk("cart/updateCartItem", async ({ i
 
     return res.data.data;
   } catch (err) {
-    console.error("Error updating cart item:", err);
     return rejectWithValue(err);
   }
 });
@@ -47,7 +44,6 @@ export const removeCartItem = createAsyncThunk("cart/removeCartItem", async (id:
     await dispatch(getProductByAccount());
     return id;
   } catch (err) {
-    console.error("Error removing cart item:", err);
     return rejectWithValue(err);
   }
 });

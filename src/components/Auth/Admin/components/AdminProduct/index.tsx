@@ -16,7 +16,7 @@ const option = [
 
 function AdminProduct() {
   const dispatch = useAppDispatch();
-  const { products, totalProduct } = useAppSelector((state) => state.product);
+  const { products } = useAppSelector((state) => state.product);
   const [show, setShow] = useState<boolean>(false);
   const [actionType, setActionType] = useState<"edit" | "delete" | "add" | "view" | null>(null);
   const [currentProduct, setCurrentProduct] = useState<any>();

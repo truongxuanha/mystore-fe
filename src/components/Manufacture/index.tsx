@@ -10,12 +10,12 @@ function Manufacture() {
   const navigate = useNavigate();
   const { manuItems } = useAppSelector((state) => state.manufacturer);
   useEffect(
-    function() {
+    function () {
       if (manuItems.length === 0 || !manuItems) {
         dispatch(getManuThunk());
       }
     },
-    [dispatch],
+    [dispatch, manuItems]
   );
   const handleGotoManu = (id: number) => {
     dispatch(getProducts({ manufacturer: id }));

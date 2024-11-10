@@ -1,5 +1,5 @@
 import React, { memo } from "react";
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import { ProductsType } from "types";
 import formatVND from "../../../utils/formatVND";
@@ -20,7 +20,6 @@ export interface ProductsProp {
 const ProductCard: React.FC<ProductsProp> = ({ product, typeCss, style, productCategory }) => {
   const { addToCart } = useAddToCart();
   const navigate = useNavigate();
-
   const handleNextDetail = (product: ProductsType) => {
     navigate(`${PAGE.PRODUCT}/${product.product_slug}?product_id=${product.id}`);
   };
