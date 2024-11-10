@@ -33,7 +33,7 @@ function AdminStaff() {
     setSelectOption(selectedValue);
   };
 
-  const handleEdit = (id: string) => {
+  const handleEdit = (id: string | number) => {
     setShow(true);
     setActionType("edit");
     const acc = all_accounts.filter((acc) => acc.id === id);
@@ -44,14 +44,14 @@ function AdminStaff() {
     setActionType("add");
     setCurrentStaff([]);
   };
-  const handleDelete = (id: string) => {
+  const handleDelete = (id: string | number) => {
     setShow(true);
     setActionType("delete");
     const acc = all_accounts.filter((acc) => acc.id === id);
     setCurrentStaff(acc[0]);
   };
 
-  const handleView = (id: string) => {
+  const handleView = (id: string | number) => {
     setShow(true);
     setActionType("view");
     const acc = all_accounts.filter((acc) => acc.id === id);
@@ -114,7 +114,7 @@ function AdminStaff() {
         <Table
           rows={rowCustomer}
           columns={columns}
-          operations={(id: string) => <ButtonAction id={id} onEdit={handleEdit} onDelete={handleDelete} onView={handleView} />}
+          operations={(id: string | number) => <ButtonAction id={id} onEdit={handleEdit} onDelete={handleDelete} onView={handleView} />}
         />
       </div>
       {totalAccount > 1 && <Pagination currentPage={currentPage} totalPage={totalAccount} />}

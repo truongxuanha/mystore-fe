@@ -44,7 +44,7 @@ function AdminProduct() {
     product.quantity,
     product.remaining_quantity,
   ]);
-  const handleEdit = (id: number) => {
+  const handleEdit = (id: number | string) => {
     setShow(true);
     setActionType("edit");
     const acc = products.filter((acc) => acc.product_id === id);
@@ -55,14 +55,14 @@ function AdminProduct() {
     setActionType("add");
     setCurrentProduct([]);
   };
-  const handleDelete = (id: number) => {
+  const handleDelete = (id: number | string) => {
     setShow(true);
     setActionType("delete");
     const acc = products.filter((acc) => acc.product_id === id);
     setCurrentProduct(acc[0]);
   };
 
-  const handleView = (id: number) => {
+  const handleView = (id: number | string) => {
     setShow(true);
     setActionType("view");
     const acc = products.filter((acc) => acc.product_id === id);
@@ -96,7 +96,7 @@ function AdminProduct() {
           <Table
             columns={columns}
             rows={rowProduct}
-            operations={(id: number) => <ButtonAction id={id} onEdit={handleEdit} onDelete={handleDelete} onView={handleView} />}
+            operations={(id: number | string) => <ButtonAction id={id} onEdit={handleEdit} onDelete={handleDelete} onView={handleView} />}
           />
           {show && <FormAddProductAdmin actionType={actionType} setShow={setShow} initialData={currentProduct} />}
         </div>

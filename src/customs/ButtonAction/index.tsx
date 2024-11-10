@@ -2,10 +2,10 @@ import { EyeIcon, PencilSquareIcon, TrashIcon } from "@heroicons/react/24/outlin
 import Button from "../Button";
 
 interface ButtonActionProps {
-  id: number;
-  onEdit: (id: number) => void;
-  onDelete: (id: number) => void;
-  onView: (id: number) => void;
+  id: string | number;
+  onEdit: (id: string | number) => void;
+  onDelete: (id: string | number) => void;
+  onView: (id: string | number) => void;
 }
 
 const ButtonAction = ({ id, onEdit, onDelete, onView }: ButtonActionProps) => {

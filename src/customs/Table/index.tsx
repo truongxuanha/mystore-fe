@@ -1,7 +1,7 @@
 type Props = {
   columns: string[];
   rows: any[][];
-  operations?: (id: number) => JSX.Element;
+  operations?: (id: number | string) => JSX.Element;
 };
 
 function Table({ columns, rows, operations }: Props) {
