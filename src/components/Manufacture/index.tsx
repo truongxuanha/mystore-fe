@@ -19,7 +19,7 @@ function Manufacture() {
   );
   const handleGotoManu = (id: number) => {
     dispatch(getProducts({ manufacturer: id }));
-    navigate(`/san-pham?hang_san_xuat=${id}`);
+    navigate(`/product?manufacture=${id}`);
   };
   return (
     <div className="grid grid-flow-col h-[50px]">

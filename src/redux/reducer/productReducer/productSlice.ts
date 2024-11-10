@@ -3,7 +3,9 @@ import { createSlice } from "@reduxjs/toolkit";
 import {
   createProductThunk,
   deleteProductThunk,
+  editProductThunk,
   getBanners,
+  getCommentByIdProductThunk,
   getHotProducts,
   getInFoProducts,
   getProductNews,
@@ -19,9 +21,12 @@ export interface ProductStateType {
   isLoading: boolean;
   totalPage: number;
   banners: BannerType[];
-  infoProduct: ProductsType | null;
+  infoProduct?: ProductsType;
   productRandom: ProductsType[];
   totalProduct: number;
+  dataCommentById: any;
+  commentById: any;
+  dataAccountCmts: any;
 }
 
 const setIsLoading = (state: ProductStateType, isLoading: boolean) => {
@@ -36,8 +41,11 @@ const initialState: ProductStateType = {
   totalPage: 1,
   totalProduct: 0,
   banners: [],
-  infoProduct: null,
+  infoProduct: undefined,
   productRandom: [],
+  dataCommentById: [],
+  dataAccountCmts: [],
+  commentById: {},
 };
 
 const productSlice = createSlice({
@@ -67,11 +75,10 @@ const productSlice = createSlice({
       })
       .addCase(getInFoProducts.fulfilled, (state, action) => {
         setIsLoading(state, false);
-        state.infoProduct = action.payload ?? null;
+        state.infoProduct = action.payload;
       })
       .addCase(getInFoProducts.rejected, (state) => {
         setIsLoading(state, false);
-        state.infoProduct = null;
       });
 
     builder
@@ -138,6 +145,29 @@ const productSlice = createSlice({
         setIsLoading(state, false);
       })
       .addCase(deleteProductThunk.rejected, (state) => {
+        setIsLoading(state, false);
+      });
+    builder
+      .addCase(editProductThunk.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(editProductThunk.fulfilled, (state) => {
+        setIsLoading(state, false);
+      })
+      .addCase(editProductThunk.rejected, (state) => {
+        setIsLoading(state, false);
+      });
+    builder
+      .addCase(getCommentByIdProductThunk.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getCommentByIdProductThunk.fulfilled, (state, action) => {
+        setIsLoading(state, false);
+        state.dataCommentById = action.payload.data;
+        state.dataAccountCmts = action.payload.dataAccount;
+        state.commentById = action.payload;
+      })
+      .addCase(getCommentByIdProductThunk.rejected, (state) => {
         setIsLoading(state, false);
       });
   },

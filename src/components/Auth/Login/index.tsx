@@ -36,7 +36,6 @@ export default function Login() {
 
   const onSubmit: SubmitHandler<FormValues> = async (formValues) => {
     const actionResult = await dispatch(authLogin(formValues));
-    console.log(actionResult);
     if (authLogin.rejected.match(actionResult)) {
       toastifyWarning((actionResult.payload as string) || "Đăng nhập thất bại!");
       return;
@@ -110,7 +109,7 @@ export default function Login() {
 
           <p className="mt-5 text-center text-sm text-gray-500">
             Chưa có tài khoản?
-            <Link to="/dang-ky" className="font-semibold leading-6 text-orange-600 hover:text-orange-500 underline">
+            <Link to="/register" className="font-semibold leading-6 text-orange-600 hover:text-orange-500 underline">
               Đăng ký
             </Link>
           </p>

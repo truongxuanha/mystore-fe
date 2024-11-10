@@ -22,7 +22,7 @@ function AdminProduct() {
   const [currentProduct, setCurrentProduct] = useState<any>();
   useEffect(() => {
     dispatch(getProducts({}));
-  }, []);
+  }, [dispatch]);
   const columns = [
     texts.product.PRODUCT_ID,
     texts.product.PRODUCT_NAME,
@@ -34,9 +34,8 @@ function AdminProduct() {
     "Số lượng còn lại",
     texts.infor_account.ACTION,
   ];
-
   const rowProduct = products?.map((product) => [
-    product.id,
+    product.product_id,
     product.product_name,
     product.slug,
     product.price,
@@ -45,10 +44,10 @@ function AdminProduct() {
     product.quantity,
     product.remaining_quantity,
   ]);
-  const handleEdit = (id: string) => {
+  const handleEdit = (id: number) => {
     setShow(true);
     setActionType("edit");
-    const acc = products.filter((acc) => acc.id === id);
+    const acc = products.filter((acc) => acc.product_id === id);
     setCurrentProduct(acc[0]);
   };
   const handleAdd = () => {
@@ -56,20 +55,19 @@ function AdminProduct() {
     setActionType("add");
     setCurrentProduct([]);
   };
-  const handleDelete = (id: string) => {
+  const handleDelete = (id: number) => {
     setShow(true);
     setActionType("delete");
-    const acc = products.filter((acc) => acc.id === id);
+    const acc = products.filter((acc) => acc.product_id === id);
     setCurrentProduct(acc[0]);
   };
 
-  const handleView = (id: string) => {
+  const handleView = (id: number) => {
     setShow(true);
     setActionType("view");
-    const acc = products.filter((acc) => acc.id === id);
+    const acc = products.filter((acc) => acc.product_id === id);
     setCurrentProduct(acc[0]);
   };
-
   return (
     <div className="col-span-5">
       <HeaderAdmin />
@@ -98,7 +96,7 @@ function AdminProduct() {
           <Table
             columns={columns}
             rows={rowProduct}
-            operations={(id: string) => <ButtonAction id={id} onEdit={handleEdit} onDelete={handleDelete} onView={handleView} />}
+            operations={(id: number) => <ButtonAction id={id} onEdit={handleEdit} onDelete={handleDelete} onView={handleView} />}
           />
           {show && <FormAddProductAdmin actionType={actionType} setShow={setShow} initialData={currentProduct} />}
         </div>

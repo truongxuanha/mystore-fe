@@ -1,5 +1,5 @@
 import React, { memo } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 
 import { ProductsType } from "types";
 import formatVND from "../../../utils/formatVND";
@@ -19,7 +19,11 @@ export interface ProductsProp {
 
 const ProductCard: React.FC<ProductsProp> = ({ product, typeCss, style, productCategory }) => {
   const { addToCart } = useAddToCart();
+  const navigate = useNavigate();
 
+  const handleNextDetail = (product: ProductsType) => {
+    navigate(`${PAGE.PRODUCT}/${product.product_slug}?product_id=${product.id}`);
+  };
   return (
     <div className={`${typeCss} bg-white transition-transform duration-500 relative`} style={style}>
       <div className="pt-2 md:row-span-3 w-full h-[150px] flex items-center">
@@ -37,9 +41,9 @@ const ProductCard: React.FC<ProductsProp> = ({ product, typeCss, style, productC
           <p className="line-through text-gray-500">{formatVND(product.price, 0)}</p>
         </span>
         <div className="flex flex-wrap justify-between items-center gap-3 mt-5 mx-2">
-          <Link to={`${PAGE.PRODUCT}/${product.product_slug}`} className="text-xs md:text-sm cursor-pointer px-2 rounded-md underline hover:text-red-500">
+          <button onClick={() => handleNextDetail(product)} className="text-xs md:text-sm cursor-pointer px-2 rounded-md underline hover:text-red-500">
             {texts.common.INFORMATION}
-          </Link>
+          </button>
           {product.quantity > 0 ? (
             <span className="cursor-pointer rounded-full bg-colorRed hover:bg-red-400 p-1" onClick={() => addToCart(product.id, 1)}>
               <ShoppingCartIcon aria-hidden="true" className="h-4 w-4 md:h-5 md:w-5 text-white" />

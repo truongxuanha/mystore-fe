@@ -40,7 +40,7 @@ function Header() {
     dispatch(logout());
     dispatch(clearCart());
     setMobileMenuOpen(false);
-    navigate("/dang-nhap");
+    navigate("/login");
   };
 
   // Lấy thông tin sản phẩm của tài khoản hiện tại
@@ -58,7 +58,7 @@ function Header() {
     }
   };
   useEffect(() => {
-    if (location.pathname !== "/dat-hang") {
+    if (location.pathname !== "/order") {
       sessionStorage.removeItem("orderItems");
     }
   }, [location.pathname]);
@@ -97,7 +97,7 @@ function Header() {
 
           <div className="flex items-center gap-4 text-sm font-medium leading-6 text-gray-900">
             <Search handleCloseNav={() => setMobileMenuOpen(false)} />
-            <Link to="/gio-hang" className="relative">
+            <Link to="/cart" className="relative">
               <ShoppingCartIcon onClick={handleCart} aria-hidden="true" className="h-6 w-6 cursor-pointer" />
               <span className="absolute -top-[6px] -right-[6px] bg-orange-500 text-white text-xs font-bold rounded-full h-4 w-4 flex items-center justify-center">
                 {cartLength > 0 ? cartLength : 0}
@@ -113,7 +113,7 @@ function Header() {
               <div className="absolute w-40 right-0 left-[-120px] bg-white rounded-md shadow-md top-[57px] cursor-pointer transition-all duration-700">
                 {currentUser ? (
                   <div className="flex flex-col">
-                    <Link to="/thong-tin-tai-khoan" className="flex p-3 items-center gap-x-2 hover:bg-[#f5f5f5]">
+                    <Link to="/profile" className="flex p-3 items-center gap-x-2 hover:bg-[#f5f5f5]">
                       <UserIcon className="w-5 h-5" />
                       <p>{texts.header.ACCOUNT}</p>
                     </Link>
@@ -128,11 +128,11 @@ function Header() {
                   </div>
                 ) : (
                   <div className="flex flex-col">
-                    <NavLink to="/dang-nhap" className="p-3 gap-2 flex hover:bg-[#f5f5f5]" onClick={() => setMobileMenuOpen(false)}>
+                    <NavLink to="/login" className="p-3 gap-2 flex hover:bg-[#f5f5f5]" onClick={() => setMobileMenuOpen(false)}>
                       <ArrowsRightLeftIcon className="w-5 h-6" />
                       {texts.header.LOGIN}
                     </NavLink>
-                    <NavLink to="/dang-ky" className="p-3 gap-2 flex hover:bg-[#f5f5f5]" onClick={() => setMobileMenuOpen(false)}>
+                    <NavLink to="/register" className="p-3 gap-2 flex hover:bg-[#f5f5f5]" onClick={() => setMobileMenuOpen(false)}>
                       <ShieldExclamationIcon className="w-5 h-6" />
                       {texts.header.LOGOUT}
                     </NavLink>
@@ -170,7 +170,7 @@ function Header() {
 
             <div className="mt-6 flex items-center gap-4">
               <Search handleCloseNav={setMobileMenuOpen} />
-              <Link to="/gio-hang" onClick={handleCart}>
+              <Link to="/cart" onClick={handleCart}>
                 <div className="relative">
                   <ShoppingCartIcon className="h-6 w-6 cursor-pointer" />
                   {cartLength > 0 && (
@@ -196,10 +196,10 @@ function Header() {
                 </div>
               ) : (
                 <div className="flex flex-col gap-2">
-                  <NavLink to="/dang-nhap" className="block text-xs font-semibold text-gray-900 p-3 hover:bg-gray-100" onClick={() => setMobileMenuOpen(false)}>
+                  <NavLink to="/login" className="block text-xs font-semibold text-gray-900 p-3 hover:bg-gray-100" onClick={() => setMobileMenuOpen(false)}>
                     {texts.header.LOGIN}
                   </NavLink>
-                  <NavLink to="/dang-ky" className="block text-xs font-semibold text-gray-900 p-3 hover:bg-gray-100" onClick={() => setMobileMenuOpen(false)}>
+                  <NavLink to="/register" className="block text-xs font-semibold text-gray-900 p-3 hover:bg-gray-100" onClick={() => setMobileMenuOpen(false)}>
                     {texts.header.LOGOUT}
                   </NavLink>
                 </div>

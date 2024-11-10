@@ -30,7 +30,7 @@ const Products: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
-    const params = searchParams.get("hang_san_xuat") as string;
+    const params = searchParams.get("manufacture") as string;
     const para = { currentPage, itemsPerPage, sort: sortOf, manufacturer: params };
     dispatch(getProducts(para)).unwrap();
     if (manuItems.length === 0) {
@@ -40,11 +40,11 @@ const Products: React.FC = () => {
 
   const handleItemClick = (manufacturer: string | number) => {
     setManufacturer(manufacturer);
-    setSearchParams({ hang_san_xuat: manufacturer.toString() });
+    setSearchParams({ manufacture: manufacturer.toString() });
   };
 
   useEffect(() => {
-    const param = searchParams.get("hang_san_xuat");
+    const param = searchParams.get("manufacture");
     setActiveIndex(param);
   }, [searchParams]);
   if (!products) return <Loader />;
@@ -61,7 +61,7 @@ const Products: React.FC = () => {
           <div className="flex items-center gap-2">
             <Button
               onClick={() => handleSort("ASC")}
-              img={<ArrowUpIcon className="w-4 h-4" />}
+              img={<ArrowUpIcon height={16} width={16} />}
               styles={`bg-white shadow-md rounded-md text-sm  ${sortOf === "ASC" ? "bg-red-100 border border-red-600" : ""}`}
               width="165px"
               height="40px"
@@ -70,7 +70,7 @@ const Products: React.FC = () => {
             </Button>
             <Button
               onClick={() => handleSort("DESC")}
-              img={<ArrowDownIcon className="w-4 h-4" />}
+              img={<ArrowDownIcon height={16} width={16} />}
               styles={`bg-white shadow-md rounded-md text-sm  ${sortOf === "DESC" ? "bg-red-100 border border-red-600" : ""}`}
               width="165px"
               height="40px"

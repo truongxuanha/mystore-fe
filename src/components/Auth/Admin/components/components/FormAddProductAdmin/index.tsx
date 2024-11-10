@@ -7,8 +7,7 @@ import { toastifySuccess, toastifyWarning } from "../../../../../../utils/toasti
 import { schemaProduct } from "../../../../../../utils/schema";
 import Button from "../../../../../../customs/Button";
 import { CreateProductType } from "../../../../../../api/product/type";
-import { createProductThunk, deleteProductThunk } from "../../../../../../redux/reducer/productReducer/productThunk";
-import dayjs from "dayjs";
+import { createProductThunk, deleteProductThunk, editProductThunk, getProducts } from "../../../../../../redux/reducer/productReducer/productThunk";
 
 type Props = {
   setShow: (value: boolean) => void;
@@ -25,7 +24,7 @@ function FormAddProductAdmin({ setShow, initialData, actionType }: Props) {
   } = useForm<CreateProductType>({
     resolver: yupResolver(schemaProduct) as any,
     defaultValues: initialData || {
-      name: "",
+      product_name: "",
       id_manu: "",
       price: 0,
       quantity: null,
@@ -33,7 +32,6 @@ function FormAddProductAdmin({ setShow, initialData, actionType }: Props) {
       discount: 0,
       description: "",
       other_discount: 0,
-      createAt: `${dayjs().format("YYYY-MM-DD")}`,
     },
     context: { actionType },
   });
@@ -41,40 +39,44 @@ function FormAddProductAdmin({ setShow, initialData, actionType }: Props) {
   const dispatch = useAppDispatch();
   const onSubmit: SubmitHandler<CreateProductType> = async (formValue) => {
     let resultsAction;
-    formValue.thumbnail = formValue.thumbnail[0];
-    formValue.createAt = formValue.createAt;
     if (actionType === "add") {
+      formValue.thumbnail = formValue.thumbnail[0];
       const thumbnailFile = formValue.thumbnail?.[0];
-      if (thumbnailFile) {
-        console.log("Thumbnail file:", thumbnailFile);
-      }
-      resultsAction = await dispatch(createProductThunk(formValue));
-
-      if (createProductThunk.rejected.match(resultsAction)) {
-        toastifyWarning((resultsAction.payload as string) || "Thêm tài khoản thất bại!");
+      if (!!thumbnailFile) {
         return;
       }
+      resultsAction = await dispatch(createProductThunk(formValue));
+      if (createProductThunk.rejected.match(resultsAction)) {
+        toastifyWarning((resultsAction.payload as string) || "Thêm sản phẩm thất bại!");
+        return;
+      }
+      dispatch(getProducts({}));
       toastifySuccess("Thêm tài khoản thành công!");
     } else if (actionType === "edit") {
+      if (typeof formValue.thumbnail === "object") {
+        formValue.thumbnail = formValue.thumbnail[0];
+      }
       const updatedData = {
         ...initialData,
         ...formValue,
       };
-      resultsAction = await dispatch(createProductThunk(updatedData));
+      resultsAction = await dispatch(editProductThunk(updatedData));
       if (authUpdate.rejected.match(resultsAction)) {
-        toastifyWarning((resultsAction.payload as string) || "Sửa tài khoản thất bại!");
+        toastifyWarning((resultsAction.payload as string) || "Sửa sản phẩm thất bại!");
         return;
       }
-      toastifySuccess("Sửa tài khoản thành công!");
-    } else if (actionType === "delete" || actionType === "view") {
-      console.log("hello");
-
-      resultsAction = await dispatch(deleteProductThunk(initialData.id));
-      if (authDelete.rejected.match(resultsAction)) {
-        toastifyWarning((resultsAction.payload as string) || "Xóa tài khoản thất bại!");
+      dispatch(getProducts({}));
+      toastifySuccess("Sửa sản phẩm thành công!");
+    } else if (actionType === "delete") {
+      resultsAction = await dispatch(deleteProductThunk(initialData.product_id));
+      if (deleteProductThunk.rejected.match(resultsAction)) {
+        toastifyWarning((resultsAction.payload as string) || "Xóa sản phẩm thất bại!");
         return;
       }
-      toastifySuccess("Xóa tài khoản thành công!");
+      dispatch(getProducts({}));
+      toastifySuccess("Xóa sản phẩm thành công!");
+    } else {
+      dispatch(getProducts({}));
     }
 
     reset();
@@ -103,8 +105,8 @@ function FormAddProductAdmin({ setShow, initialData, actionType }: Props) {
             </div>
             <div className="flex flex-col gap-2">
               <label htmlFor="phone">Tên sản phẩm</label>
-              <Input className="border px-1 py-1 rounded-sm" id="name" {...register("name")} disabled={isDisable} />
-              {errors.name && <span className="text-red-500">{errors.name.message}</span>}
+              <Input className="border px-1 py-1 rounded-sm" id="product_name" {...register("product_name")} disabled={isDisable} />
+              {errors.product_name && <span className="text-red-500">{errors.product_name.message}</span>}
             </div>
             <div className="flex flex-col gap-2">
               <label htmlFor="birthday">Đơn giá</label>
@@ -134,6 +136,7 @@ function FormAddProductAdmin({ setShow, initialData, actionType }: Props) {
               {errors.description && <span className="text-red-500">{errors.description.message}</span>}
             </div>
           </div>
+          {errors.createAt?.message && <span className="text-red-500 text-center col-span-2">{errors.createAt.message}</span>}
           <div className="col-span-2 border-t flex justify-end gap-2 p-5">
             {actionType === "view" ? null : (
               <Button width="150px" height="30px" type="submit" styles=" bg-colorPrimary text-white rounded ">

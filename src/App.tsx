@@ -37,7 +37,7 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "/san-pham",
+        path: "/product",
         element: (
           <Suspense fallback={<Loader />}>
             <Products />
@@ -45,7 +45,7 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "/lien-he",
+        path: "/contact",
         element: (
           <Suspense fallback={<Loader />}>
             <About />
@@ -53,7 +53,7 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "/dang-nhap",
+        path: "/login",
         element: (
           <Suspense fallback={<Loader />}>
             <Login />
@@ -61,7 +61,7 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "/dang-ky",
+        path: "/register",
         element: (
           <Suspense fallback={<Loader />}>
             <Register />
@@ -69,7 +69,7 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "san-pham/:slug",
+        path: "product/:slug",
         element: (
           <Suspense fallback={<Loader />}>
             <InforProduct />
@@ -91,7 +91,7 @@ const router = createBrowserRouter([
     element: <PrivateLayout />,
     children: [
       {
-        path: "/gio-hang",
+        path: "/cart",
         element: (
           <Suspense fallback={<Loader />}>
             <Cart />
@@ -99,7 +99,7 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "/thong-tin-tai-khoan",
+        path: "/profile",
         element: (
           <Suspense fallback={<Loader />}>
             <Profile />
@@ -115,7 +115,7 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "/dat-hang",
+        path: "/order",
         element: (
           <Suspense fallback={<Loader />}>
             <OrderView />

@@ -36,7 +36,10 @@ export const authUpdate = createAsyncThunk("auth/authUpdate", async (initAccount
 export const authDelete = createAsyncThunk("auth/authDelete", async (initAccount: InitialRegisterState, { rejectWithValue }) => {
   try {
     const data = await registerUser(initAccount);
-    return data;
+    if(data.status){
+
+      return data;
+    }
   } catch (error) {
     let errorMessage = "";
     if (error instanceof Error) {
