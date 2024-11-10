@@ -22,21 +22,18 @@ function Cart() {
   useEffect(() => {
     if (token) {
       dispatch(getProductByAccount());
-      console.log("shop");
     }
   }, [dispatch, token]);
 
-  function handleDeleteItemCart(id: ProductsType["id"]): void {
+  function handleDeleteItemCart(id: number): void {
     dispatch(removeCartItem(id));
   }
 
-  function handleUpdateQuantity(id: ProductsType["id"], quantity: UpdateItem["quantity"]): void {
+  function handleUpdateQuantity(id: number, quantity: number): void {
     dispatch(updateCartItem({ id, quantity }));
 
     if (quantity === 0) dispatch(removeCartItem(id));
   }
-  console.log(cartItems);
-
   const handleOrderNow = () => {
     dispatch(handleOrder(cartItems));
     navigate(PAGE.ORDER);
@@ -62,6 +59,7 @@ function Cart() {
               priceAfterDiscount={priceAfterDiscount}
               slug={cart.slug}
               product_name={cart.product_name}
+              productId={cart.id_product}
               quantity={cart.quantity}
               updateQuantity={handleUpdateQuantity}
               deleteItemCart={handleDeleteItemCart}

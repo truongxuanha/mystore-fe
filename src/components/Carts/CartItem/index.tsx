@@ -5,23 +5,24 @@ import formatVND from "../../../utils/formatVND";
 import { texts } from "../../../contains/texts";
 type Props = {
   priceAfterDiscount: number;
-  idItemCart: string | number;
+  idItemCart: number;
   thumbnail: string;
   slug?: string;
   product_name: string;
   quantity: number;
-  updateQuantity: (id: string | number, quantity: number) => void;
-  deleteItemCart: (id: number | string) => void;
+  productId: number;
+  updateQuantity: (id: number, quantity: number) => void;
+  deleteItemCart: (id: number) => void;
 };
 function CartItem(props: Props) {
-  const { idItemCart, product_name, priceAfterDiscount, quantity, thumbnail, slug, updateQuantity, deleteItemCart } = props;
+  const { idItemCart, product_name, priceAfterDiscount, quantity, thumbnail, slug, updateQuantity, deleteItemCart, productId } = props;
   return (
     <div className="relative grid grid-cols-1 sm:grid-cols-8 bg-white shadow-sm mt-3 p-5 rounded-md gap-x-3">
       <div className="col-span-2">
         <img src={thumbnail} className="border rounded-md" />
       </div>
       <div className="col-span-4">
-        <Link to={`/san-pham/${slug}`} className="text-xs sm:text-sm hover:underline">
+        <Link to={`/product/${slug}?product_id=${productId}`} className="text-xs sm:text-sm hover:underline">
           {product_name}
         </Link>
       </div>

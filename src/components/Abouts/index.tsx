@@ -40,7 +40,7 @@ function About() {
               </span>
 
               <h2 className="mt-4 text-base font-medium text-gray-800 ">Office</h2>
-              <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">Chúng tôi luôn sẵn sàng mọi nơi</p>
+              <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">Tòa nhà Landmark 72 Lô E6, Khu đô thi mới Cầu Giấy, Nam Từ Liêm, Hà Nội </p>
             </div>
 
             <div>

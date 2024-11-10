@@ -45,7 +45,7 @@ const MenuItem: React.FC<MenuItemProps> = ({ title, url, activeTab }) => {
   return (
     <Link to={url} className={`flex items-center p-2  w-full ${activeTab ? "bg-white text-black" : "text-white"} rounded-lg cursor-pointer transition-colors`}>
       <span>{title}</span>
-      <ChevronRightIcon className="w-4 h-4" />
+      <ChevronRightIcon width={16} height={16} />
     </Link>
   );
 };

@@ -6,14 +6,14 @@ import Table from "../../../../../customs/Table";
 import { useEffect, useState } from "react";
 import { authGetAllAccount } from "../../../../../redux/reducer/userReducer/authThunk";
 
-import FormAddStafAdmin from "../../../..//Auth/FormAddStaffAdmin";
+import FormAddStafAdmin from "../components/FormAddStaffAdmin";
 import Pagination from "../../../../../customs/Pagination";
 import { useSearchParams } from "react-router-dom";
 import { PAGE } from "../../../../../types";
 import { texts } from "../../../../../contains/texts";
-import HeaderAdmin from "../HeaderAdmin";
 import { MagnifyingGlassIcon, PlusIcon } from "@heroicons/react/24/outline";
 import ButtonAction from "../../../../../customs/ButtonAction";
+import HeaderAdmin from "../components/HeaderAdmin";
 
 function AdminStaff() {
   const { all_accounts, totalAccount } = useAppSelector((state) => state.auth);

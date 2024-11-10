@@ -1,4 +1,4 @@
-import HeaderAdmin from "../HeaderAdmin";
+
 import LineChar from "./components/LineChar";
 import { assets } from "../../../../../assets";
 import { useAppDispatch, useAppSelector } from "../../../../../hooks/useAppDispatch";
@@ -6,6 +6,7 @@ import { useEffect } from "react";
 
 import { authCustomer } from "../../../../../redux/reducer/userReducer/authThunk";
 import { getProducts } from "../../../../../redux/reducer/productReducer/productThunk";
+import HeaderAdmin from "../components/HeaderAdmin";
 
 function AdminHome() {
   const dispath = useAppDispatch();

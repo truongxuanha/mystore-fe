@@ -23,8 +23,6 @@ function Pagination({ currentPage, totalPage }: Props) {
 
   useEffect(() => {
     const page = Number(searchParams.get("page")) || currentPage;
-    console.log(page);
-
     setThisPage(page);
   }, [searchParams, currentPage]);
 

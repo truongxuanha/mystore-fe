@@ -10,7 +10,7 @@ import { Button, Input } from "@headlessui/react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { InitialRegisterState } from "api/register/type";
-import { schemaRegister } from "../../../utils/schema";
+import { schemaRegisterUser } from "../../../utils/schema";
 
 export default function Register() {
   const {
@@ -18,7 +18,7 @@ export default function Register() {
     handleSubmit,
     formState: { errors },
   } = useForm<InitialRegisterState>({
-    resolver: yupResolver(schemaRegister) as any,
+    resolver: yupResolver(schemaRegisterUser) as any,
     defaultValues: {
       account_name: "",
       email: "",
@@ -38,7 +38,7 @@ export default function Register() {
       toastifyWarning((resultsAction.payload as string) || "Đăng ký không thành công!");
       return;
     }
-    navigate("/dang-nhap");
+    navigate("/login");
     toastifySuccess("Đăng ký thành công!");
   };
 
@@ -131,7 +131,7 @@ export default function Register() {
 
           <p className="mt-5 text-center text-sm text-gray-500">
             Đã có tài khoản?{" "}
-            <Link to="/dang-nhap" className="font-semibold leading-6 text-orange-600 hover:text-orange-500 underline">
+            <Link to="/login" className="font-semibold leading-6 text-orange-600 hover:text-orange-500 underline">
               Đăng nhập
             </Link>
           </p>

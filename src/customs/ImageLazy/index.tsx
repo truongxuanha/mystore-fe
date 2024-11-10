@@ -5,7 +5,7 @@ import loadingImg from "../../assets/loading-img.svg";
 
 const ImageWrapper = styled.img`
   min-width: 100px;
-  height: 100px;
+  height: 100%;
   width: 100%;
   object-fit: cover;
 `;
@@ -23,8 +23,6 @@ const Image: FC<Props> = ({ src, alt, handleImageLoaded, isObjectFitCover = "cov
   const [view, setView] = useState("");
   const placeholderRef = useRef<HTMLImageElement>(null);
   const [isError, setIsError] = useState(false);
-  console.log(defaultProductImage);
-
   useEffect(() => {
     const observer = new IntersectionObserver((entries) => {
       if (entries[0].isIntersecting && placeholderRef.current) {

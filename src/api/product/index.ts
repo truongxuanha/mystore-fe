@@ -1,6 +1,7 @@
 import { ProductsType } from "types";
 import { axiosInstance } from "../../utils/axiosConfig";
-import { ProductParaType, ResProductType } from "./type";
+import { CommentProductType, CreateProductType, EditProductType, ProductParaType, ResProductType } from "./type";
+import dayjs from "dayjs";
 
 export async function getProduct({ currentPage, itemsPerPage, sort, manufacturer }: ProductParaType) {
   try {
@@ -20,22 +21,12 @@ export async function getProduct({ currentPage, itemsPerPage, sort, manufacturer
   }
 }
 export async function fetchAllProduct() {
-  try {
-    const res = await axiosInstance.get(`/product`);
-
-    return res.data;
-  } catch (err) {
-    console.log(err);
-  }
+  const res = await axiosInstance.get(`/product`);
+  return res.data;
 }
-export async function getInFoProduct(slug: ProductsType["slug"]) {
-  try {
-    const res: ResProductType = await axiosInstance.get(`product/${slug}`);
-
-    return res;
-  } catch (err) {
-    console.log(err);
-  }
+export async function getInFoProduct(id: number) {
+  const res: ResProductType = await axiosInstance.get(`product/product-detai/${id}`);
+  return res;
 }
 
 export async function getHotProduct() {
@@ -60,6 +51,89 @@ export async function randomProduct() {
 
     if (!res.data.status) throw Error("Faill fetch product new!!");
     return res.data;
+  } catch (err) {
+    throw err;
+  }
+}
+
+export async function cretaeProduct({
+  id_manu,
+  createAt = `${dayjs().format("YYYY-MM-DD")}`,
+  thumbnail,
+  product_name,
+  price,
+  discount,
+  quantity,
+  other_discount,
+  description,
+}: CreateProductType) {
+  try {
+
+    const res = await axiosInstance.post(
+      "product/create",
+      { id_manu, createAt, thumbnail, name: product_name, price, discount, quantity, description, other_discount },
+
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      },
+    );
+    return res.data;
+  } catch (err) {
+    throw err;
+  }
+}
+
+export async function deleteProduct(id: number) {
+  try {
+    const res = await axiosInstance.delete(`product/${id}/remove`);
+    return res.data;
+  } catch (err) {
+    throw err;
+  }
+}
+
+export async function editProduct({
+  id_manu,
+  createAt = `${dayjs().format("YYYY-MM-DD")}`,
+  thumbnail,
+  product_name,
+  price,
+  discount,
+  quantity,
+  other_discount,
+  description,
+  product_id,
+}: EditProductType) {
+  try {
+    const res = await axiosInstance.put(
+      `product/${product_id}/update`,
+      { id_manu, createAt, thumbnail, name: product_name, price, discount, quantity, description, other_discount, id: product_id },
+
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      },
+    );
+    return res.data;
+  } catch (err) {
+    throw err;
+  }
+}
+
+export async function getCmtByIdProduct({ product_id, page = 1, item = 5, star = "all", sort = "DESC" }: CommentProductType) {
+  try {
+    const res = await axiosInstance.get(`ratting-comment/${product_id}/comment`, {
+      params: {
+        item,
+        page,
+        star,
+        sort,
+      },
+    });
+    return res;
   } catch (err) {
     throw err;
   }
