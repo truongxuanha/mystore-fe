@@ -1,9 +1,5 @@
 import axios from "axios";
-import {
-  getUserStorage,
-  removeUserStorage,
-  setUserStorage,
-} from "../services/storage";
+import { getUserStorage, removeUserStorage, setUserStorage } from "../services/storage";
 import { refreshToken } from "../api/refreshToken";
 
 const axiosInstance = axios.create({
@@ -22,18 +18,12 @@ axiosInstance.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-
-
 axiosInstance.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest = error.config;
 
-    if (
-      error.response &&
-      error.response.status === 401 &&
-      !originalRequest._retry
-    ) {
+    if (error.response && error.response.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
 
       const currentUser = getUserStorage();
@@ -50,7 +40,6 @@ axiosInstance.interceptors.response.use(
           originalRequest.headers["token"] = newToken;
           return axiosInstance(originalRequest);
         } catch (error) {
-          console.error("Error refreshing!!!", error);
           removeUserStorage();
           return Promise.reject(error);
         }

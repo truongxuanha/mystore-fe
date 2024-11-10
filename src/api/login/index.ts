@@ -5,9 +5,10 @@ async function loginUser(initAccount: InitialLoginState) {
   try {
     const res = await axiosInstance.post("account/login", initAccount);
 
-    if (!res.data.status) {
-      throw new Error(res.data.data);
+    if (res.status !== 200 || !res.data.status) {
+      throw new Error(res.data.data || "Login failed");
     }
+
     return res.data;
   } catch (error) {
     throw error;

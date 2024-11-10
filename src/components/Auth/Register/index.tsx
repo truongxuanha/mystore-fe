@@ -9,37 +9,8 @@ import { Button, Input } from "@headlessui/react";
 
 import { useForm, SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
 import { InitialRegisterState } from "api/register/type";
-import {
-  PHONE_REGEX,
-  SPECIAL_CHARACTERS_REGEX,
-  UPPERCASE_LETTER_REGEX,
-} from "../../../contains";
-
-const schemaRegister = yup.object().shape({
-  account_name: yup
-    .string()
-    .required("Vui lòng nhập tên tài khoản.")
-    .min(3, "Tên tài khoản phải có ít nhất 3 ký tự."),
-  email: yup
-    .string()
-    .email("Email không hợp lệ.")
-    .required("Vui lòng nhập email."),
-  phone: yup
-    .string()
-    .required("Vui lòng nhập số điện thoại.")
-    .matches(PHONE_REGEX, "Số điện thoại phải có 10 chữ số."),
-  password: yup
-    .string()
-    .required("Vui lòng nhập mật khẩu.")
-    .min(6, "Mật khẩu phải có ít nhất 6 ký tự.")
-    .matches(UPPERCASE_LETTER_REGEX, "Mật khẩu phải có ít nhất một chữ hoa.")
-    .matches(
-      SPECIAL_CHARACTERS_REGEX,
-      "Mật khẩu phải có ít nhất một ký tự đặc biệt."
-    ),
-});
+import { schemaRegisterUser } from "../../../utils/schema";
 
 export default function Register() {
   const {
@@ -47,7 +18,7 @@ export default function Register() {
     handleSubmit,
     formState: { errors },
   } = useForm<InitialRegisterState>({
-    resolver: yupResolver(schemaRegister),
+    resolver: yupResolver(schemaRegisterUser) as any,
     defaultValues: {
       account_name: "",
       email: "",
@@ -57,147 +28,110 @@ export default function Register() {
   });
 
   const dispatch = useAppDispatch();
-  const { loading, error } = useAppSelector((state) => state.auth);
+  const { loading } = useAppSelector((state) => state.auth);
   const navigate = useNavigate();
 
   const onSubmit: SubmitHandler<InitialRegisterState> = async (formValue) => {
-    try {
-      const resultsAction = dispatch(authRegister(formValue));
+    const resultsAction = await dispatch(authRegister(formValue));
 
-      if (authRegister.rejected.match(resultsAction)) {
-        toastifyWarning(error);
-        return;
-      }
-      navigate("/dang-nhap");
-      toastifySuccess("Đăng ký thành công!");
-    } catch (err) {
-      console.error(err);
+    if (authRegister.rejected.match(resultsAction)) {
+      toastifyWarning((resultsAction.payload as string) || "Đăng ký không thành công!");
+      return;
     }
+    navigate("/login");
+    toastifySuccess("Đăng ký thành công!");
   };
 
   return (
     <>
       {loading && <Loader />}
-      <div className='flex min-h-full flex-1 flex-col justify-center px-6 py-6 lg:px-8'>
-        <div className='mt-5 sm:mx-auto sm:w-full sm:max-w-sm shadow-xl p-5 rounded-lg bg-white'>
-          <div className='sm:mx-auto sm:w-full sm:max-w-sm'>
-            <h2 className='text-center text-xl font-bold leading-9 tracking-tight text-gray-900'>
-              Đăng ký
-            </h2>
+      <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-6 lg:px-8">
+        <div className="mt-5 sm:mx-auto sm:w-full sm:max-w-sm shadow-xl p-5 rounded-lg bg-white">
+          <div className="sm:mx-auto sm:w-full sm:max-w-sm">
+            <h2 className="text-center text-xl font-bold leading-9 tracking-tight text-gray-900">Đăng ký</h2>
           </div>
-          <form onSubmit={handleSubmit(onSubmit)} className='space-y-3'>
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-3">
             <div>
-              <label
-                htmlFor='account_name'
-                className='block text-sm font-medium leading-6 text-gray-900'
-              >
+              <label htmlFor="account_name" className="block text-sm font-medium leading-6 text-gray-900">
                 Tên tài khoản
               </label>
-              <div className='mt-2'>
+              <div className="mt-2">
                 <Input
-                  id='account_name'
+                  id="account_name"
                   {...register("account_name")}
-                  type='text'
-                  placeholder='Tên tài khoản'
-                  className='block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-orange-300 placeholder:text-gray-400 focus:ring-1 focus:ring-orange-600 sm:text-sm sm:leading-6'
+                  type="text"
+                  placeholder="Tên tài khoản"
+                  className="block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-orange-300 placeholder:text-gray-400 focus:ring-1 focus:ring-orange-600 sm:text-sm sm:leading-6"
                 />
-                {errors.account_name && (
-                  <p className='text-red-500 text-sm mt-1'>
-                    {errors.account_name.message}
-                  </p>
-                )}
+                {errors.account_name && <p className="text-red-500 text-sm mt-1">{errors.account_name.message}</p>}
               </div>
             </div>
 
             <div>
-              <label
-                htmlFor='phone'
-                className='block text-sm font-medium leading-6 text-gray-900'
-              >
+              <label htmlFor="phone" className="block text-sm font-medium leading-6 text-gray-900">
                 Số điện thoại
               </label>
-              <div className='mt-2'>
+              <div className="mt-2">
                 <Input
-                  id='phone'
+                  id="phone"
                   {...register("phone")}
-                  type='tel'
-                  placeholder='Số điện thoại'
-                  className='block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-orange-300 placeholder:text-gray-400 focus:ring-1 focus:ring-orange-600 sm:text-sm sm:leading-6'
+                  type="tel"
+                  placeholder="Số điện thoại"
+                  className="block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-orange-300 placeholder:text-gray-400 focus:ring-1 focus:ring-orange-600 sm:text-sm sm:leading-6"
                 />
-                {errors.phone && (
-                  <p className='text-red-500 text-sm mt-1'>
-                    {errors.phone.message}
-                  </p>
-                )}
+                {errors.phone && <p className="text-red-500 text-sm mt-1">{errors.phone.message}</p>}
               </div>
             </div>
 
             <div>
-              <label
-                htmlFor='email'
-                className='block text-sm font-medium leading-6 text-gray-900'
-              >
+              <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
                 Email
               </label>
-              <div className='mt-2'>
+              <div className="mt-2">
                 <Input
-                  id='email'
+                  id="email"
                   {...register("email")}
-                  type='email'
-                  placeholder='Email'
-                  autoComplete='email'
-                  className='block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-orange-300 placeholder:text-gray-400 focus:ring-1 focus:ring-orange-600 sm:text-sm sm:leading-6'
+                  type="email"
+                  placeholder="Email"
+                  autoComplete="email"
+                  className="block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-orange-300 placeholder:text-gray-400 focus:ring-1 focus:ring-orange-600 sm:text-sm sm:leading-6"
                 />
-                {errors.email && (
-                  <p className='text-red-500 text-sm mt-1'>
-                    {errors.email.message}
-                  </p>
-                )}
+                {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>}
               </div>
             </div>
 
             <div>
-              <div className='flex items-center justify-between'>
-                <label
-                  htmlFor='password'
-                  className='block text-sm font-medium leading-6 text-gray-900'
-                >
+              <div className="flex items-center justify-between">
+                <label htmlFor="password" className="block text-sm font-medium leading-6 text-gray-900">
                   Mật khẩu
                 </label>
               </div>
-              <div className='mt-2'>
+              <div className="mt-2">
                 <Input
-                  id='password'
+                  id="password"
                   {...register("password")}
-                  type='password'
-                  placeholder='Mật khẩu'
-                  autoComplete='current-password'
-                  className='block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-orange-300 placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-orange-600 sm:text-sm sm:leading-6'
+                  type="password"
+                  placeholder="Mật khẩu"
+                  autoComplete="current-password"
+                  className="block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-orange-300 placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-orange-600 sm:text-sm sm:leading-6"
                 />
-                {errors.password && (
-                  <p className='text-red-500 text-sm mt-1'>
-                    {errors.password.message}
-                  </p>
-                )}
+                {errors.password && <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>}
               </div>
             </div>
 
-            <div className='flex justify-end mr-2'>
+            <div className="flex justify-end mr-2">
               <Button
-                type='submit'
-                className='w-[100px] text-center rounded-md bg-orange-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600'
+                type="submit"
+                className="w-[100px] text-center rounded-md bg-orange-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
               >
                 Đăng Ký
               </Button>
             </div>
           </form>
 
-          <p className='mt-5 text-center text-sm text-gray-500'>
+          <p className="mt-5 text-center text-sm text-gray-500">
             Đã có tài khoản?{" "}
-            <Link
-              to='/dang-nhap'
-              className='font-semibold leading-6 text-orange-600 hover:text-orange-500 underline'
-            >
+            <Link to="/login" className="font-semibold leading-6 text-orange-600 hover:text-orange-500 underline">
               Đăng nhập
             </Link>
           </p>

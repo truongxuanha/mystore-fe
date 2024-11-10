@@ -4,11 +4,11 @@ const navLink = [
     title: "Trang chủ",
   },
   {
-    path: "/san-pham",
+    path: "/product?manufacture=all",
     title: "Sản phẩm",
   },
   {
-    path: "/lien-he",
+    path: "/contact",
     title: "Liên hệ",
   },
 ];

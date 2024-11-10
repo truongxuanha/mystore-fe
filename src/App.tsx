@@ -7,6 +7,14 @@ import PrivateLayout from "./layouts/PrivateLayout";
 import PublicLayout from "./layouts/PublicLayout";
 import Profile from "./components/Profile";
 import Admin from "./components/Auth/Admin";
+import OrderView from "./components/Oders";
+import AdminStaff from "./components/Auth/Admin/components/AdminStaff";
+import AdminHome from "./components/Auth/Admin/components/AdminHome";
+import AdminProduct from "./components/Auth/Admin/components/AdminProduct";
+import AdminCustomer from "./components/Auth/Admin/components/AdminCustomer";
+import AdminProvider from "./components/Auth/Admin/components/AdminProvider";
+import AdminOrder from "./components/Auth/Admin/components/AdminBill";
+import AdminBanner from "./components/Auth/Admin/components/AdminBanner";
 
 const Home = lazy(() => import("./components/Home"));
 const Cart = lazy(() => import("./components/Carts"));
@@ -29,7 +37,7 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "/san-pham",
+        path: "/product",
         element: (
           <Suspense fallback={<Loader />}>
             <Products />
@@ -37,7 +45,7 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "/lien-he",
+        path: "/contact",
         element: (
           <Suspense fallback={<Loader />}>
             <About />
@@ -45,7 +53,7 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "/dang-nhap",
+        path: "/login",
         element: (
           <Suspense fallback={<Loader />}>
             <Login />
@@ -53,7 +61,7 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "/dang-ky",
+        path: "/register",
         element: (
           <Suspense fallback={<Loader />}>
             <Register />
@@ -61,7 +69,7 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "san-pham/:slug",
+        path: "product/:slug",
         element: (
           <Suspense fallback={<Loader />}>
             <InforProduct />
@@ -83,7 +91,7 @@ const router = createBrowserRouter([
     element: <PrivateLayout />,
     children: [
       {
-        path: "/gio-hang",
+        path: "/cart",
         element: (
           <Suspense fallback={<Loader />}>
             <Cart />
@@ -91,7 +99,7 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "/thong-tin-tai-khoan",
+        path: "/profile",
         element: (
           <Suspense fallback={<Loader />}>
             <Profile />
@@ -106,6 +114,14 @@ const router = createBrowserRouter([
           </Suspense>
         ),
       },
+      {
+        path: "/order",
+        element: (
+          <Suspense fallback={<Loader />}>
+            <OrderView />
+          </Suspense>
+        ),
+      },
     ],
   },
   {
@@ -115,6 +131,40 @@ const router = createBrowserRouter([
         <Admin />
       </Suspense>
     ),
+    children: [
+      {
+        index: true,
+        element: <AdminHome />,
+      },
+      {
+        path: "dashboard",
+        element: <AdminHome />,
+      },
+      {
+        path: "staff",
+        element: <AdminStaff />,
+      },
+      {
+        path: "product",
+        element: <AdminProduct />,
+      },
+      {
+        path: "provider",
+        element: <AdminProvider />,
+      },
+      {
+        path: "customer",
+        element: <AdminCustomer />,
+      },
+      {
+        path: "order",
+        element: <AdminOrder />,
+      },
+      {
+        path: "banner",
+        element: <AdminBanner />,
+      },
+    ],
   },
 ]);
 

@@ -1,9 +1,9 @@
 export interface ProductsType {
-  id: number | string;
+  id: number;
   name: string;
   id_account: string;
-  id_product: number | string;
-  product_id: number | string;
+  id_product: number;
+  product_id: number;
   createAt: string;
   updateAt: string;
   quantity: number;
@@ -33,5 +33,5 @@ export interface ProductsType {
   mn_name: string;
   starType: number;
   totalPage: number;
-  totalStar: number
+  totalStar: number;
 }

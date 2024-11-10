@@ -1,11 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { authCustomer, authLogin, authProfle, authRegister } from "./authThunk";
+import { authGetAllAccount, authCreateAddressThunk, authGetAddressAcc, authLogin, authProfle, authRegister, authCustomer } from "./authThunk";
 import { IAuthState, UserAccount } from "../../../types";
-import {
-  getTokenStorage,
-  getUserStorage,
-  removeUserStorage,
-} from "../../../services/storage";
+import { getTokenStorage, getUserStorage, removeUserStorage } from "../../../services/storage";
 
 const initialState: IAuthState = {
   loading: false,
@@ -13,8 +9,11 @@ const initialState: IAuthState = {
   currentUser: getUserStorage(),
   token: getTokenStorage(),
   infoUser: <UserAccount>{},
+  all_accounts: [],
   all_customers: [],
+  totalAccount: 0,
   totalCustomer: 0,
+  addressAcc: [],
 };
 const authSlice = createSlice({
   name: "auth",
@@ -50,9 +49,7 @@ const authSlice = createSlice({
         state.loading = false;
         state.error = null;
 
-        state.currentUser = action.payload.data.user
-          ? action.payload.data
-          : null;
+        state.currentUser = action.payload.data.user ? action.payload.data : null;
         state.token = action.payload.data.token;
       })
       .addCase(authLogin.rejected, (state, action) => {
@@ -74,6 +71,20 @@ const authSlice = createSlice({
         state.loading = false;
       });
     builder
+      .addCase(authGetAllAccount.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(authGetAllAccount.fulfilled, (state, action) => {
+        state.loading = false;
+        state.error = null;
+        state.all_accounts = action.payload.data;
+        state.totalAccount = action.payload.totalPage;
+      })
+      .addCase(authGetAllAccount.rejected, (state) => {
+        state.loading = false;
+      });
+    builder
       .addCase(authCustomer.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -81,10 +92,36 @@ const authSlice = createSlice({
       .addCase(authCustomer.fulfilled, (state, action) => {
         state.loading = false;
         state.error = null;
-        state.all_customers = action.payload;
-        state.totalCustomer = action.payload.totalItem;
+        state.all_customers = action.payload.data;
+        state.totalCustomer = action.payload.totalPage;
       })
       .addCase(authCustomer.rejected, (state) => {
+        state.loading = false;
+      });
+    builder
+      .addCase(authGetAddressAcc.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(authGetAddressAcc.fulfilled, (state, action) => {
+        state.loading = false;
+        state.error = null;
+        state.addressAcc = action.payload;
+      })
+      .addCase(authGetAddressAcc.rejected, (state) => {
+        state.loading = false;
+      });
+
+    builder
+      .addCase(authCreateAddressThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(authCreateAddressThunk.fulfilled, (state) => {
+        state.loading = false;
+        state.error = null;
+      })
+      .addCase(authCreateAddressThunk.rejected, (state) => {
         state.loading = false;
       });
   },
