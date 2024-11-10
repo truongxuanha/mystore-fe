@@ -44,7 +44,7 @@ function OrderView() {
     dispatch(authGetAddressAcc());
   }, [dispatch]);
   useEffect(() => {
-    if (addressAcc.length > 0) {
+    if (addressAcc && addressAcc.length > 0) {
       setSelectedAddress(addressAcc[0].id);
     }
   }, [addressAcc]);
@@ -100,7 +100,8 @@ function OrderView() {
             <Button className="bg-colorPrimary px-3 py-1 rounded-md">{texts.order.SET_ADDRESS}</Button>
           </Link>
         </div>
-        {addressAcc.length > 0 &&
+        {!!addressAcc &&
+          addressAcc.length > 0 &&
           addressAcc.map((address, index) => {
             return (
               <div className="flex gap-3" key={index}>
@@ -124,7 +125,7 @@ function OrderView() {
             );
           })}
 
-        {addressAcc.length === 0 && <div className="text-colorRed text-center">{texts.order.NO_ADDRESS}</div>}
+        {!!addressAcc && addressAcc.length === 0 && <div className="text-colorRed text-center">{texts.order.NO_ADDRESS}</div>}
         <div className="text-center flex justify-center py-7 text-white">
           <Button className="bg-colorPrimary px-2 py-1 rounded-md flex items-center">
             <CheckIcon className="w-5 h-5" />

@@ -15,7 +15,7 @@ function Manufacture() {
         dispatch(getManuThunk());
       }
     },
-    [dispatch, manuItems]
+    [dispatch, manuItems],
   );
   const handleGotoManu = (id: number) => {
     dispatch(getProducts({ manufacturer: id }));

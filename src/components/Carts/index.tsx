@@ -11,6 +11,7 @@ import { texts } from "../../contains/texts";
 import { handleOrder } from "../../redux/reducer/orderReducer/orderSlice";
 import { useNavigate } from "react-router-dom";
 import { PAGE } from "../../contains";
+import Nodata from "../../customs/Nodata";
 
 function Cart() {
   const dispatch = useAppDispatch();
@@ -47,7 +48,7 @@ function Cart() {
   if (loadingCart) return <Loader />;
   return (
     <div className="">
-      {cartItems.length > 0 &&
+      {cartItems && cartItems.length > 0 ? (
         cartItems.map((cart) => {
           const priceAfterDiscount = cart.price - (cart.price * cart.discount) / 100;
           return (
@@ -64,7 +65,11 @@ function Cart() {
               deleteItemCart={handleDeleteItemCart}
             />
           );
-        })}
+        })
+      ) : (
+        <Nodata>No items in the cart</Nodata>
+      )}
+
       <div className="mt-4 w-full h-30 bg-white p-4 rounded-md gap-2 flex flex-col items-end">
         <div className="flex flex-col w-32 md:w-44 h-full">
           <span className="text-xs md:text-base font-medium ">

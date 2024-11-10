@@ -29,7 +29,8 @@ const HotProducts: React.FC = () => {
         <h1 className="text xl md:text-2xl mb-5">{texts.product.BEST_SELLER}</h1>
         <div className="relative overflow-hidden w-full min-h-48 sm:min-h-64 md:min-h-96 lg:min-h-96 bg-white rounded-lg">
           <div className="flex">
-            {productHots.length > 0 &&
+            {!!productHots &&
+              productHots.length > 0 &&
               productHots.map((product) => (
                 <ProductCard
                   key={product.id}

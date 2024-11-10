@@ -157,7 +157,7 @@ const ProductDetail: React.FC = () => {
       </div>
       <div className="w-3/5 bg-white py-2 mt-2">
         <div>
-          {dataAccountCmts.lenght > 0 ||
+          {(!!dataAccountCmts && dataAccountCmts.length > 0) ||
             dataAccountCmts.map((user: any) => {
               const userCmts = dataCommentById?.filter((acc: any) => {
                 return user.id_account === acc.id_account && acc.parent_id === null;
