@@ -27,6 +27,8 @@ export interface ProductStateType {
   dataCommentById: any;
   commentById: any;
   dataAccountCmts: any;
+  loadingProductNew: boolean;
+  loadingBanner: boolean;
 }
 
 const setIsLoading = (state: ProductStateType, isLoading: boolean) => {
@@ -35,6 +37,8 @@ const setIsLoading = (state: ProductStateType, isLoading: boolean) => {
 
 const initialState: ProductStateType = {
   isLoading: false,
+  loadingBanner: false,
+  loadingProductNew: false,
   products: [],
   productNews: [],
   productHots: [],
@@ -59,7 +63,7 @@ const productSlice = createSlice({
       })
       .addCase(getProducts.fulfilled, (state, action) => {
         setIsLoading(state, false);
-        state.products = action.payload.data ?? [];
+        state.products = action.payload.data;
         state.totalPage = action.payload.totalPage;
         state.totalProduct = action.payload.totalItem;
       })
@@ -83,14 +87,14 @@ const productSlice = createSlice({
 
     builder
       .addCase(getProductNews.pending, (state) => {
-        state.isLoading = true;
+        state.loadingProductNew = true;
       })
       .addCase(getProductNews.fulfilled, (state, action) => {
-        setIsLoading(state, false);
-        state.productNews = action.payload ?? [];
+        state.loadingProductNew = false;
+        state.productNews = action.payload;
       })
       .addCase(getProductNews.rejected, (state) => {
-        setIsLoading(state, false);
+        state.loadingProductNew = false;
         state.productNews = [];
       });
     builder
@@ -107,14 +111,14 @@ const productSlice = createSlice({
       });
     builder
       .addCase(getBanners.pending, (state) => {
-        state.isLoading = true;
+        state.loadingBanner = true;
       })
       .addCase(getBanners.fulfilled, (state, action) => {
-        setIsLoading(state, false);
+        state.loadingBanner = false;
         state.banners = action.payload ?? [];
       })
       .addCase(getBanners.rejected, (state) => {
-        setIsLoading(state, false);
+        state.loadingBanner = false;
       });
     builder
       .addCase(getProductRandom.pending, (state) => {
