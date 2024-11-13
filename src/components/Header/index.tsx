@@ -13,14 +13,14 @@ import {
 } from "@heroicons/react/24/outline";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 
-import { logout } from "../../redux/reducer/userReducer/userSlice";
+import { logout } from "../../redux/auth/authSlice";
 import logo from "../../assets/logo.png";
 import { useAppDispatch, useAppSelector } from "../../hooks/useAppDispatch";
 import { toastifyWarning } from "../../utils/toastify";
 
 import Search from "../Search";
-import { getProductByAccount } from "../../redux/reducer/cartReducer/cartThunk";
-import { clearCart } from "../../redux/reducer/cartReducer/cartSlice";
+import { getProductByAccount } from "../../redux/cart/cartThunk";
+import { clearCart } from "../../redux/cart/cartSlice";
 import { navLink } from "../../routes/app";
 import { texts } from "../../contains/texts";
 

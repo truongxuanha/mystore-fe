@@ -2,16 +2,20 @@ import { ChevronRightIcon } from "@heroicons/react/24/outline";
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
 
-interface MenuItem {
+type MenuItem = {
   id: string;
   title: string;
   path: string;
-}
+};
 
-interface SidebarProps {
+type SidebarProps = {
   menuSidebar: MenuItem[];
-}
-
+};
+type MenuItemProps = {
+  title: string;
+  url: string;
+  activeTab: boolean;
+};
 const Sidebar: React.FC<SidebarProps> = ({ menuSidebar }) => {
   const location = useLocation();
 
@@ -34,12 +38,6 @@ const Sidebar: React.FC<SidebarProps> = ({ menuSidebar }) => {
     </div>
   );
 };
-
-interface MenuItemProps {
-  title: string;
-  url: string;
-  activeTab: boolean;
-}
 
 const MenuItem: React.FC<MenuItemProps> = ({ title, url, activeTab }) => {
   return (

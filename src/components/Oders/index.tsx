@@ -4,10 +4,11 @@ import AddressUser from "../../components/AdressUser";
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../hooks/useAppDispatch";
-import { authGetAddressAcc } from "../../redux/reducer/userReducer/authThunk";
+
 import { texts } from "../../contains/texts";
 import formatVND from "../../utils/formatVND";
 import ProductRandom from "../../components/ProductRandom";
+import { authGetAddressAcc } from "../../redux/auth/authThunk";
 
 function OrderView() {
   const [isOpen, setIsOpen] = useState<boolean>(false);

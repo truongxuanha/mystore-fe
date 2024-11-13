@@ -14,7 +14,7 @@ interface Props extends ImgHTMLAttributes<HTMLImageElement> {
   src: string;
   alt: string;
   handleImageLoaded?: (e: boolean) => void;
-  isObjectFitCover?: "cover" | "contain";
+  isObjectFitCover?: "cover" | "contain" | "fill";
   border?: boolean;
 }
 

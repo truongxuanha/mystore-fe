@@ -6,12 +6,12 @@ import SearchResults from "../SearchResult";
 import useDebounce from "../../hooks/useDebouncs";
 import { Input } from "@headlessui/react";
 import { useAppDispatch, useAppSelector } from "../../hooks/useAppDispatch";
-import { fetchSearchResults } from "../../redux/reducer/searchReducer/searchThunk";
+import { fetchSearchResults } from "../../redux/search/searchThunk";
 import { texts } from "../../contains/texts";
 
-export interface SearchProps {
+export type SearchProps = {
   handleCloseNav?: (open: boolean) => void;
-}
+};
 function Search({ handleCloseNav }: SearchProps) {
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -19,6 +19,7 @@ function Search({ handleCloseNav }: SearchProps) {
   const dispatch = useAppDispatch();
   const { results, isLoading } = useAppSelector((state) => state.search);
   const debounce = useDebounce({ value: searchQuery, delay: 500 });
+
   useEffect(
     function () {
       if (!debounce.trim()) return;

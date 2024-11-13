@@ -5,9 +5,12 @@ import { texts } from "../../../../../contains/texts";
 import FormAddProductAdmin from "../components/FormAddProductAdmin";
 import { useAppDispatch, useAppSelector } from "../../../../../hooks/useAppDispatch";
 import { useEffect, useState } from "react";
-import { getProducts } from "../../../../../redux/reducer/productReducer/productThunk";
 import Table from "../../../../../customs/Table";
 import ButtonAction from "../../../../../customs/ButtonAction";
+import Pagination from "../../../../../customs/Pagination";
+import useGetSearchParams from "../../../../../hooks/useGetSearchParams";
+import { getProducts } from "../../../../../redux/product/productThunk";
+
 const option = [
   { option_id: 1, title: texts.list_staff.ALL_STAFF, value: "all" },
   { option_id: 2, title: texts.list_staff.MANAGER, value: "0" },
@@ -16,13 +19,26 @@ const option = [
 
 function AdminProduct() {
   const dispatch = useAppDispatch();
-  const { products } = useAppSelector((state) => state.product);
+  const { products, totalPage } = useAppSelector((state) => state.product);
   const [show, setShow] = useState<boolean>(false);
   const [actionType, setActionType] = useState<"edit" | "delete" | "add" | "view" | null>(null);
   const [currentProduct, setCurrentProduct] = useState<any>();
+  const page = useGetSearchParams(["page"]).page || 1;
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const query = e.target.value;
+    setSearchQuery(query);
+  };
+
+  const handleSearch = () => {
+    if (!searchQuery.trim()) return;
+    dispatch(getProducts({ query: searchQuery, itemsPerPage: 5 }));
+  };
+
   useEffect(() => {
-    dispatch(getProducts({}));
-  }, [dispatch]);
+    dispatch(getProducts({ currentPage: page, itemsPerPage: 5 }));
+  }, [dispatch, page]);
   const columns = [
     texts.product.PRODUCT_ID,
     texts.product.PRODUCT_NAME,
@@ -69,13 +85,13 @@ function AdminProduct() {
     setCurrentProduct(acc[0]);
   };
   return (
-    <div className="col-span-5">
+    <div className="col-span-5 px-3">
       <HeaderAdmin />
       <div>
         <div className="flex justify-between mt-2 bg-colorBody p-4">
           <div className="flex bg-white items-center h-8 border">
-            <Input type="search" placeholder="Tìm kiếm..." className="h-full px-2" />
-            <span className="bg-colorPrimary h-full flex items-center px-3 cursor-pointer">
+            <Input type="search" placeholder="Tìm kiếm..." className="h-full px-2" onChange={handleChange} />
+            <span onClick={handleSearch} className="bg-colorPrimary h-full flex items-center px-3 cursor-pointer">
               <MagnifyingGlassIcon className="w-4 h-4 " />
             </span>
           </div>
@@ -92,12 +108,13 @@ function AdminProduct() {
             </button>
           </div>
         </div>
-        <div>
+        <div className="mb-5">
           <Table
             columns={columns}
             rows={rowProduct}
             operations={(id: number | string) => <ButtonAction id={id} onEdit={handleEdit} onDelete={handleDelete} onView={handleView} />}
           />
+          <Pagination totalPage={totalPage} currentPage={1} />
           {show && <FormAddProductAdmin actionType={actionType} setShow={setShow} initialData={currentProduct} />}
         </div>
       </div>

@@ -4,7 +4,6 @@ import { useAppDispatch, useAppSelector } from "../../../../../hooks/useAppDispa
 import { Input } from "@headlessui/react";
 import Table from "../../../../../customs/Table";
 import { useEffect, useState } from "react";
-import { authGetAllAccount } from "../../../../../redux/reducer/userReducer/authThunk";
 
 import FormAddStafAdmin from "../components/FormAddStaffAdmin";
 import Pagination from "../../../../../customs/Pagination";
@@ -14,6 +13,8 @@ import { texts } from "../../../../../contains/texts";
 import { MagnifyingGlassIcon, PlusIcon } from "@heroicons/react/24/outline";
 import ButtonAction from "../../../../../customs/ButtonAction";
 import HeaderAdmin from "../components/HeaderAdmin";
+import { authGetAllAccount } from '../../../../../redux/auth/authThunk';
+
 
 function AdminStaff() {
   const { all_accounts, totalAccount } = useAppSelector((state) => state.auth);

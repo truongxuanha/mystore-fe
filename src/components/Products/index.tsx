@@ -5,10 +5,10 @@ import Loader from "../Loader";
 import ProductCard from "./ProductCard";
 
 import { useAppSelector } from "../../hooks/useAppDispatch";
-import { getProducts } from "../../redux/reducer/productReducer/productThunk";
+
 import { AppDispatch } from "../../redux/store";
 import { TOTAL_ITEM_PRODUCT } from "../../contains";
-import { getManuThunk } from "../../redux/reducer/manuReducer/manuThunk";
+
 import { PAGE } from "../../types/contain.type";
 import { texts } from "../../contains/texts";
 import Pagination from "../../customs/Pagination";
@@ -16,6 +16,8 @@ import { isEmpty } from "../../utils";
 import Nodata from "../../customs/Nodata";
 import Button from "../../customs/Button";
 import { ArrowDownIcon, ArrowUpIcon } from "@heroicons/react/24/outline";
+import { getProducts } from "../../redux/product/productThunk";
+import { getManuThunk } from "../../redux/manufacture/manuThunk";
 
 const Products: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();

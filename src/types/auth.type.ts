@@ -1,4 +1,4 @@
-export interface UserAccount {
+export type UserAccount = {
   id: string;
   account_name: string;
   phone_number: number;
@@ -10,8 +10,8 @@ export interface UserAccount {
   permission: number;
   status: number;
   phone: number;
-}
-export interface AddressAccountType {
+};
+export type AddressAccountType = {
   createAt: string;
   detail_address: string;
   district: string;
@@ -22,14 +22,14 @@ export interface AddressAccountType {
   province: string;
   updateAt: string | null;
   wards: string;
-}
-export interface CurrentAccount {
+};
+export type CurrentAccount = {
   user: UserAccount;
   token: string | null;
   refresh: string;
-}
+};
 
-export interface IAuthState {
+export type IAuthState = {
   loading: boolean;
   error: string | null;
   currentUser: CurrentAccount | null;
@@ -40,4 +40,4 @@ export interface IAuthState {
   totalCustomer: number;
   totalAccount: number;
   addressAcc: AddressAccountType[];
-}
+};

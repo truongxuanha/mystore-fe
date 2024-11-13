@@ -1,4 +1,4 @@
-export interface ProductsType {
+export type ProductsType = {
   id: number;
   name: string;
   id_account: string;
@@ -34,4 +34,4 @@ export interface ProductsType {
   starType: number;
   totalPage: number;
   totalStar: number;
-}
+};

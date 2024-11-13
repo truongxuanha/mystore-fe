@@ -2,12 +2,14 @@ import { Input } from "@headlessui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useAppDispatch } from "../../../../../../hooks/useAppDispatch";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { authUpdate } from "../../../../../../redux/reducer/userReducer/authThunk";
+
 import { toastifySuccess, toastifyWarning } from "../../../../../../utils/toastify";
 import { schemaProduct } from "../../../../../../utils/schema";
 import Button from "../../../../../../customs/Button";
-import { CreateProductType } from "../../../../../../api/product/type";
-import { createProductThunk, deleteProductThunk, editProductThunk, getProducts } from "../../../../../../redux/reducer/productReducer/productThunk";
+import { CreateProductType } from "../../../../../../redux/product/type";
+
+import { authUpdate } from "../../../../../../redux/auth/authThunk";
+import { createProductThunk, deleteProductThunk, editProductThunk, getProducts } from '../../../../../../redux/product/productThunk';
 
 type Props = {
   setShow: (value: boolean) => void;

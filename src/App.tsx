@@ -45,6 +45,14 @@ const router = createBrowserRouter([
         ),
       },
       {
+        path: "/product/product-detail/:id",
+        element: (
+          <Suspense fallback={<Loader />}>
+            <InforProduct />
+          </Suspense>
+        ),
+      },
+      {
         path: "/contact",
         element: (
           <Suspense fallback={<Loader />}>
@@ -68,14 +76,7 @@ const router = createBrowserRouter([
           </Suspense>
         ),
       },
-      {
-        path: "product/:slug",
-        element: (
-          <Suspense fallback={<Loader />}>
-            <InforProduct />
-          </Suspense>
-        ),
-      },
+
       {
         path: "*",
         element: (

@@ -2,13 +2,13 @@ import { useEffect, useMemo } from "react";
 import { Button } from "@headlessui/react";
 import { useAppDispatch, useAppSelector } from "../../hooks/useAppDispatch";
 
-import { getProductByAccount, removeCartItem, updateCartItem } from "../../redux/reducer/cartReducer/cartThunk";
+import { getProductByAccount, removeCartItem, updateCartItem } from "../../redux/cart/cartThunk";
 import formatVND from "../../utils/formatVND";
 import Loader from "../../components/Loader";
 import ProductRandom from "../../components/ProductRandom";
 import CartItem from "./CartItem";
 import { texts } from "../../contains/texts";
-import { handleOrder } from "../../redux/reducer/orderReducer/orderSlice";
+import { handleOrder } from "../../redux/order/orderSlice";
 import { useNavigate } from "react-router-dom";
 import { PAGE } from "../../contains";
 import Nodata from "../../customs/Nodata";
@@ -67,7 +67,7 @@ function Cart() {
           );
         })
       ) : (
-        <Nodata>No items in the cart</Nodata>
+        <Nodata>Không có sản phẩm nào!</Nodata>
       )}
 
       <div className="mt-4 w-full h-30 bg-white p-4 rounded-md gap-2 flex flex-col items-end">

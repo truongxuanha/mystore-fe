@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 import { useAppDispatch, useAppSelector } from "../../hooks/useAppDispatch";
-import { getBanners } from "../../redux/reducer/productReducer/productThunk";
+import { getBanners } from "../../redux/home/homeThunk";
 import { INTERVAL_DURATION } from "../../contains";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/outline";
 import LoadingBlock from "../../customs/LoadingBlock";
@@ -11,7 +11,7 @@ const Banner: React.FC = () => {
   const [activeIndex, setActiveIndex] = useState<number>(0);
 
   const dispatch = useAppDispatch();
-  const { banners, loadingBanner, isLoading } = useAppSelector((state) => state.product);
+  const { banners, loadingBanner } = useAppSelector((state) => state.home);
   useEffect(() => {
     const interval: NodeJS.Timeout = setInterval(() => {
       setActiveIndex((prevIndex) => (prevIndex + 1) % banners.length);
@@ -48,7 +48,7 @@ const Banner: React.FC = () => {
             transform: `translateX(-${activeIndex * 100}%)`,
           }}
         >
-          {loadingBanner || isLoading ? (
+          {loadingBanner ? (
             <LoadingBlock />
           ) : (
             <>

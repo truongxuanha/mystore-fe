@@ -1,6 +1,6 @@
 import axios from "axios";
 import { getUserStorage, removeUserStorage, setUserStorage } from "../services/storage";
-import { refreshToken } from "../api/refreshToken";
+import { refreshToken } from "../redux/auth/api";
 
 const axiosInstance = axios.create({
   baseURL: process.env.BASE_URL_API,
@@ -15,7 +15,7 @@ axiosInstance.interceptors.request.use(
 
     return config;
   },
-  (error) => Promise.reject(error)
+  (error) => Promise.reject(error),
 );
 
 axiosInstance.interceptors.response.use(
@@ -46,7 +46,7 @@ axiosInstance.interceptors.response.use(
       }
     }
     return Promise.reject(error);
-  }
+  },
 );
 
 export { axiosInstance };

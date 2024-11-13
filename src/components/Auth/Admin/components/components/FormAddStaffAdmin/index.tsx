@@ -1,14 +1,16 @@
 import { Input } from "@headlessui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { InitialRegisterState } from "api/register/type";
+
 import { useAppDispatch } from "../../../../../../hooks/useAppDispatch";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { authRegister, authUpdate, authDelete } from "../../../../../../redux/reducer/userReducer/authThunk";
+
 import { toastifySuccess, toastifyWarning } from "../../../../../../utils/toastify";
 import { assets } from "../../../../../../assets";
 import ImageLazy from "../../../../../../customs/ImageLazy";
 import { schemaRegister } from "../../../../../../utils/schema";
 import Button from "../../../../../../customs/Button";
+import { authDelete, authRegister, authUpdate } from "../../../../../../redux/auth/authThunk";
+import { InitialRegisterState } from "../../../../../../redux/auth/type";
 
 type Props = {
   setShow: (value: boolean) => void;

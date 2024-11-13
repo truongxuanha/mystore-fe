@@ -1,13 +1,13 @@
 import LineChar from "./components/LineChar";
-import { assets } from "../../../../../assets";
 import { useAppDispatch, useAppSelector } from "../../../../../hooks/useAppDispatch";
 import { useEffect } from "react";
 
-import { authCustomer } from "../../../../../redux/reducer/userReducer/authThunk";
-import { getProducts } from "../../../../../redux/reducer/productReducer/productThunk";
 import HeaderAdmin from "../components/HeaderAdmin";
+import { BuildingStorefrontIcon, ClipboardDocumentListIcon, ClockIcon, UserPlusIcon } from "@heroicons/react/24/outline";
+import { authCustomer } from "../../../../../redux/auth/authThunk";
+import { getProducts } from "../../../../../redux/product/productThunk";
 
-function AdminHome() {
+const AdminHome = () => {
   const dispath = useAppDispatch();
   const { totalCustomer } = useAppSelector((state) => state.auth);
   const { totalProduct } = useAppSelector((state) => state.product);
@@ -20,27 +20,27 @@ function AdminHome() {
       dispath(authCustomer({}));
       dispath(getProducts(para));
     },
-    [dispath]
+    [dispath],
   );
   const items = [
     {
       title: "Khách hàng",
-      image: assets.customer,
+      image: <UserPlusIcon className="w-full h-full text-white" />,
       total: totalCustomer ? totalCustomer : 0,
     },
     {
       title: "Tổng sản phẩm",
-      image: assets.calendar,
+      image: <BuildingStorefrontIcon className="w-full h-full text-white" />,
       total: totalProduct ? totalProduct : 0,
     },
     {
       title: "Đơn hàng chờ xử lý",
-      image: assets.shopping,
+      image: <ClockIcon className="w-full h-full text-white" />,
       total: 0,
     },
     {
       title: "Tổng doanh thu",
-      image: assets.clipboad,
+      image: <ClipboardDocumentListIcon className="w-full h-full text-white" />,
       total: 0,
     },
   ];
@@ -52,9 +52,7 @@ function AdminHome() {
         <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-2">
           {items.map((item) => (
             <div key={item.title} className="bg-white p-10 flex items-center gap-3 rounded-md shadow-md cursor-pointer">
-              <div className="rounded-full p-3 bg-colorPrimary hover:bg-orange-300">
-                <img className="w-7 h-7 text-white" src={item.image} alt="" />
-              </div>
+              <div className="rounded-full p-2 w-9 h-9 bg-colorPrimary hover:bg-orange-300">{item.image}</div>
               <span className="flex gap-2">
                 <p className="bg-zinc-200 rounded-lg p-2 ">{item.title}</p>
                 <p className="text-center bg-zinc-200 rounded-lg w-10 p-2">{item.total}</p>
@@ -68,6 +66,6 @@ function AdminHome() {
       </div>
     </div>
   );
-}
+};
 
 export default AdminHome;

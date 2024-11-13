@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams, useSearchParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import formatVND from "../../../utils/formatVND";
 
@@ -9,40 +9,35 @@ import useAddToCart from "../../../hooks/useAddCart";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../redux/store";
 import { useAppSelector } from "../../../hooks/useAppDispatch";
-import { getCommentByIdProductThunk, getInFoProducts } from "../../../redux/reducer/productReducer/productThunk";
 import ProductRandom from "../../../components/ProductRandom";
 import { assets } from "../../../assets";
 import { texts } from "../../../contains/texts";
-import { handleOrder } from "../../../redux/reducer/orderReducer/orderSlice";
 
 import ImageLazy from "../../../customs/ImageLazy";
 import { ChatBubbleLeftRightIcon, ClockIcon, EllipsisHorizontalIcon, StarIcon } from "@heroicons/react/24/outline";
+import { getCommentByIdProductThunk, getInFoProducts } from "../../../redux/product/productThunk";
+import { handleOrder } from "../../../redux/order/orderSlice";
 
-export interface ProductOrderType {
+export type ProductOrderType = {
   id_product: string | number;
   thumbnail: string;
   product_name: string;
   quantity: number;
   price: number;
   discount: number;
-}
+};
 const ProductDetail: React.FC = () => {
-  const { slug } = useParams<{ slug: string }>();
   const { addToCart } = useAddToCart();
   const [quantity, setQuantity] = useState<number>(1);
   const [isOpen, setIsOpen] = useState<number | null>(null);
   const dispatch = useDispatch<AppDispatch>();
   const { infoProduct, isLoading, dataCommentById, dataAccountCmts } = useAppSelector((state) => state.product);
-  // const { currentUser } = useAppSelector((state) => state.auth);
-  const [searchParams] = useSearchParams();
+  const { id } = useParams();
   const navigate = useNavigate();
   useEffect(() => {
-    if (infoProduct?.slug !== slug) {
-      const idProductParam = Number(searchParams.get("product_id"));
-      dispatch(getInFoProducts(idProductParam)).unwrap();
-      dispatch(getCommentByIdProductThunk({ product_id: idProductParam })).unwrap();
-    }
-  }, [infoProduct?.slug, slug, dispatch, searchParams]);
+    dispatch(getInFoProducts(Number(id)));
+    dispatch(getCommentByIdProductThunk({ product_id: Number(id) }));
+  }, [dispatch, id]);
 
   useEffect(() => {}, [dispatch]);
   if (isLoading) return <Loader />;

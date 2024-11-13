@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-interface debounceType {
+type debounceType = {
   value: string;
   delay: number;
-}
+};
 function useDebounce({ value, delay }: debounceType) {
   const [debounce, setDebounce] = useState(value);
   useEffect(() => {

@@ -1,11 +1,12 @@
 // store.ts
 import { configureStore } from "@reduxjs/toolkit";
-import authReducer from "./reducer/userReducer/userSlice";
-import cartReducer from "./reducer/cartReducer/cartSlice";
-import productReducer from "./reducer/productReducer/productSlice";
-import searchReducer from "./reducer/searchReducer/searchSlice";
-import manufactureReducer from "./reducer/manuReducer/manuSlice";
-import orderReducer from "./reducer/orderReducer/orderSlice";
+import authReducer from "./auth/authSlice";
+import cartReducer from "./cart/cartSlice";
+import productReducer from "./product/productSlice";
+import searchReducer from "./search/searchSlice";
+import manufactureReducer from "./manufacture/manuSlice";
+import orderReducer from "./order/orderSlice";
+import homeReducer from "./home/homeSlice";
 export const store = configureStore({
   reducer: {
     auth: authReducer,
@@ -14,6 +15,7 @@ export const store = configureStore({
     search: searchReducer,
     manufacturer: manufactureReducer,
     order: orderReducer,
+    home: homeReducer,
   },
 });
 

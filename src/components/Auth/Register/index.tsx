@@ -2,15 +2,16 @@ import Loader from "../../Loader/";
 import { useAppDispatch, useAppSelector } from "../../../hooks/useAppDispatch";
 
 import { Link, useNavigate } from "react-router-dom";
-import { authRegister } from "../../../redux/reducer/userReducer/authThunk";
+import { authRegister } from "../../../redux/auth/authThunk";
 
 import { toastifySuccess, toastifyWarning } from "../../../utils/toastify";
 import { Button, Input } from "@headlessui/react";
 
 import { useForm, SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { InitialRegisterState } from "api/register/type";
+
 import { schemaRegisterUser } from "../../../utils/schema";
+import { InitialRegisterState } from "../../../redux/auth/type";
 
 export default function Register() {
   const {

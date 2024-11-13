@@ -1,32 +1,15 @@
 import { Line } from "react-chartjs-2";
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend,
-} from "chart.js";
+import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from "chart.js";
 import { useEffect, useState } from "react";
-import { getRevenue } from "../../../../../../../api/revenue";
+import { getRevenue } from "../../../../../../../redux/home/api";
 
 // Register the components required for the Line chart
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend
-);
+ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
-interface DataType {
+type DataType = {
   date: string;
   total: number;
-}
+};
 
 function LineChar() {
   const [datas, setDatas] = useState<DataType[]>([]);

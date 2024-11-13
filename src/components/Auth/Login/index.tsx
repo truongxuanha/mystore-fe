@@ -3,7 +3,6 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 
 import { useAppDispatch, useAppSelector } from "../../../hooks/useAppDispatch";
-import { authLogin } from "../../../redux/reducer/userReducer/authThunk";
 import Loader from "../../Loader";
 
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
@@ -11,11 +10,12 @@ import { useState } from "react";
 import { toastifySuccess, toastifyWarning } from "../../../utils/toastify";
 import { Button, Input } from "@headlessui/react";
 import { schemaLogin } from "../../../utils/schema";
+import { authLogin } from "redux/auth/authThunk";
 
-interface FormValues {
+type FormValues = {
   value: string;
   password: string;
-}
+};
 
 export default function Login() {
   const {

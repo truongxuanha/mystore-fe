@@ -1,7 +1,7 @@
-export interface Amount {
+export type Amount = {
   amount: string | number;
   discount: number;
-}
+};
 
 function formatVND(amount: Amount["amount"], discount: Amount["discount"]): string {
   const numericAmount = typeof amount === "string" ? parseFloat(amount) : amount;
