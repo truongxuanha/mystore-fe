@@ -63,7 +63,7 @@ const Banner: React.FC = () => {
       </div>
       <Button
         width="46px"
-        styles={
+        className={
           "disabled:pointer-events-none absolute inset-y-0 start-0 inline-flex justify-center items-center  text-gray-800  focus:outline-none marker:rounded-s-lg"
         }
         onClick={handlePrev}
@@ -72,7 +72,7 @@ const Banner: React.FC = () => {
       </Button>
       <Button
         width="46px"
-        styles={"disabled:pointer-events-none absolute inset-y-0 end-0 inline-flex justify-center items-center  text-gray-800 rounded-e-lg"}
+        className={"disabled:pointer-events-none absolute inset-y-0 end-0 inline-flex justify-center items-center  text-gray-800 rounded-e-lg"}
         onClick={handleNext}
       >
         <ChevronRightIcon className="w-10 h-10 " />

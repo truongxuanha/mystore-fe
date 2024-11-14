@@ -27,6 +27,7 @@ export interface ProductStateType {
   loadingProductNew: boolean;
   loadingProductHot: boolean;
   loadingBanner: boolean;
+  loadingProductDetail: boolean;
   productsAdmin?: {
     total_item: number;
     totalPage: number;
@@ -43,6 +44,7 @@ const initialState: ProductStateType = {
   loadingBanner: false,
   loadingProductNew: false,
   loadingProductHot: false,
+  loadingProductDetail: false,
   products: [],
   productNews: [],
   productHots: [],
@@ -80,14 +82,14 @@ const productSlice = createSlice({
 
     builder
       .addCase(getInFoProducts.pending, (state) => {
-        state.isLoading = true;
+        state.loadingProductDetail = true;
       })
       .addCase(getInFoProducts.fulfilled, (state, action) => {
-        setIsLoading(state, false);
+        state.loadingProductDetail = false;
         state.infoProduct = action.payload;
       })
       .addCase(getInFoProducts.rejected, (state) => {
-        setIsLoading(state, false);
+        state.loadingProductDetail = false;
       });
 
     builder

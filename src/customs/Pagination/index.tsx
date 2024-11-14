@@ -43,7 +43,7 @@ function Pagination({ currentPage, totalPage }: Props) {
           key={pageNum}
           width="40px"
           height="32px"
-          styles={`border ${thisPage === pageNum ? "bg-colorPrimary text-white" : "bg-white text-black"}`}
+          className={`border ${thisPage === pageNum ? "bg-colorPrimary text-white" : "bg-white text-black"}`}
           onClick={() => handlePageChange(pageNum)}
         >
           {pageNum}
