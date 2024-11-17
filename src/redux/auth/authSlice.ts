@@ -1,5 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { authGetAllAccount, authCreateAddressThunk, authGetAddressAcc, authLogin, authProfle, authRegister, authCustomer } from "./authThunk";
+import {
+  authGetAllAccount,
+  authCreateAddressThunk,
+  authGetAddressAcc,
+  authLogin,
+  authProfle,
+  authRegister,
+  authCustomer,
+  authForPasswordThunk,
+} from "./authThunk";
 import { IAuthState, UserAccount } from "../../types";
 import { getTokenStorage, getUserStorage, removeUserStorage } from "../../services/storage";
 
@@ -14,6 +23,7 @@ const initialState: IAuthState = {
   totalAccount: 0,
   totalCustomer: 0,
   addressAcc: [],
+  loadingForpass: false,
 };
 const authSlice = createSlice({
   name: "auth",
@@ -123,6 +133,18 @@ const authSlice = createSlice({
       })
       .addCase(authCreateAddressThunk.rejected, (state) => {
         state.loading = false;
+      });
+    builder
+      .addCase(authForPasswordThunk.pending, (state) => {
+        state.loadingForpass = true;
+        state.error = null;
+      })
+      .addCase(authForPasswordThunk.fulfilled, (state) => {
+        state.loadingForpass = false;
+        state.error = null;
+      })
+      .addCase(authForPasswordThunk.rejected, (state) => {
+        state.loadingForpass = false;
       });
   },
 });

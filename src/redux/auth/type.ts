@@ -52,5 +52,7 @@ export type ResResfreshType = {
     data: RefreshTokenType;
   };
 };
-
+export type ForPassword = {
+  email: string;
+};
 export type RefreshTokenType = CurrentAccount["refresh"];

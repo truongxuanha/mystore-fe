@@ -40,4 +40,11 @@ export type IAuthState = {
   totalCustomer: number;
   totalAccount: number;
   addressAcc: AddressAccountType[];
+  loadingForpass: boolean;
 };
+
+export enum TabType {
+  LOGIN = "login",
+  REGISTER = "register",
+  FORPASSWORD = "forpassword",
+}

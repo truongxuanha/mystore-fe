@@ -15,14 +15,12 @@ import AdminCustomer from "./components/Auth/Admin/components/AdminCustomer";
 import AdminProvider from "./components/Auth/Admin/components/AdminProvider";
 import AdminOrder from "./components/Auth/Admin/components/AdminBill";
 import AdminBanner from "./components/Auth/Admin/components/AdminBanner";
+import AuthPage from "components/Auth/AuthPage";
 
 const Home = lazy(() => import("./components/Home"));
 const Cart = lazy(() => import("./components/Carts"));
 const Error = lazy(() => import("./components/Error/Error"));
 const Products = lazy(() => import("./components/Products"));
-const Login = lazy(() => import("./components/Auth/Login"));
-const Register = lazy(() => import("./components/Auth/Register"));
-
 const router = createBrowserRouter([
   {
     path: "/",
@@ -64,15 +62,7 @@ const router = createBrowserRouter([
         path: "/login",
         element: (
           <Suspense fallback={<Loader />}>
-            <Login />
-          </Suspense>
-        ),
-      },
-      {
-        path: "/register",
-        element: (
-          <Suspense fallback={<Loader />}>
-            <Register />
+            <AuthPage />
           </Suspense>
         ),
       },
