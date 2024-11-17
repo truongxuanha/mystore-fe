@@ -24,6 +24,7 @@ export interface ProductStateType {
   dataCommentById: any;
   commentById: any;
   dataAccountCmts: any;
+  dataRatingProduct: any;
   loadingProductNew: boolean;
   loadingProductHot: boolean;
   loadingBanner: boolean;
@@ -57,6 +58,7 @@ const initialState: ProductStateType = {
   dataCommentById: [],
   dataAccountCmts: [],
   commentById: {},
+  dataRatingProduct: undefined,
 };
 
 const productSlice = createSlice({
@@ -167,6 +169,7 @@ const productSlice = createSlice({
         state.dataCommentById = action.payload.data;
         state.dataAccountCmts = action.payload.dataAccount;
         state.commentById = action.payload;
+        state.dataRatingProduct = action.payload.starStats;
       })
       .addCase(getCommentByIdProductThunk.rejected, (state) => {
         setIsLoading(state, false);

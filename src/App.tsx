@@ -15,6 +15,7 @@ import AdminCustomer from "./components/Auth/Admin/components/AdminCustomer";
 import AdminProvider from "./components/Auth/Admin/components/AdminProvider";
 import AdminOrder from "./components/Auth/Admin/components/AdminBill";
 import AdminBanner from "./components/Auth/Admin/components/AdminBanner";
+import ProtectedRoute from "layouts/ProtectedLayout";
 
 const Home = lazy(() => import("./components/Home"));
 const Cart = lazy(() => import("./components/Carts"));
@@ -63,17 +64,21 @@ const router = createBrowserRouter([
       {
         path: "/login",
         element: (
-          <Suspense fallback={<Loader />}>
-            <Login />
-          </Suspense>
+          <ProtectedRoute>
+            <Suspense fallback={<Loader />}>
+              <Login />
+            </Suspense>
+          </ProtectedRoute>
         ),
       },
       {
         path: "/register",
         element: (
-          <Suspense fallback={<Loader />}>
-            <Register />
-          </Suspense>
+          <ProtectedRoute>
+            <Suspense fallback={<Loader />}>
+              <Register />
+            </Suspense>
+          </ProtectedRoute>
         ),
       },
 

@@ -33,6 +33,7 @@ function Header() {
   const dispatch = useAppDispatch();
 
   const { currentUser } = useAppSelector((state) => state.auth);
+  const isAdmin = currentUser?.user.permission === 1;
   const { cartLength } = useAppSelector((state) => state.cart);
 
   const handleLogout = () => {
@@ -111,10 +112,12 @@ function Header() {
                       <UserIcon className="w-5 h-5" />
                       <p>{texts.header.ACCOUNT}</p>
                     </Link>
-                    <Link to="/admin" className="flex p-3 items-center gap-x-2 hover:bg-[#f5f5f5]">
-                      <GlobeAltIcon className="w-5 h-6" />
-                      <p>Quản trị</p>
-                    </Link>
+                    {isAdmin && (
+                      <Link to="/admin" className="flex p-3 items-center gap-x-2 hover:bg-[#f5f5f5]">
+                        <GlobeAltIcon className="w-5 h-6" />
+                        <p>Quản trị</p>
+                      </Link>
+                    )}
                     <span onClick={handleLogout} className="flex justify-start gap-x-2 p-3 hover:bg-[#f5f5f5]">
                       <ArrowRightStartOnRectangleIcon className="h-5 w-5" />
                       <p>{texts.header.LOGOUT}</p>

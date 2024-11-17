@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { cretaeProduct, deleteProduct, editProduct, getCmtByIdProduct, getHotProduct, getInFoProduct, getProduct, getProductNew, randomProduct } from ".";
+import { cretaeProduct, deleteProduct, editProduct, getCmtByIdProduct, getHotProduct, getInFoProduct, getProduct, getProductNew, randomProduct } from "./api";
 import { CommentProductType, CreateProductType, EditProductType, ProductParaType } from "./type";
 
 export const getProducts = createAsyncThunk(

@@ -25,7 +25,7 @@ const Products: React.FC = () => {
   const currentPage: number = parseInt(searchParams.get(PAGE.page) || "1");
   const itemsPerPage: number = TOTAL_ITEM_PRODUCT;
   const [manufacturer, setManufacturer] = useState<string | number>(PAGE.all);
-  const [sortOf, setSortOf] = useState<string>(searchParams.get(PAGE.page) || "");
+  const [sortOf, setSortOf] = useState<string>("");
   const { products, totalPage, isLoading } = useAppSelector((state) => state.product);
   const { manuItems } = useAppSelector((state) => state.manufacturer);
 
