@@ -30,7 +30,7 @@ const SliderWrapper = styled.div`
 const SliderCustom = ({ data }: any) => {
   const PrevArrow = ({ onClick }: any) => (
     <button
-      className="absolute top-1/2 transform -translate-y-1/2 left-2 z-10 bg-gray-800 text-white rounded-full p-2 shadow hover:bg-gray-700"
+      className="absolute top-1/2 transform -translate-y-1/2 left-2 z-10 bg-orange-300 text- rounded-full p-2 shadow hover:bg-orange-200"
       onClick={onClick}
     >
       <ChevronLeftIcon className="w-6 h-6" />
@@ -39,7 +39,7 @@ const SliderCustom = ({ data }: any) => {
 
   const NextArrow = ({ onClick }: any) => (
     <button
-      className="absolute top-1/2 transform -translate-y-1/2 right-2 z-10 bg-gray-800 text-white rounded-full p-2 shadow hover:bg-gray-700"
+      className="absolute top-1/2 transform -translate-y-1/2 right-2 z-10 bg-orange-300 text- rounded-full p-2 shadow hover:bg-orange-200"
       onClick={onClick}
     >
       <ChevronRightIcon className="w-6 h-6" />
