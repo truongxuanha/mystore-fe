@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { randomProduct } from "redux/product";
 import { ProductsType } from "types";
 import { texts } from "contains/texts";
-import ListProductHome from "components/ListProductHome";
+import SliderListProduct from "customs/SliderListProduct";
 
 const ProductRandom: React.FC = () => {
   const [productRandom, setProductRandom] = useState<ProductsType[]>([]);
@@ -15,7 +15,7 @@ const ProductRandom: React.FC = () => {
     fetcRandom();
   }, []);
 
-  return <ListProductHome title={texts.product.PRODUCT_OTHER} data={productRandom} />;
+  return <SliderListProduct title={texts.product.PRODUCT_NEW} data={productRandom} />;
 };
 
 export default ProductRandom;

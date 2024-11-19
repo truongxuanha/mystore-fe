@@ -3,8 +3,8 @@ import React, { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "hooks/useAppDispatch";
 
 import { texts } from "contains/texts";
-import ListProductHome from "components/ListProductHome";
 import { getHotProducts } from "redux/product/productThunk";
+import SliderListProduct from "customs/SliderListProduct";
 
 const HotProducts: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -13,7 +13,7 @@ const HotProducts: React.FC = () => {
     dispatch(getHotProducts());
   }, [dispatch]);
 
-  return <ListProductHome title={texts.product.BEST_SELLER} data={productHots} loading={loadingProductHot} />;
+  return <SliderListProduct title={texts.product.PRODUCT_NEW} data={productHots} loading={loadingProductHot} />;
 };
 
 export default HotProducts;

@@ -12,15 +12,15 @@ import ImageLazy from "customs/ImageLazy";
 
 export type ProductsProp = {
   product: ProductsType;
-  typeCss: string;
+  typeCss?: string;
   style?: React.CSSProperties;
   productCategory?: string;
 };
 
-const ProductCard: React.FC<ProductsProp> = ({ product, typeCss, style, productCategory }) => {
+const ProductCard: React.FC<ProductsProp> = ({ product, productCategory }) => {
   const { addToCart } = useAddToCart();
   return (
-    <div className={`${typeCss} bg-white transition-transform duration-500 relative`} style={style}>
+    <div className="bg-white border mx-2 p-4 shadow-md min-h-[350px]">
       <div className="pt-2 md:row-span-3 w-full h-[150px] flex items-center">
         <ImageLazy
           className="rounded-md w-full h-full hover:translate-y-[-10px] duration-500"
