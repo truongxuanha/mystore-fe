@@ -16,6 +16,7 @@ import AdminProvider from "./components/Auth/Admin/components/AdminProvider";
 import AdminOrder from "./components/Auth/Admin/components/AdminBill";
 import AdminBanner from "./components/Auth/Admin/components/AdminBanner";
 import AuthPage from "components/Auth/AuthPage";
+import ProtectedRoute from "layouts/ProtectedLayout";
 
 const Home = lazy(() => import("./components/Home"));
 const Cart = lazy(() => import("./components/Carts"));
@@ -62,7 +63,9 @@ const router = createBrowserRouter([
         path: "/login",
         element: (
           <Suspense fallback={<Loader />}>
-            <AuthPage />
+            <ProtectedRoute>
+              <AuthPage />
+            </ProtectedRoute>
           </Suspense>
         ),
       },

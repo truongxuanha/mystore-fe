@@ -4,6 +4,10 @@ import "slick-carousel/slick/slick-theme.css";
 import ImageLazy from "customs/ImageLazy";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/outline";
 import styled from "styled-components";
+type Props = {
+  data: any;
+  maxItem?: number;
+};
 const SliderWrapper = styled.div`
   .slick-dots {
     bottom: 0;
@@ -27,10 +31,11 @@ const SliderWrapper = styled.div`
     }
   }
 `;
-const SliderCustom = ({ data }: any) => {
+
+const SliderCustom = ({ data, maxItem }: Props) => {
   const PrevArrow = ({ onClick }: any) => (
     <button
-      className="absolute top-1/2 transform -translate-y-1/2 left-2 z-10 bg-orange-300 text- rounded-full p-2 shadow hover:bg-orange-200"
+      className="absolute top-1/2 transform -translate-y-1/2 left-2 z-10 bg-orange-100 text- rounded-full p-2 shadow hover:bg-orange-200"
       onClick={onClick}
     >
       <ChevronLeftIcon className="w-6 h-6" />
@@ -39,7 +44,7 @@ const SliderCustom = ({ data }: any) => {
 
   const NextArrow = ({ onClick }: any) => (
     <button
-      className="absolute top-1/2 transform -translate-y-1/2 right-2 z-10 bg-orange-300 text- rounded-full p-2 shadow hover:bg-orange-200"
+      className="absolute top-1/2 transform -translate-y-1/2 right-2 z-10 bg-orange-100 text- rounded-full p-2 shadow hover:bg-orange-200"
       onClick={onClick}
     >
       <ChevronRightIcon className="w-6 h-6" />
@@ -50,10 +55,10 @@ const SliderCustom = ({ data }: any) => {
     dots: true,
     infinite: true,
     speed: 700,
-    slidesToShow: 1,
+    slidesToShow: maxItem ?? 1,
     slidesToScroll: 1,
     autoplay: true,
-    autoplaySpeed: 4000,
+    autoplaySpeed: 2000,
     arrows: true,
     nextArrow: <NextArrow />,
     prevArrow: <PrevArrow />,

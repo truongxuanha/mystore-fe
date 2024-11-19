@@ -20,7 +20,7 @@ export type ProductsProp = {
 const ProductCard: React.FC<ProductsProp> = ({ product, isList }) => {
   const { addToCart } = useAddToCart();
   return (
-    <div className="bg-white border mx-2 p-4 shadow-md min-h-[350px] relative">
+    <div className={`bg-white border mx-2 p-2 shadow-slate-200 rounded-md shadow-inner min-h-[300px] md:min-h-[350px] relative`}>
       <div className="pt-2 md:row-span-3 w-full h-[150px] flex items-center">
         <ImageLazy
           className="rounded-md w-full h-full hover:translate-y-[-10px] duration-500"

@@ -14,7 +14,7 @@ const HotProducts: React.FC = () => {
     dispatch(getHotProducts());
   }, [dispatch]);
 
-  return <SliderListProduct isList={IsListType.LIST_HOT} title={texts.product.PRODUCT_NEW} data={productHots} loading={loadingProductHot} />;
+  return <SliderListProduct isList={IsListType.LIST_HOT} title={texts.product.BEST_SELLER} data={productHots} loading={loadingProductHot} />;
 };
 
 export default HotProducts;

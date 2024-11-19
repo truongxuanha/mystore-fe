@@ -15,7 +15,7 @@ const ProductRandom: React.FC = () => {
     fetcRandom();
   }, []);
 
-  return <SliderListProduct title={texts.product.PRODUCT_NEW} data={productRandom} />;
+  return <SliderListProduct title={texts.product.PRODUCT_OTHER} data={productRandom} />;
 };
 
 export default ProductRandom;

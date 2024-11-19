@@ -7,6 +7,7 @@ import ProductCard from "components/Products/ProductCard";
 import TitleListProduct from "customs/TitleListProduct";
 import LoadingBlock from "customs/LoadingBlock";
 import { IsListType } from "types";
+import { useDetectScreen } from "hooks/useDetectScreen";
 type Props = {
   data: any;
   title: string;
@@ -37,21 +38,15 @@ const SliderWrapper = styled.div`
   }
 `;
 const SliderListProduct = ({ data, title, isList, loading }: Props) => {
-  
+  const { isMobile } = useDetectScreen();
   const PrevArrow = ({ onClick }: any) => (
-    <button
-      className="absolute top-1/2 transform -translate-y-1/2 left-2 z-10 bg-orange-200 text-black rounded-full p-2 shadow hover:bg-orange-100"
-      onClick={onClick}
-    >
+    <button className="absolute top-1/2 transform -translate-y-1/2 left-2 z-10  text-black rounded-full p-2  " onClick={onClick}>
       <ChevronLeftIcon className="w-6 h-6" />
     </button>
   );
 
   const NextArrow = ({ onClick }: any) => (
-    <button
-      className="absolute top-1/2 transform -translate-y-1/2 right-2 z-10 bg-orange-200 text-black rounded-full p-2 shadow hover:bg-orange-100"
-      onClick={onClick}
-    >
+    <button className="absolute top-1/2 transform -translate-y-1/2 right-2 z-10  text-black rounded-full p-2  " onClick={onClick}>
       <ChevronRightIcon className="w-6 h-6" />
     </button>
   );
@@ -59,7 +54,7 @@ const SliderListProduct = ({ data, title, isList, loading }: Props) => {
   const settings = {
     dots: false,
     infinite: true,
-    slidesToShow: 5,
+    slidesToShow: isMobile ? 2 : 5,
     slidesToScroll: 1,
     autoplay: false,
     autoplaySpeed: 4000,
@@ -69,7 +64,7 @@ const SliderListProduct = ({ data, title, isList, loading }: Props) => {
   };
 
   return (
-    <div className="bg-white p-3">
+    <div className="bg-white p-3 my-5">
       <TitleListProduct title={title} />
       {loading ? (
         <LoadingBlock />
