@@ -28,12 +28,12 @@ const Image: FC<Props> = ({ src, alt, handleImageLoaded, isObjectFitCover = "cov
       if (entries[0].isIntersecting && placeholderRef.current) {
         setView(src);
         observer.unobserve(placeholderRef.current);
-
         setTimeout(() => {
           setIsError(true);
         }, 1500);
       }
     });
+    setView(src);
     if (placeholderRef && placeholderRef.current) {
       observer.observe(placeholderRef.current);
     }

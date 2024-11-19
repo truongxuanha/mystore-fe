@@ -143,11 +143,11 @@ function FormAddProductAdmin({ setShow, initialData, actionType }: Props) {
           {errors.createAt?.message && <span className="text-red-500 text-center col-span-2">{errors.createAt.message}</span>}
           <div className="col-span-2 border-t flex justify-end gap-2 p-5">
             {actionType === "view" ? null : (
-              <Button width="150px" height="30px" type="submit" styles=" bg-colorPrimary text-white rounded ">
+              <Button width="150px" height="30px" type="submit" className=" bg-colorPrimary text-white rounded ">
                 {actionType === "add" ? "Thêm mới" : actionType === "edit" ? "Sửa" : "Xóa"}
               </Button>
             )}
-            <Button width="150px" height="30px" onClick={() => setShow(false)} type="button" styles=" bg-blue-500 text-white rounded">
+            <Button width="150px" height="30px" onClick={() => setShow(false)} type="button" className=" bg-blue-500 text-white rounded">
               Thoát
             </Button>
           </div>

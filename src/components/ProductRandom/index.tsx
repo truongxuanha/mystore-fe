@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { randomProduct } from "redux/product";
+import { randomProduct } from "redux/product/api";
 import { ProductsType } from "types";
 import { texts } from "contains/texts";
 import ListProductHome from "components/ListProductHome";

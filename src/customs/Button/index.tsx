@@ -1,4 +1,5 @@
 import React from "react";
+import styled from "styled-components";
 
 type Props = {
   width?: string;
@@ -12,21 +13,29 @@ type Props = {
   img?: any;
   children?: React.ReactNode;
 } & React.ButtonHTMLAttributes<HTMLButtonElement>;
-
-function Button({ width = "100%", height = "100%", background, color, img, border, padding, children, styles, ...props }: Props) {
-  const stylesButton = {
+export const WrapButton = styled.button`
+  &:hover {
+    opacity: 0.8;
+  }
+`;
+function Button({ width = "100%", height = "100%", background, color, img, border, padding, children, ...props }: Props) {
+  const stylesButton: React.CSSProperties = {
     background,
     color,
     border,
     width,
     height,
     padding,
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
   };
+
   return (
-    <button style={stylesButton} {...props} className={`flex items-center justify-center ${styles}`}>
+    <WrapButton style={stylesButton} {...props}>
       {img && img}
       {children && children}
-    </button>
+    </WrapButton>
   );
 }
 

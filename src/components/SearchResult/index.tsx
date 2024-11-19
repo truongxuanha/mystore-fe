@@ -1,6 +1,6 @@
 import React from "react";
 import { ProductsType } from "types";
-import { getInFoProduct } from "redux/product";
+import { getInFoProduct } from "redux/product/api";
 import { Link } from "react-router-dom";
 
 type SearchResultsProps = {

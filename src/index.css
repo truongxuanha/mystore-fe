@@ -2,6 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
+
 * {
   padding: 0;
   margin: 0;
@@ -262,4 +263,25 @@ input:focus {
 .form svg {
   width: 17px;
   margin-top: 3px;
+}
+
+.custom-range {
+  -webkit-appearance: none;
+  appearance: none;
+  background: #ff8f26;
+  height: 5px;
+  cursor: not-allowed;
+}
+
+.custom-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.custom-range::-moz-range-thumb {
+  appearance: none;
+}
+
+.custom-range::-ms-thumb {
+  appearance: none;
 }

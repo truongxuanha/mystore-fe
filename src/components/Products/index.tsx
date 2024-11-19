@@ -25,7 +25,7 @@ const Products: React.FC = () => {
   const currentPage: number = parseInt(searchParams.get(PAGE.page) || "1");
   const itemsPerPage: number = TOTAL_ITEM_PRODUCT;
   const [manufacturer, setManufacturer] = useState<string | number>(PAGE.all);
-  const [sortOf, setSortOf] = useState<string>(searchParams.get(PAGE.page) || "");
+  const [sortOf, setSortOf] = useState<string>("");
   const { products, totalPage, isLoading } = useAppSelector((state) => state.product);
   const { manuItems } = useAppSelector((state) => state.manufacturer);
 
@@ -64,7 +64,7 @@ const Products: React.FC = () => {
             <Button
               onClick={() => handleSort("ASC")}
               img={<ArrowUpIcon height={16} width={16} />}
-              styles={`bg-white shadow-md rounded-md text-sm  ${sortOf === "ASC" ? "bg-red-100 border border-red-600" : ""}`}
+              className={`bg-white shadow-md rounded-md text-sm  ${sortOf === "ASC" ? "bg-red-100 border border-red-600" : ""}`}
               width="165px"
               height="40px"
             >
@@ -73,7 +73,7 @@ const Products: React.FC = () => {
             <Button
               onClick={() => handleSort("DESC")}
               img={<ArrowDownIcon height={16} width={16} />}
-              styles={`bg-white shadow-md rounded-md text-sm  ${sortOf === "DESC" ? "bg-red-100 border border-red-600" : ""}`}
+              className={`bg-white shadow-md rounded-md text-sm  ${sortOf === "DESC" ? "bg-red-100 border border-red-600" : ""}`}
               width="165px"
               height="40px"
             >

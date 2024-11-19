@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 
 import formatVND from "utils/formatVND";
 
-import { Button, Input } from "@headlessui/react";
+import { Input } from "@headlessui/react";
 import useAddToCart from "hooks/useAddCart";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "redux/store";
@@ -13,11 +13,13 @@ import { assets } from "assets";
 import { texts } from "contains/texts";
 
 import ImageLazy from "customs/ImageLazy";
-import { ChatBubbleLeftRightIcon, ClockIcon, EllipsisHorizontalIcon, StarIcon } from "@heroicons/react/24/outline";
+import { ChatBubbleLeftRightIcon, ClockIcon, EllipsisHorizontalIcon, PaperAirplaneIcon, StarIcon } from "@heroicons/react/24/outline";
 import { getCommentByIdProductThunk, getInFoProducts } from "redux/product/productThunk";
 import { handleOrder } from "redux/order/orderSlice";
 import Loader from "components/Loader";
-
+import Button from "customs/Button";
+import noAvatar from "assets/no_avatar.jfif";
+import Nodata from "customs/Nodata";
 export type ProductOrderType = {
   id_product: string | number;
   thumbnail: string;
@@ -30,17 +32,19 @@ const ProductDetail: React.FC = () => {
   const { addToCart } = useAddToCart();
   const [quantity, setQuantity] = useState<number>(1);
   const [isOpen, setIsOpen] = useState<number | null>(null);
+  const [star, setStar] = useState<number>(0);
+  const [rating, setRating] = useState<number>(0);
+  const [showRating, setShowRating] = useState(false);
   const dispatch = useDispatch<AppDispatch>();
-  const { infoProduct, isLoading, dataCommentById, dataAccountCmts } = useAppSelector((state) => state.product);
+  const { infoProduct, loadingProductDetail, dataCommentById, dataAccountCmts, dataRatingProduct } = useAppSelector((state) => state.product);
+  const { currentUser } = useAppSelector((state) => state.auth);
   const { id } = useParams();
   const navigate = useNavigate();
   useEffect(() => {
     dispatch(getInFoProducts(Number(id)));
     dispatch(getCommentByIdProductThunk({ product_id: Number(id) }));
   }, [dispatch, id]);
-
   useEffect(() => {}, [dispatch]);
-  if (isLoading) return <Loader />;
   if (!infoProduct) return <div>{texts.product.PRODUCT_NOT_FOUND}</div>;
   const cupons = [
     {
@@ -93,6 +97,32 @@ const ProductDetail: React.FC = () => {
     dispatch(handleOrder(products));
     navigate("/order");
   };
+  const ratings: any = {
+    1: "Kém",
+    2: "Tạm được",
+    3: "Trung bình",
+    4: "Tốt",
+    5: "Rất Tốt",
+  };
+
+  if (loadingProductDetail && !infoProduct) return <Loader />;
+  const productDescription = () => {
+    if (!!infoProduct.description) {
+      const paragraphs = infoProduct.description?.split(".");
+      const firstParagraph = paragraphs[0] || "";
+      return (
+        <div>
+          <p style={{ fontWeight: "bold" }}>{firstParagraph}</p>
+
+          {paragraphs.slice(1).map((para, index) => (
+            <p key={index}>{para}</p>
+          ))}
+        </div>
+      );
+    }
+    return <Nodata>Sản phẩm hiện không có thông tin chính thức nào!!!</Nodata>;
+  };
+  const stars = [1, 2, 3, 4, 5];
   return (
     <main>
       <div className="grid grid-cols-1 sm:grid-cols-4  mx-auto overflow-hidden rounded-md bg-white mt-3">
@@ -132,16 +162,19 @@ const ProductDetail: React.FC = () => {
                 </div>
                 <span className="font-bold">{formatVND(infoProduct.price * quantity, infoProduct.discount)}</span>
                 <div className="flex gap-3">
-                  <Button className="bg-red-500 text-white text-xs px-2 py-1 rounded-lg hover:bg-red-300" onClick={handleOrderNow}>
-                    {texts.order.ORDER_NOW}
-                  </Button>
-
-                  <button
-                    className="bg-colorPrimary text-white text-xs px-2 py-1 rounded-lg hover:bg-orange-300"
-                    onClick={() => addToCart(infoProduct?.product_id, quantity)}
-                  >
-                    {texts.common.ADD_TO_CART}
-                  </button>
+                  <div>
+                    <Button className="bg-red-500 text-white text-xs px-2 py-1 rounded-lg hover:bg-red-300" onClick={handleOrderNow}>
+                      {texts.order.ORDER_NOW}
+                    </Button>
+                  </div>
+                  <div>
+                    <Button
+                      className="bg-colorPrimary text-white text-xs px-2 py-1 rounded-lg hover:bg-orange-300"
+                      onClick={() => addToCart(infoProduct?.product_id, quantity)}
+                    >
+                      {texts.common.ADD_TO_CART}
+                    </Button>
+                  </div>
                 </div>
               </>
             ) : (
@@ -150,9 +183,83 @@ const ProductDetail: React.FC = () => {
           </div>
         </div>
       </div>
-      <div className="w-3/5 bg-white py-2 mt-2">
+      <div className="p-2 mt-2 bg-white">{productDescription()}</div>
+      <div className=" bg-white p-2 mt-2">
+        <div className="text-xl font-bold mb-2">{infoProduct.name}</div>
+        <div className="flex items-center gap-5 mb-2">
+          <div className="flex items-center gap-1">
+            <span className="text-colorPrimary text-xl">{dataRatingProduct?.averageRating ?? 0}</span>
+            <StarIcon color="#ff8f26" fill="#ff8f26" width={22} height={22} />
+          </div>
+          <div>{dataRatingProduct?.totalRatings} đánh giá</div>
+        </div>
+        {stars.map((star, index) => (
+          <div className="flex items-center" key={index}>
+            <span className="text-base">{stars.length - index}</span>
+            <div
+              key={star}
+              style={{
+                display: "grid",
+                gridTemplateColumns: "20px 250px 20px",
+                alignItems: "center",
+                gap: "10px",
+              }}
+            >
+              <StarIcon color="#333" fill="#333" width={20} height={20} />
+              <div className="w-[250px] bg-slate-200  h-[5px]">
+                <div
+                  className="bg-colorPrimary h-full transition-all duration-1000"
+                  style={{
+                    width: `${dataRatingProduct?.stars?.[stars.length - index]?.percentage * 2.5}px`,
+                  }}
+                ></div>
+              </div>
+              <span>{dataRatingProduct?.stars?.[stars.length - index]?.percentage}%</span>
+            </div>
+          </div>
+        ))}
+
+        <div className="flex gap-3 mt-10">
+          <div className="w-10 h-10 rounded-full">
+            <img className="rounded-full" src={currentUser?.user.avatar ?? noAvatar} alt="avatar" />
+          </div>
+          <div className="bg-blue-600 flex items-center gap-2 px-2 py-1">
+            <PaperAirplaneIcon width={20} height={20} className="text-white" />
+            <Button onClick={() => setShowRating(true)} width="150px" className="text-white">
+              Viết đánh giá ngay
+            </Button>
+          </div>
+        </div>
+        {showRating && (
+          <div className="flex flex-col gap-3 border-t-2 p-5 mt-5">
+            <div className="flex items-center gap-3">
+              {stars.map((item, index) => (
+                <StarIcon
+                  key={index}
+                  color="#ff8f26"
+                  fill={star >= index + 1 || rating >= index + 1 ? "#ff8f26" : "#fff"}
+                  width={30}
+                  height={30}
+                  onMouseEnter={() => setStar(index + 1)}
+                  onMouseLeave={() => setStar(0)}
+                  onClick={() => setRating(index + 1)}
+                />
+              ))}
+              <p>
+                <p>{ratings[rating] || "Chưa đánh giá"}</p>
+              </p>
+            </div>
+            <div className="flex mt-3 gap-2 w-2/4">
+              <textarea className="border rounded-sm px-2 py-2 flex-1" />
+              <div className="w-20 h-10">
+                <Button className="bg-colorPrimary py-2">Gửi</Button>
+              </div>
+            </div>
+          </div>
+        )}
         <div>
-          {(!!dataAccountCmts && dataAccountCmts.length > 0) ||
+          {dataAccountCmts.length > 0 &&
+            dataAccountCmts.length > 0 &&
             dataAccountCmts.map((user: any) => {
               const userCmts = dataCommentById?.filter((acc: any) => {
                 return user.id_account === acc.id_account && acc.parent_id === null;
@@ -165,13 +272,6 @@ const ProductDetail: React.FC = () => {
                       <div className="">
                         <div>{userCmt.full_name}</div>
                         <div className="flex gap-3 mt-2">
-                          <div className="flex">
-                            <StarIcon color="#ff8f26" fill="#ff8f26" width={16} height={16} />
-                            <StarIcon color="#ff8f26" fill="#ff8f26" width={16} height={16} />
-                            <StarIcon color="#ff8f26" fill="#ff8f26" width={16} height={16} />
-                            <StarIcon width={16} height={16} />
-                            <StarIcon width={16} height={16} />
-                          </div>
                           <div className="font-thin text-xs text-gray-500 flex gap-1 items-center">
                             <ClockIcon width={13} height={13} />
                             <p>{userCmt.createAt}</p>
@@ -240,6 +340,7 @@ const ProductDetail: React.FC = () => {
             })}
         </div>
       </div>
+
       <ProductRandom />
     </main>
   );
