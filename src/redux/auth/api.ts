@@ -1,5 +1,5 @@
 import { axiosInstance } from "../../utils/axiosConfig";
-import { AddressType, CustomerParamsType, InitialLoginState, InitialRegisterState, RefreshTokenType, ResResfreshType } from "./type";
+import { AddressType, CustomerParamsType, ForPassword, InitialLoginState, InitialRegisterState, RefreshTokenType, ResResfreshType } from "./type";
 
 export async function registerUser(initAccount: InitialRegisterState) {
   try {
@@ -102,5 +102,19 @@ export async function getInfo() {
     return res.data.data[0];
   } catch (err) {
     throw err;
+  }
+}
+
+export async function forPassword(email: ForPassword) {
+  try {
+    const res = await axiosInstance.post("/account/forgot-password", email, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    return res.data.data;
+  } catch (err) {
+    throw new Error("Error creating address");
   }
 }

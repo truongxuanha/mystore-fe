@@ -1,15 +1,14 @@
-import HotProducts from "../HotProducts";
-import Banner from "../Banners";
-
-import ProductNews from "../ProductNews";
-import Manufacture from "../Manufacture";
-import { assets } from "../../assets/index";
+import { assets } from "assets/index";
 import { BannerLeft, BannerRight } from "./styled";
-import ImageLazy from "../../customs/ImageLazy";
+import ImageLazy from "customs/ImageLazy";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import Manufacture from "components/Manufacture";
+import Banner from "components/Banners";
+import HotProducts from "components/HotProducts";
+import ProductNews from "components/ProductNews";
 
 function Home() {
   const [isShow, setIsShow] = useState(true);
@@ -39,7 +38,7 @@ function Home() {
         </BannerRight>
         {isShow && (
           <div className="fixed top-0 right-0 left-0 z-50 flex items-center justify-center w-full h-full bg-[rgba(0,0,0,0.5)]">
-            <div className="w-96 relative flex flex-col">
+            <div className="w-full mx-10 md:w-96 relative flex flex-col">
               <Link to="/product?manufacture=all">
                 <ImageLazy isObjectFitCover="cover" src="https://cf.shopee.vn/file/vn-11134258-7ras8-m2fbdgz10zhube" alt="popup" />
               </Link>

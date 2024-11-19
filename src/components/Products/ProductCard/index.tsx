@@ -1,26 +1,26 @@
 import React, { memo } from "react";
 import { Link } from "react-router-dom";
 
-import { ProductsType } from "types";
-import formatVND from "../../../utils/formatVND";
+import { IsListType, ProductsType } from "types";
+import formatVND from "utils/formatVND";
 import { ShoppingCartIcon } from "@heroicons/react/24/outline";
-import useAddToCart from "../../../hooks/useAddCart";
-import { texts } from "../../../contains/texts";
-import { assets } from "../../../assets";
-import { PAGE } from "../../../contains";
-import ImageLazy from "../../../customs/ImageLazy";
+import useAddToCart from "hooks/useAddCart";
+import { texts } from "contains/texts";
+import { assets } from "assets";
+import { PAGE } from "contains";
+import ImageLazy from "customs/ImageLazy";
 
 export type ProductsProp = {
   product: ProductsType;
-  typeCss: string;
+  typeCss?: string;
   style?: React.CSSProperties;
-  productCategory?: string;
+  isList?: IsListType;
 };
 
-const ProductCard: React.FC<ProductsProp> = ({ product, typeCss, style, productCategory }) => {
+const ProductCard: React.FC<ProductsProp> = ({ product, isList }) => {
   const { addToCart } = useAddToCart();
   return (
-    <div className={`${typeCss} bg-white transition-transform duration-500 relative`} style={style}>
+    <div className={`bg-white border mx-2 p-2 shadow-slate-200 rounded-md shadow-inner min-h-[300px] md:min-h-[350px] relative`}>
       <div className="pt-2 md:row-span-3 w-full h-[150px] flex items-center">
         <ImageLazy
           className="rounded-md w-full h-full hover:translate-y-[-10px] duration-500"
@@ -48,14 +48,14 @@ const ProductCard: React.FC<ProductsProp> = ({ product, typeCss, style, productC
           )}
         </div>
       </div>
-      {(productCategory === texts.common.NEW || productCategory === texts.product.HOT) && (
+      {(isList === IsListType.LIST_NEW || isList === IsListType.LIST_HOT) && (
         <div className="absolute top-1 left-0 text-white w-12 h-5 rounded-sm">
           <img className="w-14 h-6 rounded-sm" src={assets.tag} alt="" />
-          <p className="absolute inset-0 text-xs flex items-center ml-2 z-10">{productCategory}</p>
+          <p className="absolute inset-0 text-xs flex items-center ml-2 z-10">{isList}</p>
         </div>
       )}
 
-      {!productCategory && (
+      {!isList && (
         <div className="absolute top-1 left-0 text-white w-16 h-5 rounded-sm">
           <img className="w-14 h-6 rounded-sm" src={assets.tag} alt="" />
           <p className="absolute inset-0 text-[11px] flex items-center px-1 z-10">Giảm {product.discount}%</p>

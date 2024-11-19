@@ -24,9 +24,11 @@ export interface ProductStateType {
   dataCommentById: any;
   commentById: any;
   dataAccountCmts: any;
+  dataRatingProduct: any;
   loadingProductNew: boolean;
   loadingProductHot: boolean;
   loadingBanner: boolean;
+  loadingProductDetail: boolean;
   productsAdmin?: {
     total_item: number;
     totalPage: number;
@@ -43,6 +45,7 @@ const initialState: ProductStateType = {
   loadingBanner: false,
   loadingProductNew: false,
   loadingProductHot: false,
+  loadingProductDetail: false,
   products: [],
   productNews: [],
   productHots: [],
@@ -55,6 +58,7 @@ const initialState: ProductStateType = {
   dataCommentById: [],
   dataAccountCmts: [],
   commentById: {},
+  dataRatingProduct: undefined,
 };
 
 const productSlice = createSlice({
@@ -80,14 +84,14 @@ const productSlice = createSlice({
 
     builder
       .addCase(getInFoProducts.pending, (state) => {
-        state.isLoading = true;
+        state.loadingProductDetail = true;
       })
       .addCase(getInFoProducts.fulfilled, (state, action) => {
-        setIsLoading(state, false);
+        state.loadingProductDetail = false;
         state.infoProduct = action.payload;
       })
       .addCase(getInFoProducts.rejected, (state) => {
-        setIsLoading(state, false);
+        state.loadingProductDetail = false;
       });
 
     builder
@@ -165,6 +169,7 @@ const productSlice = createSlice({
         state.dataCommentById = action.payload.data;
         state.dataAccountCmts = action.payload.dataAccount;
         state.commentById = action.payload;
+        state.dataRatingProduct = action.payload.starStats;
       })
       .addCase(getCommentByIdProductThunk.rejected, (state) => {
         setIsLoading(state, false);

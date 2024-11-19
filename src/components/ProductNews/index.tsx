@@ -1,10 +1,9 @@
 import React, { useEffect } from "react";
-
-import { useAppDispatch, useAppSelector } from "../../hooks/useAppDispatch";
-
-import ListProductHome from "../../components/ListProductHome";
-import { texts } from "../../contains/texts";
-import { getProductNews } from "../../redux/product/productThunk";
+import { useAppDispatch, useAppSelector } from "hooks/useAppDispatch";
+import { getProductNews } from "redux/product/productThunk";
+import SliderListProduct from "customs/SliderListProduct";
+import { texts } from "contains/texts";
+import { IsListType } from "types";
 
 const ProductNews: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -14,7 +13,7 @@ const ProductNews: React.FC = () => {
     dispatch(getProductNews());
   }, [dispatch]);
 
-  return <ListProductHome data={productNews} title={texts.product.PRODUCT_NEW} loading={loadingProductNew} />;
+  return <SliderListProduct isList={IsListType.LIST_NEW} title={texts.product.PRODUCT_NEW} data={productNews} loading={loadingProductNew} />;
 };
 
 export default ProductNews;

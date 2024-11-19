@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { createAddressUser, getAddressUser, getAllAccount, getAllCustomer, getInfo, loginUser, registerUser } from "./api";
-import { AddressType, CustomerParamsType, InitialLoginState, InitialRegisterState } from "./type";
+import { createAddressUser, forPassword, getAddressUser, getAllAccount, getAllCustomer, getInfo, loginUser, registerUser } from "./api";
+import { AddressType, CustomerParamsType, ForPassword, InitialLoginState, InitialRegisterState } from "./type";
 
 export const authRegister = createAsyncThunk("auth/authRegister", async (initAccount: InitialRegisterState, { rejectWithValue }) => {
   try {
@@ -122,3 +122,13 @@ export const authCreateAddressThunk = createAsyncThunk("auth/createAddress", asy
 //     return rejectWithValue(errorMessage);
 //   }
 // });
+
+export const authForPasswordThunk = createAsyncThunk("auth/ForPassword", async (email: ForPassword, { rejectWithValue }) => {
+  try {
+    const data = await forPassword(email);
+
+    return data;
+  } catch (errer) {
+    rejectWithValue(errer);
+  }
+});

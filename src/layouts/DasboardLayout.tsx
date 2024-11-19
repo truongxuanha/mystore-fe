@@ -1,12 +1,11 @@
 import { Navigate, Outlet, useLocation } from "react-router-dom";
-import Header from "../components/Header";
-import Footer from "../components/Footer";
-import useAuth from "../hooks/useAuth";
+import Header from "components/Header";
+import Footer from "components/Footer";
+import useAuth from "hooks/useAuth";
 
 function PrivateLayout() {
   const isAuth = useAuth();
   const location = useLocation();
-
   return (
     <>
       <div className="mx-auto h-full flex flex-col min-h-screen">
