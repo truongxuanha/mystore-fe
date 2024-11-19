@@ -35,3 +35,7 @@ export type ProductsType = {
   totalPage: number;
   totalStar: number;
 };
+export enum IsListType {
+  LIST_NEW = "NEW",
+  LIST_HOT = "HOT",
+}

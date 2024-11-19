@@ -5,6 +5,7 @@ import { useAppDispatch, useAppSelector } from "hooks/useAppDispatch";
 import { texts } from "contains/texts";
 import { getHotProducts } from "redux/product/productThunk";
 import SliderListProduct from "customs/SliderListProduct";
+import { IsListType } from "types";
 
 const HotProducts: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -13,7 +14,7 @@ const HotProducts: React.FC = () => {
     dispatch(getHotProducts());
   }, [dispatch]);
 
-  return <SliderListProduct title={texts.product.PRODUCT_NEW} data={productHots} loading={loadingProductHot} />;
+  return <SliderListProduct isList={IsListType.LIST_HOT} title={texts.product.PRODUCT_NEW} data={productHots} loading={loadingProductHot} />;
 };
 
 export default HotProducts;

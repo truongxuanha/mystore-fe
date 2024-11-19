@@ -6,10 +6,12 @@ import styled from "styled-components";
 import ProductCard from "components/Products/ProductCard";
 import TitleListProduct from "customs/TitleListProduct";
 import LoadingBlock from "customs/LoadingBlock";
+import { IsListType } from "types";
 type Props = {
   data: any;
   title: string;
   loading?: boolean;
+  isList?: IsListType;
 };
 const SliderWrapper = styled.div`
   .slick-dots {
@@ -34,7 +36,8 @@ const SliderWrapper = styled.div`
     }
   }
 `;
-const SliderListProduct = ({ data, title, loading }: Props) => {
+const SliderListProduct = ({ data, title, isList, loading }: Props) => {
+  
   const PrevArrow = ({ onClick }: any) => (
     <button
       className="absolute top-1/2 transform -translate-y-1/2 left-2 z-10 bg-orange-200 text-black rounded-full p-2 shadow hover:bg-orange-100"
@@ -56,7 +59,6 @@ const SliderListProduct = ({ data, title, loading }: Props) => {
   const settings = {
     dots: false,
     infinite: true,
-    speed: 700,
     slidesToShow: 5,
     slidesToScroll: 1,
     autoplay: false,
@@ -76,7 +78,7 @@ const SliderListProduct = ({ data, title, loading }: Props) => {
           <SliderWrapper className="relative">
             <Slider {...settings}>
               {data.map((item: any, index: number) => (
-                <ProductCard key={index} product={item} />
+                <ProductCard key={index} product={item} isList={isList} />
               ))}
             </Slider>
           </SliderWrapper>

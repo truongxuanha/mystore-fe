@@ -3,6 +3,7 @@ import { useAppDispatch, useAppSelector } from "hooks/useAppDispatch";
 import { getProductNews } from "redux/product/productThunk";
 import SliderListProduct from "customs/SliderListProduct";
 import { texts } from "contains/texts";
+import { IsListType } from "types";
 
 const ProductNews: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -12,7 +13,7 @@ const ProductNews: React.FC = () => {
     dispatch(getProductNews());
   }, [dispatch]);
 
-  return <SliderListProduct title={texts.product.PRODUCT_NEW} data={productNews} loading={loadingProductNew} />;
+  return <SliderListProduct isList={IsListType.LIST_NEW} title={texts.product.PRODUCT_NEW} data={productNews} loading={loadingProductNew} />;
 };
 
 export default ProductNews;
