@@ -9,6 +9,8 @@ import freeShip from "./free_ship.svg";
 import noAvatar from "./no_avatar.jfif";
 import bannerLeft from "./banner_left.png";
 import bannerRight from "./banner_right.png";
+import logo from "./logo.png";
+import imageLogin from "./image_login.svg";
 export const assets = {
   customer,
   calendar,
@@ -21,4 +23,6 @@ export const assets = {
   noAvatar,
   bannerLeft,
   bannerRight,
+  logo,
+  imageLogin,
 };

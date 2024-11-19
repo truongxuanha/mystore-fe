@@ -26,7 +26,7 @@ body {
   animation: loading 1s infinite linear;
 }
 .input-global {
-  @apply flex justify-between px-2 items-center w-full rounded-md p-1.5 text-gray-900 shadow-sm ring-1 ring-inset  ring-orange-300 placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-orange-600 sm:text-sm sm:leading-6;
+  @apply flex justify-between h-full items-center w-full rounded-md text-gray-900 shadow-sm ring-1 ring-inset  ring-slate-300 placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-slate-400 sm:text-sm sm:leading-6;
 }
 @keyframes loading {
   20% {
@@ -244,9 +244,7 @@ body {
   font-size: 0.9rem;
   background-color: transparent;
   width: 100%;
-  height: 100%;
-  padding-inline: 0.5em;
-  padding-block: 0.7em;
+  height: 30px;
   border: none;
 }
 
