@@ -8,6 +8,24 @@ const SliderWrapper = styled.div`
   .slick-dots {
     bottom: 0;
   }
+  .slick-dots li {
+    margin: 0 2px;
+  }
+  .slick-dots li button {
+    color: #333;
+    &:before {
+      font-size: 10px;
+    }
+  }
+  .slick-dots li button:before {
+    color: #f2f0f0;
+    opacity: 1;
+  }
+  .slick-dots li.slick-active button {
+    &:before {
+      color: #655e5e;
+    }
+  }
 `;
 const SliderCustom = ({ data }: any) => {
   const PrevArrow = ({ onClick }: any) => (
