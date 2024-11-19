@@ -8,7 +8,7 @@ import useAddToCart from "hooks/useAddCart";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "redux/store";
 import { useAppSelector } from "hooks/useAppDispatch";
-import ProductRandom from "components/ProductRandom";
+import ProductRandom from "ProductRandom";
 import { assets } from "assets";
 import { texts } from "contains/texts";
 

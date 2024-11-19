@@ -5,7 +5,7 @@ import { useAppDispatch, useAppSelector } from "hooks/useAppDispatch";
 import { getProductByAccount, removeCartItem, updateCartItem } from "redux/cart/cartThunk";
 import formatVND from "utils/formatVND";
 import Loader from "components/Loader";
-import ProductRandom from "components/ProductRandom";
+import ProductRandom from "ProductRandom";
 import CartItem from "./CartItem";
 import { texts } from "contains/texts";
 import { handleOrder } from "redux/order/orderSlice";

@@ -5,10 +5,10 @@ import { XMarkIcon } from "@heroicons/react/24/outline";
 
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import Manufacture from "components/Manufacture";
+import Manufacture from "components/Home/Manufacture";
 import Banner from "components/Banners";
-import HotProducts from "components/HotProducts";
-import ProductNews from "components/ProductNews";
+import HotProducts from "components/Home/HotProducts";
+import ProductNews from "components/Home/ProductNews";
 
 function Home() {
   const [isShow, setIsShow] = useState(true);

@@ -7,7 +7,7 @@ import { useAppDispatch, useAppSelector } from "hooks/useAppDispatch";
 
 import { texts } from "contains/texts";
 import formatVND from "utils/formatVND";
-import ProductRandom from "components/ProductRandom";
+import ProductRandom from "ProductRandom";
 import { authGetAddressAcc } from "redux/auth/authThunk";
 
 function OrderView() {
