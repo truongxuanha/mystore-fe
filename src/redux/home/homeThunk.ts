@@ -1,10 +1,19 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { getBanner } from "./api";
+import { getBannerApi, getPopupApi } from "./api";
 
-export const getBanners = createAsyncThunk("product/getBanner", async (_, { rejectWithValue }) => {
+export const getBannersThunk = createAsyncThunk("product/getBanner", async (_, { rejectWithValue }) => {
   try {
-    const data = await getBanner();
+    const data = await getBannerApi();
     return data?.data;
+  } catch (err) {
+    return rejectWithValue(err);
+  }
+});
+
+export const getPopupThunk = createAsyncThunk("home/getPopup", async (_, { rejectWithValue }) => {
+  try {
+    const data = await getPopupApi();
+    return data.data;
   } catch (err) {
     return rejectWithValue(err);
   }

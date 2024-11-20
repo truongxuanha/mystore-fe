@@ -3,7 +3,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
 import { useAppDispatch, useAppSelector } from "hooks/useAppDispatch";
-import { getBanners } from "redux/home/homeThunk";
+import { getBannersThunk } from "redux/home/homeThunk";
 import SliderCustom from "customs/SliderCustom";
 import LoadingBlock from "customs/LoadingBlock";
 
@@ -13,7 +13,7 @@ const Banner: React.FC = () => {
 
   React.useEffect(() => {
     if (!banners || banners.length === 0) {
-      dispatch(getBanners());
+      dispatch(getBannersThunk());
     }
   }, [dispatch, banners]);
 
