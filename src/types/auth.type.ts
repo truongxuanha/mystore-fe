@@ -7,9 +7,9 @@ export type UserAccount = {
   full_name: string | null;
   sex: string | number | null;
   birth_day: string;
-  permission: number;
-  status: number;
-  phone: number;
+  permission?: number;
+  status?: number;
+  phone: number | string;
 };
 export type AddressAccountType = {
   createAt: string;

@@ -1,3 +1,4 @@
+import { UserAccount } from "types";
 import { axiosInstance } from "../../utils/axiosConfig";
 import { AddressType, CustomerParamsType, ForPassword, InitialLoginState, InitialRegisterState, RefreshTokenType, ResResfreshType } from "./type";
 
@@ -116,5 +117,17 @@ export async function forPassword(email: ForPassword) {
     return res.data.data;
   } catch (err) {
     throw new Error("Error creating address");
+  }
+}
+
+export async function updateInfoUserApi({ account_name, sex, birth_day, full_name, phone, email }: UserAccount) {
+  try {
+    const res = await axiosInstance.post("account/update", {
+      params: { account_name, sex, birth_day, full_name, phone, email },
+    });
+
+    return res.data;
+  } catch (err) {
+    throw err;
   }
 }
