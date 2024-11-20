@@ -1,17 +1,18 @@
 import { Input } from "@headlessui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useAppDispatch } from "../../../../../../hooks/useAppDispatch";
+import Button from "customs/Button";
+import ImageLazy from "customs/ImageLazy";
+import InputDropzone from "customs/InputDropzone";
+import { useAppDispatch } from "hooks/useAppDispatch";
+import { texts } from "libs/contains/texts";
+import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-
-import { toastifySuccess, toastifyWarning } from "../../../../../../utils/toastify";
-import { schemaProduct } from "../../../../../../utils/schema";
-import Button from "../../../../../../customs/Button";
-import { CreateProductType } from "../../../../../../redux/product/type";
-
-import { authUpdate } from "../../../../../../redux/auth/authThunk";
-import { createProductThunk, deleteProductThunk, editProductThunk, getProducts } from "../../../../../../redux/product/productThunk";
-import { ActionAdminEnum } from "../../../../../../types/admin.type";
-import { texts } from "../../../../../../contains/texts";
+import { authUpdate } from "redux/auth/authThunk";
+import { createProductThunk, deleteProductThunk, editProductThunk, getProducts } from "redux/product/productThunk";
+import { CreateProductType } from "redux/product/type";
+import { ActionAdminEnum } from "types/admin.type";
+import { schemaProduct } from "utils/schema";
+import { toastifySuccess, toastifyWarning } from "utils/toastify";
 
 type Props = {
   setShow: (value: boolean) => void;
@@ -20,6 +21,9 @@ type Props = {
 };
 
 function FormAddProductAdmin({ setShow, initialData, actionType }: Props) {
+  const [previewImage, setPreviewImage] = useState<string | null>(initialData?.thumbnail || null);
+  console.log(previewImage);
+
   const {
     register,
     handleSubmit,
@@ -86,6 +90,13 @@ function FormAddProductAdmin({ setShow, initialData, actionType }: Props) {
     reset();
     setShow(false);
   };
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const objectURL = URL.createObjectURL(file);
+      setPreviewImage(objectURL);
+    }
+  };
   const isDisable = actionType === ActionAdminEnum.DELETE || actionType === ActionAdminEnum.VIEW;
   return (
     <div className="fixed top-0 left-0 right-0 bottom-0 w-screen h-screen bg-[rgba(0,0,0,0.5)] flex justify-center items-center z-50">
@@ -96,12 +107,10 @@ function FormAddProductAdmin({ setShow, initialData, actionType }: Props) {
           </h1>
         </div>
         <form onSubmit={handleSubmit(onSubmit)} className="grid grid-cols-2 gap-4 mt-8 overflow-hidden">
+          <div className="col-span-2 flex items-center gap-10 w-full">
+            <InputDropzone />
+          </div>
           <div>
-            <div className="flex flex-col gap-2">
-              <label htmlFor="account_name">Ảnh</label>
-              <Input className="border px-1 py-1 rounded-sm" id="thumbnail" type="file" {...register("thumbnail")} disabled={isDisable} />
-              {errors.thumbnail && <span className="text-red-500">{errors.thumbnail.message}</span>}
-            </div>
             <div className="flex flex-col gap-2">
               <label htmlFor="account_name">Nhà cung cấp</label>
               <Input className="border px-1 py-1 rounded-sm" id="account_name" {...register("id_manu")} disabled={isDisable} />

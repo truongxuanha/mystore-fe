@@ -12,7 +12,7 @@ import Button from "../../../../../../customs/Button";
 import { authDelete, authRegister, authUpdate } from "../../../../../../redux/auth/authThunk";
 import { InitialRegisterState } from "../../../../../../redux/auth/type";
 import { ActionAdminEnum } from "../../../../../../types/admin.type";
-import { texts } from "../../../../../../contains/texts";
+import { texts } from "libs/contains/texts";
 
 type Props = {
   setShow: (value: boolean) => void;

@@ -1,16 +1,18 @@
 import { MagnifyingGlassIcon, PlusIcon } from "@heroicons/react/24/outline";
-import HeaderAdmin from "../components/HeaderAdmin";
-import Input from "../../../../../customs/Input";
-import { texts } from "../../../../../contains/texts";
-import FormAddProductAdmin from "../components/FormAddProductAdmin";
-import { useAppDispatch, useAppSelector } from "../../../../../hooks/useAppDispatch";
+import { useAppDispatch, useAppSelector } from "hooks/useAppDispatch";
+import useGetSearchParams from "hooks/useGetSearchParams";
+
+import { texts } from "libs/contains/texts";
 import { useEffect, useState } from "react";
-import Table from "../../../../../customs/Table";
-import ButtonAction from "../../../../../customs/ButtonAction";
-import Pagination from "../../../../../customs/Pagination";
-import useGetSearchParams from "../../../../../hooks/useGetSearchParams";
-import { getProducts } from "../../../../../redux/product/productThunk";
-import { ActionAdminEnum } from "../../../../../types/admin.type";
+import { getProducts } from "redux/product/productThunk";
+import { ActionAdminEnum } from "types/admin.type";
+import HeaderAdmin from "../components/HeaderAdmin";
+import { Input } from "antd";
+import Table from "customs/Table";
+import ButtonAction from "customs/ButtonAction";
+import FormAddProductAdmin from "../components/FormAddProductAdmin";
+import Pagination from "customs/Pagination";
+import InputDropzone from "customs/InputDropzone";
 
 const option = [
   { option_id: 1, title: texts.list_staff.ALL_STAFF, value: "all" },
@@ -118,6 +120,7 @@ function AdminProduct() {
           {show && <FormAddProductAdmin actionType={actionType} setShow={setShow} initialData={currentProduct} />}
         </div>
       </div>
+      <InputDropzone />
     </div>
   );
 }

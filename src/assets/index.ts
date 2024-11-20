@@ -11,6 +11,7 @@ import bannerLeft from "./banner_left.png";
 import bannerRight from "./banner_right.png";
 import logo from "./logo.png";
 import imageLogin from "./image_login.svg";
+import uploadFile from "./uploadFile.svg";
 export const assets = {
   customer,
   calendar,
@@ -25,4 +26,5 @@ export const assets = {
   bannerRight,
   logo,
   imageLogin,
+  uploadFile,
 };

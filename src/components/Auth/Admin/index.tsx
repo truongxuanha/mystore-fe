@@ -5,7 +5,7 @@ import { useAppSelector } from "hooks/useAppDispatch";
 
 function Admin() {
   const { currentUser } = useAppSelector((state) => state.auth);
-  const isAdmin = currentUser?.user.permission === 1 || currentUser?.user.permission === 2;
+  const isAdmin = currentUser?.user.permission === 0 || currentUser?.user.permission === 2;
   return (
     <div className="grid grid-cols-6 h-full">
       {isAdmin && (

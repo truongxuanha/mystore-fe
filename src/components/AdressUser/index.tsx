@@ -4,8 +4,8 @@ import { useState, useEffect } from "react";
 import { authCreateAddressThunk, authGetAddressAcc } from "redux/auth/authThunk";
 
 import dayjs from "dayjs";
-import { texts } from "contains/texts";
 import { AddressStateType } from "redux/auth/type";
+import { texts } from "libs/contains/texts";
 
 type AddressComponent = {
   code: number | string;

@@ -5,10 +5,10 @@ import { IsListType, ProductsType } from "types";
 import formatVND from "utils/formatVND";
 import { ShoppingCartIcon } from "@heroicons/react/24/outline";
 import useAddToCart from "hooks/useAddCart";
-import { texts } from "contains/texts";
 import { assets } from "assets";
-import { PAGE } from "contains";
 import ImageLazy from "customs/ImageLazy";
+import { PAGE } from "libs/contains";
+import { texts } from "libs/contains/texts";
 
 export type ProductsProp = {
   product: ProductsType;

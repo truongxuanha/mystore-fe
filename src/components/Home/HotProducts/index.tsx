@@ -2,10 +2,10 @@ import React, { useEffect } from "react";
 
 import { useAppDispatch, useAppSelector } from "hooks/useAppDispatch";
 
-import { texts } from "contains/texts";
 import { getHotProducts } from "redux/product/productThunk";
 import SliderListProduct from "customs/SliderListProduct";
 import { IsListType } from "types";
+import { texts } from "libs/contains/texts";
 
 const HotProducts: React.FC = () => {
   const dispatch = useAppDispatch();

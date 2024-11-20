@@ -1,11 +1,11 @@
 import { ArrowRightStartOnRectangleIcon, ShoppingCartIcon, UserIcon, XMarkIcon } from "@heroicons/react/24/outline";
 
 import Search from "components/Search";
-import { texts } from "contains/texts";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { navLink } from "routes/app";
 import logo from "assets/logo.png";
 import { useAppSelector } from "hooks/useAppDispatch";
+import { texts } from "libs/contains/texts";
 type Props = {
   setMobileMenuOpen: (openMenu: boolean) => void;
   handleCart: () => void;
