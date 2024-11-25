@@ -1,13 +1,20 @@
+import { XMarkIcon } from "@heroicons/react/24/outline";
 import { assets } from "assets";
 import { useCallback } from "react";
 import { useDropzone } from "react-dropzone";
 
-const InputDropzone = ({ fileUploaded, setFileUploaded, register }: any) => {
+type Props = {
+  register?: any;
+  setFileUploaded: (file: any) => void;
+  fileUploaded: any;
+};
+
+const InputDropzone = ({ fileUploaded, setFileUploaded }: Props) => {
   const onDrop = useCallback(
-    (acceptedFiles: any) => {
+    (acceptedFiles: File[]) => {
       if (acceptedFiles.length > 0) {
         const file = acceptedFiles[0];
-        setFileUploaded(URL.createObjectURL(file));
+        setFileUploaded(file);
       }
     },
     [setFileUploaded],
@@ -15,15 +22,37 @@ const InputDropzone = ({ fileUploaded, setFileUploaded, register }: any) => {
 
   const { getRootProps, getInputProps } = useDropzone({ onDrop, multiple: false });
 
+  const handleRemoveFile = () => {
+    setFileUploaded(null);
+  };
+
   return (
-    <div className="w-full bg-white">
-      <div {...getRootProps()} className="w-full h-80 rounded-md cursor-pointer focus:outline-none flex items-center justify-center border-blue-300 border-2">
-        <input className="w-full h-full" {...register("thumnai")} {...getInputProps()} />
+    <div className="w-full relative bg-white">
+      {fileUploaded && (
+        <button
+          type="button"
+          onClick={handleRemoveFile}
+          className="absolute top-5 z-50 right-5 text-white rounded-full w-6 h-6 flex items-center justify-center"
+        >
+          <XMarkIcon width={50} height={50} className="text-black" />
+        </button>
+      )}
+      <div
+        {...getRootProps()}
+        className="hover:opacity-50 w-full h-64 rounded-md cursor-pointer focus:outline-none flex items-center justify-center border-blue-300 border-2"
+      >
+        <input className="w-full h-full" {...getInputProps()} />
         {fileUploaded ? (
-          <img className="w-52 h-52" src={fileUploaded} alt="Uploaded preview" />
+          <div className="relative h-52">
+            <img
+              className="w-full h-full object-contain"
+              src={fileUploaded instanceof File ? URL.createObjectURL(fileUploaded) : fileUploaded}
+              alt="Uploaded preview"
+            />
+          </div>
         ) : (
           <div className="w-full h-full flex flex-col justify-center items-center">
-            <img className="w-20 h-20" src={assets.uploadFile} alt="Uploaded preview" />
+            <img className="w-20 h-20" src={assets.uploadFile} alt="Upload icon" />
             <p>Tải ảnh lên</p>
           </div>
         )}

@@ -33,7 +33,7 @@ export type CreateProductType = {
   discount: number;
   quantity: number;
   createAt?: string;
-  thumbnail: string;
+  thumbnail?: string;
   description: string;
   other_discount: number;
 };

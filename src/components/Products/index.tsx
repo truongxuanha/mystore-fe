@@ -3,14 +3,9 @@ import { useDispatch } from "react-redux";
 import { useSearchParams } from "react-router-dom";
 import Loader from "../Loader";
 import ProductCard from "./ProductCard";
-
 import { useAppSelector } from "../../hooks/useAppDispatch";
-
 import { AppDispatch } from "../../redux/store";
-import { TOTAL_ITEM_PRODUCT } from "../../contains";
-
 import { PAGE } from "../../types/contain.type";
-import { texts } from "../../contains/texts";
 import Pagination from "../../customs/Pagination";
 import { isEmpty } from "../../utils";
 import Nodata from "../../customs/Nodata";
@@ -18,6 +13,8 @@ import Button from "../../customs/Button";
 import { ArrowDownIcon, ArrowUpIcon } from "@heroicons/react/24/outline";
 import { getProducts } from "../../redux/product/productThunk";
 import { getManuThunk } from "../../redux/manufacture/manuThunk";
+import { TOTAL_ITEM_PRODUCT } from "libs/contains";
+import { texts } from "libs/contains/texts";
 
 const Products: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();

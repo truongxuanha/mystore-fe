@@ -10,8 +10,10 @@ const ProductNews: React.FC = () => {
   const { productNews, loadingProductNew } = useAppSelector((state) => state.product);
 
   useEffect(() => {
-    dispatch(getProductNews());
-  }, [dispatch]);
+    if (!productNews) {
+      dispatch(getProductNews());
+    }
+  }, [dispatch, productNews]);
 
   return <SliderListProduct isList={IsListType.LIST_NEW} title={texts.product.PRODUCT_NEW} data={productNews} loading={loadingProductNew} />;
 };

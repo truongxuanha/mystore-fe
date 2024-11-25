@@ -36,6 +36,9 @@ const SliderWrapper = styled.div`
       color: #655e5e;
     }
   }
+  .slick-slider {
+    position: static;
+  }
 `;
 const SliderListProduct = ({ data, title, isList, loading }: Props) => {
   const { isMobile } = useDetectScreen();
@@ -64,18 +67,14 @@ const SliderListProduct = ({ data, title, isList, loading }: Props) => {
   };
 
   return (
-    <div className="bg-white p-3 my-5">
+    <div className="bg-white p-3 my-5 min-h-[300px] md:min-h-[350px]">
       <TitleListProduct title={title} />
       {loading ? (
         <LoadingBlock />
       ) : (
         <>
-          <SliderWrapper className="relative">
-            <Slider {...settings}>
-              {data.map((item: any, index: number) => (
-                <ProductCard key={index} product={item} isList={isList} />
-              ))}
-            </Slider>
+          <SliderWrapper className="relative min-h-[300px] md:min-h-[350px]">
+            <Slider {...settings}>{data && data.map((item: any, index: number) => <ProductCard key={index} product={item} isList={isList} />)}</Slider>
           </SliderWrapper>
         </>
       )}

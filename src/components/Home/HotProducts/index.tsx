@@ -11,8 +11,10 @@ const HotProducts: React.FC = () => {
   const dispatch = useAppDispatch();
   const { productHots, loadingProductHot } = useAppSelector((state) => state.product);
   useEffect(() => {
-    dispatch(getHotProducts());
-  }, [dispatch]);
+    if (!productHots) {
+      dispatch(getHotProducts());
+    }
+  }, [dispatch, productHots]);
 
   return <SliderListProduct isList={IsListType.LIST_HOT} title={texts.product.BEST_SELLER} data={productHots} loading={loadingProductHot} />;
 };

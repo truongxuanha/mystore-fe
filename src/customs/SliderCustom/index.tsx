@@ -30,6 +30,9 @@ const SliderWrapper = styled.div`
       color: #655e5e;
     }
   }
+  .slick-slider {
+    position: static;
+  }
 `;
 
 const SliderCustom = ({ data, maxItem }: Props) => {
@@ -65,7 +68,7 @@ const SliderCustom = ({ data, maxItem }: Props) => {
   };
 
   return (
-    <SliderWrapper className="relative bg-white">
+    <SliderWrapper className="relative bg-white h-[200px] md:h-[400px] ">
       <Slider {...settings}>
         {data.map((item: any) => (
           <div key={item.id} className="w-full h-[200px] md:h-[400px] flex items-center justify-center">

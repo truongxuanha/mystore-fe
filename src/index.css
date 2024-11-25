@@ -2,7 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-
 * {
   padding: 0;
   margin: 0;
@@ -59,6 +58,9 @@ body {
 }
 .btn-auth {
   @apply bg-colorPrimary p-1 text-xs md:text-[11px] rounded-md text-white font-semibold;
+}
+.center-config {
+  @apply flex justify-center items-center;
 }
 .carousel-main {
   display: flex;

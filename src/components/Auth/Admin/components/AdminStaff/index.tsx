@@ -1,18 +1,13 @@
-// AdminStaff.tsx
-
 import { useAppDispatch, useAppSelector } from "../../../../../hooks/useAppDispatch";
 import { Input } from "@headlessui/react";
 import Table from "../../../../../customs/Table";
 import { useEffect, useState } from "react";
-
 import FormAddStafAdmin from "../components/FormAddStaffAdmin";
 import Pagination from "../../../../../customs/Pagination";
 import { useSearchParams } from "react-router-dom";
 import { PAGE } from "../../../../../types";
-
 import { MagnifyingGlassIcon, PlusIcon } from "@heroicons/react/24/outline";
 import ButtonAction from "../../../../../customs/ButtonAction";
-import HeaderAdmin from "../components/HeaderAdmin";
 import { authGetAllAccount } from "../../../../../redux/auth/authThunk";
 import { ActionAdminEnum } from "../../../../../types/admin.type";
 import { texts } from "libs/contains/texts";
@@ -90,8 +85,7 @@ function AdminStaff() {
   ];
 
   return (
-    <div className="col-span-5 bg-white">
-      <HeaderAdmin />
+    <div className="flex-1 bg-white">
       <div className="flex justify-between mt-2 bg-colorBody p-4">
         <div className="flex bg-white items-center h-8 border">
           <Input type="search" placeholder="Tìm kiếm..." className="h-full px-2" />
@@ -112,7 +106,7 @@ function AdminStaff() {
           </button>
         </div>
       </div>
-      <div className="mt-2">
+      <div className="mt-2 px-4">
         <Table
           rows={rowCustomer}
           columns={columns}

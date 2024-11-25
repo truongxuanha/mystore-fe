@@ -1,8 +1,6 @@
 import LineChar from "./components/LineChar";
 import { useAppDispatch, useAppSelector } from "../../../../../hooks/useAppDispatch";
 import { useEffect } from "react";
-
-import HeaderAdmin from "../components/HeaderAdmin";
 import { BuildingStorefrontIcon, ClipboardDocumentListIcon, ClockIcon, UserPlusIcon } from "@heroicons/react/24/outline";
 import { authCustomer } from "../../../../../redux/auth/authThunk";
 import { getProducts } from "../../../../../redux/product/productThunk";
@@ -47,7 +45,6 @@ const AdminHome = () => {
 
   return (
     <div className="col-span-4 xl:col-span-5">
-      <HeaderAdmin />
       <div className="m-2">
         <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-2">
           {items.map((item) => (
