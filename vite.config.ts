@@ -10,7 +10,7 @@ export default ({ mode }: any) => {
     plugins: [react({}), EnvironmentPlugin("all", { prefix: "BASE_" }), tsconfigPaths()],
     server: {
       host: true,
-      port: 3000,
+      port: 5001,
     },
   });
 };
