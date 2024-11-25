@@ -20,3 +20,8 @@ export async function getPopupApi() {
   if (!res.data.status) throw new Error(res.data.data);
   return res.data;
 }
+export async function deleteBannerApi(id: number | string) {
+  const res = await axiosInstance.delete(`/banner/${id}/remove`);
+  if (!res.data.status) throw new Error("Failed to get banner!");
+  return res.data;
+}
