@@ -1,5 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { deleteBannerApi, getBannerApi, getPopupApi } from "./api";
+import { createBannerApi, deleteBannerApi, getBannerApi, getPopupApi } from "./api";
+import { BannerCreateType } from "./type";
 
 export const getBannersThunk = createAsyncThunk("product/getBanner", async (_, { rejectWithValue }) => {
   try {
@@ -22,6 +23,15 @@ export const getPopupThunk = createAsyncThunk("home/getPopup", async (_, { rejec
 export const deleteBannersThunk = createAsyncThunk("banner/deleteBanner", async (id: string | number, { rejectWithValue }) => {
   try {
     const data = await deleteBannerApi(id);
+    return data?.data;
+  } catch (err) {
+    return rejectWithValue(err);
+  }
+});
+
+export const createBannersThunk = createAsyncThunk("banner/createBanner", async ({ image, path }: BannerCreateType, { rejectWithValue }) => {
+  try {
+    const data = await createBannerApi({ image, path });
     return data?.data;
   } catch (err) {
     return rejectWithValue(err);

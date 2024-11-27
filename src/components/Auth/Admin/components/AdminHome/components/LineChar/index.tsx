@@ -1,11 +1,8 @@
 import { Line } from "react-chartjs-2";
-import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from "chart.js";
+import { Chart, registerables } from "chart.js";
 import { useEffect, useState } from "react";
 import { getRevenueApi } from "redux/home/api";
-
-// Register the components required for the Line chart
-ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
-
+Chart.register(...registerables);
 type DataType = {
   date: string;
   total: number;
@@ -33,13 +30,13 @@ function LineChar() {
           {
             label: "Doanh thu",
             data: datas,
-            backgroundColor: "rgba(255, 165, 0, 0.5)",
             borderColor: "green",
-            tension: 0.4,
+            tension: 0.2,
             fill: true,
             pointStyle: "rect",
-            pointBorderColor: "blue",
+            pointBorderColor: ["#ff6384"],
             pointBackgroundColor: "#fff",
+            backgroundColor: "rgba(255, 165, 0, 0.5)",
             showLine: true,
           },
         ],
@@ -52,6 +49,9 @@ function LineChar() {
           },
         },
         scales: {
+          y: {
+            beginAtZero: true,
+          },
           x: {
             ticks: {
               autoSkip: true,

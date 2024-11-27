@@ -25,7 +25,7 @@ export async function loginUser(initAccount: InitialLoginState) {
   }
 }
 export async function getAllAccount({ ...params }: CustomerParamsType) {
-  const { query = "", sex = "", page = 1, item = 10, permission = "all" } = params;
+  const { query = "", sex = "", page = 1, item = 5, permission = "all" } = params;
   try {
     const res = await axiosInstance.get("account/get-all", {
       params: { query, sex, page, item, permission },
@@ -49,7 +49,7 @@ export async function refreshToken(refresh: RefreshTokenType) {
 }
 
 export async function getAllCustomer({ ...params }: CustomerParamsType) {
-  const { query = "", sex = "", page = 1, item = 10 } = params;
+  const { query = "", sex = "", page = 1, item = 5 } = params;
   try {
     const res = await axiosInstance.get("account/get-all-customer", {
       params: { query, sex, page, item },

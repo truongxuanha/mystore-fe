@@ -53,13 +53,13 @@ const Input: FC<InputProps> = ({
         type={inputType}
         ref={inputRef}
         disabled={isDisable}
-        className={`s-14 regular text-black ${otherProps.className ? otherProps.className : ""} ${isError ? "error" : ""} webkit-autofill`}
+        className={`text-sm font-medium text-black ${otherProps.className ? otherProps.className : ""} ${isError ? "error" : ""}`}
         style={style}
       />
 
       {showPassword && type === "password" && (
         <EyeIcon
-          className="eye_icon text-grey clickable"
+          className="eye_icon text-gray-400"
           onClick={() => {
             setShowPassword(!showPassword);
             setInputType("password");
@@ -68,7 +68,7 @@ const Input: FC<InputProps> = ({
       )}
       {!showPassword && type === "password" && (
         <EyeSlashIcon
-          className="eye_icon text-grey clickable"
+          className="eye_icon text-gray-400"
           onClick={() => {
             if (inputRef.current && inputRef.current?.value !== "" && needHandleErrorAutoFillByChrome && isEmployee) {
               inputRef.current.value = inputRef.current.value;

@@ -3,11 +3,14 @@ import Button from "customs/Button";
 import ImageLazy from "customs/ImageLazy";
 import { useAppDispatch, useAppSelector } from "hooks/useAppDispatch";
 import { texts } from "libs/contains/texts";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { deleteBannersThunk, getBannersThunk } from "redux/home/homeThunk";
+import FormBanner from "../components/FormBanner";
 
 function AdminBanner() {
   const { banners } = useAppSelector((state) => state.home);
+
+  const [showModal, setShowModal] = useState<boolean>(false);
   const dispatch = useAppDispatch();
   useEffect(() => {
     dispatch(getBannersThunk());
@@ -17,10 +20,10 @@ function AdminBanner() {
     dispatch(deleteBannersThunk(id));
   };
   return (
-    <div className="px-5">
+    <div className="px-5 flex-1">
       <div className="flex justify-end my-3">
         <div className="bg-colorPrimary px-5 py-1 rounded-md">
-          <Button className="text-white" img={<PlusIcon className="text-white" width={24} height={24} />}>
+          <Button onClick={() => setShowModal(true)} className="text-white" img={<PlusIcon className="text-white" width={24} height={24} />}>
             Thêm mới
           </Button>
         </div>
@@ -45,6 +48,7 @@ function AdminBanner() {
           </div>
         </div>
       ))}
+      {showModal && <FormBanner setShowModal={setShowModal} />}
     </div>
   );
 }

@@ -7,11 +7,11 @@ function Admin() {
   const { currentUser } = useAppSelector((state) => state.auth);
   const isAdmin = currentUser?.user.permission === 0 || currentUser?.user.permission === 2;
   return (
-    <div className="flex h-full">
+    <div className="flex h-full bg-white">
       {isAdmin && (
         <>
           <Sidebar />
-          <div className="col-span-5 flex flex-col">
+          <div className="ml-[350px] flex flex-col flex-1">
             <HeaderAdmin />
             <Outlet />
           </div>

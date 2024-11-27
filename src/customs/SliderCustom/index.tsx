@@ -4,9 +4,11 @@ import "slick-carousel/slick/slick-theme.css";
 import ImageLazy from "customs/ImageLazy";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/outline";
 import styled from "styled-components";
+import LoadingBlock from "customs/LoadingBlock";
 type Props = {
   data: any;
   maxItem?: number;
+  loading: boolean;
 };
 const SliderWrapper = styled.div`
   .slick-dots {
@@ -35,7 +37,7 @@ const SliderWrapper = styled.div`
   }
 `;
 
-const SliderCustom = ({ data, maxItem }: Props) => {
+const SliderCustom = ({ data, maxItem, loading }: Props) => {
   const PrevArrow = ({ onClick }: any) => (
     <button
       className="absolute top-1/2 transform -translate-y-1/2 left-2 z-10 bg-orange-100 text- rounded-full p-2 shadow hover:bg-orange-200"
@@ -69,13 +71,17 @@ const SliderCustom = ({ data, maxItem }: Props) => {
 
   return (
     <SliderWrapper className="relative bg-white h-[200px] md:h-[400px] ">
-      <Slider {...settings}>
-        {data.map((item: any) => (
-          <div key={item.id} className="w-full h-[200px] md:h-[400px] flex items-center justify-center">
-            <ImageLazy isObjectFitCover="fill" src={item.image} alt="Banner" />
-          </div>
-        ))}
-      </Slider>
+      {loading ? (
+        <LoadingBlock />
+      ) : (
+        <Slider {...settings}>
+          {data.map((item: any) => (
+            <div key={item.id} className="w-full h-[200px] md:h-[400px] flex items-center justify-center">
+              <ImageLazy isObjectFitCover="fill" src={item.image} alt="Banner" />
+            </div>
+          ))}
+        </Slider>
+      )}
     </SliderWrapper>
   );
 };

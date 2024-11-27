@@ -5,7 +5,6 @@ import "slick-carousel/slick/slick-theme.css";
 import { useAppDispatch, useAppSelector } from "hooks/useAppDispatch";
 import { getBannersThunk } from "redux/home/homeThunk";
 import SliderCustom from "customs/SliderCustom";
-import LoadingBlock from "customs/LoadingBlock";
 
 const Banner: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -17,11 +16,7 @@ const Banner: React.FC = () => {
     }
   }, [dispatch, banners]);
 
-  if (loadingBanner) {
-    return <LoadingBlock />;
-  }
-
-  return <SliderCustom data={banners} />;
+  return <SliderCustom data={banners} loading={loadingBanner} />;
 };
 
 export default Banner;
