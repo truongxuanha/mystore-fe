@@ -3,8 +3,8 @@ import { UserCircleIcon } from "@heroicons/react/24/outline";
 import React, { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "hooks/useAppDispatch";
 import { authProfle } from "redux/auth/authThunk";
-import { texts } from "contains/texts";
 import { SEX } from "types/contain.type";
+import { texts } from "libs/contains/texts";
 
 const Profile: React.FC = () => {
   const dispatch = useAppDispatch();

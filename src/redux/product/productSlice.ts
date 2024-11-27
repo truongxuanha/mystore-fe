@@ -14,8 +14,8 @@ import {
 
 export interface ProductStateType {
   products: ProductsType[];
-  productNews: ProductsType[];
-  productHots: ProductsType[];
+  productNews?: ProductsType[];
+  productHots?: ProductsType[];
   isLoading: boolean;
   totalPage: number;
   infoProduct?: ProductsType;
@@ -34,6 +34,7 @@ export interface ProductStateType {
     totalPage: number;
     products: ProductsType[];
   };
+  error: string;
 }
 
 const setIsLoading = (state: ProductStateType, isLoading: boolean) => {
@@ -47,8 +48,8 @@ const initialState: ProductStateType = {
   loadingProductHot: false,
   loadingProductDetail: false,
   products: [],
-  productNews: [],
-  productHots: [],
+  productNews: undefined,
+  productHots: undefined,
   productsAdmin: undefined,
   totalPage: 1,
   totalProduct: 0,
@@ -59,6 +60,7 @@ const initialState: ProductStateType = {
   dataAccountCmts: [],
   commentById: {},
   dataRatingProduct: undefined,
+  error: "",
 };
 
 const productSlice = createSlice({
@@ -137,8 +139,9 @@ const productSlice = createSlice({
       .addCase(createProductThunk.fulfilled, (state) => {
         setIsLoading(state, false);
       })
-      .addCase(createProductThunk.rejected, (state) => {
+      .addCase(createProductThunk.rejected, (state, action: any) => {
         setIsLoading(state, false);
+        state.error = action.payload;
       });
     builder
       .addCase(deleteProductThunk.pending, (state) => {

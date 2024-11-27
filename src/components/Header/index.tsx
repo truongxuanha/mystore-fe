@@ -12,8 +12,9 @@ import Search from "../Search";
 import { getProductByAccount } from "redux/cart/cartThunk";
 import { clearCart } from "redux/cart/cartSlice";
 import { navLink } from "routes/app";
-import { texts } from "contains/texts";
+
 import HeaderMobile from "./HeaderMobile";
+import { texts } from "libs/contains/texts";
 
 function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -24,7 +25,7 @@ function Header() {
   const dispatch = useAppDispatch();
 
   const { currentUser } = useAppSelector((state) => state.auth);
-  const isAdmin = currentUser?.user.permission === 1;
+  const isAdmin = currentUser?.user.permission === 0 || currentUser?.user.permission === 2;
   const { cartLength } = useAppSelector((state) => state.cart);
 
   const handleLogout = () => {

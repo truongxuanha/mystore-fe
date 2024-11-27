@@ -32,6 +32,9 @@ const SliderWrapper = styled.div`
       color: #655e5e;
     }
   }
+  .slick-slider {
+    position: static;
+  }
 `;
 
 function Manufacture() {
@@ -77,7 +80,7 @@ function Manufacture() {
   };
 
   return (
-    <SliderWrapper className="relative bg-white">
+    <SliderWrapper className="relative bg-white h-[50px]">
       <Slider {...settings}>
         {manuItems.map((item: any) => (
           <div onClick={() => handleGotoManu(item.id)} key={item.id} className="flex h-[50px] items-center justify-center border">

@@ -6,12 +6,11 @@ import { XMarkIcon } from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Manufacture from "components/Home/Manufacture";
-import Banner from "components/Banners";
+import Banner from "components/Home/Banners";
 import HotProducts from "components/Home/HotProducts";
 import ProductNews from "components/Home/ProductNews";
 import { useAppDispatch, useAppSelector } from "hooks/useAppDispatch";
 import { getPopupThunk } from "redux/home/homeThunk";
-
 function Home() {
   const [isShow, setIsShow] = useState(true);
   const { salePopup } = useAppSelector((state) => state.home);

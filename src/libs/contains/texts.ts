@@ -78,6 +78,12 @@ export const texts = {
     QUANTITY: "Số lượng nhập",
     REMAINING_QUANTITY: "Số lượng còn lại",
   },
+  banner: {
+    STT: "STT",
+    IMAGE: "Hình ảnh",
+    PATH: "Đường dẫn",
+    ACTIONS: "Thao tác",
+  },
   order: {
     NO_ADDRESS: "Bạn chưa có địa chỉ giao hàng!",
     ACCEPT_ORDER: "Xác nhận và đặt hàng",

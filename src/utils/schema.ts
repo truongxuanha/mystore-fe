@@ -1,4 +1,4 @@
-import { PHONE_REGEX, SPECIAL_CHARACTERS_REGEX, UPPERCASE_LETTER_REGEX } from "../contains";
+import { PHONE_REGEX, SPECIAL_CHARACTERS_REGEX, UPPERCASE_LETTER_REGEX } from "libs/contains";
 import * as yup from "yup";
 const schemaRegister = yup.object().shape({
   account_name: yup.string().required("Vui lòng nhập tên tài khoản.").min(3, "Tên tài khoản phải có ít nhất 3 ký tự."),

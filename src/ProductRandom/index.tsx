@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { randomProduct } from "redux/product/api";
 import { ProductsType } from "types";
-import { texts } from "contains/texts";
 import SliderListProduct from "customs/SliderListProduct";
+import { texts } from "libs/contains/texts";
 
 const ProductRandom: React.FC = () => {
   const [productRandom, setProductRandom] = useState<ProductsType[]>([]);

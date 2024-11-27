@@ -3,7 +3,7 @@ export type UserAccount = {
   account_name: string;
   phone_number: number;
   email: string;
-  avatar: string | undefined;
+  avatar: string;
   full_name: string | null;
   sex: string | number | null;
   birth_day: string;
@@ -16,7 +16,7 @@ export type AddressAccountType = {
   detail_address: string;
   district: string;
   full_name: string;
-  id: 37;
+  id: number;
   id_account: string;
   phone: string;
   province: string;

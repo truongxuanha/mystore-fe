@@ -1,16 +1,16 @@
 import { MagnifyingGlassIcon, PlusIcon } from "@heroicons/react/24/outline";
-import HeaderAdmin from "../components/HeaderAdmin";
-import Input from "../../../../../customs/Input";
-import { texts } from "../../../../../contains/texts";
-import FormAddProductAdmin from "../components/FormAddProductAdmin";
-import { useAppDispatch, useAppSelector } from "../../../../../hooks/useAppDispatch";
+import { useAppDispatch, useAppSelector } from "hooks/useAppDispatch";
+import useGetSearchParams from "hooks/useGetSearchParams";
+import { texts } from "libs/contains/texts";
 import { useEffect, useState } from "react";
-import Table from "../../../../../customs/Table";
-import ButtonAction from "../../../../../customs/ButtonAction";
-import Pagination from "../../../../../customs/Pagination";
-import useGetSearchParams from "../../../../../hooks/useGetSearchParams";
-import { getProducts } from "../../../../../redux/product/productThunk";
-import { ActionAdminEnum } from "../../../../../types/admin.type";
+import { getProducts } from "redux/product/productThunk";
+import { ActionAdminEnum } from "types/admin.type";
+import Table from "customs/Table";
+import ButtonAction from "customs/ButtonAction";
+import FormAddProductAdmin from "../components/FormAddProductAdmin";
+import Pagination from "customs/Pagination";
+import { Input } from "@headlessui/react";
+import Loader from "components/Loader";
 
 const option = [
   { option_id: 1, title: texts.list_staff.ALL_STAFF, value: "all" },
@@ -20,7 +20,7 @@ const option = [
 
 function AdminProduct() {
   const dispatch = useAppDispatch();
-  const { products, totalPage } = useAppSelector((state) => state.product);
+  const { products, totalPage, isLoading } = useAppSelector((state) => state.product);
   const [show, setShow] = useState<boolean>(false);
   const [actionType, setActionType] = useState<ActionAdminEnum>();
   const [currentProduct, setCurrentProduct] = useState<any>();
@@ -84,15 +84,16 @@ function AdminProduct() {
     const acc = products.filter((acc) => acc.product_id === id);
     setCurrentProduct(acc[0]);
   };
+
   return (
     <div className="col-span-5 px-3">
-      <HeaderAdmin />
       <div>
+        {isLoading && <Loader />}
         <div className="flex justify-between mt-2 bg-colorBody p-4">
-          <div className="flex bg-white items-center h-8 border">
-            <Input type="search" placeholder="Tìm kiếm..." className="h-full px-2" onChange={handleChange} />
+          <div className="flex bg-white items-center h-10 w-80 border border-corlorBorder">
+            <Input type="search" placeholder="Tìm kiếm..." className="h-full px-2 flex-1" onChange={handleChange} />
             <span onClick={handleSearch} className="bg-colorPrimary h-full flex items-center px-3 cursor-pointer">
-              <MagnifyingGlassIcon className="w-4 h-4 " />
+              <MagnifyingGlassIcon width={25} height={25} className="text-white" />
             </span>
           </div>
           <div className="flex gap-2 items-center">

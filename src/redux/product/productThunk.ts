@@ -65,7 +65,9 @@ export const createProductThunk = createAsyncThunk(
   async ({ id_manu, createAt, thumbnail, product_name, price, discount, quantity, description, other_discount }: CreateProductType, { rejectWithValue }) => {
     try {
       const data = await cretaeProduct({ id_manu, createAt, thumbnail, product_name, price, discount, other_discount, quantity, description });
-
+      if (!data.status) {
+        throw new Error("Thêm sản phẩm thất bại");
+      }
       return data?.data;
     } catch (err) {
       return rejectWithValue(err);

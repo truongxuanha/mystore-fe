@@ -10,7 +10,6 @@ import { AppDispatch } from "redux/store";
 import { useAppSelector } from "hooks/useAppDispatch";
 import ProductRandom from "ProductRandom";
 import { assets } from "assets";
-import { texts } from "contains/texts";
 
 import ImageLazy from "customs/ImageLazy";
 import { ChatBubbleLeftRightIcon, ClockIcon, EllipsisHorizontalIcon, PaperAirplaneIcon, StarIcon } from "@heroicons/react/24/outline";
@@ -20,6 +19,7 @@ import Loader from "components/Loader";
 import Button from "customs/Button";
 import noAvatar from "assets/no_avatar.jfif";
 import Nodata from "customs/Nodata";
+import { texts } from "libs/contains/texts";
 export type ProductOrderType = {
   id_product: string | number;
   thumbnail: string;

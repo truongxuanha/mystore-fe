@@ -21,4 +21,19 @@ const REGEX = {
   FIND_ALL_URL: /(https?:\/\/\S+)/g,
   IS_LATIN: /^[a-zA-Z0-9\s!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~`]+$/,
 };
-export { PHONE_REGEX, INTERVAL_DURATION, SPECIAL_CHARACTERS_REGEX, UPPERCASE_LETTER_REGEX, TOTAL_ITEM_PRODUCT, PAGE, REGEX };
+const CODE_FILE_TOO_LARGE = "file-too-large";
+const CODE_FILE_INVALID_TYPE = "file-invalid-type";
+
+const MAX_SIZE = 10;
+export {
+  PHONE_REGEX,
+  INTERVAL_DURATION,
+  SPECIAL_CHARACTERS_REGEX,
+  UPPERCASE_LETTER_REGEX,
+  TOTAL_ITEM_PRODUCT,
+  PAGE,
+  REGEX,
+  CODE_FILE_TOO_LARGE,
+  CODE_FILE_INVALID_TYPE,
+  MAX_SIZE,
+};
