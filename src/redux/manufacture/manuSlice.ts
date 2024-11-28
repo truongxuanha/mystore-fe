@@ -1,12 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { getManuThunk } from "./manuThunk";
+import { ManufactureType } from "./type";
 
-export type ManufactureType = {
-  id: number;
-  img: string;
-  name: string;
-  slug: string;
-};
 export type InitialStateType = {
   manuItems: ManufactureType[];
   loading: boolean;

@@ -1,6 +1,6 @@
 import { CurrentAccount } from "types";
 
-function getUserStorage(): CurrentAccount {
+function getUserStorage(): CurrentAccount | null {
   const currentUserLocal = localStorage.getItem("currentUser");
   return currentUserLocal ? JSON.parse(currentUserLocal) : null;
 }

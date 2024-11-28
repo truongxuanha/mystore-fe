@@ -20,14 +20,8 @@ import Button from "customs/Button";
 import noAvatar from "assets/no_avatar.jfif";
 import Nodata from "customs/Nodata";
 import { texts } from "libs/contains/texts";
-export type ProductOrderType = {
-  id_product: string | number;
-  thumbnail: string;
-  product_name: string;
-  quantity: number;
-  price: number;
-  discount: number;
-};
+import { ProductOrderType } from "redux/order/type";
+
 const ProductDetail: React.FC = () => {
   const { addToCart } = useAddToCart();
   const [quantity, setQuantity] = useState<number>(1);

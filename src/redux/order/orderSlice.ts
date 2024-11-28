@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { ProductOrderType } from "components/Products/ProductDetail";
 import { createOrderThunk } from "./orderThunk";
+import { ProductOrderType } from "./type";
 
 export type InitialStateType = {
   orderItems: ProductOrderType[];
