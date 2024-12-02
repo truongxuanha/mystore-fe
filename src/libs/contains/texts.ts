@@ -95,12 +95,31 @@ export const texts = {
     FREE_SHIP: "Miễn phí ship",
     FLAS_SHIP: "Giao hàng nhanh",
   },
+  bill: {
+    BILL_ID: "Mã đơn",
+    CUSTOMER_ID: "Mã khách hàng",
+    CUSTOMER: "Khách hàng",
+    EMAIL: "email",
+    PHONR_NUMBER: "Điện thoại",
+    CREATE_AT: "Ngày mua",
+    DISCOUNT: "Chiết khấu",
+    STATUS: "Tình trạng",
+    ACTIONS: "Thao tác",
+  },
 
   search: {
     RESULTS: "Kết quả tìm kiếm",
     NO_RESULTS: "Không tìm thấy sản phẩm nào",
   },
-
+  manufacture: {
+    MANUFACTURE_ID: "Mã nhà cung cấp",
+    PHONE_NUMBER: "Số điện thoại",
+    MANUFACTURE_NAME: "Tên nhà cung cấp",
+    MANUFACTURE: "Mã nhà cung cấp",
+    WEBSITE: "Website",
+    IMAGE: "Hình ảnh",
+    ACTIONS: "Hành động",
+  },
   errors: {
     DELETE_ACCOUNT_SUCCESS: "Xóa tài khoản thành công!",
     DELETE_ACCOUNT_FAILED: "Xóa tài khoản thất bại!",

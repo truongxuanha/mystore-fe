@@ -23,22 +23,22 @@ const AdminHome = () => {
   const items = [
     {
       title: "Khách hàng",
-      image: <UserPlusIcon className="w-full h-full text-white" />,
+      image: <UserPlusIcon width={20} height={20} className="text-white" />,
       total: totalCustomer ? totalCustomer : 0,
     },
     {
       title: "Tổng sản phẩm",
-      image: <BuildingStorefrontIcon className="w-full h-full text-white" />,
+      image: <BuildingStorefrontIcon width={20} height={20} className="text-white" />,
       total: totalProduct ? totalProduct : 0,
     },
     {
       title: "Đơn hàng chờ xử lý",
-      image: <ClockIcon className="w-full h-full text-white" />,
+      image: <ClockIcon width={20} height={20} className="text-white" />,
       total: 0,
     },
     {
       title: "Tổng doanh thu",
-      image: <ClipboardDocumentListIcon className="w-full h-full text-white" />,
+      image: <ClipboardDocumentListIcon width={20} height={20} className="text-white" />,
       total: 0,
     },
   ];
@@ -46,9 +46,9 @@ const AdminHome = () => {
   return (
     <div className="col-span-4 xl:col-span-5">
       <div className="m-2">
-        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-2">
+        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-2 mt-5">
           {items.map((item) => (
-            <div key={item.title} className="bg-white p-10 flex items-center gap-3 rounded-md shadow-md cursor-pointer">
+            <div key={item.title} className="bg-white p-10 flex items-center gap-3 rounded-md shadow cursor-pointer">
               <div className="rounded-full p-2 w-9 h-9 bg-colorPrimary hover:bg-orange-300">{item.image}</div>
               <span className="flex gap-2">
                 <p className="bg-zinc-200 rounded-lg p-2 ">{item.title}</p>
