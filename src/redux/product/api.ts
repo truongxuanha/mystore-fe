@@ -1,5 +1,5 @@
 import { axiosInstance } from "../../utils/axiosConfig";
-import { CommentProductType, CreateProductType, EditProductType, ProductParaType, ResProductType } from "./type";
+import {  CreateProductType, EditProductType, ProductParaType, ResProductType } from "./type";
 import dayjs from "dayjs";
 
 export async function getProduct({ currentPage, itemsPerPage, sort, manufacturer, query }: ProductParaType) {
@@ -119,22 +119,6 @@ export async function editProduct({
       },
     );
     return res.data;
-  } catch (err) {
-    throw err;
-  }
-}
-
-export async function getCmtByIdProduct({ product_id, page = 1, item = 5, star = "all", sort = "DESC" }: CommentProductType) {
-  try {
-    const res = await axiosInstance.get(`ratting-comment/${product_id}/comment`, {
-      params: {
-        item,
-        page,
-        star,
-        sort,
-      },
-    });
-    return res;
   } catch (err) {
     throw err;
   }
