@@ -20,7 +20,7 @@ export type ProductsProp = {
 const ProductCard: React.FC<ProductsProp> = ({ product, isList }) => {
   const { addToCart } = useAddToCart();
   return (
-    <div className={`bg-white border mx-2 p-2 shadow-slate-200 rounded-md shadow-inner min-h-[300px] md:min-h-[350px] relative`}>
+    <div className={`bg-white mx-2 p-2 rounded-md min-h-[300px] md:min-h-[350px] relative`}>
       <div className="pt-2 md:row-span-3 w-full h-[150px] flex items-center">
         <ImageLazy
           className="rounded-md w-full h-full hover:translate-y-[-10px] duration-500"
@@ -36,7 +36,10 @@ const ProductCard: React.FC<ProductsProp> = ({ product, isList }) => {
           <p className="line-through text-gray-500">{formatVND(product.price, 0)}</p>
         </span>
         <div className="flex justify-between items-center gap-3 mt-5 mx-2">
-          <Link to={`${PAGE.PRODUCT}/product-detail/${product.id}`} className="text-xs md:text-sm cursor-pointer rounded-md underline hover:text-red-500">
+          <Link
+            to={`${PAGE.PRODUCT}/product-detail/${product.product_id}`}
+            className="text-xs md:text-sm cursor-pointer rounded-md underline hover:text-red-500"
+          >
             {texts.common.INFORMATION}
           </Link>
           {product.quantity > 0 ? (

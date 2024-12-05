@@ -4,24 +4,23 @@ import AddressUser from "components/AdressUser";
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "hooks/useAppDispatch";
-
 import formatVND from "utils/formatVND";
 import ProductRandom from "ProductRandom";
 import { authGetAddressAcc } from "redux/auth/authThunk";
 import { texts } from "libs/contains/texts";
+import { createOrderDetailBillThunk, createOrderThunk } from "redux/order/orderThunk";
 
 function OrderView() {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const { addressAcc } = useAppSelector((state) => state.auth);
-  const { orderItems: initialOrderItems } = useAppSelector((state) => state.order);
+  const { orderItems: initialOrderItems, typeOrder } = useAppSelector((state) => state.order);
   const [orderItemsSession, setOrderItems] = useState(() => {
     const savedOrderItems = sessionStorage.getItem("orderItems");
     return savedOrderItems ? JSON.parse(savedOrderItems) : [];
   });
-
-  const [selectedAddress, setSelectedAddress] = useState<number>();
-
+  const [selectedAddress, setSelectedAddress] = useState<any>();
   const dispatch = useAppDispatch();
+
   useEffect(() => {
     if (initialOrderItems.length > 0) {
       setOrderItems(initialOrderItems);
@@ -50,9 +49,23 @@ function OrderView() {
     }
   }, [addressAcc]);
 
-  // const handleCreateOrder = () => {
-  //   dispatch(createOrderThunk({ id_address: selectedAddress, id_account: currentUser?.user.id }));
-  // };
+  const handleCreateOrder = async () => {
+    const orderData = await dispatch(
+      createOrderThunk({
+        id_address: selectedAddress,
+      }),
+    ).unwrap();
+    const extractedData = orderItemsSession.map((item: any) => ({
+      id_product: item.id_product,
+      quantity: item.quantity,
+      id: item.id,
+      id_bill: orderData.id,
+    }));
+    await dispatch(createOrderDetailBillThunk({ items: extractedData, type: typeOrder })).unwrap();
+    sessionStorage.removeItem("orderItems");
+    setOrderItems([]);
+  };
+
   return (
     <main className="grid grid-cols-2 gap-2 mt-3">
       <div className="col-span-1 ">
@@ -128,7 +141,7 @@ function OrderView() {
 
         {!!addressAcc && addressAcc.length === 0 && <div className="text-colorRed text-center">{texts.order.NO_ADDRESS}</div>}
         <div className="text-center flex justify-center py-7 text-white">
-          <Button className="bg-colorPrimary px-2 py-1 rounded-md flex items-center">
+          <Button onClick={handleCreateOrder} className="bg-colorPrimary px-2 py-1 rounded-md flex items-center">
             <CheckIcon className="w-5 h-5" />
             <span>{texts.order.ACCEPT_ORDER}</span>
           </Button>

@@ -8,22 +8,45 @@
   box-sizing: border-box;
 }
 body {
-  background-color: #f5f5f5;
-  font-family: "Roboto", sans-serif;
+  font-family:
+    Instrument Sans,
+    sans-serif;
   font-weight: 300;
 }
 
 .loader {
   width: 45px;
-  aspect-ratio: 0.75;
+  aspect-ratio: 0.75; /* Adjusts the height proportionally to the width */
   --c: no-repeat linear-gradient(theme(colors.orange.500) 0 0);
   background:
     var(--c) 0% 50%,
-    var(--c) 50% 50%,
-    var(--c) 100% 50%;
-  background-size: 20% 50%;
-  animation: loading 1s infinite linear;
+    /* Starting position for the first gradient */ var(--c) 50% 50%,
+    /* Middle position */ var(--c) 100% 50%; /* End position */
+  background-size: 20% 100%; /* Adjusted for horizontal movement */
+  animation: loading-horizontal 1s infinite linear; /* Updated animation */
 }
+
+@keyframes loading-horizontal {
+  0% {
+    background-position:
+      0% 50%,
+      50% 50%,
+      100% 50%; /* Initial state */
+  }
+  50% {
+    background-position:
+      25% 50%,
+      75% 50%,
+      125% 50%; /* Midway state */
+  }
+  100% {
+    background-position:
+      0% 50%,
+      50% 50%,
+      100% 50%; /* Loop back */
+  }
+}
+
 .input-global {
   @apply flex justify-between h-full items-center w-full rounded-md text-gray-900 shadow-sm ring-1 ring-inset  ring-slate-300 placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-slate-400 sm:text-sm sm:leading-6;
 }
@@ -301,4 +324,17 @@ input:focus {
 
 .sliding.visible {
   transform: translateX(0%);
+}
+.acitve-nav {
+  position: absolute;
+  @apply relative inline-block;
+  &::before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background-color: #ff8f26;
+  }
 }

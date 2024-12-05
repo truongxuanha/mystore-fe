@@ -2,32 +2,27 @@ import { memo, useEffect, useRef, useState } from "react";
 import { Button } from "@headlessui/react";
 import { Bars3Icon, UserCircleIcon, ArrowRightStartOnRectangleIcon, ShoppingCartIcon, UserIcon, GlobeAltIcon } from "@heroicons/react/24/outline";
 import { Link, NavLink, useNavigate } from "react-router-dom";
-
 import { logout } from "redux/auth/authSlice";
 import logo from "assets/logo.png";
 import { useAppDispatch, useAppSelector } from "hooks/useAppDispatch";
 import { toastifyWarning } from "utils/toastify";
-
 import Search from "../Search";
 import { getProductByAccount } from "redux/cart/cartThunk";
 import { clearCart } from "redux/cart/cartSlice";
 import { navLink } from "routes/app";
-
 import HeaderMobile from "./HeaderMobile";
 import { texts } from "libs/contains/texts";
+import useAuthenticated from "hooks/useAuthenticated";
 
 function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [openAccount, setOpenAccount] = useState(false);
   const accountMenuRef = useRef<HTMLDivElement>(null);
-
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-
   const { currentUser } = useAppSelector((state) => state.auth);
-  const isAdmin = currentUser?.user.permission === 0 || currentUser?.user.permission === 2;
+  const { isAdmin } = useAuthenticated();
   const { cartLength } = useAppSelector((state) => state.cart);
-
   const handleLogout = () => {
     dispatch(logout());
     dispatch(clearCart());

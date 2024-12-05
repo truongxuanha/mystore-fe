@@ -28,8 +28,13 @@ const authPersistConfig = {
     "verifyOtp",
   ],
 };
-
+const orderPersistConfig = {
+  key: "order",
+  storage,
+  whitelist: ["typeOrder"],
+};
 const persistedAuthReducer = persistReducer(authPersistConfig, authReducer);
+const persistedOrderReducer = persistReducer(orderPersistConfig, orderReducer);
 export const store = configureStore({
   reducer: {
     auth: persistedAuthReducer,
@@ -37,7 +42,7 @@ export const store = configureStore({
     product: productReducer,
     search: searchReducer,
     manufacturer: manufactureReducer,
-    order: orderReducer,
+    order: persistedOrderReducer,
     home: homeReducer,
     bill: billReducer,
     comment: commentReducer,

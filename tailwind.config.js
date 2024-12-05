@@ -6,9 +6,9 @@ export default {
       colors: {
         colorPrimary: "#ff8f26",
         colorRed: "#ED1b24",
-        colorBody: "#f5f5f5",
         corlorButton: "#2f80ed",
         corlorBorder: "#e2c1c1",
+        corlorHeader: "#f7f7f7",
       },
       textShadow: {
         sm: "1px 1px 2px rgba(0, 0, 0, 0.5)",

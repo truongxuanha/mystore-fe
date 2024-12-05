@@ -11,9 +11,11 @@ import HotProducts from "components/Home/HotProducts";
 import ProductNews from "components/Home/ProductNews";
 import { useAppDispatch, useAppSelector } from "hooks/useAppDispatch";
 import { getPopupThunk } from "redux/home/homeThunk";
+import Benefit from "./Benefit";
 function Home() {
   const [isShow, setIsShow] = useState(true);
   const { salePopup } = useAppSelector((state) => state.home);
+  document.title = "MyStore With Love";
   // useEffect(() => {
   //   const hasPopup = sessionStorage.getItem("hasVisited");
   //   if (hasPopup === "true" || !hasPopup) {
@@ -51,6 +53,7 @@ function Home() {
             </div>
           </div>
         )}
+        <Benefit />
       </div>
     </>
   );

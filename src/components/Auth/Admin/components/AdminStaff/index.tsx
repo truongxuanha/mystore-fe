@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import FormAddStafAdmin from "../components/FormAddStaffAdmin";
 import Pagination from "../../../../../customs/Pagination";
 import { useSearchParams } from "react-router-dom";
-import { PAGE } from "../../../../../types";
+import { AccountTypeEnum, PAGE } from "../../../../../types";
 import { MagnifyingGlassIcon, PlusIcon } from "@heroicons/react/24/outline";
 import ButtonAction from "../../../../../customs/ButtonAction";
 import { authGetAllAccount } from "../../../../../redux/auth/authThunk";
@@ -74,7 +74,7 @@ function AdminStaff() {
     customer.email || "---",
     customer.phone || "---",
     customer.sex === 1 ? "Nam" : 0 ? "Nữ" : "---",
-    customer.permission === 2 ? "Nhân viên" : 1 ? "Quản lý" : "---",
+    customer.permission === AccountTypeEnum.EMPLOYEE ? "Nhân viên" : AccountTypeEnum.ADMIN ? "Quản lý" : "---",
     customer.status === 0 ? texts.infor_account.STATUS_ON : texts.infor_account.STATUS_BAN,
   ]);
 

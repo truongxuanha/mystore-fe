@@ -8,6 +8,7 @@ import { texts } from "libs/contains/texts";
 
 const Profile: React.FC = () => {
   const dispatch = useAppDispatch();
+  document.title = "Trang cá nhân";
   const { infoUser } = useAppSelector((state) => state.auth);
   const { account_name, email, phone } = infoUser;
   const accounts = [

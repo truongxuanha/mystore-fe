@@ -6,3 +6,11 @@ export type ProductOrderType = {
   price: number;
   discount: number;
 };
+export type OrderPayloadType = {
+  data: ProductOrderType[];
+  typeOrder: OrderTypeEnum;
+};
+export enum OrderTypeEnum {
+  BUYNOW = "buy-now",
+  BUYFROMCART = "buy-from-cart",
+}

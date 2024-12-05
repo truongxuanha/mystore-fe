@@ -3,6 +3,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import Button from "customs/Button";
 import InputDropzone from "customs/InputDropzone";
 import { useAppDispatch, useAppSelector } from "hooks/useAppDispatch";
+import useGetSearchParams from "hooks/useGetSearchParams";
 import { texts } from "libs/contains/texts";
 import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -22,7 +23,7 @@ type Props = {
 
 function FormAddProductAdmin({ setShow, initialData, actionType }: Props) {
   const { manuItems, error } = useAppSelector((state) => state.manufacturer);
-
+  const page = useGetSearchParams(["page"]).page || 1;
   const [previewImage, setPreviewImage] = useState<string | undefined>(initialData?.thumbnail || undefined);
   const {
     register,
@@ -73,7 +74,7 @@ function FormAddProductAdmin({ setShow, initialData, actionType }: Props) {
         toastifyWarning((resultsAction.payload as string) || texts.errors.EDIT_PRODUCT_FAILED);
         return;
       }
-      dispatch(getProducts({}));
+      dispatch(getProducts({ currentPage: page, itemsPerPage: 5 }));
       toastifySuccess(texts.errors.EDIT_PRODUCT_SUCCESS);
     } else if (actionType === ActionAdminEnum.DELETE) {
       resultsAction = await dispatch(deleteProductThunk(initialData.product_id));
@@ -81,10 +82,10 @@ function FormAddProductAdmin({ setShow, initialData, actionType }: Props) {
         toastifyWarning((resultsAction.payload as string) || texts.errors.DELETE_PRODUCT_FAILED);
         return;
       }
-      dispatch(getProducts({}));
+      dispatch(getProducts({ currentPage: page, itemsPerPage: 5 }));
       toastifySuccess(texts.errors.DELETE_PRODUCT_SUCCESS);
     } else {
-      dispatch(getProducts({}));
+      dispatch(getProducts({ currentPage: page, itemsPerPage: 5 }));
     }
 
     reset();

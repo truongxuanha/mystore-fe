@@ -48,6 +48,8 @@ export const texts = {
     TOTAL_AMOUNT: "Tổng tiền",
     PROVISIONAL: "Tạm tính",
     ADD_TO_CART: "Thêm giỏ hàng",
+    DEFAULT: "Mặc định",
+    TOTAL_PRODUCT: "Tổng sản phẩm",
   },
   header: {
     HOME: "Trang chủ",
@@ -91,7 +93,7 @@ export const texts = {
     ADD_ADRESS: "Thêm địa chỉ mới",
     ADDRESS_SHIP: "Địa chỉ giao hàng",
     TOTAL_PAYMENT: "Tổng tiền thanh toán",
-    ORDER_NOW: "Đặt hàng ngay",
+    ORDER_NOW: "Mua ngay",
     FREE_SHIP: "Miễn phí ship",
     FLAS_SHIP: "Giao hàng nhanh",
   },

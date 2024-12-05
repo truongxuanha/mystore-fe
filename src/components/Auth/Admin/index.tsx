@@ -1,11 +1,10 @@
 import { Outlet } from "react-router-dom";
 import Sidebar from "./SlideBar";
-import { useAppSelector } from "hooks/useAppDispatch";
 import HeaderAdmin from "./components/components/HeaderAdmin";
+import useAuthenticated from "hooks/useAuthenticated";
 
 function Admin() {
-  const { currentUser } = useAppSelector((state) => state.auth);
-  const isAdmin = currentUser?.user.permission === 0 || currentUser?.user.permission === 2;
+  const { isAdmin } = useAuthenticated();
   return (
     <div className="flex h-full bg-white">
       {isAdmin && (
