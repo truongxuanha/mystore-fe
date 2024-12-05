@@ -13,7 +13,7 @@ import { assets } from "assets";
 
 import ImageLazy from "customs/ImageLazy";
 import { ChatBubbleLeftRightIcon, ClockIcon, EllipsisHorizontalIcon, PaperAirplaneIcon, StarIcon } from "@heroicons/react/24/outline";
-import { getCommentByIdProductThunk, getInFoProducts } from "redux/product/productThunk";
+import { getInFoProducts } from "redux/product/productThunk";
 import { handleOrder } from "redux/order/orderSlice";
 import Loader from "components/Loader";
 import Button from "customs/Button";
@@ -21,6 +21,7 @@ import noAvatar from "assets/no_avatar.jfif";
 import Nodata from "customs/Nodata";
 import { texts } from "libs/contains/texts";
 import { ProductOrderType } from "redux/order/type";
+import { getCommentByIdProductThunk } from "redux/comment/commentThunk";
 
 const ProductDetail: React.FC = () => {
   const { addToCart } = useAddToCart();
@@ -30,7 +31,8 @@ const ProductDetail: React.FC = () => {
   const [rating, setRating] = useState<number>(0);
   const [showRating, setShowRating] = useState(false);
   const dispatch = useDispatch<AppDispatch>();
-  const { infoProduct, loadingProductDetail, dataCommentById, dataAccountCmts, dataRatingProduct } = useAppSelector((state) => state.product);
+  const { infoProduct, loadingProductDetail } = useAppSelector((state) => state.product);
+  const { dataCommentById, dataAccountCmts, dataRatingProduct } = useAppSelector((state) => state.comment);
   const { currentUser } = useAppSelector((state) => state.auth);
   const { id } = useParams();
   const navigate = useNavigate();

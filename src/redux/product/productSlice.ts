@@ -4,7 +4,6 @@ import {
   createProductThunk,
   deleteProductThunk,
   editProductThunk,
-  getCommentByIdProductThunk,
   getHotProducts,
   getInFoProducts,
   getProductNews,
@@ -21,10 +20,6 @@ export interface ProductStateType {
   infoProduct?: ProductsType;
   productRandom: ProductsType[];
   totalProduct: number;
-  dataCommentById: any;
-  commentById: any;
-  dataAccountCmts: any;
-  dataRatingProduct: any;
   loadingProductNew: boolean;
   loadingProductHot: boolean;
   loadingBanner: boolean;
@@ -56,10 +51,6 @@ const initialState: ProductStateType = {
 
   infoProduct: undefined,
   productRandom: [],
-  dataCommentById: [],
-  dataAccountCmts: [],
-  commentById: {},
-  dataRatingProduct: undefined,
   error: "",
 };
 
@@ -161,20 +152,6 @@ const productSlice = createSlice({
         setIsLoading(state, false);
       })
       .addCase(editProductThunk.rejected, (state) => {
-        setIsLoading(state, false);
-      });
-    builder
-      .addCase(getCommentByIdProductThunk.pending, (state) => {
-        state.isLoading = true;
-      })
-      .addCase(getCommentByIdProductThunk.fulfilled, (state, action) => {
-        setIsLoading(state, false);
-        state.dataCommentById = action.payload.data;
-        state.dataAccountCmts = action.payload.dataAccount;
-        state.commentById = action.payload;
-        state.dataRatingProduct = action.payload.starStats;
-      })
-      .addCase(getCommentByIdProductThunk.rejected, (state) => {
         setIsLoading(state, false);
       });
   },
