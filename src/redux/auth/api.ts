@@ -107,11 +107,27 @@ export async function getInfo() {
 
 export async function forPassword(email: ForPassword) {
   try {
-    const res = await axiosInstance.post("/account/forgot-password", email, {
+    const res = await axiosInstance.post("/account/send-otp", email, {
       headers: {
         "Content-Type": "application/json",
       },
     });
+    return res.data;
+  } catch (err) {
+    throw new Error("Error creating address");
+  }
+}
+export async function verifyOtpApi(email: string, otp: number) {
+  try {
+    const res = await axiosInstance.post(
+      "/account/verify-otp",
+      { email, otp },
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      },
+    );
 
     return res.data.data;
   } catch (err) {

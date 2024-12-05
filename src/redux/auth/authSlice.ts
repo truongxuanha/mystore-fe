@@ -8,6 +8,7 @@ import {
   authRegister,
   authCustomer,
   authForPasswordThunk,
+  authVerifyOtpThunk,
 } from "./authThunk";
 import { IAuthState, UserAccount } from "../../types";
 import { getTokenStorage, getUserStorage, removeUserStorage } from "../../services/storage";
@@ -24,6 +25,8 @@ const initialState: IAuthState = {
   totalCustomer: 0,
   addressAcc: [],
   loadingForpass: false,
+  dataReqOtp: {},
+  infoForPassWord: {},
 };
 const authSlice = createSlice({
   name: "auth",
@@ -137,13 +140,24 @@ const authSlice = createSlice({
     builder
       .addCase(authForPasswordThunk.pending, (state) => {
         state.loadingForpass = true;
+      })
+      .addCase(authForPasswordThunk.fulfilled, (state, action) => {
+        state.loadingForpass = false;
+        state.dataReqOtp = action.payload;
+      })
+      .addCase(authForPasswordThunk.rejected, (state) => {
+        state.loadingForpass = false;
+      });
+    builder
+      .addCase(authVerifyOtpThunk.pending, (state) => {
+        state.loadingForpass = true;
         state.error = null;
       })
-      .addCase(authForPasswordThunk.fulfilled, (state) => {
+      .addCase(authVerifyOtpThunk.fulfilled, (state) => {
         state.loadingForpass = false;
         state.error = null;
       })
-      .addCase(authForPasswordThunk.rejected, (state) => {
+      .addCase(authVerifyOtpThunk.rejected, (state) => {
         state.loadingForpass = false;
       });
   },

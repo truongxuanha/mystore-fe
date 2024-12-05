@@ -8,6 +8,7 @@ import manufactureReducer from "./manufacture/manuSlice";
 import orderReducer from "./order/orderSlice";
 import homeReducer from "./home/homeSlice";
 import billReducer from "./bill/billSlice";
+import commentReducer from "./comment/commentSlice";
 export const store = configureStore({
   reducer: {
     auth: authReducer,
@@ -18,6 +19,7 @@ export const store = configureStore({
     order: orderReducer,
     home: homeReducer,
     bill: billReducer,
+    comment: commentReducer,
   },
 });
 

@@ -1,7 +1,7 @@
 import { Button, Input } from "@headlessui/react";
 import { ArrowLeftIcon, UserIcon } from "@heroicons/react/24/outline";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useAppDispatch } from "hooks/useAppDispatch";
+import { useAppDispatch, useAppSelector } from "hooks/useAppDispatch";
 import { useForm } from "react-hook-form";
 import { authForPasswordThunk } from "redux/auth/authThunk";
 import { TabType } from "types";
@@ -15,6 +15,8 @@ type Props = {
 };
 function ForPassword({ tab, setTab }: Props) {
   const dispatch = useAppDispatch();
+  const { dataReqOtp } = useAppSelector((state) => state.auth);
+ 
   const {
     register,
     handleSubmit,
