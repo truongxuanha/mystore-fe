@@ -6,6 +6,8 @@ import { useForm } from "react-hook-form";
 import { authForPasswordThunk } from "redux/auth/authThunk";
 import { TabType } from "types";
 import { schemaForpassEmail } from "utils/schema";
+import loadingMin from "assets/loading_min.svg";
+import { useEffect } from "react";
 type InputEmail = {
   email: string;
 };
@@ -15,8 +17,7 @@ type Props = {
 };
 function ForPassword({ tab, setTab }: Props) {
   const dispatch = useAppDispatch();
-  const { dataReqOtp } = useAppSelector((state) => state.auth);
- 
+  const { dataReqOtp, loadingForpass } = useAppSelector((state) => state.auth);
   const {
     register,
     handleSubmit,
@@ -27,6 +28,12 @@ function ForPassword({ tab, setTab }: Props) {
   const onSubmit = (formValues: any) => {
     dispatch(authForPasswordThunk(formValues));
   };
+
+  useEffect(() => {
+    if (dataReqOtp?.status && !loadingForpass) {
+      setTab(TabType.SENDOTP);
+    }
+  }, [dataReqOtp?.status, loadingForpass, setTab]);
   return (
     <div
       style={{ transition: "transform 0.3s ease-in-out", transform: `translateX(${tab === TabType.FORPASSWORD ? "0%" : "200%"})` }}
@@ -58,9 +65,9 @@ function ForPassword({ tab, setTab }: Props) {
           <div className="flex justify-center mr-2">
             <Button
               type="submit"
-              className="text-center rounded-md bg-orange-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
+              className="text-center flex items-center justify-center rounded-md bg-orange-600 w-32 h-9 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
             >
-              Quên mật khẩu
+              {loadingForpass ? <img className="h-full w-5" src={loadingMin} alt="loading" /> : <span>Quên mật khẩu</span>}
             </Button>
           </div>
         </form>

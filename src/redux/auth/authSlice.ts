@@ -9,6 +9,7 @@ import {
   authCustomer,
   authForPasswordThunk,
   authVerifyOtpThunk,
+  authResetPasswordThunk,
 } from "./authThunk";
 import { IAuthState, UserAccount } from "../../types";
 import { getTokenStorage, getUserStorage, removeUserStorage } from "../../services/storage";
@@ -25,8 +26,10 @@ const initialState: IAuthState = {
   totalCustomer: 0,
   addressAcc: [],
   loadingForpass: false,
-  dataReqOtp: {},
+  dataReqOtp: undefined,
+  verifyOtp: null,
   infoForPassWord: {},
+  countdown: 0,
 };
 const authSlice = createSlice({
   name: "auth",
@@ -36,6 +39,17 @@ const authSlice = createSlice({
       state.currentUser = null;
       state.loading = false;
       removeUserStorage();
+    },
+    startCountdown: (state, action) => {
+      state.countdown = action.payload;
+    },
+    decrementCountdown: (state) => {
+      if (state.countdown > 0) {
+        state.countdown -= 1;
+      }
+    },
+    resetCountdown: (state) => {
+      state.countdown = 0;
     },
   },
   extraReducers: (builder) => {
@@ -61,7 +75,6 @@ const authSlice = createSlice({
       .addCase(authLogin.fulfilled, (state, action) => {
         state.loading = false;
         state.error = null;
-
         state.currentUser = action.payload.data.user ? action.payload.data : null;
         state.token = action.payload.data.token;
       })
@@ -151,17 +164,32 @@ const authSlice = createSlice({
     builder
       .addCase(authVerifyOtpThunk.pending, (state) => {
         state.loadingForpass = true;
+
         state.error = null;
       })
-      .addCase(authVerifyOtpThunk.fulfilled, (state) => {
+      .addCase(authVerifyOtpThunk.fulfilled, (state, action) => {
         state.loadingForpass = false;
+        state.verifyOtp = action.payload;
         state.error = null;
       })
       .addCase(authVerifyOtpThunk.rejected, (state) => {
         state.loadingForpass = false;
       });
+    builder
+      .addCase(authResetPasswordThunk.pending, (state) => {
+        state.loadingForpass = true;
+
+        state.error = null;
+      })
+      .addCase(authResetPasswordThunk.fulfilled, (state) => {
+        state.loadingForpass = false;
+        state.error = null;
+      })
+      .addCase(authResetPasswordThunk.rejected, (state) => {
+        state.loadingForpass = false;
+      });
   },
 });
-export const { logout } = authSlice.actions;
+export const { logout, startCountdown, decrementCountdown, resetCountdown } = authSlice.actions;
 
 export default authSlice.reducer;

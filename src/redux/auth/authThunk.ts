@@ -1,6 +1,17 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { createAddressUser, forPassword, getAddressUser, getAllAccount, getAllCustomer, getInfo, loginUser, registerUser, verifyOtpApi } from "./api";
-import { AddressType, CustomerParamsType, ForPassword, InitialLoginState, InitialRegisterState } from "./type";
+import {
+  createAddressUser,
+  forPassword,
+  getAddressUser,
+  getAllAccount,
+  getAllCustomer,
+  getInfo,
+  loginUser,
+  registerUser,
+  resetPassword,
+  verifyOtpApi,
+} from "./api";
+import { AddressType, CustomerParamsType, InitialLoginState, InitialRegisterState } from "./type";
 import { toastifySuccess } from "utils/toastify";
 
 export const authRegister = createAsyncThunk("auth/authRegister", async (initAccount: InitialRegisterState, { rejectWithValue }) => {
@@ -124,7 +135,7 @@ export const authCreateAddressThunk = createAsyncThunk("auth/createAddress", asy
 //   }
 // });
 
-export const authForPasswordThunk = createAsyncThunk("auth/forPassword", async (email: ForPassword, { rejectWithValue }) => {
+export const authForPasswordThunk = createAsyncThunk("auth/forPassword", async (email: any, { rejectWithValue }) => {
   try {
     const data = await forPassword(email);
     toastifySuccess(data.message);
@@ -141,3 +152,14 @@ export const authVerifyOtpThunk = createAsyncThunk("auth/verifyOtp", async ({ em
     rejectWithValue(errer);
   }
 });
+export const authResetPasswordThunk = createAsyncThunk(
+  "auth/resetPassword",
+  async ({ password, token, email }: { password: string; token?: string; email?: string }, { rejectWithValue }) => {
+    try {
+      const data = await resetPassword(password, token, email);
+      return data;
+    } catch (errer) {
+      rejectWithValue(errer);
+    }
+  },
+);
