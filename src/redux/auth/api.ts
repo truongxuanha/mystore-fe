@@ -107,14 +107,51 @@ export async function getInfo() {
 
 export async function forPassword(email: ForPassword) {
   try {
-    const res = await axiosInstance.post("/account/forgot-password", email, {
+    const res = await axiosInstance.post("/account/send-otp", email, {
       headers: {
         "Content-Type": "application/json",
       },
     });
-
-    return res.data.data;
+    return res.data;
   } catch (err) {
     throw new Error("Error creating address");
+  }
+}
+export async function verifyOtpApi(email: string, otp: number) {
+  try {
+    const res = await axiosInstance.post(
+      "/account/verify-otp",
+      { email, otp },
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      },
+    );
+    return res.data;
+  } catch (err) {
+    throw new Error("Error creating address");
+  }
+}
+// reset-password
+
+export async function resetPassword(password: string, token?: string, email?: string) {
+  try {
+    const res = await axiosInstance.post(
+      "/account/reset-password",
+      { password, email },
+      {
+        headers: {
+          "Content-Type": "application/json",
+          token,
+        },
+      },
+    );
+    if (!res.data.status) {
+      throw new Error("Đã có lỗi xảy ra vui lòng thử lại!");
+    }
+    return res.data;
+  } catch (err) {
+    throw err;
   }
 }

@@ -28,7 +28,12 @@ export type CurrentAccount = {
   token: string | null;
   refresh: string;
 };
-
+export type InfoForPassWordType = {
+  token: string;
+  email: string;
+  status: boolean;
+  message: string;
+};
 export type IAuthState = {
   loading: boolean;
   error: string | null;
@@ -41,10 +46,26 @@ export type IAuthState = {
   totalAccount: number;
   addressAcc: AddressAccountType[];
   loadingForpass: boolean;
+  dataReqOtp?: {
+    message: string;
+    status: boolean;
+    email: string;
+  };
+  verifyOtp: {
+    message: string;
+    status: boolean;
+    can_be_reset: boolean;
+    token: string;
+    email: string;
+  } | null;
+  infoForPassWord: InfoForPassWordType | object;
+  countdown: number;
 };
 
 export enum TabType {
-  LOGIN = "login",
-  REGISTER = "register",
-  FORPASSWORD = "forpassword",
+  LOGIN = "LOGIN",
+  REGISTER = "REGISTER",
+  FORPASSWORD = "FORPASSWORD",
+  SENDOTP = "SENDOTP",
+  CHANGEPASSWORD = "CHANGEPASSWORD",
 }

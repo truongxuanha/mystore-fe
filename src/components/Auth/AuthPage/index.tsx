@@ -5,9 +5,20 @@ import Register from "./Register";
 import { useState } from "react";
 import { TabType } from "types";
 import ForPassword from "./ForPassword";
+import FormOtp from "./FormOtp";
+import ChangePassword from "./ChangePassword";
 
 function AuthPage() {
   const [tab, setTab] = useState<TabType>(TabType.LOGIN);
+  const login: { [key: string]: JSX.Element } = {
+    LOGIN: <Login setTab={setTab} tab={tab} />,
+    REGISTER: <Register setTab={setTab} tab={tab} />,
+    FORPASSWORD: <ForPassword setTab={setTab} tab={tab} />,
+    SENDOTP: <FormOtp setTab={setTab} tab={tab} />,
+    CHANGEPASSWORD: <ChangePassword setTab={setTab} tab={tab} />,
+  };
+  // NEWPASS ,
+  // CHANGEPASSWORD
   return (
     <div className="flex min-h-full w-full md:w-[800px] overflow-hidden mx-auto">
       <div className="mt-10 mx-auto flex items-center justify-center rounded-md w-full md:w-[800px]">
@@ -29,11 +40,7 @@ function AuthPage() {
             </div>
           </div>
         </div>
-        <div className="w-full md:w-1/2 h-[500px] md:h-[550px] relative bg-white">
-          <Login setTab={setTab} tab={tab} />
-          <Register setTab={setTab} tab={tab} />
-          <ForPassword setTab={setTab} tab={tab} />
-        </div>
+        <div className="w-full md:w-1/2 h-[500px] md:h-[550px] relative bg-white">{login[tab]}</div>
       </div>
     </div>
   );
