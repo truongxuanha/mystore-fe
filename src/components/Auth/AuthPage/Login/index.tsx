@@ -48,6 +48,7 @@ export default function Login({ setTab, tab }: Props) {
   function handleShowPass() {
     setShow((show) => !show);
   }
+
   if (loading) return <Loader />;
   return (
     <div

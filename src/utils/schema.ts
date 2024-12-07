@@ -67,5 +67,20 @@ const schemaRegisterUser = yup.object().shape({
 const schemaForpassEmail = yup.object().shape({
   email: yup.string().email("Email không hợp lệ.").required("Vui lòng nhập email."),
 });
+const schemaOtp = yup.object().shape({
+  otp: yup
+    .number()
+    .transform((value, originalValue) => (originalValue ? Number(originalValue) : undefined))
+    .typeError("OTP phải là một số.")
+    .required("Vui lòng nhập mã OTP."),
+});
 
-export { schemaRegister, schemaLogin, schemaProduct, schemaRegisterUser, schemaForpassEmail };
+const schemaChangePassword = yup.object().shape({
+  password: yup.string().required("Vui lòng nhập mật khẩu.").min(6, "Mật khẩu phải có ít nhất 6 ký tự."),
+  confirm_password: yup
+    .string()
+    .required("Vui lòng nhập lại mật khẩu.")
+    .oneOf([yup.ref("password"), ""], "Mật khẩu xác nhận không khớp."),
+});
+
+export { schemaRegister, schemaLogin, schemaProduct, schemaRegisterUser, schemaForpassEmail, schemaOtp, schemaChangePassword };

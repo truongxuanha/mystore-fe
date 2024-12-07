@@ -128,9 +128,30 @@ export async function verifyOtpApi(email: string, otp: number) {
         },
       },
     );
-
-    return res.data.data;
+    return res.data;
   } catch (err) {
     throw new Error("Error creating address");
+  }
+}
+// reset-password
+
+export async function resetPassword(password: string, token?: string, email?: string) {
+  try {
+    const res = await axiosInstance.post(
+      "/account/reset-password",
+      { password, email },
+      {
+        headers: {
+          "Content-Type": "application/json",
+          token,
+        },
+      },
+    );
+    if (!res.data.status) {
+      throw new Error("Đã có lỗi xảy ra vui lòng thử lại!");
+    }
+    return res.data;
+  } catch (err) {
+    throw err;
   }
 }
