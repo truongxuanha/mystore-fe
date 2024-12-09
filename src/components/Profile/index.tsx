@@ -1,117 +1,82 @@
-import { UserCircleIcon } from "@heroicons/react/24/outline";
-
 import React, { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "hooks/useAppDispatch";
 import { authProfle } from "redux/auth/authThunk";
-import { SEX } from "types/contain.type";
+
 import { texts } from "libs/contains/texts";
+import Breadcrumd from "customs/Breacrumb";
+import { assets } from "assets/index";
+import { UserIcon } from "@heroicons/react/24/outline";
+import { NavLink, Outlet } from "react-router-dom";
 
 const Profile: React.FC = () => {
   const dispatch = useAppDispatch();
   document.title = "Trang cá nhân";
   const { infoUser } = useAppSelector((state) => state.auth);
-  const { account_name, email, phone } = infoUser;
+  const { account_name } = infoUser;
   const accounts = [
     {
       id: 1,
       title: texts.account.INFO,
-    },
-    {
-      id: 2,
-      title: texts.account.PROFILE,
-    },
-    {
-      id: 3,
-      title: texts.account.ADDRESS,
-    },
-    {
-      id: 4,
-      title: texts.account.REPASS,
-    },
-    {
-      id: 5,
-      title: texts.account.ORDER,
-    },
-    {
-      id: 6,
-      title: texts.account.NOTIFY,
+      icon: <UserIcon width={20} height={20} color="blue" />,
+
+      subItem: [
+        {
+          id: 2,
+          title: texts.account.PROFILE,
+          urlLink: "/account/profile",
+        },
+        {
+          id: 3,
+          title: texts.account.ADDRESS,
+          urlLink: "/account/address",
+        },
+        {
+          id: 4,
+          title: texts.account.REPASS,
+          urlLink: "/account/password",
+        },
+        {
+          id: 5,
+          title: texts.account.ORDER,
+          urlLink: "/account/purchase",
+        },
+      ],
     },
   ];
   useEffect(() => {
     dispatch(authProfle());
   }, [dispatch]);
-  return (
-    <div className="flex max-w-4xl mx-auto mt-8">
-      <div className="w-1/4 bg-gray-100 p-4 rounded-l-lg shadow-md">
-        <div className="text-center mb-6">
-          <UserCircleIcon className="w-24 h-24 mx-auto rounded-full bg-orange-200/80 mb-3" />
-          <p className="text-lg font-semibold">{account_name}</p>
-        </div>
-        <ul className="space-y-4 text-gray-700">
-          {accounts.map((item) => (
-            <li key={item.title} className="hover:text-colorRed hover:cursor-pointer">
-              {item.title}
-            </li>
-          ))}
-        </ul>
-      </div>
 
-      <div className="w-3/4 bg-white p-6 rounded-r-lg shadow-md">
-        <h2 className="text-2xl font-semibold mb-6"> {texts.account.INFO_MANAGER}</h2>
-        <form className="space-y-4">
-          <div className="flex items-center">
-            <label className="w-1/4">{texts.account.NAME_LOGIN}</label>
-            <input type="text" value={account_name} className="w-2/4 border rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-500" />
-            <button type="button" className="ml-4 bg-orange-500 text-white px-4 py-2 rounded-md">
-              {texts.common.EDIT}
-            </button>
+  return (
+    <div className="bg-gray-100">
+      <Breadcrumd page="Tài khoản" breadcrumbs={[{ title: "Trang chủ", urlLink: "/" }]} />
+      <div className="flex container mx-auto py-16">
+        <div className="w-1/4 p-4">
+          <div className="text-center mb-6 flex flex-col items-center">
+            <img src={assets.noAvatar} className="w-20 h-20 rounded-full" />
+            <p className="text-lg font-semibold">{account_name}</p>
           </div>
-          <div className="flex items-center">
-            <label className="w-1/4">{texts.account.FULL_NAME}</label>
-            <input type="text" className="w-2/4 border rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-500" />
-            <button type="button" className="ml-4 bg-orange-500 text-white px-4 py-2 rounded-md">
-              {texts.common.EDIT}
-            </button>
-          </div>
-          <div className="flex items-center">
-            <label className="w-1/4">{texts.account.PHONE_NUMBER}</label>
-            <input type="text" value={phone} className="w-2/4 border rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-500" />
-            <button type="button" className="ml-4 bg-orange-500 text-white px-4 py-2 rounded-md">
-              {texts.common.EDIT}
-            </button>
-          </div>
-          <div className="flex items-center">
-            <label className="w-1/4">{texts.account.EMAIL}</label>
-            <input type="text" value={email} className="w-2/4 border rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-500" />
-            <button type="button" className="ml-4 bg-orange-500 text-white px-4 py-2 rounded-md">
-              {texts.common.EDIT}
-            </button>
-          </div>
-          <div className="flex items-center">
-            <label className="w-1/4">{texts.account.SEX}</label>
-            <div className="w-2/4 flex space-x-4">
-              <label className="flex items-center">
-                <input type="radio" name="gender" className="mr-2" />
-                {SEX.MALE}
-              </label>
-              <label className="flex items-center">
-                <input type="radio" name="gender" className="mr-2" />
-                {SEX.FEMALE}
-              </label>
-              <label className="flex items-center">
-                <input type="radio" name="gender" className="mr-2" />
-                {SEX.OTHER}
-              </label>
-            </div>
-          </div>
-          <div className="flex items-center">
-            <label className="w-1/4">{texts.account.BIRTHDAY}</label>
-            <input type="date" placeholder="mm/dd/yyyy" className="w-2/4 border rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-500" />
-          </div>
-          <button type="submit" className="bg-orange-500 text-white px-6 py-2 rounded-md mt-6">
-            {texts.common.SAVE}
-          </button>
-        </form>
+          <ul className=" text-gray-700 flex flex-col ">
+            {accounts.map((item) => (
+              <>
+                <li key={item.title} className="hover:text-colorRed hover:cursor-pointer">
+                  <div className="flex items-center gap-2">
+                    {item.icon}
+                    <span>{item.title}</span>
+                  </div>
+                </li>
+                {item.subItem?.map((sub) => (
+                  <NavLink to={sub.urlLink} className="item-profile ml-10 my-1 hover:text-colorRed hover:cursor-pointer" key={sub.id}>
+                    {sub.title}
+                  </NavLink>
+                ))}
+              </>
+            ))}
+          </ul>
+        </div>
+        <div className="w-3/4 bg-white p-6">
+          <Outlet />
+        </div>
       </div>
     </div>
   );

@@ -17,6 +17,10 @@ import AdminOrder from "./components/Auth/Admin/components/AdminBill";
 import AdminBanner from "./components/Auth/Admin/components/AdminBanner";
 import AuthPage from "components/Auth/AuthPage";
 import ProtectedRoute from "layouts/ProtectedLayout";
+import MeAccountPage from "components/Profile/MeAccountPage";
+import ChangePasswordProfile from "components/Profile/ChangePassword";
+import MyAdress from "components/Profile/MyAdress";
+import MyPurchase from "components/Profile/MyPurchase";
 
 const Home = lazy(() => import("./components/Home"));
 const Cart = lazy(() => import("./components/Carts"));
@@ -93,12 +97,30 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "/profile",
+        path: "/account",
         element: (
           <Suspense fallback={<Loader />}>
             <Profile />
           </Suspense>
         ),
+        children: [
+          {
+            path: "profile",
+            element: <MeAccountPage />,
+          },
+          {
+            path: "password",
+            element: <ChangePasswordProfile />,
+          },
+          {
+            path: "address",
+            element: <MyAdress />,
+          },
+          {
+            path: "purchase",
+            element: <MyPurchase />,
+          },
+        ],
       },
       {
         path: "*",

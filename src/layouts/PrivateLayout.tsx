@@ -9,11 +9,9 @@ function PrivateLayout() {
 
   return (
     <>
-      <div className="mx-auto h-full flex flex-col min-h-screen">
+      <div className="mx-auto">
         <Header />
-        <main className="flex-grow mx-auto w-full max-w-7xl px-5 lg:px-16 mt-24">
-          {isAuth ? <Outlet /> : <Navigate to="/login" replace state={{ from: location }} />}
-        </main>
+        <main>{isAuth ? <Outlet /> : <Navigate to="/login" replace state={{ from: location }} />}</main>
         <Footer />
       </div>
     </>

@@ -1,9 +1,8 @@
 import { memo, useEffect, useRef, useState } from "react";
 import { Button } from "@headlessui/react";
-import { Bars3Icon, UserCircleIcon, ArrowRightStartOnRectangleIcon, ShoppingCartIcon, UserIcon, GlobeAltIcon } from "@heroicons/react/24/outline";
+import { Bars3Icon, ArrowRightStartOnRectangleIcon, ShoppingCartIcon, UserIcon, GlobeAltIcon } from "@heroicons/react/24/outline";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { logout } from "redux/auth/authSlice";
-import logo from "assets/logo.png";
 import { useAppDispatch, useAppSelector } from "hooks/useAppDispatch";
 import { toastifyWarning } from "utils/toastify";
 import Search from "../Search";
@@ -13,11 +12,13 @@ import { navLink } from "routes/app";
 import HeaderMobile from "./HeaderMobile";
 import { texts } from "libs/contains/texts";
 import useAuthenticated from "hooks/useAuthenticated";
+import { assets } from "assets";
 
 function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [openAccount, setOpenAccount] = useState(false);
   const accountMenuRef = useRef<HTMLDivElement>(null);
+  const headerMenu = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { currentUser } = useAppSelector((state) => state.auth);
@@ -63,26 +64,37 @@ function Header() {
     }
     navigate("/login");
   };
+  useEffect(() => {
+    window.addEventListener("scroll", handleScrollMenu);
+    return () => {
+      window.removeEventListener("scroll", handleScrollMenu);
+    };
+  });
+  const handleScrollMenu = () => {
+    const headerMain = headerMenu.current as HTMLElement;
+    if (window.scrollY > 50) {
+      headerMain.classList.add("fixed");
+    } else {
+      headerMain.classList.remove("fixed");
+    }
+  };
   return (
-    <header className="bg-white fixed w-full z-50 h-header mx-5 lg:px-16">
-      <nav className="mx-auto flex max-w-full items-center justify-between h-full px-2 md:px-0 lg:px-8">
+    <header ref={headerMenu} className="header-menu relative bg-linear w-full top-0 h-header">
+      <nav className="mx-auto absolute top-0 right-0 left-0 container flex items-center justify-between h-full px-2">
         <Link to="/">
-          <img className="w-28" src={logo} alt="Logo" />
+          <span className="heading4">MyStore</span>
         </Link>
-
         <div className="md:hidden" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
           <Button className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700">
             <Bars3Icon aria-hidden="true" className="h-7 w-7" />
           </Button>
         </div>
-
         <div className="hidden md:flex md:gap-x-4 lg:gap-x-12 items-center">
           {navLink.map((nav) => (
-            <NavLink key={nav.title} to={nav.path} className="nav-link text-sm font-medium leading-6 text-gray-900 uppercase">
+            <NavLink key={nav.title} to={nav.path} className="nav-link text-lg font-light leading-6 text-gray-900 uppercase">
               {nav.title}
             </NavLink>
           ))}
-
           <div className="flex items-center gap-4 text-sm font-medium leading-6 text-gray-900">
             <Search handleCloseNav={() => setMobileMenuOpen(false)} />
             <Link to="/cart" className="relative">
@@ -94,14 +106,14 @@ function Header() {
           </div>
 
           <div className="relative" ref={accountMenuRef}>
-            <div className="rounded-full bg-orange-100/80 p-2 hover:bg-orange-300 transition-all duration-500">
-              <UserCircleIcon onClick={handleOpenAcc} aria-hidden="true" className="h-6 w-6 cursor-pointer" />
+            <div className="rounded-full transition-all duration-500" onClick={handleOpenAcc}>
+              <img src={assets.noAvatar} className="w-9 h-9 rounded-full" />
             </div>
             {openAccount && (
               <div className="absolute w-40 right-0 left-[-120px] bg-white rounded-md shadow-md top-[57px] cursor-pointer transition-all duration-700">
                 {currentUser && (
                   <div className="flex flex-col">
-                    <Link to="/profile" className="flex p-3 items-center gap-x-2 hover:bg-[#f5f5f5]">
+                    <Link to="/account/profile" className="flex p-3 items-center gap-x-2 hover:bg-[#f5f5f5]">
                       <UserIcon className="w-5 h-5" />
                       <p>{texts.header.ACCOUNT}</p>
                     </Link>

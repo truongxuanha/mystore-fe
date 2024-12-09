@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&amp;display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -11,6 +12,13 @@
   .dark {
     --muted: 217.2 32.6% 17.5%;
     --muted-foreground: 215 20.2% 65.1%;
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+  }
+}
+@layer base {
+  body {
+    @apply bg-background text-foreground;
   }
 }
 * {
@@ -24,17 +32,29 @@ body {
     sans-serif;
   font-weight: 300;
 }
-
+.container {
+  max-width: 1322px !important;
+  width: 100%;
+  padding-right: 16px;
+  padding-left: 16px;
+  margin: 0 auto;
+}
+.bg-linear {
+  background: linear-gradient(238deg, #faf8f1 0%, #f6f3ef 99.66%);
+}
+.bg-opacity-linear {
+  background-color: rgb(255 251 248 / var(--tw-bg-opacity));
+}
 .loader {
   width: 45px;
-  aspect-ratio: 0.75; /* Adjusts the height proportionally to the width */
+  aspect-ratio: 0.75;
   --c: no-repeat linear-gradient(theme(colors.orange.500) 0 0);
   background:
     var(--c) 0% 50%,
-    /* Starting position for the first gradient */ var(--c) 50% 50%,
-    /* Middle position */ var(--c) 100% 50%; /* End position */
-  background-size: 20% 100%; /* Adjusted for horizontal movement */
-  animation: loading-horizontal 1s infinite linear; /* Updated animation */
+    var(--c) 50% 50%,
+    var(--c) 100% 50%;
+  background-size: 20% 100%;
+  animation: loading-horizontal 1s infinite linear;
 }
 
 @keyframes loading-horizontal {
@@ -42,7 +62,7 @@ body {
     background-position:
       0% 50%,
       50% 50%,
-      100% 50%; /* Initial state */
+      100% 50%;
   }
   50% {
     background-position:
@@ -86,6 +106,67 @@ body {
       50% 50%,
       100% 100%;
   }
+}
+.header-menu {
+  z-index: 101;
+  transition: all ease 0.5s;
+}
+.header-menu.fixed {
+  position: fixed;
+  background-color: #fff;
+  box-shadow: 0px 10px 25px 0px rgba(43, 52, 74, 0.12);
+  top: 0;
+  animation: animateHeader ease 0.5s;
+}
+
+@keyframes animateHeader {
+  0% {
+    transform: translate3d(0, -100%, 0);
+  }
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+}
+.heading1 {
+  font-size: 56px;
+  line-height: 68px;
+  font-weight: 500;
+  text-transform: capitalize;
+}
+
+.heading2 {
+  font-size: 44px;
+  line-height: 50px;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.heading3 {
+  font-size: 36px;
+  line-height: 40px;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.heading4 {
+  font-size: 30px;
+  line-height: 42px;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.heading5 {
+  font-size: 24px;
+  line-height: 30px;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.heading6 {
+  font-size: 20px;
+  line-height: 28px;
+  font-weight: 600;
+  text-transform: capitalize;
 }
 .btn-product {
   @apply bg-colorPrimary text-white p-1 rounded-md hover:bg-orange-300 hover:translate-y-[-5px] transition-all duration-300  text-[8px] sm:text-xs md:text-[12px] lg:text-[13px];
@@ -398,6 +479,6 @@ input:focus {
   font-weight: 600;
   text-transform: capitalize;
 }
-.bg-linear {
-  background: linear-gradient(238deg, #faf8f1 0%, #f6f3ef 99.66%);
+.item-profile.active {
+  color: red;
 }

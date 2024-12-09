@@ -21,7 +21,7 @@ const ProductCard: React.FC<ProductsProp> = ({ product, isList }) => {
   const { addToCart } = useAddToCart();
   return (
     <div className={`bg-white mx-2 p-2 rounded-md min-h-[300px] md:min-h-[350px] relative`}>
-      <div className="pt-2 md:row-span-3 w-full h-[150px] flex items-center">
+      <div className="pt-2 md:row-span-3 w-full h-[150px] flex items-center border rounded-md mb-2">
         <ImageLazy
           className="rounded-md w-full h-full hover:translate-y-[-10px] duration-500"
           isObjectFitCover="contain"
