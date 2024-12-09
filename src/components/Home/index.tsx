@@ -12,6 +12,8 @@ import ProductNews from "components/Home/ProductNews";
 import { useAppDispatch, useAppSelector } from "hooks/useAppDispatch";
 import { getPopupThunk } from "redux/home/homeThunk";
 import Benefit from "./Benefit";
+import Breadcrumd from "customs/Breacrumb";
+
 function Home() {
   const [isShow, setIsShow] = useState(true);
   const { salePopup } = useAppSelector((state) => state.home);
@@ -32,7 +34,14 @@ function Home() {
   }, [dispatch]);
   return (
     <>
-      <div className="w-full mx-auto">
+      <Breadcrumd
+        breadcrumbs={[
+          { urlLink: "/", title: "Sản phẩm" },
+          { urlLink: "/", title: "Sản phẩm" },
+        ]}
+        page="Trang chủ"
+      />
+      <div className="w-full mx-auto max-w-7xl px-5 lg:px-16">
         <Manufacture />
         <Banner />
         <HotProducts />

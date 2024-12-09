@@ -9,6 +9,10 @@ export default {
         corlorButton: "#2f80ed",
         corlorBorder: "#e2c1c1",
         corlorHeader: "#f7f7f7",
+        muted: {
+          DEFAULT: "hsl(var(--muted))",
+          foreground: "hsl(var(--muted-foreground))",
+        },
       },
       textShadow: {
         sm: "1px 1px 2px rgba(0, 0, 0, 0.5)",

@@ -64,7 +64,7 @@ function Header() {
     navigate("/login");
   };
   return (
-    <header className="bg-white fixed z-50 w-full h-header">
+    <header className="bg-white fixed w-full z-50 h-header mx-5 lg:px-16">
       <nav className="mx-auto flex max-w-full items-center justify-between h-full px-2 md:px-0 lg:px-8">
         <Link to="/">
           <img className="w-28" src={logo} alt="Logo" />
