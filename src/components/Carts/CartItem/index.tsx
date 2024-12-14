@@ -1,7 +1,9 @@
-import { Button } from "@headlessui/react";
 import { MinusIcon, PlusIcon } from "@heroicons/react/24/outline";
+import Button from "customs/Button";
 import Input from "customs/Input";
 import { Link } from "react-router-dom";
+import { ProductOrderType } from "redux/order/type";
+import { ProductsType } from "types";
 import formatVND from "utils/formatVND";
 
 type Props = {
@@ -11,23 +13,36 @@ type Props = {
   slug?: string;
   product_name: string;
   quantity: number;
-  productId: number;
   discount: number;
   updateQuantity: (id: number, quantity: number) => void;
   deleteItemCart: (id: number) => void;
-};
+  isSelected: boolean;
+  handleSelectItem: (item: ProductOrderType, isSelected: boolean) => void;
+} & ProductsType;
+
 function CartItem(props: Props) {
-  const { idItemCart, product_name, priceAfterDiscount, quantity, thumbnail, slug, updateQuantity, deleteItemCart, productId, discount } = props;
+  const { idItemCart, product_name, priceAfterDiscount, quantity, thumbnail, slug, updateQuantity, deleteItemCart, discount, isSelected, handleSelectItem } =
+    props;
+
+  const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    handleSelectItem(
+      {
+        ...props,
+      },
+      e.target.checked,
+    );
+  };
+
   return (
     <div className="grid grid-cols-12 min-w-[1200px] p-5 place-items-center gap-x-3">
       <div className="col-span-1">
-        <Input type="checkbox" />
+        <Input type="checkbox" checked={isSelected} onChange={handleCheckboxChange} />
       </div>
       <div className="col-span-2">
         <img src={thumbnail} className="border rounded-md" />
       </div>
       <div className="col-span-2">
-        <Link to={`/product/${slug}?product_id=${productId}`} className="text-xs sm:text-sm hover:underline">
+        <Link to={`/product/${slug}?product_id=${props.id_product}`} className="text-xs sm:text-sm hover:underline">
           {product_name}
         </Link>
       </div>
@@ -53,7 +68,7 @@ function CartItem(props: Props) {
         </Button>
       </div>
       <div className="col-span-1">{formatVND(priceAfterDiscount * quantity, discount)}</div>
-      <div className="col-span-1 mx-auto flex flex-col ">
+      <div className="col-span-1 mx-auto flex flex-col">
         <span className="block w-9 cursor-pointer" onClick={() => deleteItemCart(idItemCart)}>
           Xóa
         </span>

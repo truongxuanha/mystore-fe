@@ -5,6 +5,7 @@ import { menuSideBar } from "helpers/SidebarAdmin";
 import { useAppSelector } from "hooks/useAppDispatch";
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
+import { AccountTypeEnum } from "types";
 
 type MenuItem = {
   id: string;
@@ -35,7 +36,7 @@ const Sidebar = () => {
           <ImageLazy className="rounded-full" src={currentUser?.user.avatar ?? assets.noAvatar} alt="avatar" />
         </div>
         <h2 className="text-white text-lg mt-4">{currentUser?.user.account_name}</h2>
-        <span className="text-red-400 text-sm">o {currentUser?.user.permission === 2 ? "Quản lý" : "Nhân viên"}</span>
+        <span className="text-red-400 text-sm">o {currentUser?.user.permission === AccountTypeEnum.ADMIN ? "Quản lý" : "Nhân viên"}</span>
       </div>
       <ul className="w-full grid grid-rows-10 p-4">
         {menuSideBar.map((item) => (
@@ -50,7 +51,7 @@ const MenuItem: React.FC<MenuItemProps> = ({ title, url, activeTab, icon, active
   return (
     <Link
       to={url}
-      className={`flex items-center justify-between p-3  w-full ${activeTab ? "bg-white text-black" : "text-white"} rounded-md cursor-pointer transition-colors`}
+      className={`flex items-center justify-between p-3  w-full transition-all duration-300 ${activeTab ? "bg-white text-black" : "text-white"} rounded-md cursor-pointer transition-colors`}
     >
       <div className="flex gap-2 px-2">
         <img className="w-5" src={activeTab ? active : icon} />

@@ -1,19 +1,19 @@
-import { useAppDispatch, useAppSelector } from "../../../../../hooks/useAppDispatch";
+import { useAppDispatch, useAppSelector } from "../../../../hooks/useAppDispatch";
 import { Input } from "@headlessui/react";
-import Table from "../../../../../customs/Table";
+import Table from "../../../../customs/Table";
 import { useEffect, useState } from "react";
 import FormAddStafAdmin from "../components/FormAddStaffAdmin";
-import Pagination from "../../../../../customs/Pagination";
+import Pagination from "../../../../customs/Pagination";
 import { useSearchParams } from "react-router-dom";
-import { AccountTypeEnum, PAGE } from "../../../../../types";
+import { AccountTypeEnum, PAGE } from "../../../../types";
 import { MagnifyingGlassIcon, PlusIcon } from "@heroicons/react/24/outline";
-import ButtonAction from "../../../../../customs/ButtonAction";
-import { authCustomer } from "../../../../../redux/auth/authThunk";
-import { ActionAdminEnum } from "../../../../../types/admin.type";
+import ButtonAction from "../../../../customs/ButtonAction";
+import { authGetAllAccount } from "../../../../redux/auth/authThunk";
+import { ActionAdminEnum } from "../../../../types/admin.type";
 import { texts } from "libs/contains/texts";
 
-function AdminCustomer() {
-  const { all_customers, totalAccount } = useAppSelector((state) => state.auth);
+function AdminStaff() {
+  const { all_accounts, totalAccount } = useAppSelector((state) => state.auth);
   const [searchParams] = useSearchParams();
   const [selectOption, setSelectOption] = useState("all");
   const currentPage: number = parseInt(searchParams.get(PAGE.page) || "1");
@@ -22,7 +22,7 @@ function AdminCustomer() {
   const [actionType, setActionType] = useState<ActionAdminEnum>();
   const [currentStaff, setCurrentStaff] = useState<any>([]);
   useEffect(() => {
-    dispatch(authCustomer({ page: currentPage, permission: selectOption }));
+    dispatch(authGetAllAccount({ page: currentPage, permission: selectOption }));
   }, [dispatch, currentPage, selectOption]);
 
   const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -33,7 +33,7 @@ function AdminCustomer() {
   const handleEdit = (id: string | number) => {
     setShow(true);
     setActionType(ActionAdminEnum.EDIT);
-    const acc = all_customers.filter((acc) => acc.id === id);
+    const acc = all_accounts.filter((acc) => acc.id === id);
     setCurrentStaff(acc[0]);
   };
   const handleAdd = () => {
@@ -44,14 +44,14 @@ function AdminCustomer() {
   const handleDelete = (id: string | number) => {
     setShow(true);
     setActionType(ActionAdminEnum.DELETE);
-    const acc = all_customers.filter((acc) => acc.id === id);
+    const acc = all_accounts.filter((acc) => acc.id === id);
     setCurrentStaff(acc[0]);
   };
 
   const handleView = (id: string | number) => {
     setShow(true);
     setActionType(ActionAdminEnum.VIEW);
-    const acc = all_customers.filter((acc) => acc.id === id);
+    const acc = all_accounts.filter((acc) => acc.id === id);
     setCurrentStaff(acc[0]);
   };
 
@@ -67,7 +67,7 @@ function AdminCustomer() {
     texts.infor_account.ACTION,
   ];
 
-  const rowCustomer = all_customers?.map((customer) => [
+  const rowCustomer = all_accounts?.map((customer) => [
     customer.id || "---",
     customer.account_name || "---",
     customer.full_name || "---",
@@ -86,7 +86,7 @@ function AdminCustomer() {
 
   return (
     <div className="flex-1 bg-white">
-      <div className="flex justify-between my-2 bg-colorBody shadow-md p-4">
+      <div className="flex justify-between mt-2 bg-colorBody p-4">
         <div className="flex bg-white items-center h-10 w-80 border border-corlorBorder">
           <Input type="search" placeholder="Tìm kiếm..." className="h-full px-2 flex-1" />
           <span className="bg-colorPrimary h-full flex items-center px-3 cursor-pointer">
@@ -94,19 +94,19 @@ function AdminCustomer() {
           </span>
         </div>
         <div className="flex gap-2 items-center">
-          <select className="h-10 px-5" onChange={handleSelect}>
+          <select className="h-8 px-4" onChange={handleSelect}>
             {option.map((opt) => (
               <option key={opt.option_id} value={opt.value}>
                 {opt.title}
               </option>
             ))}
           </select>
-          <button onClick={() => handleAdd()} className="bg-colorPrimary px-5 h-10">
+          <button onClick={() => handleAdd()} className="bg-colorPrimary px-5 h-8">
             <PlusIcon width={30} height={30} className="text-white" />
           </button>
         </div>
       </div>
-      <div className="mt-5 px-4">
+      <div className="mt-2 px-4">
         <Table
           rows={rowCustomer}
           columns={columns}
@@ -119,4 +119,4 @@ function AdminCustomer() {
   );
 }
 
-export default AdminCustomer;
+export default AdminStaff;

@@ -37,20 +37,20 @@ const filterOptions = [
     type: 1,
     value: "rating",
   },
-  {
-    id: "isReview",
-    label: "Có bình luận",
-    count: "1",
-    type: "nonempty",
-    value: "review",
-  },
-  {
-    id: "isImage",
-    label: "Có hình ảnh",
-    count: "1",
-    type: "empty",
-    value: "images",
-  },
+  // {
+  //   id: "isReview",
+  //   label: "Có bình luận",
+  //   count: "1",
+  //   type: "nonempty",
+  //   value: "review",
+  // },
+  // {
+  //   id: "isImage",
+  //   label: "Có hình ảnh",
+  //   count: "1",
+  //   type: "empty",
+  //   value: "images",
+  // },
 ];
 const RenewStarRating = () => {
   const { dataRatingProduct } = useAppSelector((state) => state.comment);

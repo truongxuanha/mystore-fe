@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-
 import formatVND from "utils/formatVND";
-
 import { Input } from "@headlessui/react";
 import useAddToCart from "hooks/useAddCart";
 import { useDispatch } from "react-redux";
@@ -10,8 +8,6 @@ import { AppDispatch } from "redux/store";
 import { useAppSelector } from "hooks/useAppDispatch";
 import ProductRandom from "ProductRandom";
 import { assets } from "assets";
-
-import ImageLazy from "customs/ImageLazy";
 import { MinusIcon, PlusIcon, ShoppingCartIcon } from "@heroicons/react/24/outline";
 import { getInFoProducts } from "redux/product/productThunk";
 import { handleOrder } from "redux/order/orderSlice";
@@ -23,6 +19,9 @@ import { createCmtByIdProductThunk, getCommentByIdProductThunk } from "redux/com
 import RatingComment from "./RatingComment";
 import RenewStarRating from "./RenewStarRating";
 import { Breadcrumb } from "antd";
+import Albums from "./Albums";
+import { isEmpty } from "utils";
+import ImageLazy from "customs/ImageLazy";
 
 const ProductDetail: React.FC = () => {
   const { addToCart } = useAddToCart();
@@ -30,7 +29,7 @@ const ProductDetail: React.FC = () => {
   const [rating, setRating] = useState<number>(0);
   const dispatch = useDispatch<AppDispatch>();
   const { infoProduct, loadingProductDetail } = useAppSelector((state) => state.product);
-
+  const [contentComment, setContentComment] = useState<string>("");
   const { id } = useParams();
   const navigate = useNavigate();
   useEffect(() => {
@@ -79,12 +78,7 @@ const ProductDetail: React.FC = () => {
   const handleOrderNow = () => {
     const products: ProductOrderType[] = [
       {
-        id_product: infoProduct.id,
-        thumbnail: infoProduct.thumbnail,
-        product_name: infoProduct?.product_name,
-        quantity,
-        price: infoProduct?.price,
-        discount: infoProduct.discount,
+        ...infoProduct,
       },
     ];
     dispatch(handleOrder({ data: products, typeOrder: OrderTypeEnum.BUYNOW }));
@@ -93,7 +87,7 @@ const ProductDetail: React.FC = () => {
   };
   const handleCreateCmt = () => {
     if (rating < 1) return;
-    dispatch(createCmtByIdProductThunk({ star: rating, id_product: infoProduct.id, content: "hhihihih" }));
+    dispatch(createCmtByIdProductThunk({ star: rating, id_product: infoProduct.id, content: contentComment }));
     dispatch(getCommentByIdProductThunk({ product_id: Number(id) }));
   };
   if (loadingProductDetail && !infoProduct) return <Loader />;
@@ -130,7 +124,28 @@ const ProductDetail: React.FC = () => {
         <Breadcrumb items={breadcrumbs} />
         <div className="grid grid-cols-1 sm:grid-cols-4  mx-auto overflow-hidden rounded-md bg-white mt-3">
           <div className="p-4 col-span-2 border rounded-2xl m-5 h-full max-h-[500px]">
-            <ImageLazy className="w-full h-full object-cover" isObjectFitCover="contain" src={infoProduct?.thumbnail} alt={infoProduct?.product_name} />
+            {/* <ImageLazy className="w-full h-full object-cover" isObjectFitCover="contain" src={infoProduct?.thumbnail} alt={infoProduct?.product_name} />
+            {infoProduct.images.map((image, index) => (
+              <ImageLazy key={index} className="w-full h-full object-cover" isObjectFitCover="contain" src={image} alt={infoProduct?.product_name} />
+            ))} */}
+            <div className="h-[375px]">
+              {isEmpty(infoProduct.images) ? (
+                <ImageLazy className="w-full object-cover" isObjectFitCover="contain" src={infoProduct?.thumbnail} alt={infoProduct?.product_name} />
+              ) : (
+                <Albums images={infoProduct.images} />
+              )}
+            </div>
+            <div className="h-24 flex gap-2 w-full overflow-x-auto">
+              <div className="border">
+                <ImageLazy src="http://localhost:3000" alt="" />
+              </div>
+              <div className="border">
+                <ImageLazy src="http://localhost:3000" alt="" />
+              </div>
+              <div className="border">
+                <ImageLazy src="http://localhost:3000" alt="" />
+              </div>
+            </div>
           </div>
           <div className="mx-4 py-2 col-span-2 mt-3 flex flex-col justify-between">
             <div>
@@ -191,7 +206,7 @@ const ProductDetail: React.FC = () => {
         </div>
         <div className="bg-white p-5 mt-5">
           <RenewStarRating />
-          <RatingComment setRating={setRating} rating={rating} handleCreateCmt={handleCreateCmt} />
+          <RatingComment setRating={setRating} rating={rating} handleCreateCmt={handleCreateCmt} setContentComment={setContentComment} />
         </div>
         <ProductRandom />
       </div>

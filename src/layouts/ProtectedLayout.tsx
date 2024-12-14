@@ -1,7 +1,7 @@
 import useAuthenticated from "hooks/useAuthenticated";
 import { Navigate, useLocation } from "react-router-dom";
 
-const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
+const ProtectedLayout = ({ children }: { children: React.ReactNode }) => {
   const { authenticated } = useAuthenticated();
   const location = useLocation();
   if (!authenticated) {
@@ -10,4 +10,4 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   return <>{children}</>;
 };
 
-export default ProtectedRoute;
+export default ProtectedLayout;

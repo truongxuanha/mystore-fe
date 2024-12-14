@@ -1,18 +1,22 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { createOrderDetailBillThunk, createOrderThunk } from "./orderThunk";
-import { OrderPayloadType, OrderTypeEnum, ProductOrderType } from "./type";
+import { createOrderDetailBillThunk, createOrderThunk, getDetailBillByIdBillThunk } from "./orderThunk";
+import { BillDetailType, OrderPayloadType, OrderTypeEnum, ProductOrderType } from "./type";
 
 export type InitialStateType = {
   orderItems: ProductOrderType[];
   loading: boolean;
   quantity: number;
   typeOrder: OrderTypeEnum;
+  detailBill?: BillDetailType;
+  loadingBillDetail: boolean;
 };
 const initialState: InitialStateType = {
   orderItems: [],
   typeOrder: OrderTypeEnum.BUYNOW,
   loading: false,
   quantity: 1,
+  detailBill: undefined,
+  loadingBillDetail: false,
 };
 
 const orderSlice = createSlice({
@@ -57,6 +61,17 @@ const orderSlice = createSlice({
       })
       .addCase(createOrderDetailBillThunk.rejected, (state) => {
         state.loading = false;
+      });
+    builder
+      .addCase(getDetailBillByIdBillThunk.pending, (state) => {
+        state.loadingBillDetail = true;
+      })
+      .addCase(getDetailBillByIdBillThunk.fulfilled, (state, action) => {
+        state.loadingBillDetail = false;
+        state.detailBill = action.payload;
+      })
+      .addCase(getDetailBillByIdBillThunk.rejected, (state) => {
+        state.loadingBillDetail = false;
       });
   },
 });

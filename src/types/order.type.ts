@@ -1,6 +1,7 @@
 export type InitOrder = {
   createAt?: any;
   id_address: number;
+  total_amount_order: number;
 };
 export type InitOrderDetailBill = {
   id_bill: number;

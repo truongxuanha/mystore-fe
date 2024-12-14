@@ -17,7 +17,6 @@ function Pagination({ currentPage, totalPage }: Props) {
       searchParams.set("page", newPage.toString());
       setSearchParams(searchParams);
       setThisPage(newPage);
-      window.scrollTo({ top: 0, behavior: "smooth" });
     }
   };
 

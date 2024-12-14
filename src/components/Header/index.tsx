@@ -72,7 +72,7 @@ function Header() {
   });
   const handleScrollMenu = () => {
     const headerMain = headerMenu.current as HTMLElement;
-    if (window.scrollY > 50) {
+    if (window.scrollY > 100) {
       headerMain.classList.add("fixed");
     } else {
       headerMain.classList.remove("fixed");
@@ -91,7 +91,7 @@ function Header() {
         </div>
         <div className="hidden md:flex md:gap-x-4 lg:gap-x-12 items-center">
           {navLink.map((nav) => (
-            <NavLink key={nav.title} to={nav.path} className="nav-link text-lg font-light leading-6 text-gray-900 uppercase">
+            <NavLink key={nav.title} to={nav.path} className="nav-link__header text-lg font-light leading-6 text-gray-900 uppercase">
               {nav.title}
             </NavLink>
           ))}
@@ -106,7 +106,7 @@ function Header() {
           </div>
 
           <div className="relative" ref={accountMenuRef}>
-            <div className="rounded-full transition-all duration-500" onClick={handleOpenAcc}>
+            <div className="rounded-full transition-all duration-500 cursor-pointer" onClick={handleOpenAcc}>
               <img src={assets.noAvatar} className="w-9 h-9 rounded-full" />
             </div>
             {openAccount && (

@@ -3,14 +3,14 @@ import { BillType } from "./type";
 import { getAllBillThunk } from "./billThunk";
 
 export type InitialStateType = {
-  bills: BillType[];
+  bills?: BillType[];
   loadingBill: boolean;
   error: string;
   totalPage: number;
   totalItem: number;
 };
 const initialState: InitialStateType = {
-  bills: [],
+  bills: undefined,
   loadingBill: false,
   error: "",
   totalPage: 0,

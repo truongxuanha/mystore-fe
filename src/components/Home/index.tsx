@@ -41,7 +41,7 @@ function Home() {
       <BannerRight className="fixed">
         <img src={assets.bannerRight} alt="" />
       </BannerRight>
-      {isShow && !!salePopup && (
+      {isShow && !!salePopup?.length && (
         <div className="fixed top-0 right-0 left-0 z-50 flex items-center justify-center w-full h-full bg-[rgba(0,0,0,0.5)]">
           <div className="w-full mx-10 md:w-96 relative flex flex-col">
             <Link to={salePopup[0].url_transit}>

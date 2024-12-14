@@ -20,7 +20,7 @@ export type ProductsProp = {
 const ProductCard: React.FC<ProductsProp> = ({ product, isList }) => {
   const { addToCart } = useAddToCart();
   return (
-    <div className={`bg-white mx-2 p-2 rounded-md min-h-[300px] md:min-h-[350px] relative`}>
+    <div className="bg-white mx-2 p-2 rounded-md min-h-[300px] md:min-h-[350px] relative transition-all duration-300">
       <div className="pt-2 md:row-span-3 w-full h-[150px] flex items-center border rounded-md mb-2">
         <ImageLazy
           className="rounded-md w-full h-full hover:translate-y-[-10px] duration-500"
@@ -43,7 +43,7 @@ const ProductCard: React.FC<ProductsProp> = ({ product, isList }) => {
             {texts.common.INFORMATION}
           </Link>
           {product.quantity > 0 ? (
-            <span className="cursor-pointer rounded-full bg-colorRed hover:bg-red-400 p-1" onClick={() => addToCart(product.id, 1)}>
+            <span className="cursor-pointer rounded-full bg-colorRed hover:bg-red-400 p-1" onClick={() => addToCart(product.product_id, 1)}>
               <ShoppingCartIcon aria-hidden="true" className="h-4 w-4 md:h-5 md:w-5 text-white" />
             </span>
           ) : (

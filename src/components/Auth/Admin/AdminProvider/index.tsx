@@ -10,8 +10,8 @@ import ButtonAction from "customs/ButtonAction";
 import FormAddProductAdmin from "../components/FormAddProductAdmin";
 import Pagination from "customs/Pagination";
 import { Input } from "@headlessui/react";
-import Loader from "components/Loader";
-import { getAllBillThunk } from "redux/bill/billThunk";
+import { getAllManuThunk } from "redux/manufacture/manuThunk";
+import ImageLazy from "customs/ImageLazy";
 
 const option = [
   { option_id: 1, title: texts.list_staff.ALL_STAFF, value: "all" },
@@ -19,9 +19,9 @@ const option = [
   { option_id: 3, title: texts.list_staff.STAFF, value: "2" },
 ];
 
-function AdminOrder() {
+function AdminProvider() {
   const dispatch = useAppDispatch();
-  const { bills, totalPage, loadingBill } = useAppSelector((state) => state.bill);
+  const { manufactures, totalPage } = useAppSelector((state) => state.manufacturer);
 
   const [show, setShow] = useState<boolean>(false);
   const [actionType, setActionType] = useState<ActionAdminEnum>();
@@ -39,26 +39,31 @@ function AdminOrder() {
     dispatch(getProducts({ query: searchQuery, itemsPerPage: 5 }));
   };
   useEffect(() => {
-    dispatch(getAllBillThunk({ query: "", page, item: 5 }));
+    dispatch(getAllManuThunk({ query: "", page, item: 5 }));
   }, [dispatch, page]);
   const columns = [
-    texts.bill.BILL_ID,
-    texts.bill.CUSTOMER_ID,
-    texts.bill.CUSTOMER,
-    texts.bill.EMAIL,
-    texts.bill.PHONR_NUMBER,
-    texts.bill.CREATE_AT,
-    texts.bill.DISCOUNT,
-    texts.bill.STATUS,
-    texts.bill.ACTIONS,
+    texts.manufacture.MANUFACTURE_ID,
+    texts.manufacture.MANUFACTURE,
+    texts.manufacture.PHONE_NUMBER,
+    texts.manufacture.WEBSITE,
+    texts.manufacture.IMAGE,
+    texts.manufacture.ACTIONS,
   ];
-  const rowProduct = bills?.map((bill) => [bill.id, bill.id_account, bill.account_name, bill.email, bill.phone, bill.createAt, bill.discount, bill.status]);
+  const rowProduct = manufactures?.map((manu) => [
+    manu.id,
+    manu.name,
+    manu.phone,
+    manu.website,
+    <div key={manu.id} className="w-20 h-20">
+      <ImageLazy isObjectFitCover="contain" src={manu.img} alt="image-manu" />
+    </div>,
+  ]);
   const handleEdit = (id: number | string) => {
     setShow(true);
     setActionType(ActionAdminEnum.EDIT);
-    const bill = bills.filter((bill) => bill.id === id);
+    const manu = manufactures.filter((manu) => manu.id === id);
 
-    setCurrentProduct(bill[0]);
+    setCurrentProduct(manu[0]);
   };
   const handleAdd = () => {
     setShow(true);
@@ -68,21 +73,20 @@ function AdminOrder() {
   const handleDelete = (id: number | string) => {
     setShow(true);
     setActionType(ActionAdminEnum.DELETE);
-    const bill = bills.filter((bill) => bill.id === id);
-    setCurrentProduct(bill[0]);
+    const manu = manufactures.filter((manu) => manu.id === id);
+    setCurrentProduct(manu[0]);
   };
 
   const handleView = (id: number | string) => {
     setShow(true);
     setActionType(ActionAdminEnum.VIEW);
-    const bill = bills.filter((bill) => bill.id === id);
-    setCurrentProduct(bill[0]);
+    const manu = manufactures.filter((manu) => manu.id === id);
+    setCurrentProduct(manu[0]);
   };
 
   return (
     <div className="px-3 bg-white">
       <div>
-        {loadingBill && <Loader />}
         <div className="flex justify-between mt-2 bg-colorBody p-4">
           <div className="flex bg-white items-center h-10 w-80 border border-corlorBorder">
             <Input type="search" placeholder="Tìm kiếm..." className="h-full px-2 flex-1" onChange={handleChange} />
@@ -117,5 +121,4 @@ function AdminOrder() {
   );
 }
 
-export default AdminOrder;
-
+export default AdminProvider;

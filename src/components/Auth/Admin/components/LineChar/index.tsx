@@ -1,26 +1,26 @@
 import { Line } from "react-chartjs-2";
 import { Chart, registerables } from "chart.js";
 import { useEffect, useState } from "react";
-import { getRevenueApi } from "redux/home/api";
+import { useAppDispatch, useAppSelector } from "hooks/useAppDispatch";
+import { RemenueType } from "redux/admin/type";
+import { getRemenueThunk } from "redux/admin/adminThunk";
+import { isEmpty } from "utils";
 Chart.register(...registerables);
-type DataType = {
-  date: string;
-  total: number;
-};
 
-function LineChar() {
-  const [datas, setDatas] = useState<DataType[]>([]);
-  const [dateLine, setDateLine] = useState<DataType[]>([]);
+const LineChar = () => {
+  const [datas, setDatas] = useState<RemenueType["total"][]>([]);
+  const [dateLine, setDateLine] = useState<RemenueType["date"][]>([]);
+  const { remenueData } = useAppSelector((state) => state.admin);
+  const dispatch = useAppDispatch();
 
-  useEffect(function () {
-    async function fetchRevenue() {
-      const res = await getRevenueApi();
-      const data = res.data;
-      setDatas(data.map((item: DataType) => item.total));
-      setDateLine(data.map((item: DataType) => item.date));
-    }
-    fetchRevenue();
-  }, []);
+  useEffect(() => {
+    if (isEmpty(remenueData)) return;
+    setDatas(remenueData.map((item) => item.total));
+    setDateLine(remenueData.map((item) => item.date));
+  }, [remenueData]);
+  useEffect(() => {
+    dispatch(getRemenueThunk());
+  }, [dispatch]);
 
   return (
     <Line
@@ -62,6 +62,6 @@ function LineChar() {
       style={{ maxWidth: "100%" }}
     />
   );
-}
+};
 
 export default LineChar;

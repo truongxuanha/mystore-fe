@@ -1,19 +1,20 @@
-import React, { useState, useEffect } from "react";
-import { randomProduct } from "redux/product/api";
-import { ProductsType } from "types";
+import React, { useEffect } from "react";
+
 import SliderListProduct from "customs/SliderListProduct";
 import { texts } from "libs/contains/texts";
+import { isEmpty } from "../utils/index";
+import { useAppDispatch, useAppSelector } from "hooks/useAppDispatch";
+import { getProductRandom } from "redux/product/productThunk";
 
 const ProductRandom: React.FC = () => {
-  const [productRandom, setProductRandom] = useState<ProductsType[]>([]);
+  const { productRandom } = useAppSelector((state) => state.product);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
-    async function fetcRandom() {
-      const res = await randomProduct();
-      setProductRandom(res.data);
+    if (isEmpty(productRandom)) {
+      dispatch(getProductRandom());
     }
-    fetcRandom();
-  }, []);
+  }, [dispatch, productRandom]);
 
   return <SliderListProduct title={texts.product.PRODUCT_OTHER} data={productRandom} />;
 };

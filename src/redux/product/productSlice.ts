@@ -118,7 +118,7 @@ const productSlice = createSlice({
       })
       .addCase(getProductRandom.fulfilled, (state, action) => {
         setIsLoading(state, false);
-        state.productRandom = action.payload ?? [];
+        state.productRandom = action.payload;
       })
       .addCase(getProductRandom.rejected, (state) => {
         setIsLoading(state, false);

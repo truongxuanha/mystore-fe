@@ -23,6 +23,12 @@ type Props = {
 
 function FormAddProductAdmin({ setShow, initialData, actionType }: Props) {
   const { manuItems, error } = useAppSelector((state) => state.manufacturer);
+  const [animationClass, setAnimationClass] = useState("modal-enter");
+
+  const handleClose = () => {
+    setAnimationClass("modal-exit");
+    setTimeout(() => setShow(false), 300);
+  };
   const page = useGetSearchParams(["page"]).page || 1;
   const [previewImage, setPreviewImage] = useState<string | undefined>(initialData?.thumbnail || undefined);
   const {
@@ -62,9 +68,7 @@ function FormAddProductAdmin({ setShow, initialData, actionType }: Props) {
       dispatch(getProducts({}));
       toastifySuccess(texts.errors.ADD_PRODUCT_SUCCESS);
     } else if (actionType === ActionAdminEnum.EDIT) {
-      if (typeof formValue.thumbnail === "object") {
-        formValue.thumbnail = formValue.thumbnail[0];
-      }
+      formValue.thumbnail = previewImage;
       const updatedData = {
         ...initialData,
         ...formValue,
@@ -95,7 +99,7 @@ function FormAddProductAdmin({ setShow, initialData, actionType }: Props) {
   const isDisable = actionType === ActionAdminEnum.DELETE || actionType === ActionAdminEnum.VIEW;
   return (
     <div className="fixed top-0 left-0 right-0 bottom-0  bg-[rgba(0,0,0,0.5)] flex justify-center items-center z-50">
-      <div className="bg-white w-4/5 p-5 rounded-md flex flex-col">
+      <div className={`bg-white w-4/5 p-5 rounded-md flex flex-col ${animationClass}`}>
         <div className="border-b pb-3">
           <h1 className="text-center uppercase">
             {actionType === "add" ? "Thêm sán phẩm mới mới" : actionType === "edit" ? "Sửa thông tin sản phẩm" : "Xóa sản phẩm"}
@@ -167,7 +171,7 @@ function FormAddProductAdmin({ setShow, initialData, actionType }: Props) {
                 {actionType === "add" ? "Thêm mới" : actionType === "edit" ? "Sửa" : "Xóa"}
               </Button>
             )}
-            <Button width="150px" height="30px" onClick={() => setShow(false)} type="button" className=" bg-blue-500 text-white rounded">
+            <Button width="150px" height="30px" onClick={handleClose} type="button" className=" bg-blue-500 text-white rounded">
               Thoát
             </Button>
           </div>

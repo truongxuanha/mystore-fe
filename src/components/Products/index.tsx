@@ -24,27 +24,56 @@ const Products: React.FC = () => {
   const [sortOf, setSortOf] = useState<string>("");
   const { products, totalPage, isLoading } = useAppSelector((state) => state.product);
   const { manuItems } = useAppSelector((state) => state.manufacturer);
+  const [breacrumb, setBreadcrumb] = useState<any>({
+    info: [
+      {
+        title: "Trang chủ",
+        urlLink: `/`,
+      },
+    ],
+    page: "Sản phẩm",
+  });
 
   const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
-    const params = searchParams.get("manufacture") as string;
-    const para = { currentPage, itemsPerPage, sort: sortOf, manufacturer: params };
+    const para = { currentPage, itemsPerPage, sort: sortOf, manufacturer: activeIndex };
     dispatch(getProducts(para)).unwrap();
     if (manuItems.length === 0) {
       dispatch(getManuThunk());
     }
-  }, [currentPage, itemsPerPage, searchParams, manufacturer, setSearchParams, dispatch, sortOf, manuItems]);
+  }, [currentPage, itemsPerPage, searchParams, manufacturer, setSearchParams, dispatch, sortOf, manuItems, activeIndex]);
 
-  const handleItemClick = (manufacturer: string | number) => {
+  const handleItemClick = (manufacturer: string | number, name: string = "all") => {
     setManufacturer(manufacturer);
-    setSearchParams({ manufacture: manufacturer.toString() });
+    setSearchParams({ page: "1", manufacture: name });
+    setActiveIndex(manufacturer);
+    if (name) {
+      setBreadcrumb({
+        info: [
+          {
+            title: "Sản phẩm",
+            urlLink: `/product`,
+          },
+        ],
+        page: name === "all" ? "Tất cả sản phẩm" : name,
+      });
+      return;
+    }
+    setBreadcrumb({
+      info: [
+        {
+          title: "Trang chủ",
+          urlLink: `/`,
+        },
+      ],
+      page: "Sản phẩm",
+    });
   };
 
   useEffect(() => {
-    const param = searchParams.get("manufacture");
-    setActiveIndex(param);
-  }, [searchParams]);
+    searchParams.set("manufacture", activeIndex);
+  }, [activeIndex, searchParams]);
 
   const handleSort = (value: string) => {
     setSortOf(value);
@@ -56,7 +85,7 @@ const Products: React.FC = () => {
 
   return (
     <>
-      <Breadcrumd breadcrumbs={[{ urlLink: "/", title: "Trang chủ" }]} page="Sản phẩm" />
+      <Breadcrumd breadcrumbs={breacrumb.info} page={breacrumb.page} />
       <div className="container mx-auto mb-5">
         <div className="flex flex-col md:flex-row items-center justify-between mt-5 mb-3">
           <div className="pl-4 py-2 nav-item font-medium text-xl">Thương Hiệu</div>
@@ -72,13 +101,10 @@ const Products: React.FC = () => {
         <div className="flex flex-col gap-5 md:flex-row">
           <div className="w-full md:w-[200px]">
             <ul className="bg-white w-full grid grid-cols-2 md:grid-cols-1 cursor-pointer">
-              <li onClick={() => handleItemClick("all")}>
-                <span className={`pr-5 py-2 ${activeIndex === "all" ? "acitve-nav" : "nav-link"}`}>{texts.product.ALL}</span>
-              </li>
               {!isEmpty(manuItems) &&
                 manuItems.map((item, index) => (
-                  <li key={index} className={`flex justify-between`} onClick={() => handleItemClick(item.id)}>
-                    <span className={`pr-5 py-2 ${item.id.toString() === activeIndex ? "acitve-nav" : "nav-link"}`}>{item.name}</span>
+                  <li key={index} className={`flex justify-between`} onClick={() => handleItemClick(item.id, item.name)}>
+                    <span className={`pr-5 py-2 ${item.id === activeIndex ? "acitve-nav" : "nav-link"}`}>{item.name}</span>
                   </li>
                 ))}
             </ul>

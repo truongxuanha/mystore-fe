@@ -10,20 +10,15 @@ import ButtonAction from "customs/ButtonAction";
 import FormAddProductAdmin from "../components/FormAddProductAdmin";
 import Pagination from "customs/Pagination";
 import { Input } from "@headlessui/react";
-import Loader from "components/Loader";
-import { getAllManuThunk } from "redux/manufacture/manuThunk";
-import ImageLazy from "customs/ImageLazy";
-
 const option = [
   { option_id: 1, title: texts.list_staff.ALL_STAFF, value: "all" },
   { option_id: 2, title: texts.list_staff.MANAGER, value: "0" },
   { option_id: 3, title: texts.list_staff.STAFF, value: "2" },
 ];
 
-function AdminProvider() {
+function AdminProduct() {
   const dispatch = useAppDispatch();
-  const { manufactures, totalPage, loading } = useAppSelector((state) => state.manufacturer);
-
+  const { products, totalPage } = useAppSelector((state) => state.product);
   const [show, setShow] = useState<boolean>(false);
   const [actionType, setActionType] = useState<ActionAdminEnum>();
   const [currentProduct, setCurrentProduct] = useState<any>();
@@ -40,31 +35,34 @@ function AdminProvider() {
     dispatch(getProducts({ query: searchQuery, itemsPerPage: 5 }));
   };
   useEffect(() => {
-    dispatch(getAllManuThunk({ query: "", page, item: 5 }));
+    dispatch(getProducts({ currentPage: page, itemsPerPage: 5 }));
   }, [dispatch, page]);
   const columns = [
-    texts.manufacture.MANUFACTURE_ID,
-    texts.manufacture.MANUFACTURE,
-    texts.manufacture.PHONE_NUMBER,
-    texts.manufacture.WEBSITE,
-    texts.manufacture.IMAGE,
-    texts.manufacture.ACTIONS,
+    texts.product.PRODUCT_ID,
+    texts.product.PRODUCT_NAME,
+    texts.product.MANUFACTURE,
+    texts.product.PRICE,
+    texts.product.DISCOUNT,
+    texts.product.ORTHER_DISCOUNT,
+    texts.product.QUANTITY,
+    texts.product.REMAINING_QUANTITY,
+    texts.infor_account.ACTION,
   ];
-  const rowProduct = manufactures?.map((manu) => [
-    manu.id,
-    manu.name,
-    manu.phone,
-    manu.website,
-    <div key={manu.id} className="w-20 h-20">
-      <ImageLazy isObjectFitCover="contain" src={manu.img} alt="image-manu" />
-    </div>,
+  const rowProduct = products?.map((product) => [
+    product.product_id,
+    product.product_name,
+    product.slug,
+    product.price,
+    product.discount,
+    product.other_discount,
+    product.quantity,
+    product.remaining_quantity,
   ]);
   const handleEdit = (id: number | string) => {
     setShow(true);
     setActionType(ActionAdminEnum.EDIT);
-    const manu = manufactures.filter((manu) => manu.id === id);
-
-    setCurrentProduct(manu[0]);
+    const acc = products.filter((acc) => acc.product_id === id);
+    setCurrentProduct(acc[0]);
   };
   const handleAdd = () => {
     setShow(true);
@@ -74,21 +72,20 @@ function AdminProvider() {
   const handleDelete = (id: number | string) => {
     setShow(true);
     setActionType(ActionAdminEnum.DELETE);
-    const manu = manufactures.filter((manu) => manu.id === id);
-    setCurrentProduct(manu[0]);
+    const acc = products.filter((acc) => acc.product_id === id);
+    setCurrentProduct(acc[0]);
   };
 
   const handleView = (id: number | string) => {
     setShow(true);
     setActionType(ActionAdminEnum.VIEW);
-    const manu = manufactures.filter((manu) => manu.id === id);
-    setCurrentProduct(manu[0]);
+    const acc = products.filter((acc) => acc.product_id === id);
+    setCurrentProduct(acc[0]);
   };
 
   return (
-    <div className="px-3 bg-white">
+    <div className="col-span-5 px-3">
       <div>
-        {loading && <Loader />}
         <div className="flex justify-between mt-2 bg-colorBody p-4">
           <div className="flex bg-white items-center h-10 w-80 border border-corlorBorder">
             <Input type="search" placeholder="Tìm kiếm..." className="h-full px-2 flex-1" onChange={handleChange} />
@@ -109,7 +106,7 @@ function AdminProvider() {
             </button>
           </div>
         </div>
-        <div className="my-5">
+        <div className="mb-5">
           <Table
             columns={columns}
             rows={rowProduct}
@@ -123,4 +120,4 @@ function AdminProvider() {
   );
 }
 
-export default AdminProvider;
+export default AdminProduct;

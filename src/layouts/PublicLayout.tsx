@@ -2,7 +2,7 @@ import { Outlet, ScrollRestoration } from "react-router-dom";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 
-function PublicLayout() {
+const PublicLayout = () => {
   return (
     <>
       <div className="mx-auto">
@@ -11,10 +11,10 @@ function PublicLayout() {
           <Outlet />
         </main>
         <Footer />
-        <ScrollRestoration />
       </div>
+      <ScrollRestoration />
     </>
   );
-}
+};
 
 export default PublicLayout;

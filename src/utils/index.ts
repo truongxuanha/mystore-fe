@@ -1,4 +1,4 @@
-export const isEmpty = (data: [] | string | object): boolean => {
+export const isEmpty = (data?: [] | string | object): boolean => {
   if (data === undefined || data === null) return true;
 
   if (Array.isArray(data) || typeof data === "string") {

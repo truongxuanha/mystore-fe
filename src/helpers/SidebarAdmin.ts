@@ -6,8 +6,6 @@ import productIcon from "assets/product_icon.svg";
 import orderByIcon from "assets/order_by_icon.svg";
 import bannerSidebarIcon from "assets/banner_sidebar_icon.svg";
 import statisticalIcon from "assets/statistical_icon.svg";
-import postIcon from "assets/post_icon.svg";
-
 import houseIconActive from "assets/house_chimney_active.svg";
 import staffIconActive from "assets/staff_icon_active.svg";
 import customerIconActive from "assets/customer_icon_active.svg";
@@ -16,7 +14,6 @@ import productIconActive from "assets/product_icon_active.svg";
 import orderByIconActive from "assets/order_by_icon_active.svg";
 import bannerSidebarIconActive from "assets/banner_sidebar_icon_active.svg";
 import statisticalIconActive from "assets/statistical_icon_active.svg";
-import postIconActive from "assets/post_icon_active.svg";
 
 const menuSideBar = [
   {
@@ -69,19 +66,19 @@ const menuSideBar = [
     active: bannerSidebarIconActive,
   },
   {
-    id: "list-post",
-    path: "list-post",
-    title: "Danh mục bài viết",
+    id: "popup",
+    path: "popup",
+    title: "Quản lý Popup",
     icon: statisticalIcon,
     active: statisticalIconActive,
   },
-  {
-    id: "post",
-    path: "post",
-    title: "Bài viết",
-    icon: postIcon,
-    active: postIconActive,
-  },
+  // {
+  //   id: "post",
+  //   path: "post",
+  //   title: "Bài viết",
+  //   icon: postIcon,
+  //   active: postIconActive,
+  // },
 ];
 
 export { menuSideBar };

@@ -1,6 +1,6 @@
 import { Outlet } from "react-router-dom";
 import Sidebar from "./SlideBar";
-import HeaderAdmin from "./components/components/HeaderAdmin";
+import HeaderAdmin from "./components/HeaderAdmin";
 import useAuthenticated from "hooks/useAuthenticated";
 
 function Admin() {
@@ -10,7 +10,7 @@ function Admin() {
       {isAdmin && (
         <>
           <Sidebar />
-          <div className="ml-[350px] flex flex-col flex-1">
+          <div className="ml-[350px] flex flex-col justify-center  flex-1">
             <HeaderAdmin />
             <Outlet />
           </div>

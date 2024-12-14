@@ -12,7 +12,6 @@ const Profile: React.FC = () => {
   const dispatch = useAppDispatch();
   document.title = "Trang cá nhân";
   const { infoUser } = useAppSelector((state) => state.auth);
-  const { account_name } = infoUser;
   const accounts = [
     {
       id: 1,
@@ -50,11 +49,11 @@ const Profile: React.FC = () => {
   return (
     <div className="bg-gray-100">
       <Breadcrumd page="Tài khoản" breadcrumbs={[{ title: "Trang chủ", urlLink: "/" }]} />
-      <div className="flex container mx-auto py-16">
-        <div className="w-1/4 p-4">
+      <div className="md:flex container mx-auto py-10">
+        <div className="md:w-1/4 p-4">
           <div className="text-center mb-6 flex flex-col items-center">
             <img src={assets.noAvatar} className="w-20 h-20 rounded-full" />
-            <p className="text-lg font-semibold">{account_name}</p>
+            <p className="text-lg font-semibold">{infoUser?.account_name ?? "No Name"}</p>
           </div>
           <ul className=" text-gray-700 flex flex-col ">
             {accounts.map((item) => (
@@ -74,7 +73,7 @@ const Profile: React.FC = () => {
             ))}
           </ul>
         </div>
-        <div className="w-3/4 bg-white p-6">
+        <div className="w-full md:w-3/4 bg-white p-6">
           <Outlet />
         </div>
       </div>
