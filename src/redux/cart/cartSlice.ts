@@ -34,7 +34,7 @@ const cartSlice = createSlice({
       .addCase(getProductByAccount.pending, (state) => setLoading(state, true))
       .addCase(getProductByAccount.fulfilled, (state, action) => {
         setLoading(state, false);
-        state.cartItems = action.payload ?? [];
+        state.cartItems = action.payload;
         state.cartLength = total(state.cartItems);
       })
       .addCase(getProductByAccount.rejected, (state) => {

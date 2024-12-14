@@ -1,9 +1,9 @@
 export type Amount = {
   amount: string | number;
-  discount: number;
+  discount?: number;
 };
 
-function formatVND(amount: Amount["amount"], discount: Amount["discount"]): string {
+function formatVND(amount: string | number, discount: number = 0): string {
   const numericAmount = typeof amount === "string" ? parseFloat(amount) : amount;
 
   const formatter = new Intl.NumberFormat("vi-VN", {

@@ -1,5 +1,5 @@
 import { lazy, Suspense } from "react";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, Navigate, RouterProvider } from "react-router-dom";
 import Loader from "./components/Loader";
 import About from "./components/Abouts";
 import InforProduct from "./components/Products/ProductDetail";
@@ -8,15 +8,20 @@ import PublicLayout from "./layouts/PublicLayout";
 import Profile from "./components/Profile";
 import Admin from "./components/Auth/Admin";
 import OrderView from "./components/Oders";
-import AdminStaff from "./components/Auth/Admin/components/AdminStaff";
-import AdminHome from "./components/Auth/Admin/components/AdminHome";
-import AdminProduct from "./components/Auth/Admin/components/AdminProduct";
-import AdminCustomer from "./components/Auth/Admin/components/AdminCustomer";
-import AdminProvider from "./components/Auth/Admin/components/AdminProvider";
-import AdminOrder from "./components/Auth/Admin/components/AdminBill";
-import AdminBanner from "./components/Auth/Admin/components/AdminBanner";
+import AdminStaff from "./components/Auth/Admin/AdminStaff";
+import AdminProduct from "./components/Auth/Admin/AdminProduct";
+import AdminProvider from "./components/Auth/Admin/AdminProvider";
+import AdminOrder from "./components/Auth/Admin/AdminOrder";
+import AdminBanner from "./components/Auth/Admin/AdminBanner";
 import AuthPage from "components/Auth/AuthPage";
-import ProtectedRoute from "layouts/ProtectedLayout";
+import MeAccountPage from "components/Profile/MeAccountPage";
+import ChangePasswordProfile from "components/Profile/ChangePassword";
+import MyAdress from "components/Profile/MyAdress";
+import MyPurchase from "components/Profile/MyPurchase";
+import ProtectecRoute from "layouts/ProtectecRoute";
+import AdminHome from "components/Auth/Admin/AdminHome";
+import AdminCustomer from "components/Auth/Admin/AdminCustomer";
+import AdminPopup from "components/Auth/Admin/AdminPopup";
 
 const Home = lazy(() => import("./components/Home"));
 const Cart = lazy(() => import("./components/Carts"));
@@ -63,9 +68,9 @@ const router = createBrowserRouter([
         path: "/login",
         element: (
           <Suspense fallback={<Loader />}>
-            <ProtectedRoute>
+            <ProtectecRoute>
               <AuthPage />
-            </ProtectedRoute>
+            </ProtectecRoute>
           </Suspense>
         ),
       },
@@ -93,12 +98,30 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "/profile",
+        path: "/account",
         element: (
           <Suspense fallback={<Loader />}>
             <Profile />
           </Suspense>
         ),
+        children: [
+          {
+            path: "profile",
+            element: <MeAccountPage />,
+          },
+          {
+            path: "password",
+            element: <ChangePasswordProfile />,
+          },
+          {
+            path: "address",
+            element: <MyAdress />,
+          },
+          {
+            path: "purchase",
+            element: <MyPurchase />,
+          },
+        ],
       },
       {
         path: "*",
@@ -128,7 +151,7 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <AdminHome />,
+        element: <Navigate to="/admin/dashboard" />,
       },
       {
         path: "dashboard",
@@ -157,6 +180,10 @@ const router = createBrowserRouter([
       {
         path: "banner",
         element: <AdminBanner />,
+      },
+      {
+        path: "popup",
+        element: <AdminPopup />,
       },
     ],
   },

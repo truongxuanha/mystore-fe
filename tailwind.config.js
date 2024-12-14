@@ -6,9 +6,15 @@ export default {
       colors: {
         colorPrimary: "#ff8f26",
         colorRed: "#ED1b24",
-        colorBody: "#f5f5f5",
         corlorButton: "#2f80ed",
         corlorBorder: "#e2c1c1",
+        corlorHeader: "#f7f7f7",
+        foreground: "hsl(var(--foreground))",
+        background: "hsl(var(--background))",
+        muted: {
+          DEFAULT: "hsl(var(--muted))",
+          foreground: "hsl(var(--muted-foreground))",
+        },
       },
       textShadow: {
         sm: "1px 1px 2px rgba(0, 0, 0, 0.5)",

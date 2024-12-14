@@ -23,6 +23,7 @@
     "dotenv": "^16.4.5",
     "formik": "^2.4.6",
     "lint": "^0.8.19",
+    "lucide-react": "^0.468.0",
     "query-string": "^9.1.1",
     "react": "^18.3.1",
     "react-chartjs-2": "^5.2.0",

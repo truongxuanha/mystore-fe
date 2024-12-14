@@ -17,7 +17,6 @@ function Pagination({ currentPage, totalPage }: Props) {
       searchParams.set("page", newPage.toString());
       setSearchParams(searchParams);
       setThisPage(newPage);
-      window.scrollTo({ top: 0, behavior: "smooth" });
     }
   };
 
@@ -27,11 +26,11 @@ function Pagination({ currentPage, totalPage }: Props) {
   }, [searchParams, currentPage]);
 
   return (
-    <div className="flex justify-center mt-8">
+    <div className="flex justify-center mt-8 gap-2">
       <Button
-        className={`px-3 py-1 mx-1 border rounded ${thisPage === 1 ? "opacity-50 cursor-not-allowed" : ""}`}
-        width="40px"
-        height="32px"
+        className={` ${thisPage === 1 ? "opacity-50 cursor-not-allowed" : ""}`}
+        width="30px"
+        height="30px"
         onClick={() => handlePageChange(thisPage - 1)}
         disabled={thisPage === 1}
       >
@@ -41,9 +40,9 @@ function Pagination({ currentPage, totalPage }: Props) {
       {Array.from({ length: totalPage }, (_, i) => i + 1).map((pageNum) => (
         <Button
           key={pageNum}
-          width="40px"
-          height="32px"
-          className={`border ${thisPage === pageNum ? "bg-colorPrimary text-white" : "bg-white text-black"}`}
+          width="30px"
+          height="30px"
+          className={`border rounded-full ${thisPage === pageNum ? "bg-colorPrimary text-white" : "bg-white text-black"}`}
           onClick={() => handlePageChange(pageNum)}
         >
           {pageNum}
@@ -51,9 +50,9 @@ function Pagination({ currentPage, totalPage }: Props) {
       ))}
 
       <Button
-        className={`px-3 py-1 mx-1 border rounded ${thisPage === totalPage ? "opacity-50 cursor-not-allowed" : ""}`}
-        width="40px"
-        height="32px"
+        className={`rounded-full ${thisPage === totalPage ? "opacity-50 cursor-not-allowed" : ""}`}
+        width="30px"
+        height="30px"
         onClick={() => handlePageChange(thisPage + 1)}
         disabled={thisPage === totalPage}
       >

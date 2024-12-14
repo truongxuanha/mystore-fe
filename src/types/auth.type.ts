@@ -1,3 +1,8 @@
+export enum AccountTypeEnum {
+  EMPLOYEE = "employee",
+  CUSTOMER = "customer",
+  ADMIN = "admin",
+}
 export type UserAccount = {
   id: string;
   account_name: string;
@@ -7,7 +12,7 @@ export type UserAccount = {
   full_name: string | null;
   sex: string | number | null;
   birth_day: string;
-  permission: number;
+  permission: AccountTypeEnum;
   status: number;
   phone: number;
 };

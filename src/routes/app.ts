@@ -6,11 +6,21 @@ const navLink = [
   {
     path: "/product?manufacture=all",
     title: "Sản phẩm",
+    subNav: [
+      {
+        path: "/product?manufacture=all",
+        title: "Sản phẩm",
+      },
+      {
+        path: "/product?manufacture=all",
+        title: "Sản phẩm",
+      },
+    ],
   },
-  {
-    path: "/contact",
-    title: "Liên hệ",
-  },
+  // {
+  //   path: "/contact",
+  //   title: "Liên hệ",
+  // },
 ];
 
 export { navLink };

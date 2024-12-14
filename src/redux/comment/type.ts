@@ -6,3 +6,9 @@ export type CommentProductType = {
   createAt?: string;
   product_id: number;
 };
+export type CreateCommentType = {
+  content: string;
+  star?: string | number;
+  createAt?: any;
+  id_product: number;
+};

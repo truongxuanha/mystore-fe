@@ -1,19 +1,20 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, ScrollRestoration } from "react-router-dom";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 
-function PublicLayout() {
+const PublicLayout = () => {
   return (
     <>
-      <div className="mx-auto flex flex-col min-h-screen">
+      <div className="mx-auto">
         <Header />
-        <main className="flex-grow mx-auto w-full max-w-7xl px-5 lg:px-16 mt-header">
+        <main>
           <Outlet />
         </main>
         <Footer />
       </div>
+      <ScrollRestoration />
     </>
   );
-}
+};
 
 export default PublicLayout;

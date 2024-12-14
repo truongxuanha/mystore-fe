@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const BannerLeft = styled.div`
   position: fixed;
-  right: calc(50% - 655px);
+  right: calc(50% - 676px);
   top: 200px;
   @media (max-width: 600px) {
     display: none;
@@ -10,7 +10,7 @@ export const BannerLeft = styled.div`
 `;
 export const BannerRight = styled.div`
   position: fixed;
-  left: calc(50% - 655px);
+  left: calc(50% - 676px);
   top: 200px;
   @media (max-width: 600px) {
     display: none;

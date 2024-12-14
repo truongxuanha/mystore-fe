@@ -1,6 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { persistReducer, persistStore } from "redux-persist";
-import storage from "redux-persist/lib/storage"; // Lưu trữ vào localStorage
+import storage from "redux-persist/lib/storage";
 import authReducer from "./auth/authSlice";
 import cartReducer from "./cart/cartSlice";
 import productReducer from "./product/productSlice";
@@ -10,7 +10,7 @@ import orderReducer from "./order/orderSlice";
 import homeReducer from "./home/homeSlice";
 import billReducer from "./bill/billSlice";
 import commentReducer from "./comment/commentSlice";
-
+import adminReducer from "./admin/adminSlice";
 const authPersistConfig = {
   key: "auth",
   storage,
@@ -28,8 +28,13 @@ const authPersistConfig = {
     "verifyOtp",
   ],
 };
-
+const orderPersistConfig = {
+  key: "order",
+  storage,
+  whitelist: ["typeOrder"],
+};
 const persistedAuthReducer = persistReducer(authPersistConfig, authReducer);
+const persistedOrderReducer = persistReducer(orderPersistConfig, orderReducer);
 export const store = configureStore({
   reducer: {
     auth: persistedAuthReducer,
@@ -37,10 +42,11 @@ export const store = configureStore({
     product: productReducer,
     search: searchReducer,
     manufacturer: manufactureReducer,
-    order: orderReducer,
+    order: persistedOrderReducer,
     home: homeReducer,
     bill: billReducer,
     comment: commentReducer,
+    admin: adminReducer,
   },
 });
 export const persistor = persistStore(store);

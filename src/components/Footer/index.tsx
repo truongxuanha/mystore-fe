@@ -1,6 +1,6 @@
 import logo from "assets/logo.png";
 
-export default function App() {
+const Footer = () => {
   return (
     <footer className="bg-white text-sm text-center text-neutral-600 lg:text-left mt-5 ">
       <div className="w-full grid grid-cols-1 items-center justify-around md:grid-cols-2 border-b-2 border-neutral-200 p-6 gap-y-4">
@@ -53,4 +53,5 @@ export default function App() {
       </div>
     </footer>
   );
-}
+};
+export default Footer;

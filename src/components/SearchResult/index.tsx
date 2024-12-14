@@ -19,10 +19,10 @@ const SearchResults: React.FC<SearchResultsProps> = ({ products, setSearchQuery,
   };
 
   return (
-    <ul className="max-h-80 overflow-y-auto scroll transition-all">
+    <ul className="max-h-80 overflow-y-auto transition-all">
       {products.map((product) => (
         <li key={product.id} className="p-2 hover:bg-orange-100 cursor-pointer border-b last:border-none" onClick={() => handleInfo(product.id)}>
-          <Link to={`/product/product-detail/${product.id}`} className="text-sm cursor-pointer">
+          <Link to={`/product/product-detail/${product.product_id}`} className="text-sm cursor-pointer">
             <span className="flex items-center">
               <img className="w-10 rounded-full" src={product.thumbnail} alt={product.product_name} />
               <p className="ml-2">

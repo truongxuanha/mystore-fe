@@ -1,14 +1,16 @@
-import styled from "styled-components";
-const WrapperLoader = styled.div`
-  background-color: rgba(0, 0, 0, 0.1);
-`;
 const Loader = () => {
   return (
-    <WrapperLoader className="fixed w-full inset-0 top-0 bottom-0 flex items-center justify-center z-50">
-      <div className="w-full h-full flex items-center justify-center">
-        <div className="loader"></div>
+    <div className="fixed top-0 left-0 z-[99999999] w-screen h-screen flex items-center justify-center bg-white">
+      <div className="  py-2 px-5 rounded-lg flex items-center flex-col">
+        <div className="loader-dots block relative w-20 h-5 mt-2">
+          <div className="absolute top-0 mt-1 w-3 h-3 rounded-full bg-[#ee4d2d]" />
+          <div className="absolute top-0 mt-1 w-3 h-3 rounded-full bg-[#ee4d2d]" />
+          <div className="absolute top-0 mt-1 w-3 h-3 rounded-full bg-[#ee4d2d]" />
+          <div className="absolute top-0 mt-1 w-3 h-3 rounded-full bg-[#ee4d2d]" />
+        </div>
+        <div className="text-gray-500 text-xs font-medium mt-2 text-center">Loading...</div>
       </div>
-    </WrapperLoader>
+    </div>
   );
 };
 

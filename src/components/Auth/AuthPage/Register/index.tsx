@@ -6,7 +6,6 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { schemaRegisterUser } from "../../../../utils/schema";
 import { InitialRegisterState } from "../../../../redux/auth/type";
-import { useNavigate } from "react-router-dom";
 import { EnvelopeIcon, EyeIcon, EyeSlashIcon, KeyIcon, PhoneIcon, UserIcon } from "@heroicons/react/24/outline";
 import { useState } from "react";
 import { TabType } from "types";
@@ -32,7 +31,6 @@ export default function Register({ setTab, tab }: Props) {
   });
 
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
   const [show, setShow] = useState<boolean>(false);
   function handleShowPass() {
     setShow((show) => !show);
@@ -44,7 +42,7 @@ export default function Register({ setTab, tab }: Props) {
       toastifyWarning((resultsAction.payload as string) || "Đăng ký không thành công!");
       return;
     }
-    navigate("/login");
+    setTab(TabType.LOGIN);
     toastifySuccess("Đăng ký thành công!");
   };
 

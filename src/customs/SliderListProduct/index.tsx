@@ -56,7 +56,7 @@ const SliderListProduct = ({ data, title, isList, loading }: Props) => {
 
   const settings = {
     dots: false,
-    infinite: true,
+    infinite: false,
     slidesToShow: isMobile ? 2 : 5,
     slidesToScroll: 1,
     autoplay: false,
@@ -70,7 +70,7 @@ const SliderListProduct = ({ data, title, isList, loading }: Props) => {
     <div className="bg-white p-3 my-5 min-h-[300px] md:min-h-[350px]">
       <TitleListProduct title={title} />
 
-      <SliderWrapper className="relative min-h-[300px] md:min-h-[350px]">
+      <SliderWrapper className="relative min-h-[300px] md:min-h-[350px] overflow-hidden">
         {loading ? (
           <LoadingBlock />
         ) : (

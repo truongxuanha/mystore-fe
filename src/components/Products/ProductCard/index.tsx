@@ -20,8 +20,8 @@ export type ProductsProp = {
 const ProductCard: React.FC<ProductsProp> = ({ product, isList }) => {
   const { addToCart } = useAddToCart();
   return (
-    <div className={`bg-white border mx-2 p-2 shadow-slate-200 rounded-md shadow-inner min-h-[300px] md:min-h-[350px] relative`}>
-      <div className="pt-2 md:row-span-3 w-full h-[150px] flex items-center">
+    <div className="bg-white mx-2 p-2 rounded-md min-h-[300px] md:min-h-[350px] relative transition-all duration-300">
+      <div className="pt-2 md:row-span-3 w-full h-[150px] flex items-center border rounded-md mb-2">
         <ImageLazy
           className="rounded-md w-full h-full hover:translate-y-[-10px] duration-500"
           isObjectFitCover="contain"
@@ -36,11 +36,14 @@ const ProductCard: React.FC<ProductsProp> = ({ product, isList }) => {
           <p className="line-through text-gray-500">{formatVND(product.price, 0)}</p>
         </span>
         <div className="flex justify-between items-center gap-3 mt-5 mx-2">
-          <Link to={`${PAGE.PRODUCT}/product-detail/${product.id}`} className="text-xs md:text-sm cursor-pointer rounded-md underline hover:text-red-500">
+          <Link
+            to={`${PAGE.PRODUCT}/product-detail/${product.product_id}`}
+            className="text-xs md:text-sm cursor-pointer rounded-md underline hover:text-red-500"
+          >
             {texts.common.INFORMATION}
           </Link>
           {product.quantity > 0 ? (
-            <span className="cursor-pointer rounded-full bg-colorRed hover:bg-red-400 p-1" onClick={() => addToCart(product.id, 1)}>
+            <span className="cursor-pointer rounded-full bg-colorRed hover:bg-red-400 p-1" onClick={() => addToCart(product.product_id, 1)}>
               <ShoppingCartIcon aria-hidden="true" className="h-4 w-4 md:h-5 md:w-5 text-white" />
             </span>
           ) : (

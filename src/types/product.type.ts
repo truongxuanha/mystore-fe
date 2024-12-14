@@ -34,6 +34,7 @@ export type ProductsType = {
   starType: number;
   totalPage: number;
   totalStar: number;
+  images: string[];
 };
 export enum IsListType {
   LIST_NEW = "NEW",
