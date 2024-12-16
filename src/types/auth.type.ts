@@ -4,18 +4,19 @@ export enum AccountTypeEnum {
   ADMIN = "admin",
 }
 export type UserAccount = {
-  id: string;
+  id?: string;
   account_name: string;
-  phone_number: number;
   email: string;
+  phone_number?: string;
+  full_name?: string | null;
   avatar: string;
-  full_name: string | null;
-  sex: string | number | null;
-  birth_day: string;
-  permission: AccountTypeEnum;
-  status: number;
-  phone: number;
+  sex?: number;
+  birthday: string;
+  phone: string;
+  permission?: string;
+  status?: number;
 };
+
 export type AddressAccountType = {
   createAt: string;
   detail_address: string;
@@ -65,6 +66,8 @@ export type IAuthState = {
   } | null;
   infoForPassWord: InfoForPassWordType | object;
   countdown: number;
+  loadingChangeProfile: boolean;
+  loadingChangePass: boolean;
 };
 
 export enum TabType {
@@ -74,3 +77,5 @@ export enum TabType {
   SENDOTP = "SENDOTP",
   CHANGEPASSWORD = "CHANGEPASSWORD",
 }
+
+export enum StatusAccountEnum {}

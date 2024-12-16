@@ -1,8 +1,10 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import {
+  changePasswordApi,
+  changeProfileApi,
   createAddressUser,
   forPassword,
-  getAddressUser,
+  getAddressUserApi,
   getAllAccount,
   getAllCustomer,
   getInfo,
@@ -12,7 +14,8 @@ import {
   verifyOtpApi,
 } from "./api";
 import { AddressType, CustomerParamsType, InitialLoginState, InitialRegisterState } from "./type";
-import { toastifySuccess } from "utils/toastify";
+import { toastifySuccess, toastifyWarning } from "utils/toastify";
+import { UserAccount } from "types";
 
 export const authRegister = createAsyncThunk("auth/authRegister", async (initAccount: InitialRegisterState, { rejectWithValue }) => {
   try {
@@ -103,8 +106,7 @@ export const authCustomer = createAsyncThunk("auth/customer", async ({ ...params
 });
 export const authGetAddressAcc = createAsyncThunk("auth/getAddressAcc", async (_, { rejectWithValue }) => {
   try {
-    const data = await getAddressUser();
-
+    const data = await getAddressUserApi();
     return data;
   } catch (errer) {
     rejectWithValue(errer);
@@ -114,7 +116,7 @@ export const authGetAddressAcc = createAsyncThunk("auth/getAddressAcc", async (_
 export const authCreateAddressThunk = createAsyncThunk("auth/createAddress", async (address: AddressType, { rejectWithValue }) => {
   try {
     const data = await createAddressUser(address);
-
+    toastifySuccess("Thêm địa chỉ thành công!");
     return data;
   } catch (errer) {
     rejectWithValue(errer);
@@ -163,3 +165,26 @@ export const authResetPasswordThunk = createAsyncThunk(
     }
   },
 );
+
+export const authChangeProfileThunk = createAsyncThunk(
+  "auth/changeProfile",
+  async ({ account_name, email, phone, full_name, avatar, sex, birthday }: UserAccount, { rejectWithValue }) => {
+    try {
+      const data = await changeProfileApi({ account_name, email, phone, full_name, avatar, sex, birthday });
+      return data;
+    } catch (errer) {
+      rejectWithValue(errer);
+    }
+  },
+);
+
+export const authChangePassThunk = createAsyncThunk("auth/changePassword", async ({ password, newpass }: any, { rejectWithValue }) => {
+  try {
+    const data = await changePasswordApi({ password, newpass });
+    toastifySuccess("Đổi mật khẩu thành công!");
+    return data;
+  } catch (errer: any) {
+    toastifyWarning(errer.message as string);
+    rejectWithValue(errer);
+  }
+});

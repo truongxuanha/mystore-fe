@@ -1,7 +1,7 @@
 import { ProductsType } from "./product.type";
 
 export type CreateCartType = {
-  id_product?: ProductsType["id_product"];
+  product_id?: ProductsType["id_product"];
   quantity?: number;
 };
 

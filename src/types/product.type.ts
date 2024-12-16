@@ -18,7 +18,7 @@ export type ProductsType = {
   description: string;
   total_quantity: number;
   product_slug: string;
-  remaining_quantity: string;
+  remaining_quantity: number;
   website: string;
   img: string;
   screen_size: null;

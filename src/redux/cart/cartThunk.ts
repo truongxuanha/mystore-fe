@@ -3,12 +3,12 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { CreateCartType, ProductsType, UpdateItem } from "types";
 import { axiosInstance } from "../../utils/axiosConfig";
 
-export const postCreateCart = createAsyncThunk("cart/postCreateCart", async ({ id_product, quantity }: CreateCartType, { rejectWithValue }) => {
+export const postCreateCart = createAsyncThunk("cart/postCreateCart", async ({ product_id, quantity }: CreateCartType, { rejectWithValue }) => {
   try {
     const response = await axiosInstance.post("/cart/create", [
       {
         createAt: dayjs().format("YYYY-MM-DD"),
-        id_product,
+        product_id,
         quantity,
       },
     ]);

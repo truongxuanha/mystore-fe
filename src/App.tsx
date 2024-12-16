@@ -16,7 +16,7 @@ import AdminBanner from "./components/Auth/Admin/AdminBanner";
 import AuthPage from "components/Auth/AuthPage";
 import MeAccountPage from "components/Profile/MeAccountPage";
 import ChangePasswordProfile from "components/Profile/ChangePassword";
-import MyAdress from "components/Profile/MyAdress";
+import MyAdress from "components/Profile/MyAddress";
 import MyPurchase from "components/Profile/MyPurchase";
 import ProtectecRoute from "layouts/ProtectecRoute";
 import AdminHome from "components/Auth/Admin/AdminHome";

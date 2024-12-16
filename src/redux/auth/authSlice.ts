@@ -10,6 +10,8 @@ import {
   authForPasswordThunk,
   authVerifyOtpThunk,
   authResetPasswordThunk,
+  authChangeProfileThunk,
+  authChangePassThunk,
 } from "./authThunk";
 import { IAuthState, UserAccount } from "../../types";
 import { getTokenStorage, getUserStorage, removeUserStorage } from "../../services/storage";
@@ -30,6 +32,8 @@ const initialState: IAuthState = {
   verifyOtp: null,
   infoForPassWord: {},
   countdown: 0,
+  loadingChangeProfile: false,
+  loadingChangePass: false,
 };
 const authSlice = createSlice({
   name: "auth",
@@ -38,6 +42,7 @@ const authSlice = createSlice({
     logout: (state) => {
       state.currentUser = null;
       state.loading = false;
+      state.infoUser = {} as UserAccount;
       removeUserStorage();
     },
     startCountdown: (state, action) => {
@@ -188,8 +193,35 @@ const authSlice = createSlice({
       .addCase(authResetPasswordThunk.rejected, (state) => {
         state.loadingForpass = false;
       });
+    builder
+      .addCase(authChangeProfileThunk.pending, (state) => {
+        state.loadingChangeProfile = true;
+
+        state.error = null;
+      })
+      .addCase(authChangeProfileThunk.fulfilled, (state) => {
+        state.loadingChangeProfile = false;
+        state.error = null;
+      })
+      .addCase(authChangeProfileThunk.rejected, (state) => {
+        state.loadingChangeProfile = false;
+      });
+    builder
+      .addCase(authChangePassThunk.pending, (state) => {
+        state.loadingChangePass = true;
+
+        state.error = null;
+      })
+      .addCase(authChangePassThunk.fulfilled, (state) => {
+        state.loadingChangePass = false;
+        state.error = null;
+      })
+      .addCase(authChangePassThunk.rejected, (state) => {
+        state.loadingChangePass = false;
+      });
   },
 });
+
 export const { logout, startCountdown, decrementCountdown, resetCountdown } = authSlice.actions;
 
 export default authSlice.reducer;

@@ -5,7 +5,7 @@ import { EyeIcon, EyeSlashIcon, KeyIcon } from "@heroicons/react/24/outline";
 import { useState } from "react";
 import { toastifySuccess, toastifyWarning } from "utils/toastify";
 import { Button, Input } from "@headlessui/react";
-import { schemaChangePassword } from "utils/schema";
+import { schemaResetPassword } from 'utils/schema';
 import { authLogin, authResetPasswordThunk } from "redux/auth/authThunk";
 import Loader from "components/Loader";
 import { TabType } from "types";
@@ -24,7 +24,7 @@ export default function ChangePassword({ setTab, tab }: Props) {
     handleSubmit,
     formState: { errors },
   } = useForm<FormValues>({
-    resolver: yupResolver(schemaChangePassword),
+    resolver: yupResolver(schemaResetPassword),
   });
 
   const dispatch = useAppDispatch();

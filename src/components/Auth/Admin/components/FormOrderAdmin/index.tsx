@@ -11,7 +11,7 @@ type Props = {
   setShow: (show: boolean) => void;
   currentOrderDetail: any;
 };
-export const statusOrder = ["Chờ xử lý", "Đang giao hàng", "Đã giao hàng", "Đã hủy"];
+export const statusOrder = ["Chờ xử lý", "Chờ giao hàng", "Đang giao hàng", "Đã giao hàng", "Đã hủy"];
 const nextStatus = ["Xác nhận đơn hàng", "Xác nhận giao hàng"];
 
 function FormOrderAdmin({ setShow, currentOrderDetail }: Props) {
@@ -24,7 +24,7 @@ function FormOrderAdmin({ setShow, currentOrderDetail }: Props) {
   };
   useEffect(() => {
     dispatch(getDetailBillByIdBillThunk(currentOrderDetail.id));
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentOrderDetail.id]);
   return (
     <div className={`fixed left-0 right-0 top-0 bottom-0 bg-[rgba(0,0,0,0.5)] flex justify-center items-center transition-all duration-300`}>

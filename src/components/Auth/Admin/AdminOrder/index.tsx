@@ -35,9 +35,8 @@ function AdminOrder() {
     dispatch(getProducts({ query: searchQuery, itemsPerPage: 5 }));
   };
   useEffect(() => {
-    if (bills) return;
     dispatch(getAllBillThunk({ query: "", page, item: 5 }));
-  }, [bills, dispatch, page]);
+  }, [dispatch, page]);
   const columns = [
     texts.bill.BILL_ID,
     texts.bill.CUSTOMER_ID,
@@ -51,9 +50,10 @@ function AdminOrder() {
   ];
   const statusBill: any = {
     [0]: "Chờ xác nhận",
-    [1]: "Đang giao",
-    [2]: "Đã giao",
-    [3]: "Đã hủy",
+    [1]: "Chờ lấy hàng",
+    [2]: "Đang giao",
+    [3]: "Đã giao",
+    [4]: "Đã hủy",
   };
 
   const rowProduct = bills

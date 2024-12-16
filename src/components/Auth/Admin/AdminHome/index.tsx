@@ -1,24 +1,32 @@
 import LineChar from "../components/LineChar";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { BuildingStorefrontIcon, ClipboardDocumentListIcon, ClockIcon, UserPlusIcon } from "@heroicons/react/24/outline";
 import { useAppDispatch, useAppSelector } from "hooks/useAppDispatch";
 import { authCustomer } from "redux/auth/authThunk";
 import { getProducts } from "redux/product/productThunk";
 import Breadcrumd from "customs/Breacrumb";
-import { getStaticticalThunk } from "redux/admin/adminThunk";
+import { getRemenueThunk, getStaticticalThunk } from "redux/admin/adminThunk";
 import formatVND from "utils/formatVND";
+import { isEmpty } from "utils";
+import { RemenueType } from "redux/admin/type";
 
 const AdminHome = () => {
   const dispatch = useAppDispatch();
-  const { statisticalData } = useAppSelector((state) => state.admin);
-  const currentPage = 1;
-  const itemsPerPage = 5;
-  const manufacturer = "all";
+  const { statisticalData, remenueData } = useAppSelector((state) => state.admin);
   useEffect(() => {
-    const para = { currentPage, itemsPerPage, manufacturer };
-    dispatch(authCustomer({}));
-    dispatch(getProducts(para));
     dispatch(getStaticticalThunk());
+  }, [dispatch]);
+
+  const [data, setDatas] = useState<number[]>([]);
+  const [dateLine, setDateLine] = useState<string[]>([]);
+
+  useEffect(() => {
+    if (isEmpty(remenueData)) return;
+    setDatas(remenueData.map((item) => item.total));
+    setDateLine(remenueData.map((item) => item.date));
+  }, [remenueData]);
+  useEffect(() => {
+    dispatch(getRemenueThunk());
   }, [dispatch]);
   const items: { title: string; image: any; total: number | string }[] = [
     {
@@ -53,7 +61,7 @@ const AdminHome = () => {
           ))}
         </div>
         <div className="w-full flex justify-center md:w-2/3 mt-10">
-          <LineChar />
+          <LineChar data={data} dateLine={dateLine} />
         </div>
       </div>
     </div>

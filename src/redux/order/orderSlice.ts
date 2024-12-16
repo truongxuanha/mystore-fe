@@ -1,7 +1,28 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { createOrderDetailBillThunk, createOrderThunk, getDetailBillByIdBillThunk } from "./orderThunk";
+import { createOrderDetailBillThunk, createOrderThunk, getBillByAccountThunk, getDetailBillByIdBillThunk } from "./orderThunk";
 import { BillDetailType, OrderPayloadType, OrderTypeEnum, ProductOrderType } from "./type";
 
+export type IDetailBillProduct = {
+  id: number;
+  name: string;
+  thumbnail: string;
+  price: number;
+  discount: number;
+  other_discount: number;
+  quantity: number;
+  slug: string;
+};
+
+export type IDetailBill = {
+  id: number;
+  createAt: string | null;
+  paymentAt: string | null;
+  confirmAt: string | null;
+  cancellationAt: string | null;
+  status: 0 | 1 | 2 | 3 | 4;
+  products: IDetailBillProduct[];
+  total_amount_order: number;
+};
 export type InitialStateType = {
   orderItems: ProductOrderType[];
   loading: boolean;
@@ -9,6 +30,8 @@ export type InitialStateType = {
   typeOrder: OrderTypeEnum;
   detailBill?: BillDetailType;
   loadingBillDetail: boolean;
+  loadingGetOrder: boolean;
+  listOrders: IDetailBill[];
 };
 const initialState: InitialStateType = {
   orderItems: [],
@@ -17,6 +40,8 @@ const initialState: InitialStateType = {
   quantity: 1,
   detailBill: undefined,
   loadingBillDetail: false,
+  loadingGetOrder: false,
+  listOrders: [],
 };
 
 const orderSlice = createSlice({
@@ -72,6 +97,17 @@ const orderSlice = createSlice({
       })
       .addCase(getDetailBillByIdBillThunk.rejected, (state) => {
         state.loadingBillDetail = false;
+      });
+    builder
+      .addCase(getBillByAccountThunk.pending, (state) => {
+        state.loadingGetOrder = true;
+      })
+      .addCase(getBillByAccountThunk.fulfilled, (state, action) => {
+        state.loadingGetOrder = false;
+        state.listOrders = action.payload;
+      })
+      .addCase(getBillByAccountThunk.rejected, (state) => {
+        state.loadingGetOrder = false;
       });
   },
 });

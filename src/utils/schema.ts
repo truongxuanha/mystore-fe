@@ -75,7 +75,7 @@ const schemaOtp = yup.object().shape({
     .required("Vui lòng nhập mã OTP."),
 });
 
-const schemaChangePassword = yup.object().shape({
+const schemaResetPassword = yup.object().shape({
   password: yup.string().required("Vui lòng nhập mật khẩu.").min(6, "Mật khẩu phải có ít nhất 6 ký tự."),
   confirm_password: yup
     .string()
@@ -83,4 +83,38 @@ const schemaChangePassword = yup.object().shape({
     .oneOf([yup.ref("password"), ""], "Mật khẩu xác nhận không khớp."),
 });
 
-export { schemaRegister, schemaLogin, schemaProduct, schemaRegisterUser, schemaForpassEmail, schemaOtp, schemaChangePassword };
+export const schemaChangeProfile = yup.object().shape({
+  account_name: yup.string().min(3, "Tên tài khoản phải có ít nhất 3 ký tự.").nullable(),
+  full_name: yup.string(),
+  email: yup.string().email("Email không hợp lệ.").nullable(),
+  phone: yup.string().matches(PHONE_REGEX, "Số điện thoại phải có 10 chữ số.").nullable(),
+  birthday: yup
+    .date()
+    .transform((value, originalValue) => (originalValue === "" ? null : value)) // Xử lý chuỗi rỗng
+    .nullable()
+    .max(new Date(), "Ngày sinh không thể là ngày trong tương lai.")
+    .test("age", "Bạn phải ít nhất 18 tuổi.", (value) => {
+      if (!value) return true; // Bỏ qua nếu không nhập
+      const age = new Date().getFullYear() - new Date(value).getFullYear();
+      return age >= 18;
+    }),
+  sex: yup
+    .number()
+    .transform((value, originalValue) => (originalValue === "" ? null : Number(originalValue))) // Xử lý chuỗi rỗng
+    .nullable()
+    .oneOf([0, 1, 3], "Giới tính không hợp lệ."),
+});
+
+const schemaChangePassword = yup.object().shape({
+  password: yup.string().required("Vui lòng nhập mật khẩu.").min(6, "Mật khẩu phải có ít nhất 6 ký tự."),
+  newpass: yup
+    .string()
+    .required("Vui lòng nhập mật khẩu.")
+    .min(6, "Mật khẩu phải có ít nhất 6 ký tự.")
+    .notOneOf([yup.ref("password")], "Mật khẩu mới phải khác mật khẩu cũ."),
+  confirm_password: yup
+    .string()
+    .required("Vui lòng nhập lại mật khẩu.")
+    .oneOf([yup.ref("newpass"), ""], "Mật khẩu xác nhận không khớp."),
+});
+export { schemaRegister, schemaLogin, schemaProduct, schemaRegisterUser, schemaForpassEmail, schemaOtp, schemaChangePassword, schemaResetPassword };

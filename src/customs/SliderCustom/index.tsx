@@ -52,7 +52,7 @@ const SliderCustom = ({ data, maxItem, loading }: Props) => {
 
   const settings = {
     dots: true,
-    infinite: true,
+    infinite: false,
     speed: 700,
     slidesToShow: maxItem ?? 1,
     slidesToScroll: 1,

@@ -1,5 +1,7 @@
+import { UserAccount } from "types";
 import { axiosInstance } from "../../utils/axiosConfig";
 import { AddressType, CustomerParamsType, ForPassword, InitialLoginState, InitialRegisterState, RefreshTokenType, ResResfreshType } from "./type";
+import dayjs from "dayjs";
 
 export async function registerUser(initAccount: InitialRegisterState) {
   try {
@@ -60,7 +62,7 @@ export async function getAllCustomer({ ...params }: CustomerParamsType) {
     throw err;
   }
 }
-export async function getAddressUser() {
+export async function getAddressUserApi() {
   try {
     const res = await axiosInstance.get("/address/get-by-account");
     return res.data.data;
@@ -151,6 +153,30 @@ export async function resetPassword(password: string, token?: string, email?: st
       throw new Error("Đã có lỗi xảy ra vui lòng thử lại!");
     }
     return res.data;
+  } catch (err) {
+    throw err;
+  }
+}
+
+export async function changeProfileApi({ account_name, email, phone, full_name, avatar, sex, birthday }: UserAccount) {
+  try {
+    const res = await axiosInstance.put("/account/update", { account_name, email, phone, full_name, avatar, sex, birthday });
+    if (!res.data.status) {
+      throw new Error("Đã có lỗi xảy ra vui lòng thử lại!");
+    }
+    return res.data;
+  } catch (err) {
+    throw err;
+  }
+}
+
+export async function changePasswordApi({ password, newpass, createAt = dayjs() }: any) {
+  try {
+    const res = await axiosInstance.patch("/account/change-pass", { password, newpass, createAt });
+    if (!res.data.status) {
+      throw new Error(res.data.data);
+    }
+    return res.data.data;
   } catch (err) {
     throw err;
   }

@@ -14,15 +14,27 @@ type Props = {
   product_name: string;
   quantity: number;
   discount: number;
-  updateQuantity: (id: number, quantity: number) => void;
+  updateQuantity: (id: number, quantity: number, isUpdate?: boolean) => void;
   deleteItemCart: (id: number) => void;
   isSelected: boolean;
   handleSelectItem: (item: ProductOrderType, isSelected: boolean) => void;
 } & ProductsType;
 
 function CartItem(props: Props) {
-  const { idItemCart, product_name, priceAfterDiscount, quantity, thumbnail, slug, updateQuantity, deleteItemCart, discount, isSelected, handleSelectItem } =
-    props;
+  const {
+    idItemCart,
+    product_name,
+    priceAfterDiscount,
+    quantity,
+    total_quantity,
+    thumbnail,
+    slug,
+    updateQuantity,
+    deleteItemCart,
+    discount,
+    isSelected,
+    handleSelectItem,
+  } = props;
 
   const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     handleSelectItem(
@@ -54,7 +66,7 @@ function CartItem(props: Props) {
         <Button
           type="button"
           className="h-4 w-4 md:h-5 md:w-5 rounded-md border bg-gray-100 hover:bg-gray-200"
-          onClick={() => updateQuantity(idItemCart, quantity > 0 ? quantity - 1 : quantity)}
+          onClick={() => updateQuantity(idItemCart, quantity - 1, quantity > 1)}
         >
           <MinusIcon className="w-3 h-3 md:w-5 md:h-3" />
         </Button>
@@ -62,7 +74,7 @@ function CartItem(props: Props) {
         <Button
           type="button"
           className="h-4 w-4 md:h-5 md:w-5 rounded-md border bg-gray-100 hover:bg-gray-200"
-          onClick={() => updateQuantity(idItemCart, quantity + 1)}
+          onClick={() => updateQuantity(idItemCart, quantity + 1, quantity < total_quantity)}
         >
           <PlusIcon className="w-3 h-3 md:w-5 md:h-3" />
         </Button>

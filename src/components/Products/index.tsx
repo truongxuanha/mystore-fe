@@ -24,6 +24,7 @@ const Products: React.FC = () => {
   const [sortOf, setSortOf] = useState<string>("");
   const { products, totalPage, isLoading } = useAppSelector((state) => state.product);
   const { manuItems } = useAppSelector((state) => state.manufacturer);
+  const isAll = searchParams.get("manufacture") === "all";
   const [breacrumb, setBreadcrumb] = useState<any>({
     info: [
       {
@@ -37,12 +38,12 @@ const Products: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
-    const para = { currentPage, itemsPerPage, sort: sortOf, manufacturer: activeIndex };
+    const para = { currentPage, itemsPerPage, sort: sortOf, manufacturer: isAll ? "all" : activeIndex };
     dispatch(getProducts(para)).unwrap();
     if (manuItems.length === 0) {
       dispatch(getManuThunk());
     }
-  }, [currentPage, itemsPerPage, searchParams, manufacturer, setSearchParams, dispatch, sortOf, manuItems, activeIndex]);
+  }, [currentPage, itemsPerPage, searchParams, manufacturer, setSearchParams, dispatch, sortOf, manuItems, activeIndex, isAll]);
 
   const handleItemClick = (manufacturer: string | number, name: string = "all") => {
     setManufacturer(manufacturer);
@@ -52,8 +53,12 @@ const Products: React.FC = () => {
       setBreadcrumb({
         info: [
           {
+            title: "Trang chủ",
+            urlLink: `/`,
+          },
+          {
             title: "Sản phẩm",
-            urlLink: `/product`,
+            urlLink: `/product?manufacture=all`,
           },
         ],
         page: name === "all" ? "Tất cả sản phẩm" : name,
@@ -73,7 +78,10 @@ const Products: React.FC = () => {
 
   useEffect(() => {
     searchParams.set("manufacture", activeIndex);
-  }, [activeIndex, searchParams]);
+    if (isAll) {
+      setActiveIndex("all");
+    }
+  }, [activeIndex, isAll, searchParams]);
 
   const handleSort = (value: string) => {
     setSortOf(value);
@@ -88,7 +96,7 @@ const Products: React.FC = () => {
       <Breadcrumd breadcrumbs={breacrumb.info} page={breacrumb.page} />
       <div className="container mx-auto mb-5">
         <div className="flex flex-col md:flex-row items-center justify-between mt-5 mb-3">
-          <div className="pl-4 py-2 nav-item font-medium text-xl">Thương Hiệu</div>
+          <div className="py-2 nav-item font-medium text-xl">Thương Hiệu</div>
           <div className="flex">
             <div className="m-2">{texts.common.SORT}</div>
             <select value={sortOf} onChange={(e) => handleSort(e.target.value)} className="bg-white rounded-md text-sm p-2 border border-gray-300">

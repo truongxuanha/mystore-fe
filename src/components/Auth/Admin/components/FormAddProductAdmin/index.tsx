@@ -27,7 +27,7 @@ function FormAddProductAdmin({ setShow, initialData, actionType }: Props) {
 
   const handleClose = () => {
     setAnimationClass("modal-exit");
-    setTimeout(() => setShow(false), 300);
+    setTimeout(() => setShow(false), 200);
   };
   const page = useGetSearchParams(["page"]).page || 1;
   const [previewImage, setPreviewImage] = useState<string | undefined>(initialData?.thumbnail || undefined);

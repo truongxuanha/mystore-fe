@@ -72,7 +72,7 @@ function Header() {
   });
   const handleScrollMenu = () => {
     const headerMain = headerMenu.current as HTMLElement;
-    if (window.scrollY > 100) {
+    if (window.scrollY > 65) {
       headerMain.classList.add("fixed");
     } else {
       headerMain.classList.remove("fixed");

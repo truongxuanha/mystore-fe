@@ -16,8 +16,8 @@ import Input from "customs/Input";
 import Breadcrumd from "customs/Breacrumb";
 
 function Cart() {
-  const dispatch = useAppDispatch();
   document.title = "Giỏ hàng";
+  const dispatch = useAppDispatch();
   const { cartItems, loadingCart } = useAppSelector((state) => state.cart);
   const [selected, setSelected] = useState<ProductOrderType[]>([]);
   const navigate = useNavigate();
@@ -32,7 +32,8 @@ function Cart() {
     dispatch(removeCartItem(id));
   }
 
-  function handleUpdateQuantity(id: number, quantity: number): void {
+  function handleUpdateQuantity(id: number, quantity: number, isUpdate: boolean = true): void {
+    if (!isUpdate) return;
     dispatch(updateCartItem({ id, quantity }));
     if (quantity === 0) dispatch(removeCartItem(id));
   }

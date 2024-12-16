@@ -16,7 +16,7 @@ const RatingComment = ({ setRating, rating, handleCreateCmt, setContentComment }
   const { isAdmin } = useAuthenticated();
   const [showRating, setShowRating] = useState(false);
   const { dataCommentById } = useAppSelector((state) => state.comment);
-  const { currentUser } = useAppSelector((state) => state.auth);
+  const { currentUser, infoUser } = useAppSelector((state) => state.auth);
   const [isOpen, setIsOpen] = useState<number | null>(null);
   const [star, setStar] = useState<number>(0);
 
@@ -28,9 +28,13 @@ const RatingComment = ({ setRating, rating, handleCreateCmt, setContentComment }
     5: "Rất Tốt",
   };
   const stars = [1, 2, 3, 4, 5];
-
-  // Group comments by parent_id
-  const topLevelComments = dataCommentById.filter((cmt: any) => cmt.parent_id === null);
+  let commented = false;
+  const topLevelComments = dataCommentById.filter((cmt: any) => {
+    if (cmt.id_account === infoUser.id) {
+      commented = true;
+    }
+    return cmt.parent_id === null;
+  });
   const childComments = dataCommentById.reduce((acc: any, cmt: any) => {
     if (cmt.parent_id) {
       acc[cmt.parent_id] = acc[cmt.parent_id] || [];
@@ -45,12 +49,12 @@ const RatingComment = ({ setRating, rating, handleCreateCmt, setContentComment }
         {!isAdmin && (
           <div className="flex gap-3 mt-10">
             <div className="w-12 h-12">
-              <img className="rounded-full w-full h-full border border-red-500" src={currentUser?.user.avatar ?? noAvatar} alt="avatar" />
+              <img className="rounded-full w-full h-full border border-red-500" src={infoUser.avatar ?? noAvatar} alt="avatar" />
             </div>
-            <div className="bg-blue-600 flex items-center gap-2 px-2 py-1">
-              <PaperAirplaneIcon width={20} height={20} className="text-white" />
-              <Button onClick={() => setShowRating(true)} width="150px" className="text-white">
-                Viết đánh giá ngay
+            <div className={`${commented ? "cursor-pointer" : "cursor-wait"} bg-blue-600 flex items-center gap-2 px-2 py-1 rounded `}>
+              {!commented && <PaperAirplaneIcon width={20} height={20} className="text-white" />}
+              <Button disabled={commented} onClick={() => setShowRating(true)} width="auto" className="text-white">
+                {commented ? "Bạn đã đánh giá sản phẩm" : "Viết đánh giá ngay"}
               </Button>
             </div>
           </div>

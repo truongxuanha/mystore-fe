@@ -123,11 +123,27 @@ function FormAddStafAdmin({ setShow, initialData, actionType }: Props) {
             <label>Giới tính</label>
             <div className="flex gap-5">
               <div className="flex gap-2">
-                <Input type="radio" id="sex" value={0} className="border rounded-md p-2" {...register("sex")} />
+                <Input
+                  type="radio"
+                  id="sex"
+                  defaultChecked={initialData?.sex === 0}
+                  disabled={isDisable && initialData?.sex === 1}
+                  value={0}
+                  className="border rounded-md p-2"
+                  {...register("sex")}
+                />
                 <label>Nam</label>
               </div>
               <div className="flex gap-2">
-                <Input type="radio" id="sex" value={1} className="border rounded-md p-2" {...register("sex")} />
+                <Input
+                  type="radio"
+                  id="sex"
+                  disabled={isDisable && initialData?.sex === 0}
+                  defaultChecked={initialData?.sex === 1}
+                  value={1}
+                  className="border rounded-md p-2"
+                  {...register("sex")}
+                />
                 <label>Nữ</label>
               </div>
             </div>
@@ -136,11 +152,27 @@ function FormAddStafAdmin({ setShow, initialData, actionType }: Props) {
             <label>Chức vụ</label>
             <div className="flex gap-5">
               <div className="flex gap-2">
-                <Input type="radio" id="permission" value={2} className="border rounded-md p-2" {...register("permission")} disabled={isDisable} />
+                <Input
+                  type="radio"
+                  id="permission"
+                  value={2}
+                  className="border rounded-md p-2"
+                  defaultChecked={initialData?.permission === 2}
+                  disabled={isDisable && initialData?.permission === 0}
+                  {...register("permission")}
+                />
                 <label>Quản lý</label>
               </div>
               <div className="flex gap-2">
-                <Input type="radio" id="permission" value={0} className="border rounded-md p-2" {...register("permission")} disabled={isDisable} />
+                <Input
+                  type="radio"
+                  id="permission"
+                  value={0}
+                  className="border rounded-md p-2"
+                  defaultChecked={initialData?.permission === 0}
+                  disabled={isDisable && initialData?.permission === 2}
+                  {...register("permission")}
+                />
                 <label>Nhân viên</label>
               </div>
             </div>

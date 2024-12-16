@@ -1,14 +1,10 @@
 import React, { memo } from "react";
 import { Link } from "react-router-dom";
-
 import { IsListType, ProductsType } from "types";
 import formatVND from "utils/formatVND";
-import { ShoppingCartIcon } from "@heroicons/react/24/outline";
-import useAddToCart from "hooks/useAddCart";
 import { assets } from "assets";
 import ImageLazy from "customs/ImageLazy";
 import { PAGE } from "libs/contains";
-import { texts } from "libs/contains/texts";
 
 export type ProductsProp = {
   product: ProductsType;
@@ -18,10 +14,13 @@ export type ProductsProp = {
 };
 
 const ProductCard: React.FC<ProductsProp> = ({ product, isList }) => {
-  const { addToCart } = useAddToCart();
+  // const { addToCart } = useAddToCart();
   return (
-    <div className="bg-white mx-2 p-2 rounded-md min-h-[300px] md:min-h-[350px] relative transition-all duration-300">
-      <div className="pt-2 md:row-span-3 w-full h-[150px] flex items-center border rounded-md mb-2">
+    <Link
+      to={`${PAGE.PRODUCT}/product-detail/${product.product_id}`}
+      className="bg-white px-2 rounded-md min-h-[300px] relative transition-all duration-300 block"
+    >
+      <div className="pt-2 md:row-span-3 w-full h-[200px] flex items-center mb-4">
         <ImageLazy
           className="rounded-md w-full h-full hover:translate-y-[-10px] duration-500"
           isObjectFitCover="contain"
@@ -29,13 +28,15 @@ const ProductCard: React.FC<ProductsProp> = ({ product, isList }) => {
           alt={product.product_name}
         />
       </div>
-      <p className="multiline-truncate font-medium h-8 sm:h-[43px] row-span-1 sm:row-span-1 md:row-span-5 mt-2 text-xs sm:text-sm">{product.product_name}</p>
+      <p className="uppercase multiline-truncate font-medium h-8 sm:h-[42px] row-span-1 sm:row-span-1 md:row-span-5 text-xs sm:text-sm">
+        {product.product_name}
+      </p>
       <div className="row-span-1 sm:row-span-1 md:row-span-2 my-auto pt-5">
         <span className="text-xs sm:text-base md:text-[16px] flex flex-wrap justify-between">
           <p className="text-red-600">{formatVND(product.price, product.discount)}</p>
           <p className="line-through text-gray-500">{formatVND(product.price, 0)}</p>
         </span>
-        <div className="flex justify-between items-center gap-3 mt-5 mx-2">
+        {/* <div className="flex justify-between items-center gap-3 mt-5 mx-2">
           <Link
             to={`${PAGE.PRODUCT}/product-detail/${product.product_id}`}
             className="text-xs md:text-sm cursor-pointer rounded-md underline hover:text-red-500"
@@ -49,7 +50,7 @@ const ProductCard: React.FC<ProductsProp> = ({ product, isList }) => {
           ) : (
             <span className="text-xs md:text-sm text-red-500 line-through cursor-pointer">{texts.product.SOLD_OUT}</span>
           )}
-        </div>
+        </div> */}
       </div>
       {(isList === IsListType.LIST_NEW || isList === IsListType.LIST_HOT) && (
         <div className="absolute top-1 left-0 text-white w-12 h-5 rounded-sm">
@@ -64,7 +65,7 @@ const ProductCard: React.FC<ProductsProp> = ({ product, isList }) => {
           <p className="absolute inset-0 text-[11px] flex items-center px-1 z-10">Giảm {product.discount}%</p>
         </div>
       )}
-    </div>
+    </Link>
   );
 };
 

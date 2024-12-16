@@ -73,7 +73,7 @@ const Profile: React.FC = () => {
             ))}
           </ul>
         </div>
-        <div className="w-full md:w-3/4 bg-white p-6">
+        <div className="w-full md:w-3/4">
           <Outlet />
         </div>
       </div>

@@ -1,15 +1,16 @@
 import { memo, useEffect, useRef, useState } from "react";
 import { MagnifyingGlassIcon, XMarkIcon } from "@heroicons/react/24/outline";
-import useDebounce from "hooks/useDebouncs";
 import { Input } from "@headlessui/react";
 import { useAppDispatch, useAppSelector } from "hooks/useAppDispatch";
 import { fetchSearchResults } from "redux/search/searchThunk";
 import SearchResults from "components/SearchResult";
 import { texts } from "libs/contains/texts";
+import useDebounce from "hooks/useDebouncs";
 
 export type SearchProps = {
   handleCloseNav?: (open: boolean) => void;
 };
+
 function Search({ handleCloseNav }: SearchProps) {
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -18,22 +19,22 @@ function Search({ handleCloseNav }: SearchProps) {
   const { results, isLoading } = useAppSelector((state) => state.search);
   const debounce = useDebounce({ value: searchQuery, delay: 500 });
 
-  useEffect(
-    function () {
-      if (!debounce.trim()) return;
-      dispatch(fetchSearchResults(searchQuery));
-    },
-    [dispatch, searchQuery, debounce],
-  );
+  useEffect(() => {
+    if (debounce.trim()) {
+      dispatch(fetchSearchResults(debounce));
+    }
+  }, [dispatch, debounce]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const query = e.target.value;
     setSearchQuery(query);
   };
-  function handleDeleteText() {
+
+  const handleDeleteText = () => {
     setSearchQuery("");
     inputRef.current?.focus();
-  }
+  };
+
   return (
     <div className="relative w-full max-w-xs">
       <form className="form w-52 md:w-60 lg:w-72 border border-orange-300">
@@ -51,7 +52,7 @@ function Search({ handleCloseNav }: SearchProps) {
           <div role="status">
             <svg
               aria-hidden="true"
-              className="w-8 h-8 text-gray-200 animate-spin fill-colorPrimary"
+              className="w-3 h-3 text-gray-200 animate-spin fill-colorPrimary"
               viewBox="0 0 100 101"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
@@ -67,7 +68,7 @@ function Search({ handleCloseNav }: SearchProps) {
             </svg>
           </div>
         )}
-        {searchQuery && (
+        {searchQuery && !isLoading && (
           <button className="reset" type="reset" onClick={handleDeleteText}>
             <XMarkIcon className="w-6 h-6" />
           </button>
@@ -76,7 +77,10 @@ function Search({ handleCloseNav }: SearchProps) {
 
       {!!searchQuery && results.length > 0 && (
         <div className="absolute top-full left-0 w-[110%] sm:w-[120%] md:w-[130%] bg-white border border-t-0 rounded-b-md shadow-lg z-10 transition-all duration-500">
-          <span>{texts.search.RESULTS}:</span>
+          <div className="flex justify-between py-1 px-3 text-gray-500">
+            <span>{texts.search.RESULTS}:</span>
+            <span className="hover:text-blue-500 cursor-pointer">Xem tất cả</span>
+          </div>
           <SearchResults products={results} setSearchQuery={setSearchQuery} handleCloseNav={handleCloseNav} />
         </div>
       )}

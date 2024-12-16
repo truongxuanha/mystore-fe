@@ -31,3 +31,17 @@ export async function getDetailBillByIdApi(id: number) {
     throw err;
   }
 }
+
+export async function getBillByAccountApi(status: string | number = "all") {
+  try {
+    const params: { status?: string | number } = {};
+    if (status !== undefined) {
+      params.status = status;
+    }
+    const res = await axiosInstance.get(`/detail-bill/get-by-account?status=${status}`);
+    if (!res.data.status) throw new Error(res.data.data);
+    return res.data.data;
+  } catch (err) {
+    throw err;
+  }
+}

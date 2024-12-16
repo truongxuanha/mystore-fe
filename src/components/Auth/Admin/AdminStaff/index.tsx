@@ -73,7 +73,7 @@ function AdminStaff() {
     customer.full_name || "---",
     customer.email || "---",
     customer.phone || "---",
-    customer.sex === 1 ? "Nam" : 0 ? "Nữ" : "---",
+    customer.sex === 1 ? "Nam" : 0 ? "Nữ" : "Khác",
     customer.permission === AccountTypeEnum.EMPLOYEE ? "Nhân viên" : AccountTypeEnum.ADMIN ? "Quản lý" : "---",
     customer.status === 0 ? texts.infor_account.STATUS_ON : texts.infor_account.STATUS_BAN,
   ]);

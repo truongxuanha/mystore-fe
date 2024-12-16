@@ -1,27 +1,8 @@
 import { Line } from "react-chartjs-2";
 import { Chart, registerables } from "chart.js";
-import { useEffect, useState } from "react";
-import { useAppDispatch, useAppSelector } from "hooks/useAppDispatch";
-import { RemenueType } from "redux/admin/type";
-import { getRemenueThunk } from "redux/admin/adminThunk";
-import { isEmpty } from "utils";
 Chart.register(...registerables);
 
-const LineChar = () => {
-  const [datas, setDatas] = useState<RemenueType["total"][]>([]);
-  const [dateLine, setDateLine] = useState<RemenueType["date"][]>([]);
-  const { remenueData } = useAppSelector((state) => state.admin);
-  const dispatch = useAppDispatch();
-
-  useEffect(() => {
-    if (isEmpty(remenueData)) return;
-    setDatas(remenueData.map((item) => item.total));
-    setDateLine(remenueData.map((item) => item.date));
-  }, [remenueData]);
-  useEffect(() => {
-    dispatch(getRemenueThunk());
-  }, [dispatch]);
-
+const LineChar = ({ data, dateLine }: { dateLine: string[]; data: number[] }) => {
   return (
     <Line
       data={{
@@ -29,7 +10,7 @@ const LineChar = () => {
         datasets: [
           {
             label: "Doanh thu",
-            data: datas,
+            data: data,
             borderColor: "green",
             tension: 0.2,
             fill: true,

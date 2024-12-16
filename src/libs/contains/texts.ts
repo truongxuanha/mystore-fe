@@ -22,6 +22,11 @@ export const texts = {
     MANAGER: "Quản lý",
     STAFF: "Nhân viên",
   },
+  option_sort: {
+    ALL_PRODUCT: "Toàn bộ sản phẩm",
+    UP: "Giá thấp đến cao",
+    DOWN: "Giá cao đến thấp",
+  },
   infor_account: {
     STAFF_ID: "Mã nhân viên",
     ACCOUNT_NAME: "Tên tài khoản",

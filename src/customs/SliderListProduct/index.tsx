@@ -69,7 +69,6 @@ const SliderListProduct = ({ data, title, isList, loading }: Props) => {
   return (
     <div className="bg-white p-3 my-5 min-h-[300px] md:min-h-[350px]">
       <TitleListProduct title={title} />
-
       <SliderWrapper className="relative min-h-[300px] md:min-h-[350px] overflow-hidden">
         {loading ? (
           <LoadingBlock />
