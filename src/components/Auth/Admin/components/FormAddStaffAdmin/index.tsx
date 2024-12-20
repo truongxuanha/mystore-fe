@@ -1,12 +1,9 @@
 import { Input } from "@headlessui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
-
 import { useAppDispatch } from "../../../../../hooks/useAppDispatch";
 import { SubmitHandler, useForm } from "react-hook-form";
-
 import { toastifySuccess, toastifyWarning } from "../../../../../utils/toastify";
 import { assets } from "../../../../../assets";
-import ImageLazy from "../../../../../customs/ImageLazy";
 import { schemaRegister } from "../../../../../utils/schema";
 import Button from "../../../../../customs/Button";
 import { authDelete, authRegister, authUpdate } from "../../../../../redux/auth/authThunk";
@@ -21,7 +18,7 @@ type Props = {
   actionType?: ActionAdminEnum;
 };
 
-function FormAddStafAdmin({ setShow, initialData, actionType }: Props) {
+function FormAddStaffAdmin({ setShow, initialData, actionType }: Props) {
   const [animationClass, setAnimationClass] = useState("modal-enter");
 
   const handleClose = () => {
@@ -84,14 +81,14 @@ function FormAddStafAdmin({ setShow, initialData, actionType }: Props) {
   const isDisable = actionType === ActionAdminEnum.DELETE || actionType === ActionAdminEnum.VIEW;
   return (
     <div className="fixed top-0 left-0 right-0 bottom-0 w-screen h-screen bg-[rgba(0,0,0,0.5)] flex justify-center items-center z-50">
-      <div className={`bg-white w-4/5 p-5 rounded-md flex flex-col ${animationClass}`}>
+      <div className={`bg-white w-4/5 px-5 py-2 rounded-md flex flex-col h-[500px] ${animationClass}`}>
         <div className="border-b pb-3">
           <h1 className="text-center uppercase">{actionType === "add" ? "Thêm tài khoản mới" : actionType === "edit" ? "Sửa tài khoản" : "Xóa tài khoản"}</h1>
         </div>
         <form onSubmit={handleSubmit(onSubmit)} className="grid grid-cols-2 gap-2 grid-rows-4 mt-8 flex-1 overflow-hidden">
           <div className="flex flex-col gap-2">
-            <div className="w-8 h-full">
-              <ImageLazy className="rounded-full" src={assets.noAvatar} alt="no-avatar" />
+            <div className="w-20 h-20">
+              <img className="rounded-full" src={assets.noAvatar} alt="no-avatar" />
             </div>
           </div>
           <div className="flex flex-col gap-2">
@@ -193,4 +190,4 @@ function FormAddStafAdmin({ setShow, initialData, actionType }: Props) {
   );
 }
 
-export default FormAddStafAdmin;
+export default FormAddStaffAdmin;

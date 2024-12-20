@@ -1,9 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { ProductsType } from "types";
+import { CategoryType } from "./type";
 import {
   createProductThunk,
   deleteProductThunk,
   editProductThunk,
+  getCategoryProductThunk,
   getHotProducts,
   getInFoProducts,
   getProductNews,
@@ -29,6 +31,10 @@ export interface ProductStateType {
     totalPage: number;
     products: ProductsType[];
   };
+  categoryProduct?: {
+    loading: boolean;
+    data: CategoryType[];
+  };
   error: string;
 }
 
@@ -52,6 +58,10 @@ const initialState: ProductStateType = {
   infoProduct: undefined,
   productRandom: [],
   error: "",
+  categoryProduct: {
+    loading: false,
+    data: [],
+  },
 };
 
 const productSlice = createSlice({
@@ -154,7 +164,20 @@ const productSlice = createSlice({
       .addCase(editProductThunk.rejected, (state) => {
         setIsLoading(state, false);
       });
+    builder
+      .addCase(getCategoryProductThunk.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getCategoryProductThunk.fulfilled, (state, action) => {
+        setIsLoading(state, false);
+        state.categoryProduct = {
+          loading: true,
+          data: action.payload,
+        };
+      })
+      .addCase(getCategoryProductThunk.rejected, (state) => {
+        setIsLoading(state, false);
+      });
   },
 });
-
 export default productSlice.reducer;

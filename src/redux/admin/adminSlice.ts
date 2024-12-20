@@ -1,11 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getRemenueThunk, getStaticticalThunk } from "./adminThunk";
+import { createBannerThunk, deleteBannersThunk, getRemenueThunk, getStaticticalThunk } from "./adminThunk";
 import { InitialStateAdminType } from "./type";
 
 const initialState: InitialStateAdminType = {
   loadingRemenue: false,
   remenueData: [],
   statisticalData: undefined,
+  loadingBanner: false,
 };
 const adminSlice = createSlice({
   name: "admin",
@@ -35,6 +36,26 @@ const adminSlice = createSlice({
       .addCase(getStaticticalThunk.rejected, (state) => {
         state.loadingRemenue = false;
         state.statisticalData = undefined;
+      });
+    build
+      .addCase(createBannerThunk.pending, (state) => {
+        state.loadingBanner = true;
+      })
+      .addCase(createBannerThunk.fulfilled, (state) => {
+        state.loadingBanner = false;
+      })
+      .addCase(createBannerThunk.rejected, (state) => {
+        state.loadingBanner = false;
+      });
+    build
+      .addCase(deleteBannersThunk.pending, (state) => {
+        state.loadingBanner = true;
+      })
+      .addCase(deleteBannersThunk.fulfilled, (state) => {
+        state.loadingBanner = false;
+      })
+      .addCase(deleteBannersThunk.rejected, (state) => {
+        state.loadingBanner = false;
       });
   },
 });

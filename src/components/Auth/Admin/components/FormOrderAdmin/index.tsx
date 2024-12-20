@@ -3,20 +3,25 @@ import Button from "customs/Button";
 import TitleProfile from "customs/TitleProfile";
 import { TrashIcon } from "@heroicons/react/24/outline";
 import { useAppDispatch, useAppSelector } from "hooks/useAppDispatch";
-import { getDetailBillByIdBillThunk } from "redux/order/orderThunk";
+import { getDetailBillByIdBillThunk, updateStatusOrderThunk } from "redux/order/orderThunk";
 import { isEmpty } from "utils";
 import formatVND from "utils/formatVND";
 import loadingMin from "assets/loading_min.svg";
+import { getAllBillThunk } from "redux/bill/billThunk";
+import useGetSearchParams from "hooks/useGetSearchParams";
+import { toastifySuccess } from "utils/toastify";
 type Props = {
   setShow: (show: boolean) => void;
   currentOrderDetail: any;
 };
-export const statusOrder = ["Chờ xử lý", "Chờ giao hàng", "Đang giao hàng", "Đã giao hàng", "Đã hủy"];
-const nextStatus = ["Xác nhận đơn hàng", "Xác nhận giao hàng"];
+export const statusOrder = ["Chờ xác nhận", "Chờ lấy hàng", "Đang giao hàng", "Đã giao hàng", "Đã hủy"];
+const nextStatus = ["Xác nhận đơn hàng", "Xác nhận đã gửi hàng", "Xác nhận đã giao hàng", "Đã giao"];
 
 function FormOrderAdmin({ setShow, currentOrderDetail }: Props) {
   const [animationClass, setAnimationClass] = useState("modal-enter");
+  const page = useGetSearchParams(["page"]).page || 1;
   const { detailBill, loadingBillDetail } = useAppSelector((state) => state.order);
+  const { infoUser } = useAppSelector((state) => state.auth);
   const dispatch = useAppDispatch();
   const handleClose = () => {
     setAnimationClass("modal-exit");
@@ -26,9 +31,17 @@ function FormOrderAdmin({ setShow, currentOrderDetail }: Props) {
     dispatch(getDetailBillByIdBillThunk(currentOrderDetail.id));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentOrderDetail.id]);
+  const callBack = () => {
+    setShow(false);
+    dispatch(getAllBillThunk({ query: "", page, item: 5 }));
+    toastifySuccess("Cập nhật thành công!");
+  };
+  const handleUpdateStatus = () => {
+    dispatch(updateStatusOrderThunk({ email: infoUser.email, status: currentOrderDetail.status + 1, id: currentOrderDetail.id, callBack }));
+  };
   return (
     <div className={`fixed left-0 right-0 top-0 bottom-0 bg-[rgba(0,0,0,0.5)] flex justify-center items-center transition-all duration-300`}>
-      <div className={`bg-white p-5 mx-20 rounded ${animationClass}`}>
+      <div className={`bg-white px-5 py-1 mx-20 rounded ${animationClass}`}>
         <TitleProfile title="Chi tiết đơn hàng" center={true} />
         <div>
           <div className="flex gap-12">
@@ -95,7 +108,12 @@ function FormOrderAdmin({ setShow, currentOrderDetail }: Props) {
             </div>
           </div>
           <div className="flex items-center gap-5">
-            <Button width="auto" className="px-5 py-2 bg-colorPrimary rounded-sm text-white" onClick={handleClose}>
+            <Button
+              width="auto"
+              disabled={currentOrderDetail.status >= 3}
+              className={`px-5 py-2 ${currentOrderDetail.status >= 3 ? "bg-gray-400" : "bg-colorPrimary"} rounded-sm text-white`}
+              onClick={handleUpdateStatus}
+            >
               {nextStatus[currentOrderDetail.status]}
             </Button>
             <Button width="auto" className="px-5 py-2 bg-corlorButton rounded-sm text-white" onClick={handleClose}>

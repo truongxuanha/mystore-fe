@@ -1,11 +1,12 @@
-import { ChevronRightIcon } from "@heroicons/react/24/outline";
+import { Bars3Icon, ChevronRightIcon } from "@heroicons/react/24/outline";
 import { assets } from "assets";
-import ImageLazy from "customs/ImageLazy";
 import { menuSideBar } from "helpers/SidebarAdmin";
 import { useAppSelector } from "hooks/useAppDispatch";
-import React from "react";
+import { ArrowLeft } from "lucide-react";
+import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { AccountTypeEnum } from "types";
+import { ContainerSidebar } from "./styled";
 
 type MenuItem = {
   id: string;
@@ -13,51 +14,60 @@ type MenuItem = {
   path: string;
 };
 
-// type SidebarProps = {
-//   menuSidebar: MenuItem[];
-// };
 type MenuItemProps = {
   title: string;
   url: string;
   activeTab: boolean;
   icon: string;
   active: string;
+  show: boolean;
 };
 const Sidebar = () => {
   const location = useLocation();
   const { currentUser } = useAppSelector((state) => state.auth);
+  const [show, setShow] = useState(false);
   const handleActive = (url: string): boolean => {
     return location.pathname.split("/").includes(url);
   };
   return (
-    <div className="w-[350px] bg-[#19163A] pt-5 h-full flex flex-col items-center fixed">
-      <div className="flex flex-col items-center border-b w-full pb-5">
-        <div className="w-24 h-24 bg-gray-300 rounded-full">
-          <ImageLazy className="rounded-full" src={currentUser?.user.avatar ?? assets.noAvatar} alt="avatar" />
+    <ContainerSidebar $expanded={show} className="pt-5 flex flex-col transition-all duration-300 items-center relative border-r">
+      {show && (
+        <div className="w-6 h-6 rounded-full flex justify-center items-center absolute right-2" onClick={() => setShow(false)}>
+          <ArrowLeft width={20} height={20} color="black" />
         </div>
-        <h2 className="text-white text-lg mt-4">{currentUser?.user.account_name}</h2>
-        <span className="text-red-400 text-sm">o {currentUser?.user.permission === AccountTypeEnum.ADMIN ? "Quản lý" : "Nhân viên"}</span>
+      )}
+      <div className="flex flex-col items-center border-b w-full pb-5 min-h-[125px]">
+        {!show && <Bars3Icon width={30} height={30} color="blue" onClick={() => setShow(true)} />}
+        {show && (
+          <>
+            <div className="w-10 h-10  rounded-full">
+              <img className="rounded-full" src={currentUser?.user.avatar ?? assets.noAvatar} alt="avatar" />
+            </div>
+            <h2 className=" text-lg mt-4">{currentUser?.user.account_name}</h2>
+            <span className="text-red-400 text-sm">o {currentUser?.user.permission === AccountTypeEnum.ADMIN ? "Quản lý" : "Nhân viên"}</span>
+          </>
+        )}
       </div>
-      <ul className="w-full grid grid-rows-10 p-4">
+      <ul className="w-full flex flex-col">
         {menuSideBar.map((item) => (
-          <MenuItem key={item.id} title={item.title} url={item.path} activeTab={handleActive(item.path)} icon={item.icon} active={item.active} />
+          <MenuItem key={item.id} show={show} title={item.title} url={item.path} activeTab={handleActive(item.path)} icon={item.icon} active={item.active} />
         ))}
       </ul>
-    </div>
+    </ContainerSidebar>
   );
 };
 
-const MenuItem: React.FC<MenuItemProps> = ({ title, url, activeTab, icon, active }) => {
+const MenuItem: React.FC<MenuItemProps> = ({ title, url, activeTab, icon, active, show }) => {
   return (
     <Link
       to={url}
-      className={`flex items-center justify-between p-3  w-full transition-all duration-300 ${activeTab ? "bg-white text-black" : "text-white"} rounded-md cursor-pointer transition-colors`}
+      className={`flex items-center justify-between p-2 text-xs w-full transition-all duration-300 ${activeTab ? "bg-blue-500 text-black" : ""} rounded-md cursor-pointer transition-colors`}
     >
-      <div className="flex gap-2 px-2">
+      <div className={`flex justify-center items-center gap-2 px-2 ${show ? "" : "w-full"}`}>
         <img className="w-5" src={activeTab ? active : icon} />
-        <span>{title}</span>
+        {show && <span className="text-nowrap">{title}</span>}
       </div>
-      <ChevronRightIcon width={16} height={16} />
+      {show && <ChevronRightIcon width={10} height={10} />}
     </Link>
   );
 };

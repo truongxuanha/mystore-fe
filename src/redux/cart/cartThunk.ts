@@ -20,7 +20,7 @@ export const postCreateCart = createAsyncThunk("cart/postCreateCart", async ({ p
 
 export const getProductByAccount = createAsyncThunk("cart/getProductByAccount", async (_, { rejectWithValue }) => {
   try {
-    const response = await axiosInstance.get("/cart/get-by-account");
+    const response = await axiosInstance.get("/cart/my-shopping-cart");
     return response.data.data;
   } catch (err) {
     return rejectWithValue(err);

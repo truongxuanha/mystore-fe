@@ -1,6 +1,6 @@
 import { InitOrder, ParamsOrderDetailBill } from "../../types/order.type";
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { createDetailBillApi, createNewOrder, getBillByAccountApi, getDetailBillByIdApi } from "./api";
+import { createDetailBillApi, createNewOrder, getBillByAccountApi, getDetailBillByIdApi, updateStatusOrderApi } from "./api";
 import { toastifySuccess, toastifyWarning } from "utils/toastify";
 
 export const createOrderThunk = createAsyncThunk("order/createOrderNow", async ({ id_address, total_amount_order }: InitOrder, {}) => {
@@ -38,3 +38,16 @@ export const getBillByAccountThunk = createAsyncThunk("order/getBillByAccount", 
     return res;
   } catch (err) {}
 });
+
+export const updateStatusOrderThunk = createAsyncThunk(
+  "order/updateStatusOrder",
+  async ({ email, status, id, callBack }: { email: string; status: number; id: number; callBack: any }) => {
+    try {
+      const res = await updateStatusOrderApi({ email, status, id });
+      callBack();
+      return res;
+    } catch (err) {
+      toastifyWarning("Cập nhật đơn hàng thất bại!");
+    }
+  },
+);

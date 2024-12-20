@@ -46,41 +46,38 @@ function CartItem(props: Props) {
   };
 
   return (
-    <div className="grid grid-cols-12 min-w-[1200px] p-5 place-items-center gap-x-3">
+    <div className="grid grid-cols-12 min-w-[1200px] p-5 place-items-center bg-white my-2">
       <div className="col-span-1">
         <Input type="checkbox" checked={isSelected} onChange={handleCheckboxChange} />
       </div>
-      <div className="col-span-2">
-        <img src={thumbnail} className="border rounded-md" />
+      <div className="col-span-1">
+        <img src={thumbnail} className="w-20 h-20 object-contain" />
       </div>
-      <div className="col-span-2">
+      <div className="col-span-2 uppercase text-sm">
         <Link to={`/product/${slug}?product_id=${props.id_product}`} className="text-xs sm:text-sm hover:underline">
           {product_name}
         </Link>
       </div>
       <div className="col-span-1"></div>
+      <div className="col-span-1"></div>
       <div className="col-span-1">
-        <span className="text-[11px] sm:text-xs md:text-sm">{formatVND(priceAfterDiscount, 0)}</span>
+        <span className="text-sm">{formatVND(priceAfterDiscount, 0)}</span>
       </div>
-      <div className="col-span-2 flex items-center">
-        <Button
-          type="button"
-          className="h-4 w-4 md:h-5 md:w-5 rounded-md border bg-gray-100 hover:bg-gray-200"
-          onClick={() => updateQuantity(idItemCart, quantity - 1, quantity > 1)}
-        >
-          <MinusIcon className="w-3 h-3 md:w-5 md:h-3" />
+      <div className="col-span-2 flex items-center border h-8">
+        <Button type="button" className="h-full border-0 border-r hover:bg-gray-200" onClick={() => updateQuantity(idItemCart, quantity - 1, quantity > 1)}>
+          <MinusIcon className="w-8 h-4" />
         </Button>
         <input type="text" disabled value={quantity} className="w-10 text-center bg-transparent text-xs md:text-sm font-medium text-gray-900 outline-none" />
         <Button
           type="button"
-          className="h-4 w-4 md:h-5 md:w-5 rounded-md border bg-gray-100 hover:bg-gray-200"
+          className="h-full border-0 border-l hover:bg-gray-200"
           onClick={() => updateQuantity(idItemCart, quantity + 1, quantity < total_quantity)}
         >
-          <PlusIcon className="w-3 h-3 md:w-5 md:h-3" />
+          <PlusIcon className="w-8 h-4" />
         </Button>
       </div>
-      <div className="col-span-1">{formatVND(priceAfterDiscount * quantity, discount)}</div>
-      <div className="col-span-1 mx-auto flex flex-col">
+      <div className="col-span-1 text-sm text-red-500">{formatVND(priceAfterDiscount * quantity, discount)}</div>
+      <div className="col-span-2 mx-auto flex flex-col hover:text-red-500">
         <span className="block w-9 cursor-pointer" onClick={() => deleteItemCart(idItemCart)}>
           Xóa
         </span>

@@ -45,3 +45,14 @@ export async function getBillByAccountApi(status: string | number = "all") {
     throw err;
   }
 }
+///v1/bill/110/update-status
+
+export async function updateStatusOrderApi({ confirmAt, email, status, id }: { confirmAt?: any; id: number; email: string; status: number }) {
+  try {
+    const res = await axiosInstance.put(`/bill/${id}/update-status`, { confirmAt, email, status });
+    if (!res.data.success) throw new Error(res.data.data);
+    return res.data.data;
+  } catch (err) {
+    throw err;
+  }
+}

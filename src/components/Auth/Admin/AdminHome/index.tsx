@@ -2,13 +2,9 @@ import LineChar from "../components/LineChar";
 import { useEffect, useState } from "react";
 import { BuildingStorefrontIcon, ClipboardDocumentListIcon, ClockIcon, UserPlusIcon } from "@heroicons/react/24/outline";
 import { useAppDispatch, useAppSelector } from "hooks/useAppDispatch";
-import { authCustomer } from "redux/auth/authThunk";
-import { getProducts } from "redux/product/productThunk";
-import Breadcrumd from "customs/Breacrumb";
 import { getRemenueThunk, getStaticticalThunk } from "redux/admin/adminThunk";
 import formatVND from "utils/formatVND";
 import { isEmpty } from "utils";
-import { RemenueType } from "redux/admin/type";
 
 const AdminHome = () => {
   const dispatch = useAppDispatch();
@@ -53,7 +49,7 @@ const AdminHome = () => {
 
   return (
     <div className="col-span-4 xl:col-span-5">
-      <Breadcrumd page="Quản trị" breadcrumbs={[{ urlLink: "/", title: "Trang chủ" }]} />
+      <div className="text-center font-bold text-2xl">Quản trị</div>
       <div className="m-2">
         <div className="mt-5 flex justify-center">
           {items.map((item, idx) => (

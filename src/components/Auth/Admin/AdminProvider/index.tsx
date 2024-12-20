@@ -86,36 +86,34 @@ function AdminProvider() {
 
   return (
     <div className="px-3 bg-white">
-      <div>
-        <div className="flex justify-between mt-2 bg-colorBody p-4">
-          <div className="flex bg-white items-center h-10 w-80 border border-corlorBorder">
-            <Input type="search" placeholder="Tìm kiếm..." className="h-full px-2 flex-1" onChange={handleChange} />
-            <span onClick={handleSearch} className="bg-colorPrimary h-full flex items-center px-3 cursor-pointer">
-              <MagnifyingGlassIcon width={25} height={25} className="text-white" />
-            </span>
-          </div>
-          <div className="flex gap-2 items-center">
-            <select className="h-8 px-4">
-              {option.map((opt) => (
-                <option key={opt.option_id} value={opt.value}>
-                  {opt.title}
-                </option>
-              ))}
-            </select>
-            <button onClick={() => handleAdd()} className="bg-colorPrimary px-5 h-8">
-              <PlusIcon className="w-5 h-5 text-white" />
-            </button>
-          </div>
+      <div className="flex justify-between mt-2 bg-colorBody p-4">
+        <div className="flex bg-white items-center h-10 w-80 border border-corlorBorder">
+          <Input type="search" placeholder="Tìm kiếm..." className="h-full px-2 flex-1" onChange={handleChange} />
+          <span onClick={handleSearch} className="bg-colorPrimary h-full flex items-center px-3 cursor-pointer">
+            <MagnifyingGlassIcon width={25} height={25} className="text-white" />
+          </span>
         </div>
-        <div className="my-5">
-          <Table
-            columns={columns}
-            rows={rowProduct}
-            operations={(id: number | string) => <ButtonAction id={id} onEdit={handleEdit} onDelete={handleDelete} onView={handleView} />}
-          />
-          <Pagination totalPage={totalPage} currentPage={1} />
-          {show && <FormAddProductAdmin actionType={actionType} setShow={setShow} initialData={currentProduct} />}
+        <div className="flex gap-2 items-center">
+          <select className="h-8 px-4">
+            {option.map((opt) => (
+              <option key={opt.option_id} value={opt.value}>
+                {opt.title}
+              </option>
+            ))}
+          </select>
+          <button onClick={() => handleAdd()} className="bg-colorPrimary px-5 h-8">
+            <PlusIcon className="w-5 h-5 text-white" />
+          </button>
         </div>
+      </div>
+      <div className="my-5">
+        <Table
+          columns={columns}
+          rows={rowProduct}
+          operations={(id: number | string) => <ButtonAction id={id} onEdit={handleEdit} onDelete={handleDelete} onView={handleView} />}
+        />
+        <Pagination totalPage={totalPage} currentPage={1} />
+        {show && <FormAddProductAdmin actionType={actionType} setShow={setShow} initialData={currentProduct} />}
       </div>
     </div>
   );

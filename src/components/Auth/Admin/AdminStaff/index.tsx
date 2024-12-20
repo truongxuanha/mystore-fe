@@ -2,7 +2,6 @@ import { useAppDispatch, useAppSelector } from "../../../../hooks/useAppDispatch
 import { Input } from "@headlessui/react";
 import Table from "../../../../customs/Table";
 import { useEffect, useState } from "react";
-import FormAddStafAdmin from "../components/FormAddStaffAdmin";
 import Pagination from "../../../../customs/Pagination";
 import { useSearchParams } from "react-router-dom";
 import { AccountTypeEnum, PAGE } from "../../../../types";
@@ -11,6 +10,7 @@ import ButtonAction from "../../../../customs/ButtonAction";
 import { authGetAllAccount } from "../../../../redux/auth/authThunk";
 import { ActionAdminEnum } from "../../../../types/admin.type";
 import { texts } from "libs/contains/texts";
+import FormAddStaffAdmin from "../components/FormAddStaffAdmin";
 
 function AdminStaff() {
   const { all_accounts, totalAccount } = useAppSelector((state) => state.auth);
@@ -85,12 +85,12 @@ function AdminStaff() {
   ];
 
   return (
-    <div className="flex-1 bg-white">
+    <div className="bg-white">
       <div className="flex justify-between mt-2 bg-colorBody p-4">
-        <div className="flex bg-white items-center h-10 w-80 border border-corlorBorder">
+        <div className="flex bg-white items-center h-8 w-80 border border-blue-300">
           <Input type="search" placeholder="Tìm kiếm..." className="h-full px-2 flex-1" />
-          <span className="bg-colorPrimary h-full flex items-center px-3 cursor-pointer">
-            <MagnifyingGlassIcon width={25} height={25} className="text-white" />
+          <span className="h-full flex items-center px-3 cursor-pointer bg-blue-500 ">
+            <MagnifyingGlassIcon width={20} height={20} />
           </span>
         </div>
         <div className="flex gap-2 items-center">
@@ -101,8 +101,9 @@ function AdminStaff() {
               </option>
             ))}
           </select>
-          <button onClick={() => handleAdd()} className="bg-colorPrimary px-5 h-8">
-            <PlusIcon width={30} height={30} className="text-white" />
+          <button onClick={() => handleAdd()} className="bg-blue-500 px-3 h-8 rounded-sm flex items-center text-white">
+            <PlusIcon width={20} height={20} color="white" />
+            <span>Thêm mới</span>
           </button>
         </div>
       </div>
@@ -114,7 +115,7 @@ function AdminStaff() {
         />
       </div>
       {totalAccount > 1 && <Pagination currentPage={currentPage} totalPage={totalAccount} />}
-      {show && <FormAddStafAdmin initialData={currentStaff} actionType={actionType} setShow={setShow} />}
+      {show && <FormAddStaffAdmin initialData={currentStaff} actionType={actionType} setShow={setShow} />}
     </div>
   );
 }

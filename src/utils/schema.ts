@@ -117,4 +117,18 @@ const schemaChangePassword = yup.object().shape({
     .required("Vui lòng nhập lại mật khẩu.")
     .oneOf([yup.ref("newpass"), ""], "Mật khẩu xác nhận không khớp."),
 });
-export { schemaRegister, schemaLogin, schemaProduct, schemaRegisterUser, schemaForpassEmail, schemaOtp, schemaChangePassword, schemaResetPassword };
+
+const schemaCreateBanner = yup.object().shape({
+  path: yup.string(),
+});
+export {
+  schemaRegister,
+  schemaCreateBanner,
+  schemaLogin,
+  schemaProduct,
+  schemaRegisterUser,
+  schemaForpassEmail,
+  schemaOtp,
+  schemaChangePassword,
+  schemaResetPassword,
+};

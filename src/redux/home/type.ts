@@ -10,8 +10,3 @@ export type SalePopupType = {
   popup_img: string;
   url_transit: string;
 };
-
-export type BannerCreateType = {
-  image: any;
-  path: string;
-};

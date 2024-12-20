@@ -36,7 +36,13 @@ export type CreateProductType = {
   thumbnail?: string;
   description: string;
   other_discount: number;
+  callBack?: any;
 };
 export type EditProductType = {
   product_id: number;
 } & CreateProductType;
+
+export type CategoryType = {
+  category_id: number;
+  name: string;
+};

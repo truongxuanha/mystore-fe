@@ -22,7 +22,7 @@ type Props = {
 };
 
 function FormAddProductAdmin({ setShow, initialData, actionType }: Props) {
-  const { manuItems, error } = useAppSelector((state) => state.manufacturer);
+  const { manuItems } = useAppSelector((state) => state.manufacturer);
   const [animationClass, setAnimationClass] = useState("modal-enter");
 
   const handleClose = () => {
@@ -55,18 +55,16 @@ function FormAddProductAdmin({ setShow, initialData, actionType }: Props) {
   useEffect(() => {
     dispatch(getManuThunk());
   }, [dispatch]);
+  const callBackCreate = () => {
+    dispatch(getProducts({ currentPage: page, itemsPerPage: 5 }));
+    toastifySuccess(texts.errors.ADD_PRODUCT_SUCCESS);
+  };
 
   const onSubmit: SubmitHandler<CreateProductType> = async (formValue) => {
     let resultsAction;
     if (actionType === ActionAdminEnum.ADD) {
       formValue.thumbnail = previewImage;
-      resultsAction = await dispatch(createProductThunk(formValue));
-      if (createProductThunk.rejected.match(resultsAction)) {
-        toastifyWarning(error || texts.errors.ADD_PRODUCT_FAILED);
-        return;
-      }
-      dispatch(getProducts({}));
-      toastifySuccess(texts.errors.ADD_PRODUCT_SUCCESS);
+      resultsAction = await dispatch(createProductThunk({ ...formValue, callBack: callBackCreate }));
     } else if (actionType === ActionAdminEnum.EDIT) {
       formValue.thumbnail = previewImage;
       const updatedData = {
@@ -99,7 +97,7 @@ function FormAddProductAdmin({ setShow, initialData, actionType }: Props) {
   const isDisable = actionType === ActionAdminEnum.DELETE || actionType === ActionAdminEnum.VIEW;
   return (
     <div className="fixed top-0 left-0 right-0 bottom-0  bg-[rgba(0,0,0,0.5)] flex justify-center items-center z-50">
-      <div className={`bg-white w-4/5 p-5 rounded-md flex flex-col ${animationClass}`}>
+      <div className={`bg-white w-4/5 px-5 py-2 rounded-md flex flex-col ${animationClass}`}>
         <div className="border-b pb-3">
           <h1 className="text-center uppercase">
             {actionType === "add" ? "Thêm sán phẩm mới mới" : actionType === "edit" ? "Sửa thông tin sản phẩm" : "Xóa sản phẩm"}

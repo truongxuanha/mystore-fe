@@ -85,8 +85,8 @@ function AdminCustomer() {
   ];
 
   return (
-    <div className="flex-1 bg-white">
-      <div className="flex justify-between my-2 bg-colorBody shadow-md p-4">
+    <div className="bg-white">
+      <div className="flex justify-between my-2 bg-colorBody shadow p-4">
         <div className="flex bg-white items-center h-10 w-80 border border-corlorBorder">
           <Input type="search" placeholder="Tìm kiếm..." className="h-full px-2 flex-1" />
           <span className="bg-colorPrimary h-full flex items-center px-3 cursor-pointer">
@@ -106,7 +106,7 @@ function AdminCustomer() {
           </button>
         </div>
       </div>
-      <div className="mt-5 px-4">
+      <div className="mt-5 px-2">
         <Table
           rows={rowCustomer}
           columns={columns}

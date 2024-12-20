@@ -49,7 +49,7 @@ const Profile: React.FC = () => {
   return (
     <div className="bg-gray-100">
       <Breadcrumd page="Tài khoản" breadcrumbs={[{ title: "Trang chủ", urlLink: "/" }]} />
-      <div className="md:flex container mx-auto py-10">
+      <div className="md:flex container mx-auto py-10 lg:px-10">
         <div className="md:w-1/4 p-4">
           <div className="text-center mb-6 flex flex-col items-center">
             <img src={assets.noAvatar} className="w-20 h-20 rounded-full" />

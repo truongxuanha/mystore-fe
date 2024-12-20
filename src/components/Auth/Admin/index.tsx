@@ -6,11 +6,11 @@ import useAuthenticated from "hooks/useAuthenticated";
 function Admin() {
   const { isAdmin } = useAuthenticated();
   return (
-    <div className="flex h-full bg-white">
+    <div className="flex bg-white">
       {isAdmin && (
         <>
           <Sidebar />
-          <div className="ml-[350px] flex flex-col justify-center  flex-1">
+          <div className="flex-1">
             <HeaderAdmin />
             <Outlet />
           </div>

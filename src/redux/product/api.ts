@@ -1,5 +1,5 @@
 import { axiosInstance } from "../../utils/axiosConfig";
-import {  CreateProductType, EditProductType, ProductParaType, ResProductType } from "./type";
+import { CreateProductType, EditProductType, ProductParaType, ResProductType } from "./type";
 import dayjs from "dayjs";
 
 export async function getProduct({ currentPage, itemsPerPage, sort, manufacturer, query }: ProductParaType) {
@@ -50,7 +50,7 @@ export async function getProductNew() {
 
 export async function randomProduct() {
   try {
-    const res: ResProductType = await axiosInstance.get(`product/random`);
+    const res: ResProductType = await axiosInstance.get(`product/product-orther`);
     if (!res.data.status) throw Error("Faill fetch product new!!");
     return res.data;
   } catch (err) {
@@ -89,6 +89,15 @@ export async function cretaeProduct({
 export async function deleteProduct(id: number) {
   try {
     const res = await axiosInstance.delete(`product/${id}/remove`);
+    return res.data;
+  } catch (err) {
+    throw err;
+  }
+}
+
+export async function getCategoryProductApi() {
+  try {
+    const res = await axiosInstance.get(`category-product/category-all`);
     return res.data;
   } catch (err) {
     throw err;

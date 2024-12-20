@@ -10,7 +10,7 @@ import { authGetAddressAcc } from "redux/auth/authThunk";
 import { texts } from "libs/contains/texts";
 import { createOrderDetailBillThunk } from "redux/order/orderThunk";
 import { isEmpty } from "../../utils/index";
-import { toastifyWarning } from "utils/toastify";
+import { toastifySuccess, toastifyWarning } from "utils/toastify";
 import OrderComplete from "./OrderComplete";
 import useGetSearchParams from "hooks/useGetSearchParams";
 import { getProductByAccount } from "redux/cart/cartThunk";
@@ -76,6 +76,7 @@ const OrderView = () => {
 
     if (orderSucces.success) {
       navigate(`/order?bill=${orderSucces.data.billId}&&complete=true`);
+      toastifySuccess("Đặt hàng thành công!");
       dispatch(getProductByAccount());
     }
     setOrderItems([]);

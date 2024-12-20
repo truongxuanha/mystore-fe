@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { createOrderDetailBillThunk, createOrderThunk, getBillByAccountThunk, getDetailBillByIdBillThunk } from "./orderThunk";
+import { createOrderDetailBillThunk, createOrderThunk, getBillByAccountThunk, getDetailBillByIdBillThunk, updateStatusOrderThunk } from "./orderThunk";
 import { BillDetailType, OrderPayloadType, OrderTypeEnum, ProductOrderType } from "./type";
 
 export type IDetailBillProduct = {
@@ -107,6 +107,16 @@ const orderSlice = createSlice({
         state.listOrders = action.payload;
       })
       .addCase(getBillByAccountThunk.rejected, (state) => {
+        state.loadingGetOrder = false;
+      });
+    builder
+      .addCase(updateStatusOrderThunk.pending, (state) => {
+        state.loadingGetOrder = true;
+      })
+      .addCase(updateStatusOrderThunk.fulfilled, (state) => {
+        state.loadingGetOrder = false;
+      })
+      .addCase(updateStatusOrderThunk.rejected, (state) => {
         state.loadingGetOrder = false;
       });
   },

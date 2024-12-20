@@ -64,7 +64,7 @@ export async function getAllCustomer({ ...params }: CustomerParamsType) {
 }
 export async function getAddressUserApi() {
   try {
-    const res = await axiosInstance.get("/address/get-by-account");
+    const res = await axiosInstance.get("/address/address-by-user");
     return res.data.data;
   } catch (err) {
     return err;

@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { BannerType, SalePopupType } from "./type";
-import { deleteBannersThunk, getBannersThunk, getPopupThunk } from "./homeThunk";
+import { getBannersThunk, getPopupThunk } from "./homeThunk";
 
 type InitialStateType = {
   loadingBanner: boolean;
@@ -42,18 +42,7 @@ const homeSlice = createSlice({
       .addCase(getPopupThunk.rejected, (state) => {
         state.loadingPopup = false;
       });
-    builder
-      .addCase(deleteBannersThunk.pending, (state) => {
-        state.loadingBanner = true;
-      })
-      .addCase(deleteBannersThunk.fulfilled, (state) => {
-        state.loadingBanner = false;
-      })
-      .addCase(deleteBannersThunk.rejected, (state) => {
-        state.loadingBanner = false;
-      });
   },
 });
-// export const {  } = homeSlice.actions;
 
 export default homeSlice.reducer;

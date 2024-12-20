@@ -4,8 +4,9 @@ import ImageLazy from "customs/ImageLazy";
 import { useAppDispatch, useAppSelector } from "hooks/useAppDispatch";
 import { texts } from "libs/contains/texts";
 import { useEffect, useState } from "react";
-import { deleteBannersThunk, getBannersThunk } from "redux/home/homeThunk";
+import { getBannersThunk } from "redux/home/homeThunk";
 import FormBanner from "../components/FormBanner";
+import { deleteBannersThunk } from "redux/admin/adminThunk";
 
 function AdminBanner() {
   const { banners } = useAppSelector((state) => state.home);
@@ -15,9 +16,11 @@ function AdminBanner() {
   useEffect(() => {
     dispatch(getBannersThunk());
   }, [dispatch]);
-
+  const callBack = () => {
+    dispatch(getBannersThunk());
+  };
   const handleDelete = (id: string | number) => {
-    dispatch(deleteBannersThunk(id));
+    dispatch(deleteBannersThunk({ id, callBack }));
   };
   return (
     <div className="px-5 flex-1">

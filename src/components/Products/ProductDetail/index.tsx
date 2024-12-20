@@ -10,7 +10,6 @@ import { texts } from "libs/contains/texts";
 import { createCmtByIdProductThunk, getCommentByIdProductThunk } from "redux/comment/commentThunk";
 import RatingComment from "./RatingComment";
 import RenewStarRating from "./RenewStarRating";
-import { Breadcrumb } from "antd";
 import LoadingBlock from "customs/LoadingBlock";
 import InforProduct from "./InforProduct";
 
@@ -35,20 +34,19 @@ const ProductDetail: React.FC = () => {
     setRating(0);
   };
   if (loadingProductDetail && !infoProduct) return <Loader />;
-  const breadcrumbs = [
-    {
-      urlLink: "/",
-      title: "Trang chủ",
-    },
-    {
-      urlLink: "/",
-      title: "Sản phẩm",
-    },
-  ];
+  // const breadcrumbs = [
+  //   {
+  //     urlLink: "/",
+  //     title: "Trang chủ",
+  //   },
+  //   {
+  //     urlLink: "/",
+  //     title: "Sản phẩm",
+  //   },
+  // ];
   return (
     <div className="bg-linear mx-auto">
       <div className="container mt-24">
-        <Breadcrumb items={breadcrumbs} />
         <InforProduct infoProduct={infoProduct} />
         <div className="bg-white p-5 mt-5 ">
           <RenewStarRating id_product={infoProduct.id} />

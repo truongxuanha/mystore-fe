@@ -1,21 +1,13 @@
 const navLink = [
   {
+    id: "home",
     path: "/",
     title: "Trang chủ",
   },
   {
+    id: "product",
     path: "/product?manufacture=all",
     title: "Sản phẩm",
-    subNav: [
-      {
-        path: "/product?manufacture=all",
-        title: "Sản phẩm",
-      },
-      {
-        path: "/product?manufacture=all",
-        title: "Sản phẩm",
-      },
-    ],
   },
   // {
   //   path: "/contact",

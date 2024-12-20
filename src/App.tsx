@@ -22,6 +22,7 @@ import ProtectecRoute from "layouts/ProtectecRoute";
 import AdminHome from "components/Auth/Admin/AdminHome";
 import AdminCustomer from "components/Auth/Admin/AdminCustomer";
 import AdminPopup from "components/Auth/Admin/AdminPopup";
+import AdminCategoryProduct from "components/Auth/Admin/AdminCategoryProduct";
 
 const Home = lazy(() => import("./components/Home"));
 const Cart = lazy(() => import("./components/Carts"));
@@ -184,6 +185,10 @@ const router = createBrowserRouter([
       {
         path: "popup",
         element: <AdminPopup />,
+      },
+      {
+        path: "category-product",
+        element: <AdminCategoryProduct />,
       },
     ],
   },

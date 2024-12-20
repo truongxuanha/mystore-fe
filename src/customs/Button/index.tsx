@@ -29,6 +29,7 @@ function Button({ width = "100%", height = "100%", background, color, img, borde
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
+    borderRadius: "5px",
   };
 
   return (
