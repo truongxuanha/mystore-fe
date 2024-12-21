@@ -27,17 +27,17 @@ function AdminProvider() {
   const [actionType, setActionType] = useState<ActionAdminEnum>();
   const [currentProduct, setCurrentProduct] = useState<any>();
   const page = useGetSearchParams(["page"]).page || 1;
-  const [searchQuery, setSearchQuery] = useState("");
+  // const [searchQuery, setSearchQuery] = useState("");
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const query = e.target.value;
-    setSearchQuery(query);
-  };
+  // const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   const query = e.target.value;
+  //   setSearchQuery(query);
+  // };
 
-  const handleSearch = () => {
-    if (!searchQuery.trim()) return;
-    dispatch(getProducts({ query: searchQuery, itemsPerPage: 5 }));
-  };
+  // const handleSearch = () => {
+  //   if (!searchQuery.trim()) return;
+  //   dispatch(getProducts({ query: searchQuery, itemsPerPage: 5 }));
+  // };
   useEffect(() => {
     dispatch(getAllManuThunk({ query: "", page, item: 5 }));
   }, [dispatch, page]);
@@ -87,10 +87,10 @@ function AdminProvider() {
   return (
     <div className="px-3 bg-white">
       <div className="flex justify-between mt-2 bg-colorBody p-4">
-        <div className="flex bg-white items-center h-10 w-80 border border-corlorBorder">
-          <Input type="search" placeholder="Tìm kiếm..." className="h-full px-2 flex-1" onChange={handleChange} />
-          <span onClick={handleSearch} className="bg-colorPrimary h-full flex items-center px-3 cursor-pointer">
-            <MagnifyingGlassIcon width={25} height={25} className="text-white" />
+        <div className="flex bg-white items-center h-8 w-80 border border-blue-300">
+          <Input type="search" placeholder="Tìm kiếm..." className="h-full px-2 flex-1" />
+          <span className="h-full flex items-center px-3 cursor-pointer bg-blue-500 ">
+            <MagnifyingGlassIcon width={20} height={20} />
           </span>
         </div>
         <div className="flex gap-2 items-center">
