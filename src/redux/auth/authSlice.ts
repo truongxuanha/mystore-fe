@@ -12,6 +12,7 @@ import {
   authResetPasswordThunk,
   authChangeProfileThunk,
   authChangePassThunk,
+  updateUserThunk,
 } from "./authThunk";
 import { IAuthState, UserAccount } from "../../types";
 import { getTokenStorage, getUserStorage, removeUserStorage } from "../../services/storage";
@@ -217,6 +218,16 @@ const authSlice = createSlice({
         state.error = null;
       })
       .addCase(authChangePassThunk.rejected, (state) => {
+        state.loadingChangePass = false;
+      });
+    builder
+      .addCase(updateUserThunk.pending, (state) => {
+        state.loadingChangePass = true;
+      })
+      .addCase(updateUserThunk.fulfilled, (state) => {
+        state.loadingChangePass = false;
+      })
+      .addCase(updateUserThunk.rejected, (state) => {
         state.loadingChangePass = false;
       });
   },

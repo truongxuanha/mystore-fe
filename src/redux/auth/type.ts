@@ -5,6 +5,7 @@ export type InitialLoginState = {
   password: string;
 };
 export type InitialRegisterState = {
+  id: string;
   account_name: string;
   full_name?: string;
   phone: string;
@@ -13,6 +14,8 @@ export type InitialRegisterState = {
   birthday?: any;
   sex?: number;
   permission?: number;
+  status: number;
+  createAt: string;
 };
 export type AddressType = {
   createAt: string;

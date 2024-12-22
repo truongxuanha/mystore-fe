@@ -10,16 +10,45 @@ import {
   getInfo,
   loginUser,
   registerUser,
+  removeAccountApi,
   resetPassword,
+  updateAccountApi,
   verifyOtpApi,
 } from "./api";
 import { AddressType, CustomerParamsType, InitialLoginState, InitialRegisterState } from "./type";
 import { toastifySuccess, toastifyWarning } from "utils/toastify";
 import { UserAccount } from "types";
+import { texts } from "libs/contains/texts";
 
 export const authRegister = createAsyncThunk("auth/authRegister", async (initAccount: InitialRegisterState, { rejectWithValue }) => {
   try {
     const data = await registerUser(initAccount);
+    return data;
+  } catch (error) {
+    let errorMessage = "";
+    if (error instanceof Error) {
+      errorMessage = error.message;
+    }
+    return rejectWithValue(errorMessage);
+  }
+});
+export const updateUserThunk = createAsyncThunk("auth/authUpdateUser", async (ínitAccount: InitialRegisterState, { rejectWithValue }) => {
+  try {
+    const data = await updateAccountApi(ínitAccount);
+    toastifySuccess(texts.errors.EDIT_ACCOUNT_SUCCESS);
+    return data;
+  } catch (error) {
+    let errorMessage = "";
+    if (error instanceof Error) {
+      errorMessage = error.message;
+    }
+    toastifySuccess(texts.errors.EDIT_ACCOUNT_FAILED);
+    return rejectWithValue(errorMessage);
+  }
+});
+export const removeUserThunk = createAsyncThunk("auth/authRemoveUser", async (íd: string, { rejectWithValue }) => {
+  try {
+    const data = await removeAccountApi(íd);
     return data;
   } catch (error) {
     let errorMessage = "";

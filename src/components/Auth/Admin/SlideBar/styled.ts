@@ -7,4 +7,7 @@ export const ContainerSidebar = styled.div<{ $expanded: boolean }>`
   background-color: white;
   height: 100%;
   overflow-x: hidden;
+  .title-sidebar {
+    display: ${(props) => (props.$expanded ? "block" : "none")};
+  }
 `;

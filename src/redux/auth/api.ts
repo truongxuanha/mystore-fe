@@ -5,7 +5,28 @@ import dayjs from "dayjs";
 
 export async function registerUser(initAccount: InitialRegisterState) {
   try {
-    const res = await axiosInstance.post(`account/register`, initAccount);
+    const res = await axiosInstance.post(`account/register`, { ...initAccount, createAt: dayjs() });
+
+    if (!res.data.status) throw new Error(res.data.data);
+    return res.data;
+  } catch (err) {
+    throw err;
+  }
+}
+export async function updateAccountApi(initAccount: InitialRegisterState) {
+  try {
+    const res = await axiosInstance.put(`account/${initAccount.id}/update-by-id`, initAccount);
+
+    if (!res.data.status) throw new Error(res.data.data);
+    return res.data;
+  } catch (err) {
+    throw err;
+  }
+}
+
+export async function removeAccountApi(id: string) {
+  try {
+    const res = await axiosInstance.delete(`account/${id}/remove`);
 
     if (!res.data.status) throw new Error(res.data.data);
     return res.data;

@@ -4,9 +4,9 @@ import { useAppDispatch } from "../../../../../hooks/useAppDispatch";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { toastifySuccess, toastifyWarning } from "../../../../../utils/toastify";
 import { assets } from "../../../../../assets";
-import { schemaRegister } from "../../../../../utils/schema";
+import { schemaUserAdmin } from "../../../../../utils/schema";
 import Button from "../../../../../customs/Button";
-import { authDelete, authRegister, authUpdate } from "../../../../../redux/auth/authThunk";
+import { authRegister, removeUserThunk, updateUserThunk } from "../../../../../redux/auth/authThunk";
 import { InitialRegisterState } from "../../../../../redux/auth/type";
 import { ActionAdminEnum } from "../../../../../types/admin.type";
 import { texts } from "libs/contains/texts";
@@ -19,8 +19,9 @@ type Props = {
 };
 
 function FormAddStaffAdmin({ setShow, initialData, actionType }: Props) {
-  const [animationClass, setAnimationClass] = useState("modal-enter");
+  console.log(actionType);
 
+  const [animationClass, setAnimationClass] = useState("modal-enter");
   const handleClose = () => {
     setAnimationClass("modal-exit");
     setTimeout(() => setShow(false), 300);
@@ -31,8 +32,9 @@ function FormAddStaffAdmin({ setShow, initialData, actionType }: Props) {
     reset,
     formState: { errors },
   } = useForm<InitialRegisterState>({
-    resolver: yupResolver(schemaRegister) as any,
+    resolver: yupResolver(schemaUserAdmin) as any,
     defaultValues: initialData || {
+      id: "",
       account_name: "",
       email: "",
       phone: "",
@@ -41,46 +43,25 @@ function FormAddStaffAdmin({ setShow, initialData, actionType }: Props) {
       full_name: "",
       sex: 0,
       permission: 0,
+      status: 0,
     },
   });
 
   const dispatch = useAppDispatch();
   const onSubmit: SubmitHandler<InitialRegisterState> = async (formValue) => {
-    let resultsAction;
-
     if (actionType === ActionAdminEnum.ADD) {
-      resultsAction = await dispatch(authRegister(formValue));
-      if (authRegister.rejected.match(resultsAction)) {
-        toastifyWarning((resultsAction.payload as string) || texts.errors.ADD_ACCOUNT_FAILED);
-        return;
-      }
-      toastifySuccess(texts.errors.ADD_ACCOUNT_SUCCESS);
+      dispatch(authRegister(formValue));
     } else if (actionType === ActionAdminEnum.EDIT) {
-      const updatedData = {
-        ...initialData,
-        ...formValue,
-      };
-      resultsAction = await dispatch(authUpdate(updatedData));
-      if (authUpdate.rejected.match(resultsAction)) {
-        toastifyWarning((resultsAction.payload as string) || texts.errors.EDIT_ACCOUNT_FAILED);
-        return;
-      }
-      toastifySuccess(texts.errors.EDIT_ACCOUNT_SUCCESS);
+      dispatch(updateUserThunk(formValue));
     } else if (actionType === ActionAdminEnum.DELETE) {
-      resultsAction = await dispatch(authDelete(formValue));
-      if (authDelete.rejected.match(resultsAction)) {
-        toastifyWarning((resultsAction.payload as string) || texts.errors.DELETE_ACCOUNT_FAILED);
-        return;
-      }
-      toastifySuccess(texts.errors.DELETE_ACCOUNT_SUCCESS);
+      dispatch(removeUserThunk(formValue.id));
     }
-
     reset();
     setShow(false);
   };
   const isDisable = actionType === ActionAdminEnum.DELETE || actionType === ActionAdminEnum.VIEW;
   return (
-    <div className="fixed top-0 left-0 right-0 bottom-0 w-screen h-screen bg-[rgba(0,0,0,0.5)] flex justify-center items-center z-50">
+    <div className="fixed top-0 left-0 right-0 bottom-0 w-screen h-screen bg-[rgba(0,0,0,0.5)] flex justify-center items-center z-50 text-[11px]">
       <div className={`bg-white w-4/5 px-5 py-2 rounded-md flex flex-col h-[500px] ${animationClass}`}>
         <div className="border-b pb-3">
           <h1 className="text-center uppercase">{actionType === "add" ? "Thêm tài khoản mới" : actionType === "edit" ? "Sửa tài khoản" : "Xóa tài khoản"}</h1>
@@ -93,29 +74,25 @@ function FormAddStaffAdmin({ setShow, initialData, actionType }: Props) {
           </div>
           <div className="flex flex-col gap-2">
             <label htmlFor="phone">Số điện thoại</label>
-            <Input className="border px-1 py-1 rounded-sm" id="phone" {...register("phone")} disabled={isDisable} />
-            {errors.phone && <span className="text-red-500">{errors.phone.message}</span>}
+            <Input className="border px-1 py-2 rounded-sm" id="phone" {...register("phone")} disabled={isDisable} />
+            {errors.phone && <span className="text-red-500 text-[10px]">{errors.phone.message}</span>}
           </div>
           <div className="flex flex-col gap-2">
-            <label htmlFor="account_name">Tên tài khoản</label>
-            <Input className="border px-1 py-1 rounded-sm" id="account_name" {...register("account_name")} disabled={isDisable} />
-            {errors.account_name && <span className="text-red-500">{errors.account_name.message}</span>}
+            <label htmlFor="id">Mã nhân viên</label>
+            <Input className="border px-1 py-2 rounded-sm" id="id" {...register("id")} disabled={isDisable} />
+            {errors.id && <span className="text-red-500 text-[10px]">{errors.id.message}</span>}
           </div>
           <div className="flex flex-col gap-2">
             <label htmlFor="birthday">Ngày sinh</label>
-            <Input className="border px-1 py-1 rounded-sm" type="date" id="birthday" {...register("birthday")} disabled={isDisable} />
-            {errors.birthday && <span className="text-red-500">{errors.birthday.message?.toString()}</span>}
+            <Input className="border px-1 py-2 rounded-sm" type="date" id="birthday" {...register("birthday")} disabled={isDisable} />
+            {errors.birthday && <span className="text-red-500 text-[10px]">{errors.birthday.message?.toString()}</span>}
           </div>
           <div className="flex flex-col gap-2">
-            <label htmlFor="full_name">Họ và tên</label>
-            <Input className="border px-1 py-1 rounded-sm" id="full_name" {...register("full_name")} disabled={isDisable} />
-            {errors.full_name && <span className="text-red-500">{errors.full_name.message}</span>}
+            <label htmlFor="account_name">Tên tài khoản</label>
+            <Input className="border px-1 py-2 rounded-sm" id="account_name" {...register("account_name")} disabled={isDisable} />
+            {errors.account_name && <span className="text-red-500 text-[10px]">{errors.account_name.message}</span>}
           </div>
-          <div className="flex flex-col gap-2">
-            <label htmlFor="email">Email</label>
-            <Input className="border px-1 py-1 rounded-sm" id="email" {...register("email")} disabled={isDisable} />
-            {errors.email && <span className="text-red-500">{errors.email.message}</span>}
-          </div>
+
           <div className="flex flex-col gap-2">
             <label>Giới tính</label>
             <div className="flex gap-5">
@@ -146,6 +123,11 @@ function FormAddStaffAdmin({ setShow, initialData, actionType }: Props) {
             </div>
           </div>
           <div className="flex flex-col gap-2">
+            <label htmlFor="full_name">Họ và tên</label>
+            <Input className="border px-1 py-2 rounded-sm" id="full_name" {...register("full_name")} disabled={isDisable} />
+            {errors.full_name && <span className="text-red-500 text-[10px]">{errors.full_name.message}</span>}
+          </div>
+          <div className="flex flex-col gap-2">
             <label>Chức vụ</label>
             <div className="flex gap-5">
               <div className="flex gap-2">
@@ -171,6 +153,41 @@ function FormAddStaffAdmin({ setShow, initialData, actionType }: Props) {
                   {...register("permission")}
                 />
                 <label>Nhân viên</label>
+              </div>
+            </div>
+          </div>
+          <div className="flex flex-col gap-2">
+            <label htmlFor="email">Email</label>
+            <Input className="border px-1 py-2 rounded-sm" id="email" {...register("email")} disabled={isDisable} />
+            {errors.email && <span className="text-red-500 text-[10px]">{errors.email.message}</span>}
+          </div>
+
+          <div className="flex flex-col gap-2">
+            <label>Hoạt động</label>
+            <div className="flex gap-5">
+              <div className="flex gap-2">
+                <Input
+                  type="radio"
+                  id="status"
+                  value={0}
+                  className="border rounded-md p-2"
+                  defaultChecked={initialData?.status === 0}
+                  disabled={isDisable && initialData?.status === 1}
+                  {...register("status")}
+                />
+                <label>Bật</label>
+              </div>
+              <div className="flex gap-2">
+                <Input
+                  type="radio"
+                  id="status"
+                  value={1}
+                  className="border rounded-md p-2"
+                  defaultChecked={initialData?.status === 1}
+                  disabled={isDisable && initialData?.status === 0}
+                  {...register("status")}
+                />
+                <label>Tắt</label>
               </div>
             </div>
           </div>

@@ -25,15 +25,15 @@ type MenuItemProps = {
 const Sidebar = () => {
   const location = useLocation();
   const { currentUser } = useAppSelector((state) => state.auth);
-  const [show, setShow] = useState(false);
+  const [show, setShow] = useState(true);
   const handleActive = (url: string): boolean => {
     return location.pathname.split("/").includes(url);
   };
   return (
     <ContainerSidebar $expanded={show} className="pt-5 flex flex-col transition-all duration-300 items-center relative border-r">
       {show && (
-        <div className="w-6 h-6 rounded-full flex justify-center items-center absolute right-2" onClick={() => setShow(false)}>
-          <ArrowLeft width={20} height={20} color="black" />
+        <div className="w-6 h-6 rounded-full flex justify-center items-center absolute right-2 top-1.5" onClick={() => setShow(false)}>
+          <ArrowLeft width={20} height={20} color="blue" />
         </div>
       )}
       <div className="flex flex-col items-center border-b w-full pb-5 min-h-[125px]">
@@ -65,7 +65,7 @@ const MenuItem: React.FC<MenuItemProps> = ({ title, url, activeTab, icon, active
     >
       <div className={`flex justify-center items-center gap-2 px-2 ${show ? "" : "w-full"}`}>
         <img className="w-5" src={activeTab ? active : icon} />
-        {show && <span className="text-nowrap">{title}</span>}
+        <span className={`text-nowrap title-sidebar ${activeTab ? "text-white" : "black"}`}>{title}</span>
       </div>
       {show && <ChevronRightIcon width={10} height={10} />}
     </Link>

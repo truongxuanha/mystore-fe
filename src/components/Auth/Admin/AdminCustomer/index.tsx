@@ -7,13 +7,14 @@ import { useAppDispatch, useAppSelector } from "hooks/useAppDispatch";
 import { ActionAdminEnum } from "types/admin.type";
 import { AccountTypeEnum, PAGE } from "types";
 import { authCustomer } from "redux/auth/authThunk";
-import { MagnifyingGlassIcon, PlusIcon } from "@heroicons/react/24/outline";
+import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import Table from "customs/Table";
 import ButtonAction from "customs/ButtonAction";
 import Pagination from "customs/Pagination";
 
 function AdminCustomer() {
   const { all_customers, totalAccount } = useAppSelector((state) => state.auth);
+
   const [searchParams] = useSearchParams();
   const [selectOption, setSelectOption] = useState("all");
   const currentPage: number = parseInt(searchParams.get(PAGE.page) || "1");
@@ -36,11 +37,7 @@ function AdminCustomer() {
     const acc = all_customers.filter((acc) => acc.id === id);
     setCurrentStaff(acc[0]);
   };
-  const handleAdd = () => {
-    setShow(true);
-    setActionType(ActionAdminEnum.ADD);
-    setCurrentStaff([]);
-  };
+
   const handleDelete = (id: string | number) => {
     setShow(true);
     setActionType(ActionAdminEnum.DELETE);
@@ -101,9 +98,6 @@ function AdminCustomer() {
               </option>
             ))}
           </select>
-          <button onClick={() => handleAdd()} className="bg-colorPrimary px-5 h-10">
-            <PlusIcon width={30} height={30} className="text-white" />
-          </button>
         </div>
       </div>
       <div className="mt-5 px-2">

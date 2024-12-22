@@ -3,7 +3,6 @@ import { useAppDispatch, useAppSelector } from "hooks/useAppDispatch";
 import useGetSearchParams from "hooks/useGetSearchParams";
 import { texts } from "libs/contains/texts";
 import { useEffect, useState } from "react";
-import { getProducts } from "redux/product/productThunk";
 import { ActionAdminEnum } from "types/admin.type";
 import Table from "customs/Table";
 import ButtonAction from "customs/ButtonAction";

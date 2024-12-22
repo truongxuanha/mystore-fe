@@ -5,6 +5,7 @@ import { useAppDispatch, useAppSelector } from "hooks/useAppDispatch";
 import { getRemenueThunk, getStaticticalThunk } from "redux/admin/adminThunk";
 import formatVND from "utils/formatVND";
 import { isEmpty } from "utils";
+import { BodyHomeAdmin, ContainerHomeAdmin, Content, HeaderHomeAdmin, StatisticalItem, TitleStatistical, WrapperStatiscal } from "./styled";
 
 const AdminHome = () => {
   const dispatch = useAppDispatch();
@@ -24,51 +25,60 @@ const AdminHome = () => {
   useEffect(() => {
     dispatch(getRemenueThunk());
   }, [dispatch]);
-  const items: { title: string; image: any; total: number | string }[] = [
+  const items: { title: string; image: any; total: number | string; bg: string }[] = [
     {
       title: "Khách hàng",
-      image: <UserPlusIcon width={20} height={20} className="text-white" />,
+      image: <UserPlusIcon width={30} height={30} fill="white" className="text-white" />,
       total: statisticalData ? statisticalData.total_customers : 0,
+      bg: "#30c2aa",
     },
     {
       title: "Tổng sản phẩm",
-      image: <BuildingStorefrontIcon width={20} height={20} className="text-white" />,
+      image: <BuildingStorefrontIcon width={30} height={30} className="text-white" />,
       total: statisticalData ? statisticalData.total_products : 0,
+      bg: "#ff6801",
     },
     {
       title: "Đơn hàng chờ xử lý",
-      image: <ClockIcon width={20} height={20} className="text-white" />,
+      image: <ClockIcon width={30} height={30} className="text-white" />,
       total: statisticalData?.total_pending_orders ?? 0,
+      bg: "#2f80ed",
     },
     {
       title: "Tổng doanh thu",
-      image: <ClipboardDocumentListIcon width={20} height={20} className="text-white" />,
+      image: <ClipboardDocumentListIcon width={30} height={30} className="text-white" />,
       total: formatVND(statisticalData?.total_monthly_revenue ?? 0),
+      bg: "#fd475a",
     },
   ];
 
   return (
-    <div className="col-span-4 xl:col-span-5">
-      <div className="text-center font-bold text-2xl">Quản trị</div>
-      <div className="m-2">
-        <div className="mt-5 flex justify-center">
+    <ContainerHomeAdmin>
+      <HeaderHomeAdmin className="text-center text-3xl font-medium my-10">Quản trị</HeaderHomeAdmin>
+      <BodyHomeAdmin className="m-2">
+        <WrapperStatiscal>
           {items.map((item, idx) => (
             <Statistical key={idx} {...item} />
           ))}
-        </div>
-        <div className="w-full flex justify-center md:w-2/3 mt-10">
-          <LineChar data={data} dateLine={dateLine} />
-        </div>
-      </div>
-    </div>
+        </WrapperStatiscal>
+        <LineChar data={data} dateLine={dateLine} />
+      </BodyHomeAdmin>
+    </ContainerHomeAdmin>
   );
 };
-const Statistical = ({ title, total }: { title: string; image: any; total: number | string }) => {
+const Statistical = ({ title, total, image, bg }: { title: string; image: any; total: number | string; bg: string }) => {
   return (
-    <div key={title} className="bg-white gap-3 cursor-pointer px-5 border-r">
-      <div>{title}</div>
-      <div className="text-center rounded-lg mt font-bold">{total}</div>
-    </div>
+    <StatisticalItem className="flex items-center gap-5">
+      <div style={{ backgroundColor: bg }} className="h-16 w-16 rounded-full flex items-center justify-center">
+        {image}
+      </div>
+      <div>
+        <TitleStatistical>{title}</TitleStatistical>
+        <Content className="text-center rounded-lg text-xl font-bold" style={{ color: bg }}>
+          {total}
+        </Content>
+      </div>
+    </StatisticalItem>
   );
 };
 export default AdminHome;

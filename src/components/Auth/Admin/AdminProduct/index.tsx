@@ -11,6 +11,7 @@ import FormAddProductAdmin from "../components/FormAddProductAdmin";
 import Pagination from "customs/Pagination";
 import { Input } from "@headlessui/react";
 import useParams from "hooks/useParams";
+import { ITEM_IN_PAGE } from "libs/contains";
 const option = [
   { option_id: 1, title: texts.option_sort.ALL_PRODUCT, value: "all" },
   { option_id: 2, title: texts.option_sort.UP, value: "ASC" },
@@ -34,11 +35,11 @@ function AdminProduct() {
 
   const handleSearch = () => {
     if (!searchQuery.trim()) return;
-    dispatch(getProducts({ query: searchQuery, itemsPerPage: 5 }));
+    dispatch(getProducts({ query: searchQuery, itemsPerPage: ITEM_IN_PAGE }));
     setParams({ search: searchQuery });
   };
   useEffect(() => {
-    dispatch(getProducts({ currentPage: page, itemsPerPage: 5, query: searchQuery ? searchQuery : undefined }));
+    dispatch(getProducts({ currentPage: page, itemsPerPage: ITEM_IN_PAGE, query: searchQuery ? searchQuery : undefined }));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, page]);
   const columns = [

@@ -116,7 +116,7 @@ export const deleteProductThunk = createAsyncThunk("product/deleteProduct", asyn
   }
 });
 
-export const getCategoryProductThunk = createAsyncThunk("product/getCategory", async (_, { rejectWithValue }) => {
+export const getCategoryProductThunk = createAsyncThunk("product/getCategoryProduct", async (_, { rejectWithValue }) => {
   try {
     const data = await getCategoryProductApi();
     return data?.data;

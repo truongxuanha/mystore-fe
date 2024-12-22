@@ -11,6 +11,7 @@ import { authGetAllAccount } from "../../../../redux/auth/authThunk";
 import { ActionAdminEnum } from "../../../../types/admin.type";
 import { texts } from "libs/contains/texts";
 import FormAddStaffAdmin from "../components/FormAddStaffAdmin";
+import { ContainerStaff } from "./styled";
 
 function AdminStaff() {
   const { all_accounts, totalAccount } = useAppSelector((state) => state.auth);
@@ -80,17 +81,17 @@ function AdminStaff() {
 
   const option = [
     { option_id: 1, title: texts.list_staff.ALL_STAFF, value: "all" },
-    { option_id: 2, title: texts.list_staff.MANAGER, value: "0" },
+    { option_id: 2, title: texts.list_staff.MANAGER, value: "1" },
     { option_id: 3, title: texts.list_staff.STAFF, value: "2" },
   ];
 
   return (
-    <div className="bg-white">
+    <ContainerStaff>
       <div className="flex justify-between mt-2 bg-colorBody p-4">
-        <div className="flex bg-white items-center h-8 w-80 border border-blue-300">
+        <div className="flex bg-white items-center h-10 w-80 border border-corlorBorder">
           <Input type="search" placeholder="Tìm kiếm..." className="h-full px-2 flex-1" />
-          <span className="h-full flex items-center px-3 cursor-pointer bg-blue-500 ">
-            <MagnifyingGlassIcon width={20} height={20} />
+          <span className="bg-colorPrimary h-full flex items-center px-3 cursor-pointer">
+            <MagnifyingGlassIcon width={25} height={25} className="text-white" />
           </span>
         </div>
         <div className="flex gap-2 items-center">
@@ -101,7 +102,7 @@ function AdminStaff() {
               </option>
             ))}
           </select>
-          <button onClick={() => handleAdd()} className="bg-blue-500 px-3 h-8 rounded-sm flex items-center text-white">
+          <button onClick={() => handleAdd()} className="bg-colorPrimary px-3 h-10 rounded-sm flex items-center text-white">
             <PlusIcon width={20} height={20} color="white" />
             <span>Thêm mới</span>
           </button>
@@ -116,7 +117,7 @@ function AdminStaff() {
       </div>
       {totalAccount > 1 && <Pagination currentPage={currentPage} totalPage={totalAccount} />}
       {show && <FormAddStaffAdmin initialData={currentStaff} actionType={actionType} setShow={setShow} />}
-    </div>
+    </ContainerStaff>
   );
 }
 
