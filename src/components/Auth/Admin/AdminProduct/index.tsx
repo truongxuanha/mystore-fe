@@ -12,6 +12,7 @@ import Pagination from "customs/Pagination";
 import { Input } from "@headlessui/react";
 import useParams from "hooks/useParams";
 import { ITEM_IN_PAGE } from "libs/contains";
+import FormAddImage from "../components/FormAddImage";
 const option = [
   { option_id: 1, title: texts.option_sort.ALL_PRODUCT, value: "all" },
   { option_id: 2, title: texts.option_sort.UP, value: "ASC" },
@@ -27,7 +28,8 @@ function AdminProduct() {
   const page = useGetSearchParams(["page"]).page || 1;
   const { setParams } = useParams();
   const [searchQuery, setSearchQuery] = useState("");
-
+  const changeInfoProduct =
+    actionType === ActionAdminEnum.ADD || actionType === ActionAdminEnum.EDIT || actionType === ActionAdminEnum.VIEW || actionType === ActionAdminEnum.DELETE;
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const query = e.target.value;
     setSearchQuery(query);
@@ -87,6 +89,12 @@ function AdminProduct() {
     const acc = products.filter((acc) => acc.product_id === id);
     setCurrentProduct(acc[0]);
   };
+  const handleOnChangeImage = (id: number | string) => {
+    setShow(true);
+    setActionType(ActionAdminEnum.CHANGE_IMAGE);
+    const acc = products.filter((acc) => acc.product_id === id);
+    setCurrentProduct(acc[0]);
+  };
   const handleSort = (value: string) => {
     setParams({ sort: value });
     dispatch(getProducts({ currentPage: page, itemsPerPage: 5, query: searchQuery ? searchQuery : undefined, sort: value }));
@@ -117,10 +125,13 @@ function AdminProduct() {
         <Table
           columns={columns}
           rows={rowProduct}
-          operations={(id: number | string) => <ButtonAction id={id} onEdit={handleEdit} onDelete={handleDelete} onView={handleView} />}
+          operations={(id: number | string) => (
+            <ButtonAction id={id} onChangeImage={handleOnChangeImage} onEdit={handleEdit} onDelete={handleDelete} onView={handleView} />
+          )}
         />
         <Pagination totalPage={totalPage} currentPage={1} />
-        {show && <FormAddProductAdmin actionType={actionType} setShow={setShow} initialData={currentProduct} />}
+        {show && changeInfoProduct && <FormAddProductAdmin actionType={actionType} setShow={setShow} initialData={currentProduct} />}
+        {actionType === ActionAdminEnum.CHANGE_IMAGE && <FormAddImage />}
       </div>
     </div>
   );

@@ -2,8 +2,8 @@ import styled from "styled-components";
 export const ContainerHomeAdmin = styled.div``;
 export const WrapperStatiscal = styled.div`
   display: flex;
-  margin: 20px 10px;
-  justify-content: space-between;
+  justify-content: center;
+  gap: 50px;
   margin: 0 50px 50px 50px;
 `;
 export const HeaderHomeAdmin = styled.div`

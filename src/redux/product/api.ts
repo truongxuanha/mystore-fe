@@ -132,3 +132,11 @@ export async function editProduct({
     throw err;
   }
 }
+export async function getImageProductApi(id: number) {
+  try {
+    const res = await axiosInstance.get(`image_description/${id}/get-by-product`);
+    return res.data;
+  } catch (err) {
+    throw err;
+  }
+}

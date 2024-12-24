@@ -6,11 +6,11 @@ import { useEffect, useState } from "react";
 import { ActionAdminEnum } from "types/admin.type";
 import Table from "customs/Table";
 import ButtonAction from "customs/ButtonAction";
-import FormAddProductAdmin from "../components/FormAddProductAdmin";
 import Pagination from "customs/Pagination";
 import { Input } from "@headlessui/react";
 import { getAllManuThunk } from "redux/manufacture/manuThunk";
 import ImageLazy from "customs/ImageLazy";
+import FormProviderAdmin from "../components/FormProvider";
 
 const option = [
   { option_id: 1, title: texts.list_staff.ALL_STAFF, value: "all" },
@@ -22,9 +22,9 @@ function AdminProvider() {
   const dispatch = useAppDispatch();
   const { manufactures, totalPage } = useAppSelector((state) => state.manufacturer);
 
-  const [show, setShow] = useState<boolean>(false);
-  const [actionType, setActionType] = useState<ActionAdminEnum>();
-  const [currentProduct, setCurrentProduct] = useState<any>();
+  // const [show, setShow] = useState<boolean>(false);
+  // const [actionType, setActionType] = useState<ActionAdminEnum>();
+  // const [currentProduct, setCurrentProduct] = useState<any>();
   const page = useGetSearchParams(["page"]).page || 1;
   // const [searchQuery, setSearchQuery] = useState("");
 
@@ -112,7 +112,7 @@ function AdminProvider() {
           operations={(id: number | string) => <ButtonAction id={id} onEdit={handleEdit} onDelete={handleDelete} onView={handleView} />}
         />
         <Pagination totalPage={totalPage} currentPage={1} />
-        {show && <FormAddProductAdmin actionType={actionType} setShow={setShow} initialData={currentProduct} />}
+        <FormProviderAdmin />
       </div>
     </div>
   );

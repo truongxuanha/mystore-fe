@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getAllManuThunk, getManuThunk } from "./manuThunk";
+import { createManufactureThunk, getAllManuThunk, getManuThunk } from "./manuThunk";
 import { ManufactureType } from "./type";
 
 export type InitialStateType = {
@@ -46,6 +46,16 @@ const manuSlice = createSlice({
         state.totalPage = action.payload.totalPage;
       })
       .addCase(getAllManuThunk.rejected, (state) => {
+        state.loading = false;
+      });
+    builder
+      .addCase(createManufactureThunk.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(createManufactureThunk.fulfilled, (state) => {
+        state.loading = false;
+      })
+      .addCase(createManufactureThunk.rejected, (state) => {
         state.loading = false;
       });
   },

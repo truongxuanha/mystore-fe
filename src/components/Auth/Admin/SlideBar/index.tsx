@@ -61,13 +61,13 @@ const MenuItem: React.FC<MenuItemProps> = ({ title, url, activeTab, icon, active
   return (
     <Link
       to={url}
-      className={`flex items-center justify-between p-2 text-xs w-full transition-all duration-300 ${activeTab ? "bg-blue-500 text-black" : ""} rounded-md cursor-pointer transition-colors`}
+      className={`flex items-center justify-between px-2 py-3 text-xs lg:text-sm w-full transition-all duration-300 ${activeTab ? "bg-blue-500 text-black" : ""} rounded-md cursor-pointer transition-colors`}
     >
       <div className={`flex justify-center items-center gap-2 px-2 ${show ? "" : "w-full"}`}>
         <img className="w-5" src={activeTab ? active : icon} />
         <span className={`text-nowrap title-sidebar ${activeTab ? "text-white" : "black"}`}>{title}</span>
       </div>
-      {show && <ChevronRightIcon width={10} height={10} />}
+      {show && <ChevronRightIcon width={13} height={13} color={activeTab ? "white" : "black"} />}
     </Link>
   );
 };

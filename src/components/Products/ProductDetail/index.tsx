@@ -46,7 +46,7 @@ const ProductDetail: React.FC = () => {
   // ];
   return (
     <div className="bg-linear mx-auto">
-      <div className="container mt-24">
+      <div className="container">
         <InforProduct infoProduct={infoProduct} />
         <div className="bg-white p-5 mt-5 ">
           <RenewStarRating id_product={infoProduct.id} />

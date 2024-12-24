@@ -19,23 +19,27 @@ import { AddressType, CustomerParamsType, InitialLoginState, InitialRegisterStat
 import { toastifySuccess, toastifyWarning } from "utils/toastify";
 import { UserAccount } from "types";
 import { texts } from "libs/contains/texts";
+import { CallBackType } from "types/redux.type";
 
-export const authRegister = createAsyncThunk("auth/authRegister", async (initAccount: InitialRegisterState, { rejectWithValue }) => {
+export const authRegister = createAsyncThunk("auth/authRegister", async (payload: InitialRegisterState & CallBackType, { rejectWithValue }) => {
   try {
-    const data = await registerUser(initAccount);
+    const data = await registerUser(payload);
+    payload.callBack();
     return data;
   } catch (error) {
     let errorMessage = "";
     if (error instanceof Error) {
       errorMessage = error.message;
     }
+    toastifyWarning(errorMessage);
     return rejectWithValue(errorMessage);
   }
 });
-export const updateUserThunk = createAsyncThunk("auth/authUpdateUser", async (ínitAccount: InitialRegisterState, { rejectWithValue }) => {
+export const updateUserThunk = createAsyncThunk("auth/authUpdateUser", async (payload: InitialRegisterState & CallBackType, { rejectWithValue }) => {
   try {
-    const data = await updateAccountApi(ínitAccount);
+    const data = await updateAccountApi(payload);
     toastifySuccess(texts.errors.EDIT_ACCOUNT_SUCCESS);
+    payload.callBack();
     return data;
   } catch (error) {
     let errorMessage = "";
@@ -46,9 +50,10 @@ export const updateUserThunk = createAsyncThunk("auth/authUpdateUser", async (í
     return rejectWithValue(errorMessage);
   }
 });
-export const removeUserThunk = createAsyncThunk("auth/authRemoveUser", async (íd: string, { rejectWithValue }) => {
+export const removeUserThunk = createAsyncThunk("auth/authRemoveUser", async ({ id, callBack }: { id: string } & CallBackType, { rejectWithValue }) => {
   try {
-    const data = await removeAccountApi(íd);
+    const data = await removeAccountApi(id);
+    callBack();
     return data;
   } catch (error) {
     let errorMessage = "";

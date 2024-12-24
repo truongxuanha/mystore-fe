@@ -20,8 +20,10 @@ export const postCreateCart = createAsyncThunk("cart/postCreateCart", async ({ p
 
 export const getProductByAccount = createAsyncThunk("cart/getProductByAccount", async (_, { rejectWithValue }) => {
   try {
-    const response = await axiosInstance.get("/cart/my-shopping-cart");
-    return response.data.data;
+    const res = await axiosInstance.get("/cart/my-shopping-cart");
+    if (!res.data.success) throw new Error("Có lỗi xảy ra");
+
+    return res.data.data;
   } catch (err) {
     return rejectWithValue(err);
   }

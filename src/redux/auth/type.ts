@@ -5,7 +5,7 @@ export type InitialLoginState = {
   password: string;
 };
 export type InitialRegisterState = {
-  id: string;
+  id?: string;
   account_name: string;
   full_name?: string;
   phone: string;

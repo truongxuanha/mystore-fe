@@ -39,25 +39,25 @@ const SliderWrapper = styled.div`
 
 const SliderCustom = ({ data, maxItem, loading }: Props) => {
   const PrevArrow = ({ onClick }: any) => (
-    <button className="absolute top-1/2 transform -translate-y-1/2 left-2 z-10 text- rounded-full p-2 shadow" onClick={onClick}>
-      <ChevronLeftIcon className="w-6 h-6" />
+    <button className="absolute top-1/2 transform -translate-y-1/2 left-2 z-10" onClick={onClick}>
+      <ChevronLeftIcon className="w-10 h-10" />
     </button>
   );
 
   const NextArrow = ({ onClick }: any) => (
-    <button className="absolute top-1/2 transform -translate-y-1/2 right-2 z-10 text- rounded-full p-2 shadow" onClick={onClick}>
-      <ChevronRightIcon className="w-6 h-6" />
+    <button className="absolute top-1/2 transform -translate-y-1/2 right-2 z-10" onClick={onClick}>
+      <ChevronRightIcon className="w-10 h-10" />
     </button>
   );
 
   const settings = {
     dots: true,
-    infinite: false,
+    infinite: true,
     speed: 700,
     slidesToShow: maxItem ?? 1,
     slidesToScroll: 1,
     autoplay: true,
-    autoplaySpeed: 2000,
+    autoplaySpeed: 3000,
     arrows: true,
     nextArrow: <NextArrow />,
     prevArrow: <PrevArrow />,

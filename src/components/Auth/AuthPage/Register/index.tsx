@@ -1,6 +1,6 @@
 import { useAppDispatch } from "../../../../hooks/useAppDispatch";
 import { authRegister } from "../../../../redux/auth/authThunk";
-import { toastifySuccess, toastifyWarning } from "../../../../utils/toastify";
+import { toastifySuccess } from "../../../../utils/toastify";
 import { Button, Input } from "@headlessui/react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -35,15 +35,12 @@ export default function Register({ setTab, tab }: Props) {
   function handleShowPass() {
     setShow((show) => !show);
   }
-  const onSubmit: SubmitHandler<InitialRegisterState> = async (formValue) => {
-    const resultsAction = await dispatch(authRegister(formValue));
-
-    if (authRegister.rejected.match(resultsAction)) {
-      toastifyWarning((resultsAction.payload as string) || "Đăng ký không thành công!");
-      return;
-    }
+  const callBack = () => {
     setTab(TabType.LOGIN);
     toastifySuccess("Đăng ký thành công!");
+  };
+  const onSubmit: SubmitHandler<InitialRegisterState> = async (formValue) => {
+    dispatch(authRegister({ ...formValue, callBack }));
   };
 
   return (

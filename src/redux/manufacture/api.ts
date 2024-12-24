@@ -1,6 +1,6 @@
 import { axiosInstance } from "../../utils/axiosConfig";
 
-import { ParamsManuApiType, ResAllMunufacture, ResMunufacture } from "./type";
+import { ParamsManuApiType, ProviderType, ResAllMunufacture, ResMunufacture } from "./type";
 
 export async function getManufacturer() {
   try {
@@ -23,6 +23,24 @@ export async function getAllManufacturerApi({ query, item, page }: ParamsManuApi
     });
     if (!res.data.status) throw new Error("Faill");
     return res.data;
+  } catch (err) {
+    throw err;
+  }
+}
+
+export async function createManufactureApi({ name, phone, img, website }: ProviderType) {
+  try {
+    const res = await axiosInstance.post(
+      "/manufacturer/create",
+      { name, phone, img, website },
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      },
+    );
+    if (!res.data.status) throw new Error("Faill");
+    return res.data.data;
   } catch (err) {
     throw err;
   }

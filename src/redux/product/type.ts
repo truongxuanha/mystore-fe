@@ -46,3 +46,8 @@ export type CategoryType = {
   category_id: number;
   name: string;
 };
+export type ImageProductType = {
+  id: number;
+  id_product: number;
+  path_name: string;
+};

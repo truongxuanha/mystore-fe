@@ -3,4 +3,5 @@ export enum ActionAdminEnum {
   DELETE = "delete",
   ADD = "add",
   VIEW = "view",
+  CHANGE_IMAGE = "change-image",
 }

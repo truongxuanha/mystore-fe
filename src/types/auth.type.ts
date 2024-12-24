@@ -13,7 +13,7 @@ export type UserAccount = {
   sex?: number;
   birthday: string;
   phone: string;
-  permission?: string;
+  permission?: string | number;
   status?: number;
 };
 

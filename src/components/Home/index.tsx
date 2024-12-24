@@ -31,14 +31,14 @@ function Home() {
     dispatch(getPopupThunk());
   }, [dispatch]);
   return (
-    <div className="w-full mx-auto container px-5 lg:px-16">
+    <div className="mx-auto container relative">
       <Banner />
       <HotProducts />
       <ProductNews />
-      <BannerLeft className="fixed">
+      <BannerLeft>
         <img src={assets.bannerLeft} alt="" />
       </BannerLeft>
-      <BannerRight className="fixed">
+      <BannerRight>
         <img src={assets.bannerRight} alt="" />
       </BannerRight>
       {isShow && !!salePopup?.length && (

@@ -38,12 +38,9 @@ body {
   scroll-behavior: smooth !important;
 }
 .container {
-  max-width: 1024px !important;
+  max-width: 1200px !important;
   width: 100%;
-  padding-right: 16px;
-  padding-left: 16px;
   margin: 0 auto;
-  @apply lg:px-16;
 }
 .bg-linear {
   background: linear-gradient(238deg, #faf8f1 0%, #f6f3ef 99.66%);

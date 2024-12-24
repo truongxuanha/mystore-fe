@@ -11,6 +11,7 @@ export async function getAllBill({ query = "", status = "all", page = 1, item = 
   });
   try {
     const res = await axiosInstance.get<ResBillType>(`/bill/get-all${paramQuery}`);
+    if (!res.data.status) throw new Error("Có lỗi xảy ra");
     return res.data;
   } catch (err) {
     throw err;

@@ -5,6 +5,7 @@ import {
   editProduct,
   getCategoryProductApi,
   getHotProduct,
+  getImageProductApi,
   getInFoProduct,
   getProduct,
   getProductNew,
@@ -119,6 +120,15 @@ export const deleteProductThunk = createAsyncThunk("product/deleteProduct", asyn
 export const getCategoryProductThunk = createAsyncThunk("product/getCategoryProduct", async (_, { rejectWithValue }) => {
   try {
     const data = await getCategoryProductApi();
+    return data?.data;
+  } catch (err) {
+    return rejectWithValue(err);
+  }
+});
+
+export const getImageProductThunk = createAsyncThunk("product/getImageProduct", async (id: number, { rejectWithValue }) => {
+  try {
+    const data = await getImageProductApi(id);
     return data?.data;
   } catch (err) {
     return rejectWithValue(err);

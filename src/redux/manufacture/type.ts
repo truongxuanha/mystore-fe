@@ -23,3 +23,9 @@ export type ResAllMunufacture = {
   totalItem: number;
   status: boolean;
 };
+export type ProviderType = {
+  name: string;
+  phone: string;
+  website?: string;
+  img: any;
+};

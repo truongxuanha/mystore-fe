@@ -53,7 +53,7 @@ export async function getAllAccount({ ...params }: CustomerParamsType) {
     const res = await axiosInstance.get("account/get-all", {
       params: { query, sex, page, item, permission },
     });
-
+    if (!res.data.status) throw new Error("Có lỗi xảy ra");
     return res.data;
   } catch (err) {
     throw err;
@@ -77,6 +77,7 @@ export async function getAllCustomer({ ...params }: CustomerParamsType) {
     const res = await axiosInstance.get("account/get-all-customer", {
       params: { query, sex, page, item },
     });
+    if (!res.data.status) throw new Error("Có lỗi xảy ra");
 
     return res.data;
   } catch (err) {

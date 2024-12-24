@@ -94,7 +94,7 @@ const Products: React.FC = () => {
   return (
     <>
       <Breadcrumd breadcrumbs={breacrumb.info} page={breacrumb.page} />
-      <div className="container mx-auto mb-5 lg:px-10 bg-white">
+      <div className="container mx-auto mb-5 bg-white">
         <div className="flex flex-col md:flex-row items-center justify-between mt-5 mb-3">
           <div className="py-2 nav-item font-medium text-xl">Thương Hiệu</div>
           <div className="flex">

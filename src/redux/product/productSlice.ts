@@ -1,12 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { ProductsType } from "types";
-import { CategoryType } from "./type";
+import { CategoryType, ImageProductType } from "./type";
 import {
   createProductThunk,
   deleteProductThunk,
   editProductThunk,
   getCategoryProductThunk,
   getHotProducts,
+  getImageProductThunk,
   getInFoProducts,
   getProductNews,
   getProductRandom,
@@ -35,6 +36,7 @@ export interface ProductStateType {
     loading: boolean;
     data: CategoryType[];
   };
+  imageProduct: ImageProductType[];
   error: string;
 }
 
@@ -62,6 +64,7 @@ const initialState: ProductStateType = {
     loading: false,
     data: [],
   },
+  imageProduct: [],
 };
 
 const productSlice = createSlice({
@@ -176,6 +179,17 @@ const productSlice = createSlice({
         };
       })
       .addCase(getCategoryProductThunk.rejected, (state) => {
+        setIsLoading(state, false);
+      });
+    builder
+      .addCase(getImageProductThunk.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getImageProductThunk.fulfilled, (state, action) => {
+        setIsLoading(state, false);
+        state.imageProduct = action.payload;
+      })
+      .addCase(getImageProductThunk.rejected, (state) => {
         setIsLoading(state, false);
       });
   },

@@ -1,14 +1,15 @@
-import { EyeIcon, PencilSquareIcon, TrashIcon } from "@heroicons/react/24/outline";
+import { EyeIcon, PencilSquareIcon, PhotoIcon, TrashIcon } from "@heroicons/react/24/outline";
 import Button from "../Button";
 
 type ButtonActionProps = {
-  id: string | number;
-  onEdit?: (id: string | number) => void;
-  onDelete?: (id: string | number) => void;
-  onView?: (id: string | number) => void;
+  id: any;
+  onEdit?: (id: any) => void;
+  onDelete?: (id: any) => void;
+  onView?: (id: any) => void;
+  onChangeImage?: (id: any) => void;
 };
 
-const ButtonAction = ({ id, onEdit, onDelete, onView }: ButtonActionProps) => {
+const ButtonAction = ({ id, onEdit, onDelete, onView, onChangeImage }: ButtonActionProps) => {
   return (
     <div className="flex gap-1 justify-center">
       {onView && (
@@ -29,6 +30,16 @@ const ButtonAction = ({ id, onEdit, onDelete, onView }: ButtonActionProps) => {
           width="25px"
           height="25px"
           img={<PencilSquareIcon className="text-white" />}
+        />
+      )}
+      {onChangeImage && (
+        <Button
+          onClick={() => onChangeImage?.(id)}
+          className="p-[5px] my-1 mx-[2px]"
+          background="green"
+          width="25px"
+          height="25px"
+          img={<PhotoIcon className="text-white" />}
         />
       )}
       {onDelete && (

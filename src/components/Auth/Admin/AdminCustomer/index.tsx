@@ -1,6 +1,6 @@
 import { Input } from "@headlessui/react";
 import { useEffect, useState } from "react";
-import FormAddStafAdmin from "../components/FormAddStaffAdmin";
+import FormAddStafAdmin from "../components/FormEditEmployee";
 import { useSearchParams } from "react-router-dom";
 import { texts } from "libs/contains/texts";
 import { useAppDispatch, useAppSelector } from "hooks/useAppDispatch";

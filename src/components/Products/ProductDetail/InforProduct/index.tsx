@@ -50,7 +50,7 @@ const InforProduct = ({ infoProduct }: { infoProduct: ProductsType }) => {
     navigate("/order");
   };
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-4  mx-auto overflow-hidden rounded-md bg-white mt-3">
+    <div className="grid grid-cols-1 sm:grid-cols-4 overflow-hidden rounded-md bg-white">
       <div className="p-4 col-span-2 border rounded-2xl m-5 h-full max-h-[500px] flex flex-col">
         <div className="h-[375px]">
           {isEmpty(infoProduct.images) ? (

@@ -1,7 +1,7 @@
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { Button } from "@headlessui/react";
 import { useAppDispatch, useAppSelector } from "hooks/useAppDispatch";
-import { getProductByAccount, removeCartItem, updateCartItem } from "redux/cart/cartThunk";
+import { removeCartItem, updateCartItem } from "redux/cart/cartThunk";
 import formatVND from "utils/formatVND";
 import Loader from "components/Loader";
 import ProductRandom from "ProductRandom";
@@ -21,13 +21,6 @@ function Cart() {
   const { cartItems, loadingCart } = useAppSelector((state) => state.cart);
   const [selected, setSelected] = useState<ProductOrderType[]>([]);
   const navigate = useNavigate();
-  const { token } = useAppSelector((state) => state.auth);
-  useEffect(() => {
-    if (token) {
-      dispatch(getProductByAccount());
-    }
-  }, [dispatch, token]);
-
   function handleDeleteItemCart(id: number): void {
     dispatch(removeCartItem(id));
   }
@@ -72,7 +65,7 @@ function Cart() {
         ]}
         page="Giỏ hàng"
       />
-      <div className="w-full container pt-5">
+      <div className="container pt-5">
         {isEmpty(cartItems) ? (
           <div className="flex flex-col items-center justify-center bg-white py-10">
             <img className="w-40" src={noCartItem} />
@@ -131,7 +124,6 @@ function Cart() {
             </div>
           </>
         )}
-
         <ProductRandom />
       </div>
     </div>
