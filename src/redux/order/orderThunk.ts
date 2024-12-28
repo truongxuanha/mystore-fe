@@ -2,6 +2,7 @@ import { InitOrder, ParamsOrderDetailBill } from "../../types/order.type";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { createDetailBillApi, createNewOrder, getBillByAccountApi, getDetailBillByIdApi, updateStatusOrderApi } from "./api";
 import { toastifySuccess, toastifyWarning } from "utils/toastify";
+import dayjs from "dayjs";
 
 export const createOrderThunk = createAsyncThunk("order/createOrderNow", async ({ id_address, total_amount_order }: InitOrder, {}) => {
   try {
@@ -41,9 +42,21 @@ export const getBillByAccountThunk = createAsyncThunk("order/getBillByAccount", 
 
 export const updateStatusOrderThunk = createAsyncThunk(
   "order/updateStatusOrder",
-  async ({ email, status, id, callBack }: { email: string; status: number; id: number; callBack: any }) => {
+  async ({
+    email,
+    status,
+    id,
+    confirmAt = dayjs().format("YYYY/MM/DD hh:mm:ss A"),
+    callBack,
+  }: {
+    email: string;
+    confirmAt?: any;
+    status: number;
+    id: number;
+    callBack: any;
+  }) => {
     try {
-      const res = await updateStatusOrderApi({ email, status, id });
+      const res = await updateStatusOrderApi({ email, status, id, confirmAt });
       callBack();
       return res;
     } catch (err) {

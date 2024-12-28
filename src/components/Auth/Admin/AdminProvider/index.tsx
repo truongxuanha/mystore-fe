@@ -22,9 +22,9 @@ function AdminProvider() {
   const dispatch = useAppDispatch();
   const { manufactures, totalPage } = useAppSelector((state) => state.manufacturer);
 
-  // const [show, setShow] = useState<boolean>(false);
-  // const [actionType, setActionType] = useState<ActionAdminEnum>();
-  // const [currentProduct, setCurrentProduct] = useState<any>();
+  const [show, setShow] = useState<boolean>(false);
+  const [actionType, setActionType] = useState<ActionAdminEnum>();
+  const [currentProvider, setCurrentProvider] = useState<any>();
   const page = useGetSearchParams(["page"]).page || 1;
   // const [searchQuery, setSearchQuery] = useState("");
 
@@ -62,25 +62,25 @@ function AdminProvider() {
     setActionType(ActionAdminEnum.EDIT);
     const manu = manufactures.filter((manu) => manu.id === id);
 
-    setCurrentProduct(manu[0]);
+    setCurrentProvider(manu[0]);
   };
   const handleAdd = () => {
     setShow(true);
     setActionType(ActionAdminEnum.ADD);
-    setCurrentProduct([]);
+    setCurrentProvider([]);
   };
   const handleDelete = (id: number | string) => {
     setShow(true);
     setActionType(ActionAdminEnum.DELETE);
     const manu = manufactures.filter((manu) => manu.id === id);
-    setCurrentProduct(manu[0]);
+    setCurrentProvider(manu[0]);
   };
 
   const handleView = (id: number | string) => {
     setShow(true);
     setActionType(ActionAdminEnum.VIEW);
     const manu = manufactures.filter((manu) => manu.id === id);
-    setCurrentProduct(manu[0]);
+    setCurrentProvider(manu[0]);
   };
 
   return (
@@ -112,7 +112,7 @@ function AdminProvider() {
           operations={(id: number | string) => <ButtonAction id={id} onEdit={handleEdit} onDelete={handleDelete} onView={handleView} />}
         />
         <Pagination totalPage={totalPage} currentPage={1} />
-        <FormProviderAdmin />
+        {show && <FormProviderAdmin setShow={setShow} currentProvider={currentProvider} actionType={actionType} />}
       </div>
     </div>
   );

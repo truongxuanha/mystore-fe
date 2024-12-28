@@ -1,12 +1,17 @@
 import { useAppDispatch, useAppSelector } from "hooks/useAppDispatch";
-import { ContainerFormAddImage, ImageItem, MainFormAddImage } from "./styles";
-import { useEffect } from "react";
+import { CloseWrapper, ContainerFormAddImage, DropZoneWrapper, ImageItem, MainFormAddImage } from "./styles";
+import { useEffect, useState } from "react";
 import { getImageProductThunk } from "redux/product/productThunk";
 import ImageLazy from "customs/ImageLazy";
-import Button from "customs/Button";
+import { XMarkIcon } from "@heroicons/react/24/outline";
+import InputDropzone from "customs/InputDropzone";
 
-const FormAddImage = () => {
+type Props = {
+  setShow: (show: boolean) => void;
+};
+const FormAddImage = ({ setShow }: Props) => {
   const { imageProduct } = useAppSelector((state) => state.product);
+  const [previewImage, setPreviewImage] = useState();
   const dispatch = useAppDispatch();
   useEffect(() => {
     dispatch(getImageProductThunk(6));
@@ -19,10 +24,13 @@ const FormAddImage = () => {
             <ImageLazy src={img.path_name} alt="img-product" />
           </ImageItem>
         ))}
-        
-        <Button className="bg-colorPrimary" width="100px">
-          Thoát
-        </Button>
+
+        <DropZoneWrapper>
+          <InputDropzone fileUploaded={previewImage} setFileUploaded={setPreviewImage} />
+        </DropZoneWrapper>
+        <CloseWrapper onClick={() => setShow(false)}>
+          <XMarkIcon width={50} height={50} />
+        </CloseWrapper>
       </MainFormAddImage>
     </ContainerFormAddImage>
   );

@@ -21,7 +21,6 @@ function FormOrderAdmin({ setShow, currentOrderDetail }: Props) {
   const [animationClass, setAnimationClass] = useState("modal-enter");
   const page = useGetSearchParams(["page"]).page || 1;
   const { detailBill, loadingBillDetail } = useAppSelector((state) => state.order);
-  const { infoUser } = useAppSelector((state) => state.auth);
   const dispatch = useAppDispatch();
   const handleClose = () => {
     setAnimationClass("modal-exit");
@@ -37,11 +36,11 @@ function FormOrderAdmin({ setShow, currentOrderDetail }: Props) {
     toastifySuccess("Cập nhật thành công!");
   };
   const handleUpdateStatus = () => {
-    dispatch(updateStatusOrderThunk({ email: infoUser.email, status: currentOrderDetail.status + 1, id: currentOrderDetail.id, callBack }));
+    dispatch(updateStatusOrderThunk({ email: currentOrderDetail.email_user, status: currentOrderDetail.status + 1, id: currentOrderDetail.id, callBack }));
   };
   return (
     <div className={`fixed left-0 right-0 top-0 bottom-0 bg-[rgba(0,0,0,0.5)] flex justify-center items-center transition-all duration-300`}>
-      <div className={`bg-white px-5 py-1 mx-20 rounded ${animationClass}`}>
+      <div className={`bg-white px-5 py-5 mx-20 rounded ${animationClass}`}>
         <TitleProfile title="Chi tiết đơn hàng" center={true} />
         <div>
           <div className="flex gap-12">
@@ -86,7 +85,7 @@ function FormOrderAdmin({ setShow, currentOrderDetail }: Props) {
                 <div className="col-span-1">{product.quantity}</div>
                 <div className="col-span-1">{formatVND(product.price)}</div>
                 <div className="col-span-1">{product.discount}</div>
-                <div className="col-span-2">{formatVND(currentOrderDetail?.total_amount_order)}</div>
+                <div className="col-span-2">{formatVND(product?.price * product.quantity, product.discount)}</div>
               </div>
             ))
           )}
@@ -97,8 +96,8 @@ function FormOrderAdmin({ setShow, currentOrderDetail }: Props) {
           <span>sản phẩm</span>
         </div>
         <div>
-          <span>Tổng tiền thanh toán(vnđ):</span>
-          <span></span>
+          <span className="mr-5">Tổng tiền thanh toán(vnđ):</span>
+          <span className="text-red-500 font-bold text-base">{formatVND(currentOrderDetail.total_amount_order)}</span>
         </div>
         <div className="flex justify-between mt-3">
           <div>

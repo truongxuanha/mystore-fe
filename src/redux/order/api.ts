@@ -1,6 +1,7 @@
 import { InitOrder, ParamsOrderDetailBill } from "./../../types/order.type";
 import { axiosInstance } from "../../utils/axiosConfig";
 import dayjs from "dayjs";
+import { dateNow } from "utils/dateNow";
 
 export async function createNewOrder({ id_address, createAt = dayjs(), total_amount_order }: InitOrder) {
   try {
@@ -13,7 +14,7 @@ export async function createNewOrder({ id_address, createAt = dayjs(), total_amo
 }
 export async function createDetailBillApi({ items, type }: ParamsOrderDetailBill) {
   try {
-    const res = await axiosInstance.post(`/detail-bill/${type}/create`, items);
+    const res = await axiosInstance.post(`/detail-bill/${type}/create`, { ...items, createAt: dateNow });
     if (!res.data.success) throw new Error(res.data.data);
     return res.data;
   } catch (err) {

@@ -24,8 +24,9 @@ export type ResAllMunufacture = {
   status: boolean;
 };
 export type ProviderType = {
+  id?: number;
   name: string;
   phone: string;
-  website?: string;
+  website?: string | null;
   img: any;
 };

@@ -12,14 +12,15 @@ export const ContainerFormManufacture = styled.div`
   align-items: center;
 `;
 export const MainContent = styled.div`
+  position: relative;
   background-color: white;
-  min-width: 500px;
+  width: 700px;
   padding: 20px 30px;
   border-radius: 5px;
 `;
 export const TitleForm = styled.div`
   text-align: center;
   font-size: 1.4rem;
-  padding: 10px 0;
+  padding: 0 0 10px 0;
   margin-bottom: 20px;
 `;

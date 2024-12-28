@@ -131,7 +131,7 @@ function AdminProduct() {
         />
         <Pagination totalPage={totalPage} currentPage={1} />
         {show && changeInfoProduct && <FormAddProductAdmin actionType={actionType} setShow={setShow} initialData={currentProduct} />}
-        {actionType === ActionAdminEnum.CHANGE_IMAGE && <FormAddImage />}
+        {actionType === ActionAdminEnum.CHANGE_IMAGE && show && <FormAddImage setShow={setShow} />}
       </div>
     </div>
   );

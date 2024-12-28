@@ -14,12 +14,27 @@ export const ContainerFormAddImage = styled.div`
   align-items: center;
 `;
 export const MainFormAddImage = styled.div`
+  position: relative;
   background-color: #fff;
   min-width: 930px;
   padding: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
 `;
 export const ImageItem = styled.div`
-  width: 250px;
-  height: 250px;
+  width: 240px;
+  height: 180px;
   border: 1px solid red;
+`;
+export const CloseWrapper = styled.div`
+  position: absolute;
+  top: -50px;
+  right: 0;
+  color: white;
+  cursor: pointer;
+`;
+export const DropZoneWrapper = styled.div`
+  height: 180px;
+  width: 240px;
 `;

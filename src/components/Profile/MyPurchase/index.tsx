@@ -1,6 +1,8 @@
 import noOrder from "assets/no-order.png";
 import Loader from "components/Loader";
+import Button from "customs/Button";
 import ImageLazy from "customs/ImageLazy";
+import dayjs from "dayjs";
 import { useAppDispatch, useAppSelector } from "hooks/useAppDispatch";
 import { purchaseStatus } from "libs/contains/purcharse";
 import { useEffect } from "react";
@@ -16,7 +18,7 @@ const statusType = {
   3: "Đã giao hàng",
   4: "Đã hủy",
 };
-const statusConvert = {
+const statusConvert: { [key: number | string]: string } = {
   0: "wait_approval",
   1: "awaiting_pickup",
   2: "in_delivery",
@@ -24,7 +26,7 @@ const statusConvert = {
   4: "cancelled",
   all: "all",
 };
-const statusOrders = {
+const statusOrders: { [key: string]: string | number } = {
   wait_approval: 0,
   awaiting_pickup: 1,
   in_delivery: 2,
@@ -36,7 +38,6 @@ const MyPurchase = () => {
   const { listOrders, loadingGetOrder: ísLoading } = useAppSelector((state) => state.order);
   const dispatch = useAppDispatch();
   const [searchParams, setSearchParams] = useSearchParams();
-
   const currentStatus = searchParams.get("type") || "all";
 
   useEffect(() => {
@@ -47,6 +48,7 @@ const MyPurchase = () => {
   const handleSortStatus = (status: string | number) => {
     setSearchParams({ type: status !== undefined ? statusConvert[status] : "all" });
   };
+  console.log(dayjs().format("YYYY-MM-DD hh:mm:ss A"));
 
   return (
     <div>
@@ -93,7 +95,14 @@ const MyPurchase = () => {
                   </div>
                 ))}
                 <div className="border-t border-gray-200 border-dotted">
-                  <div className="p-6 flex items-center justify-end">
+                  <div className="p-6 flex items-end justify-between">
+                    <div className=" w-24 text-center text-white rounded-sm">
+                      {item.status === 0 && (
+                        <Button className="bg-red-500 p-2" onClick={() => ""}>
+                          Hủy đơn
+                        </Button>
+                      )}
+                    </div>
                     <div className="w-auto space-y-3">
                       <span className="flex items-center justify-between text-sm">
                         Giảm : <span className="ml-2">10%</span>

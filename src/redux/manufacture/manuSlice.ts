@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { createManufactureThunk, getAllManuThunk, getManuThunk } from "./manuThunk";
+import { createManufactureThunk, getAllManuThunk, getManuThunk, removeProviderThunk, updateManufactureThunk } from "./manuThunk";
 import { ManufactureType } from "./type";
 
 export type InitialStateType = {
@@ -56,6 +56,26 @@ const manuSlice = createSlice({
         state.loading = false;
       })
       .addCase(createManufactureThunk.rejected, (state) => {
+        state.loading = false;
+      });
+    builder
+      .addCase(updateManufactureThunk.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(updateManufactureThunk.fulfilled, (state) => {
+        state.loading = false;
+      })
+      .addCase(updateManufactureThunk.rejected, (state) => {
+        state.loading = false;
+      });
+    builder
+      .addCase(removeProviderThunk.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(removeProviderThunk.fulfilled, (state) => {
+        state.loading = false;
+      })
+      .addCase(removeProviderThunk.rejected, (state) => {
         state.loading = false;
       });
   },
