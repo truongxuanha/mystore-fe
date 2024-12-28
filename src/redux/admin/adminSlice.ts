@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { createBannerThunk, deleteBannersThunk, getRemenueThunk, getStaticticalThunk } from "./adminThunk";
+import { createBannerThunk, deleteBannersThunk, deleteCustomerThunk, getRemenueThunk, getStaticticalThunk, updateCustomerThunk } from "./adminThunk";
 import { InitialStateAdminType } from "./type";
 
 const initialState: InitialStateAdminType = {
@@ -7,6 +7,7 @@ const initialState: InitialStateAdminType = {
   remenueData: [],
   statisticalData: undefined,
   loadingBanner: false,
+  loadingCustomer: false,
 };
 const adminSlice = createSlice({
   name: "admin",
@@ -56,6 +57,26 @@ const adminSlice = createSlice({
       })
       .addCase(deleteBannersThunk.rejected, (state) => {
         state.loadingBanner = false;
+      });
+    build
+      .addCase(updateCustomerThunk.pending, (state) => {
+        state.loadingCustomer = true;
+      })
+      .addCase(updateCustomerThunk.fulfilled, (state) => {
+        state.loadingCustomer = false;
+      })
+      .addCase(updateCustomerThunk.rejected, (state) => {
+        state.loadingCustomer = false;
+      });
+    build
+      .addCase(deleteCustomerThunk.pending, (state) => {
+        state.loadingCustomer = true;
+      })
+      .addCase(deleteCustomerThunk.fulfilled, (state) => {
+        state.loadingCustomer = false;
+      })
+      .addCase(deleteCustomerThunk.rejected, (state) => {
+        state.loadingCustomer = false;
       });
   },
 });

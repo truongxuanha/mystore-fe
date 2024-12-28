@@ -133,6 +133,11 @@ const schemaUserAdmin = yup.object().shape({
     .nullable()
     .transform((value, originalValue) => (originalValue === "" ? null : value))
     .max(new Date(), "Ngày sinh không thể là ngày trong tương lai."),
+  createAt: yup
+    .date()
+    .nullable()
+    .transform((value, originalValue) => (originalValue === "" ? null : value))
+    .max(new Date(), "Ngày sinh không thể là ngày trong tương lai."),
   sex: yup.number().oneOf([0, 1]),
   permission: yup.number().oneOf([1, 2]),
   status: yup.number().oneOf([0, 1]),
@@ -140,7 +145,7 @@ const schemaUserAdmin = yup.object().shape({
 const schemaAddAdmin = yup.object().shape({
   id: yup.string(),
   account_name: yup.string().required("Vui lòng nhập tên tài khoản.").min(3, "Tên tài khoản phải có ít nhất 3 ký tự."),
-  full_name: yup.string(),
+  full_name: yup.string().nullable(),
   email: yup.string().email("Email không hợp lệ.").required("Vui lòng nhập email."),
   password: yup
     .string()
@@ -167,6 +172,32 @@ const schemaProvider = yup.object().shape({
     .transform((value, originalValue) => (originalValue === "" ? null : value))
     .url("Website phải là một liên kết URL hợp lệ."),
 });
+const schemaCustomer = yup.object().shape({
+  id: yup.string(),
+  account_name: yup.string().min(3, "Tên tài khoản phải có ít nhất 3 ký tự."),
+  full_name: yup
+    .string()
+    .nullable()
+    .transform((value, originalValue) => (originalValue === "" ? null : value)),
+  email: yup.string().email("Email không hợp lệ.").required("Vui lòng nhập email."),
+  phone: yup.string().matches(PHONE_REGEX, "Số điện thoại phải có 10 chữ số."),
+  birthday: yup
+    .date()
+    .nullable()
+    .transform((value, originalValue) => (originalValue === "" ? null : value))
+    .max(new Date(), "Ngày sinh không thể là ngày trong tương lai."),
+  createAt: yup
+    .date()
+    .nullable()
+    .transform((value, originalValue) => (originalValue === "" ? null : value))
+    .max(new Date(), "Ngày tạo không thể là ngày trong tương lai."),
+  sex: yup
+    .number()
+    .nullable()
+    .transform((value, originalValue) => (originalValue === "" ? null : value))
+    .oneOf([0, 1, null]),
+  status: yup.number().oneOf([0, 1]),
+});
 
 export {
   schemaRegister,
@@ -181,4 +212,5 @@ export {
   schemaUserAdmin,
   schemaAddAdmin,
   schemaProvider,
+  schemaCustomer,
 };

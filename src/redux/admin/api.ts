@@ -43,3 +43,13 @@ export async function deleteBannerApi(id: number | string) {
   if (!res.data.status) throw new Error("Failed to get banner!");
   return res.data;
 }
+export async function updateCustomerApi(id: string, status: number) {
+  const res = await axiosInstance.put(`/account/${id}/update-by-id`, { status });
+  if (!res.data.status) throw new Error("Failed to get banner!");
+  return res.data;
+}
+export async function deleteCustomerApi(id: string) {
+  const res = await axiosInstance.delete(`/account/${id}/remove`);
+  if (!res.data.status) throw new Error("Failed to get banner!");
+  return res.data;
+}

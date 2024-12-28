@@ -19,7 +19,7 @@ const option = [
   { option_id: 3, title: texts.option_sort.DOWN, value: "DESC" },
 ];
 
-function AdminProduct() {
+const AdminProduct = () => {
   const dispatch = useAppDispatch();
   const { products, totalPage } = useAppSelector((state) => state.product);
   const [show, setShow] = useState<boolean>(false);
@@ -135,6 +135,6 @@ function AdminProduct() {
       </div>
     </div>
   );
-}
+};
 
 export default AdminProduct;

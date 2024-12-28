@@ -11,6 +11,7 @@ import { Input } from "@headlessui/react";
 import { getAllManuThunk } from "redux/manufacture/manuThunk";
 import ImageLazy from "customs/ImageLazy";
 import FormProviderAdmin from "../components/FormProvider";
+import { isEmpty } from "utils";
 
 const option = [
   { option_id: 1, title: texts.list_staff.ALL_STAFF, value: "all" },
@@ -38,7 +39,10 @@ function AdminProvider() {
   //   dispatch(getProducts({ query: searchQuery, itemsPerPage: 5 }));
   // };
   useEffect(() => {
-    dispatch(getAllManuThunk({ query: "", page, item: 5 }));
+    if (isEmpty(manufactures)) {
+      dispatch(getAllManuThunk({ query: "", page, item: 5 }));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, page]);
   const columns = [
     texts.manufacture.MANUFACTURE_ID,

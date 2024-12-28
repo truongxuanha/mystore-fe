@@ -57,8 +57,10 @@ function FormAddEmployee({ setShow, initialData, actionType, currentPage, select
   return (
     <div className="fixed top-0 left-0 right-0 bottom-0 w-screen h-screen bg-[rgba(0,0,0,0.5)] flex justify-center items-center z-50 text-[11px]">
       <div className={`bg-white w-4/5 px-5 py-2 rounded-md flex flex-col h-[530px] ${animationClass}`}>
-        <div className="border-b py-3">
-          <h1 className="text-center uppercase">{actionType === "add" ? "Thêm tài khoản mới" : actionType === "edit" ? "Sửa tài khoản" : "Xóa tài khoản"}</h1>
+        <div className="border-b py-5">
+          <h1 className="text-center uppercase font-medium text-xl">
+            {actionType === "add" ? "Thêm tài khoản mới" : actionType === "edit" ? "Sửa tài khoản" : "Xóa tài khoản"}
+          </h1>
         </div>
         <form onSubmit={handleSubmit(onSubmit)} className="grid grid-cols-2 gap-2 grid-rows-4 gap-x-5 mt-8 flex-1 overflow-hidden">
           <div className="flex flex-col gap-1">

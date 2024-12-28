@@ -31,7 +31,10 @@ function AdminStaff() {
     }
   }, [dispatch, currentPage, selectOption, querySearch, debounce]);
   useEffect(() => {
-    dispatch(authGetAllAccount({ page: currentPage, permission: selectOption }));
+    if (isEmpty(all_accounts)) {
+      dispatch(authGetAllAccount({ page: currentPage, permission: selectOption }));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, currentPage, selectOption]);
   const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedValue = e.target.value;

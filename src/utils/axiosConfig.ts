@@ -22,21 +22,15 @@ axiosInstance.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest = error.config;
-
     if (error.response && error.response.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
-
       const currentUser = getUserStorage();
       if (currentUser) {
         const { refresh } = currentUser;
         try {
           const res = await refreshToken(refresh);
           const newToken = res.data;
-
           setUserStorage(currentUser, newToken);
-
-          // axiosInstance.defaults.headers["token"] = newToken;
-
           originalRequest.headers["token"] = newToken;
           return axiosInstance(originalRequest);
         } catch (error) {
