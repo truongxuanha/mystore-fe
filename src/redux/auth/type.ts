@@ -7,12 +7,13 @@ export type InitialLoginState = {
 export type InitialRegisterState = {
   id?: string;
   account_name: string;
+  avatar?: string;
   full_name?: string;
   phone: string;
   email: string;
   password: string;
   birthday?: any;
-  sex?: number;
+  sex?: number | null;
   permission?: number;
   status: number;
   createAt: string;

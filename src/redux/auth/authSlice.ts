@@ -35,6 +35,7 @@ const initialState: IAuthState = {
   countdown: 0,
   loadingChangeProfile: false,
   loadingChangePass: false,
+  loadingGetCustomer: false,
 };
 const authSlice = createSlice({
   name: "auth",
@@ -118,17 +119,17 @@ const authSlice = createSlice({
       });
     builder
       .addCase(authCustomer.pending, (state) => {
-        state.loading = true;
+        state.loadingGetCustomer = true;
         state.error = null;
       })
       .addCase(authCustomer.fulfilled, (state, action) => {
-        state.loading = false;
+        state.loadingGetCustomer = false;
         state.error = null;
         state.all_customers = action.payload.data;
         state.totalCustomer = action.payload.totalPage;
       })
       .addCase(authCustomer.rejected, (state) => {
-        state.loading = false;
+        state.loadingGetCustomer = false;
       });
     builder
       .addCase(authGetAddressAcc.pending, (state) => {

@@ -7,6 +7,7 @@ export type InitialStateAdminType = {
   remenueData: RemenueType[];
   statisticalData?: StatisticalType;
   loadingBanner: boolean;
+  loadingCustomer: boolean;
 };
 export type StatisticalType = {
   total_products: number;
