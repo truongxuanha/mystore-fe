@@ -1,7 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { getSearchResults } from ".";
+import { getSearchResults } from "./api";
 
-const fetchSearchResults = createAsyncThunk("search/fetchSearchResults", async (query: string, { rejectWithValue }) => {
+export const searchThunk = createAsyncThunk("search/fetchSearchResults", async (query: string, { rejectWithValue }) => {
   try {
     const res = await getSearchResults(query);
     return res;
@@ -9,5 +9,3 @@ const fetchSearchResults = createAsyncThunk("search/fetchSearchResults", async (
     rejectWithValue(err);
   }
 });
-
-export { fetchSearchResults };

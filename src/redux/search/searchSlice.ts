@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { fetchSearchResults } from "./searchThunk";
+import { searchThunk } from "./searchThunk";
 import { ProductsType } from "types";
 
 export type SearchStateType = {
@@ -16,14 +16,14 @@ const searchSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(fetchSearchResults.pending, (state) => {
+      .addCase(searchThunk.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(fetchSearchResults.fulfilled, (state, action: PayloadAction<ProductsType[] | undefined>) => {
+      .addCase(searchThunk.fulfilled, (state, action: PayloadAction<ProductsType[] | undefined>) => {
         state.isLoading = false;
         state.results = action.payload ?? [];
       })
-      .addCase(fetchSearchResults.rejected, (state) => {
+      .addCase(searchThunk.rejected, (state) => {
         state.isLoading = false;
         state.results = [];
       });
