@@ -81,7 +81,7 @@ const schemaResetPassword = yup.object().shape({
 export const schemaChangeProfile = yup.object().shape({
   account_name: yup.string().min(3, "Tên tài khoản phải có ít nhất 3 ký tự.").nullable(),
   full_name: yup.string(),
-  email: yup.string().email("Email không hợp lệ.").nullable(),
+  email: yup.string().required("Email không được bỏ trống").email("Email không hợp lệ."),
   phone: yup.string().matches(PHONE_REGEX, "Số điện thoại phải có 10 chữ số.").nullable(),
   birthday: yup
     .date()

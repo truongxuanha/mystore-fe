@@ -202,11 +202,14 @@ export const authResetPasswordThunk = createAsyncThunk(
 
 export const authChangeProfileThunk = createAsyncThunk(
   "auth/changeProfile",
-  async ({ account_name, email, phone, full_name, avatar, sex, birthday }: UserAccount, { rejectWithValue }) => {
+  async ({ account_name, email, phone, full_name, avatar, sex, birthday, callBack }: UserAccount & CallBackType, { rejectWithValue }) => {
     try {
       const data = await changeProfileApi({ account_name, email, phone, full_name, avatar, sex, birthday });
+      toastifySuccess("Cập nhật tài khoản thành công!");
+      callBack();
       return data;
     } catch (errer) {
+      toastifyWarning("Dã có lỗi xảy ra vui lòng thử lại!");
       rejectWithValue(errer);
     }
   },
