@@ -10,6 +10,7 @@ import loadingMin from "assets/loading_min.svg";
 import { getAllBillThunk } from "redux/bill/billThunk";
 import useGetSearchParams from "hooks/useGetSearchParams";
 import { toastifySuccess } from "utils/toastify";
+import ExportPDF from "../ExportPdf";
 type Props = {
   setShow: (show: boolean) => void;
   currentOrderDetail: any;
@@ -42,22 +43,25 @@ function FormOrderAdmin({ setShow, currentOrderDetail }: Props) {
     <div className={`fixed left-0 right-0 top-0 bottom-0 bg-[rgba(0,0,0,0.5)] flex justify-center items-center transition-all duration-300`}>
       <div className={`bg-white px-5 py-5 mx-20 rounded ${animationClass}`}>
         <TitleProfile title="Chi tiết đơn hàng" center={true} />
-        <div>
-          <div className="flex gap-12">
-            <span className="w-24">Mã đơn:</span>
-            <span className="text-red-400 font-bold">{currentOrderDetail.id}</span>
+        <div className="flex justify-between">
+          <div>
+            <div className="flex gap-12">
+              <span className="w-24">Mã đơn:</span>
+              <span className="text-red-400 font-bold">{currentOrderDetail.id}</span>
+            </div>
+            <div className="flex gap-12 my-2">
+              <span className="w-24">Trạng thái:</span>
+              <span className="text-red-400 font-bold">{statusOrder[currentOrderDetail.status]}</span>
+            </div>
+            <div className="flex gap-12">
+              <span className="w-24 text-nowrap">Địa chỉ giao hàng:</span>
+              <span>
+                {`${detailBill?.address?.full_name}, ${detailBill?.address?.detail_address}, ${detailBill?.address?.wards}, ${detailBill?.address?.province}, ${detailBill?.address?.district}`}
+              </span>
+            </div>
+            <div className="flex gap-12  my-2">Xác nhận ngày: {currentOrderDetail.createAt}</div>
           </div>
-          <div className="flex gap-12 my-2">
-            <span className="w-24">Trạng thái:</span>
-            <span className="text-red-400 font-bold">{statusOrder[currentOrderDetail.status]}</span>
-          </div>
-          <div className="flex gap-12">
-            <span className="w-24 text-nowrap">Địa chỉ giao hàng:</span>
-            <span>
-              {`${detailBill?.address?.full_name}, ${detailBill?.address?.detail_address}, ${detailBill?.address?.wards}, ${detailBill?.address?.province}, ${detailBill?.address?.district}`}
-            </span>
-          </div>
-          <div className="flex gap-12  my-2">Xác nhận ngày: {currentOrderDetail.createAt}</div>
+          <ExportPDF data={detailBill} infoBill={currentOrderDetail} />
         </div>
         <div className="grid grid-cols-12 gap-1 text-center bg-slate-100 py-3 mt-5">
           <div className="col-span-1">STT</div>

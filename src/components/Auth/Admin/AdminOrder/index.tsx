@@ -10,7 +10,6 @@ import Pagination from "customs/Pagination";
 import { Input } from "@headlessui/react";
 import { getAllBillThunk } from "redux/bill/billThunk";
 import FormOrderAdmin from "../components/FormOrderAdmin";
-
 const option = [
   { option_id: 1, title: texts.list_staff.ALL_STAFF, value: "all" },
   { option_id: 2, title: texts.list_staff.MANAGER, value: "0" },
@@ -90,6 +89,7 @@ function AdminOrder() {
           {showModal && <FormOrderAdmin setShow={setShowModal} currentOrderDetail={currentOrderDetail} />}
         </div>
       </div>
+      {/* <ExportPDF /> */}
     </div>
   );
 }
