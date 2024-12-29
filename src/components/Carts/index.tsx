@@ -3,7 +3,7 @@ import { Button } from "@headlessui/react";
 import { useAppDispatch, useAppSelector } from "hooks/useAppDispatch";
 import { removeCartItem, updateCartItem } from "redux/cart/cartThunk";
 import formatVND from "utils/formatVND";
-import Loader from "components/Loader";
+import Loader from "customs/Loader";
 import ProductRandom from "ProductRandom";
 import CartItem from "./CartItem";
 import { handleOrder } from "redux/order/orderSlice";

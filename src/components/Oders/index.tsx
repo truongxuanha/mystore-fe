@@ -1,6 +1,6 @@
 import { Button } from "@headlessui/react";
 import { CheckIcon, PlusIcon } from "@heroicons/react/24/outline";
-import AddressUser from "components/AdressUser";
+import AddressUser from "components/Oders/AdressUser";
 import { useEffect, useMemo, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "hooks/useAppDispatch";

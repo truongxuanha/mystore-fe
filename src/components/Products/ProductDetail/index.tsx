@@ -5,7 +5,7 @@ import { AppDispatch } from "redux/store";
 import { useAppSelector } from "hooks/useAppDispatch";
 import ProductRandom from "ProductRandom";
 import { getInFoProducts } from "redux/product/productThunk";
-import Loader from "components/Loader";
+import Loader from "customs/Loader";
 import { texts } from "libs/contains/texts";
 import { createCmtByIdProductThunk, getCommentByIdProductThunk } from "redux/comment/commentThunk";
 import RatingComment from "./RatingComment";

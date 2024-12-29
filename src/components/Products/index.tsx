@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useSearchParams } from "react-router-dom";
-import Loader from "../Loader";
+import Loader from "../../customs/Loader";
 import ProductCard from "./ProductCard";
 import { useAppSelector } from "../../hooks/useAppDispatch";
 import { AppDispatch } from "../../redux/store";

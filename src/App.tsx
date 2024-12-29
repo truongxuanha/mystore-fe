@@ -1,6 +1,6 @@
 import { lazy, Suspense } from "react";
 import { createBrowserRouter, Navigate, RouterProvider } from "react-router-dom";
-import Loader from "./components/Loader";
+import Loader from "./customs/Loader";
 import About from "./components/Abouts";
 import InforProduct from "./components/Products/ProductDetail";
 import PrivateLayout from "./layouts/PrivateLayout";
@@ -23,10 +23,11 @@ import AdminHome from "components/Auth/Admin/AdminHome";
 import AdminCustomer from "components/Auth/Admin/AdminCustomer";
 import AdminPopup from "components/Auth/Admin/AdminPopup";
 import AdminCategoryProduct from "components/Auth/Admin/AdminCategoryProduct";
+import PageSearchAll from "components/PageSearchAll";
 
 const Home = lazy(() => import("./components/Home"));
 const Cart = lazy(() => import("./components/Carts"));
-const Error = lazy(() => import("./components/Error/Error"));
+const Error = lazy(() => import("./customs/Error/Error"));
 const Products = lazy(() => import("./components/Products"));
 const router = createBrowserRouter([
   {
@@ -75,7 +76,14 @@ const router = createBrowserRouter([
           </Suspense>
         ),
       },
-
+      {
+        path: "/search",
+        element: (
+          <Suspense fallback={<Loader />}>
+            <PageSearchAll />
+          </Suspense>
+        ),
+      },
       {
         path: "*",
         element: (

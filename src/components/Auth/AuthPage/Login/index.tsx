@@ -8,7 +8,7 @@ import { toastifySuccess, toastifyWarning } from "utils/toastify";
 import { Button, Input } from "@headlessui/react";
 import { schemaLogin } from "utils/schema";
 import { authLogin } from "redux/auth/authThunk";
-import Loader from "components/Loader";
+import Loader from "customs/Loader";
 import { TabType } from "types";
 
 type FormValues = {

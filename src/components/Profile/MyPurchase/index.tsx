@@ -1,8 +1,7 @@
 import noOrder from "assets/no-order.png";
-import Loader from "components/Loader";
+import Loader from "customs/Loader";
 import Button from "customs/Button";
 import ImageLazy from "customs/ImageLazy";
-import dayjs from "dayjs";
 import { useAppDispatch, useAppSelector } from "hooks/useAppDispatch";
 import { purchaseStatus } from "libs/contains/purcharse";
 import { useEffect } from "react";
@@ -48,8 +47,6 @@ const MyPurchase = () => {
   const handleSortStatus = (status: string | number) => {
     setSearchParams({ type: status !== undefined ? statusConvert[status] : "all" });
   };
-  console.log(dayjs().format("YYYY-MM-DD hh:mm:ss A"));
-
   return (
     <div>
       <div className="flex items-center justify-evenly flex-shrink-0 text-center py-4 px-5 w-full overflow-x-auto whitespace-nowrap bg-white">
