@@ -4,4 +4,5 @@ export enum ActionAdminEnum {
   ADD = "add",
   VIEW = "view",
   CHANGE_IMAGE = "change-image",
+  VIEW_ADDRESS = "view_address",
 }

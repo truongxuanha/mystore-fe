@@ -68,6 +68,7 @@ export type IAuthState = {
   countdown: number;
   loadingChangeProfile: boolean;
   loadingChangePass: boolean;
+  loadingGetCustomer: boolean;
 };
 
 export enum TabType {
