@@ -51,7 +51,7 @@ const AdminHome = () => {
       bg: "#fd475a",
     },
   ];
-
+  
   return (
     <ContainerHomeAdmin>
       <HeaderHomeAdmin className="text-center text-3xl font-medium my-10">Quản trị</HeaderHomeAdmin>
