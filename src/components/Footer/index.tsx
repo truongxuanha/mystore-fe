@@ -61,7 +61,7 @@ const listContact = [
 ];
 const Footer = () => {
   return (
-    <ContainerFooter className=" bg-corlorHeader">
+    <ContainerFooter className="">
       <MainFooter className="container">
         <ListContact>
           {listContact.map((item) => (

@@ -18,7 +18,7 @@ type Props = {
 };
 function FormOtp({ tab, setTab }: Props) {
   const dispatch = useAppDispatch();
-  const { verifyOtp, loadingForpass, countdown, dataReqOtp } = useAppSelector((state) => state.auth);
+  const { loadingForpass, countdown, dataReqOtp } = useAppSelector((state) => state.auth);
   const {
     register,
     handleSubmit,
@@ -28,21 +28,22 @@ function FormOtp({ tab, setTab }: Props) {
     resolver: yupResolver(schemaOtp),
   });
   const onSubmit = (formValues: any) => {
-    dispatch(authVerifyOtpThunk({ ...formValues, email: dataReqOtp?.email }));
-  };
-  useEffect(() => {
-    if (verifyOtp?.can_be_reset) {
+    const callBack = () => {
       setTab(TabType.CHANGEPASSWORD);
-    }
-  }, [loadingForpass, setTab, verifyOtp?.can_be_reset]);
+    };
+    dispatch(authVerifyOtpThunk({ ...formValues, email: dataReqOtp?.email, callBack }));
+  };
   const gotoForPassword = () => {
     setTab(TabType.FORPASSWORD);
     reset();
   };
   const handleResend = () => {
+    const callBack = () => {
+      setTab(TabType.CHANGEPASSWORD);
+    };
     if (countdown === 0) {
       dispatch(startCountdown(60));
-      dispatch(authForPasswordThunk({ email: dataReqOtp?.email }));
+      dispatch(authForPasswordThunk({ email: dataReqOtp, callBack }));
     }
   };
   useEffect(() => {

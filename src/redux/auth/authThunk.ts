@@ -171,23 +171,28 @@ export const authCreateAddressThunk = createAsyncThunk("auth/createAddress", asy
 //   }
 // });
 
-export const authForPasswordThunk = createAsyncThunk("auth/forPassword", async (email: any, { rejectWithValue }) => {
+export const authForPasswordThunk = createAsyncThunk("auth/forPassword", async ({ email, callBack }: { email: any } & CallBackType, { rejectWithValue }) => {
   try {
     const data = await forPassword(email);
     toastifySuccess(data.message);
+    callBack();
     return data;
   } catch (errer) {
     rejectWithValue(errer);
   }
 });
-export const authVerifyOtpThunk = createAsyncThunk("auth/verifyOtp", async ({ email, otp }: { email: string; otp: number }, { rejectWithValue }) => {
-  try {
-    const data = await verifyOtpApi(email, otp);
-    return data;
-  } catch (errer) {
-    rejectWithValue(errer);
-  }
-});
+export const authVerifyOtpThunk = createAsyncThunk(
+  "auth/verifyOtp",
+  async ({ email, otp, callBack }: { email: string; otp: number } & CallBackType, { rejectWithValue }) => {
+    try {
+      const data = await verifyOtpApi(email, otp);
+      callBack();
+      return data;
+    } catch (errer) {
+      rejectWithValue(errer);
+    }
+  },
+);
 export const authResetPasswordThunk = createAsyncThunk(
   "auth/resetPassword",
   async ({ password, token, email }: { password: string; token?: string; email?: string }, { rejectWithValue }) => {

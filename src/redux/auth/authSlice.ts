@@ -36,6 +36,7 @@ const initialState: IAuthState = {
   loadingChangeProfile: false,
   loadingChangePass: false,
   loadingGetCustomer: false,
+  loadingGetAddress: false,
 };
 const authSlice = createSlice({
   name: "auth",
@@ -57,6 +58,9 @@ const authSlice = createSlice({
     },
     resetCountdown: (state) => {
       state.countdown = 0;
+    },
+    rememberEmailSendOtp: (state, action) => {
+      state.dataReqOtp = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -133,16 +137,16 @@ const authSlice = createSlice({
       });
     builder
       .addCase(authGetAddressAcc.pending, (state) => {
-        state.loading = true;
+        state.loadingGetAddress = true;
         state.error = null;
       })
       .addCase(authGetAddressAcc.fulfilled, (state, action) => {
-        state.loading = false;
+        state.loadingGetAddress = false;
         state.error = null;
         state.addressAcc = action.payload;
       })
       .addCase(authGetAddressAcc.rejected, (state) => {
-        state.loading = false;
+        state.loadingGetAddress = false;
       });
 
     builder
@@ -161,9 +165,8 @@ const authSlice = createSlice({
       .addCase(authForPasswordThunk.pending, (state) => {
         state.loadingForpass = true;
       })
-      .addCase(authForPasswordThunk.fulfilled, (state, action) => {
+      .addCase(authForPasswordThunk.fulfilled, (state) => {
         state.loadingForpass = false;
-        state.dataReqOtp = action.payload;
       })
       .addCase(authForPasswordThunk.rejected, (state) => {
         state.loadingForpass = false;
@@ -234,6 +237,6 @@ const authSlice = createSlice({
   },
 });
 
-export const { logout, startCountdown, decrementCountdown, resetCountdown } = authSlice.actions;
+export const { logout, startCountdown, decrementCountdown, resetCountdown, rememberEmailSendOtp } = authSlice.actions;
 
 export default authSlice.reducer;

@@ -218,10 +218,10 @@ function AddressUser(props: Props) {
             </div>
           </form>
           <div className="flex gap-5 justify-end px-5 pb-4 mt-10">
-            <Button onClick={handleSave} className="px-3 py-[2px] bg-colorPrimary rounded-md hover:opacity-80">
+            <Button onClick={handleSave} className="px-3 py-1 bg-colorPrimary text-white rounded-md hover:opacity-80">
               {texts.common.SAVE}
             </Button>
-            <Button onClick={() => handleClose(false)} className="px-3 py-[2px] bg-corlorButton rounded-md hover:opacity-80">
+            <Button onClick={() => handleClose(false)} className="px-3 py-1 bg-corlorButton text-white rounded-md hover:opacity-80">
               {texts.common.EXIT}
             </Button>
           </div>

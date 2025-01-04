@@ -1,5 +1,14 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { createOrderDetailBillThunk, createOrderThunk, getBillByAccountThunk, getDetailBillByIdBillThunk, updateStatusOrderThunk } from "./orderThunk";
+import {
+  cancelOrderThunk,
+  createOrderDetailBillThunk,
+  createOrderPaymentThunk,
+  createOrderThunk,
+  getBillByAccountThunk,
+  getDetailBillByIdBillThunk,
+  updateStatusOrderThunk,
+  verifyPaymentThunk,
+} from "./orderThunk";
 import { BillDetailType, OrderPayloadType, OrderTypeEnum, ProductOrderType } from "./type";
 
 export type IDetailBillProduct = {
@@ -31,6 +40,7 @@ export type InitialStateType = {
   detailBill?: BillDetailType;
   loadingBillDetail: boolean;
   loadingGetOrder: boolean;
+  loadingPayment: boolean;
   listOrders: IDetailBill[];
 };
 const initialState: InitialStateType = {
@@ -41,6 +51,7 @@ const initialState: InitialStateType = {
   detailBill: undefined,
   loadingBillDetail: false,
   loadingGetOrder: false,
+  loadingPayment: true,
   listOrders: [],
 };
 
@@ -118,6 +129,36 @@ const orderSlice = createSlice({
       })
       .addCase(updateStatusOrderThunk.rejected, (state) => {
         state.loadingGetOrder = false;
+      });
+    builder
+      .addCase(cancelOrderThunk.pending, (state) => {
+        state.loadingGetOrder = true;
+      })
+      .addCase(cancelOrderThunk.fulfilled, (state) => {
+        state.loadingGetOrder = false;
+      })
+      .addCase(cancelOrderThunk.rejected, (state) => {
+        state.loadingGetOrder = false;
+      });
+    builder
+      .addCase(createOrderPaymentThunk.pending, (state) => {
+        state.loadingPayment = true;
+      })
+      .addCase(createOrderPaymentThunk.fulfilled, (state) => {
+        state.loadingPayment = false;
+      })
+      .addCase(createOrderPaymentThunk.rejected, (state) => {
+        state.loadingPayment = false;
+      });
+    builder
+      .addCase(verifyPaymentThunk.pending, (state) => {
+        state.loadingPayment = true;
+      })
+      .addCase(verifyPaymentThunk.fulfilled, (state) => {
+        state.loadingPayment = false;
+      })
+      .addCase(verifyPaymentThunk.rejected, (state) => {
+        state.loadingPayment = false;
       });
   },
 });

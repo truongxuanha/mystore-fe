@@ -5,7 +5,6 @@ export const ContainerFooter = styled.div`
   display: flex;
   justify-content: center;
   padding: 50px 20px;
-  margin-top: 50px;
 `;
 export const MainFooter = styled.div`
   display: flex;

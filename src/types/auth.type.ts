@@ -69,6 +69,7 @@ export type IAuthState = {
   loadingChangeProfile: boolean;
   loadingChangePass: boolean;
   loadingGetCustomer: boolean;
+  loadingGetAddress: boolean;
 };
 
 export enum TabType {

@@ -1,3 +1,6 @@
+import clsx, { ClassValue } from "clsx";
+import { twMerge } from "tailwind-merge";
+
 export const isEmpty = (data?: [] | string | object): boolean => {
   if (data === undefined || data === null) return true;
 
@@ -11,3 +14,6 @@ export const isEmpty = (data?: [] | string | object): boolean => {
 
   return true;
 };
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs));
+}

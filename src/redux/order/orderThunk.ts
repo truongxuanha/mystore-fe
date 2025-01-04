@@ -1,6 +1,15 @@
 import { InitOrder, ParamsOrderDetailBill } from "../../types/order.type";
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { createDetailBillApi, createNewOrder, getBillByAccountApi, getDetailBillByIdApi, updateStatusOrderApi } from "./api";
+import {
+  canncelOrderApi,
+  createDetailBillApi,
+  createNewOrder,
+  createPaymentApi,
+  getBillByAccountApi,
+  getDetailBillByIdApi,
+  updateStatusOrderApi,
+  verifyPaymentApi,
+} from "./api";
 import { toastifySuccess, toastifyWarning } from "utils/toastify";
 import dayjs from "dayjs";
 
@@ -62,5 +71,60 @@ export const updateStatusOrderThunk = createAsyncThunk(
     } catch (err) {
       toastifyWarning("Cập nhật đơn hàng thất bại!");
     }
+  },
+);
+export const cancelOrderThunk = createAsyncThunk(
+  "order/cancelOrderThunk",
+  async ({
+    note_cancelation,
+    status,
+    id,
+    cancellationAt = dayjs().format("YYYY/MM/DD hh:mm:ss A"),
+    callBack,
+  }: {
+    note_cancelation: string;
+    cancellationAt?: any;
+    status: number;
+    id: number;
+    callBack: any;
+  }) => {
+    try {
+      const res = await canncelOrderApi({ status, id, note_cancelation, cancellationAt });
+      callBack();
+      return res;
+    } catch (err) {
+      toastifyWarning("Cập nhật đơn hàng thất bại!");
+    }
+  },
+);
+
+export const createOrderPaymentThunk = createAsyncThunk(
+  "order/createOrderPaymentThunk",
+  async ({ items, type }: ParamsOrderDetailBill, { rejectWithValue }) => {
+    try {
+      const res = await createPaymentApi({ items, type });
+      window.location.href = res.data;
+      return res;
+    } catch (err) {
+      if (err instanceof Error) {
+        toastifyWarning(err.message);
+        return rejectWithValue(err.message);
+      }
+    }
+  },
+);
+
+export const verifyPaymentThunk = createAsyncThunk(
+  "order/verifyPaymentThunk",
+  async ({ vnp_ResponseCode, orderId, callBack }: { vnp_ResponseCode: string; orderId: string; callBack: any }) => {
+    const res = await verifyPaymentApi({ vnp_ResponseCode, orderId });
+    if (!res.data.success) {
+      toastifyWarning(res.data.message);
+      callBack(res.data.success);
+      return;
+    }
+    callBack(res.data.success);
+    toastifySuccess(res.data.message);
+    return res;
   },
 );
