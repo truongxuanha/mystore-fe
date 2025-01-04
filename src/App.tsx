@@ -24,6 +24,10 @@ import AdminCustomer from "components/Auth/Admin/AdminCustomer";
 import AdminPopup from "components/Auth/Admin/AdminPopup";
 import AdminCategoryProduct from "components/Auth/Admin/AdminCategoryProduct";
 import PageSearchAll from "components/PageSearchAll";
+import VerifyPayment from "components/Oders/checkout";
+import PurchaseOrderDetail from "components/Profile/PurchaseDetail";
+import path from "path";
+import { elements } from "chart.js";
 
 const Home = lazy(() => import("./components/Home"));
 const Cart = lazy(() => import("./components/Carts"));
@@ -130,6 +134,7 @@ const router = createBrowserRouter([
             path: "purchase",
             element: <MyPurchase />,
           },
+          { path: "purchase/ordered", element: <PurchaseOrderDetail /> },
         ],
       },
       {
@@ -145,6 +150,14 @@ const router = createBrowserRouter([
         element: (
           <Suspense fallback={<Loader />}>
             <OrderView />
+          </Suspense>
+        ),
+      },
+      {
+        path: "/checkout/verify-payment",
+        element: (
+          <Suspense fallback={<Loader />}>
+            <VerifyPayment />
           </Suspense>
         ),
       },

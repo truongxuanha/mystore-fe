@@ -152,6 +152,7 @@ export async function verifyOtpApi(email: string, otp: number) {
         },
       },
     );
+
     return res.data;
   } catch (err) {
     throw new Error("Error creating address");

@@ -7,7 +7,7 @@ import { authForPasswordThunk } from "redux/auth/authThunk";
 import { TabType } from "types";
 import { schemaForpassEmail } from "utils/schema";
 import loadingMin from "assets/loading_min.svg";
-import { useEffect } from "react";
+import { rememberEmailSendOtp } from "redux/auth/authSlice";
 type InputEmail = {
   email: string;
 };
@@ -17,7 +17,7 @@ type Props = {
 };
 function ForPassword({ tab, setTab }: Props) {
   const dispatch = useAppDispatch();
-  const { dataReqOtp, loadingForpass } = useAppSelector((state) => state.auth);
+  const { loadingForpass } = useAppSelector((state) => state.auth);
   const {
     register,
     handleSubmit,
@@ -26,14 +26,13 @@ function ForPassword({ tab, setTab }: Props) {
     resolver: yupResolver(schemaForpassEmail),
   });
   const onSubmit = (formValues: any) => {
-    dispatch(authForPasswordThunk(formValues));
+    const callBack = () => {
+      setTab(TabType.SENDOTP);
+      dispatch(rememberEmailSendOtp(formValues));
+    };
+    dispatch(authForPasswordThunk({ email: formValues, callBack }));
   };
 
-  useEffect(() => {
-    if (dataReqOtp?.status && !loadingForpass) {
-      setTab(TabType.SENDOTP);
-    }
-  }, [dataReqOtp?.status, loadingForpass, setTab]);
   return (
     <div
       style={{ transition: "transform 0.3s ease-in-out", transform: `translateX(${tab === TabType.FORPASSWORD ? "0%" : "200%"})` }}

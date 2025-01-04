@@ -46,7 +46,6 @@ export async function getBillByAccountApi(status: string | number = "all") {
     throw err;
   }
 }
-///v1/bill/110/update-status
 
 export async function updateStatusOrderApi({ confirmAt, email, status, id }: { confirmAt?: any; id: number; email: string; status: number }) {
   try {
@@ -56,4 +55,41 @@ export async function updateStatusOrderApi({ confirmAt, email, status, id }: { c
   } catch (err) {
     throw err;
   }
+}
+export async function canncelOrderApi({
+  cancellationAt,
+  note_cancelation,
+  status,
+  id,
+}: {
+  cancellationAt?: any;
+  id: number;
+  note_cancelation: string;
+  status: number;
+}) {
+  try {
+    const res = await axiosInstance.put(`/bill/${id}/update`, { cancellationAt, note_cancelation, status });
+    if (!res.data.success) throw new Error(res.data.data);
+    return res.data.data;
+  } catch (err) {
+    throw err;
+  }
+}
+export async function createPaymentApi({ items, type }: ParamsOrderDetailBill) {
+  try {
+    const res = await axiosInstance.post(`/payment/create-payment`, { ...items, createAt: dateNow, type });
+    if (!res.status) throw new Error(res.data.data);
+    return res.data;
+  } catch (err) {
+    throw err;
+  }
+}
+export async function verifyPaymentApi({ vnp_ResponseCode, orderId }: { vnp_ResponseCode: string; orderId: string }) {
+  const res = await axiosInstance.get(`/payment/vpn-return`, {
+    params: {
+      responseCode: `${vnp_ResponseCode}`,
+      orderId,
+    },
+  });
+  return res.data;
 }

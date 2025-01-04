@@ -43,6 +43,7 @@ const InforProduct = ({ infoProduct }: { infoProduct: ProductsType }) => {
     const products: ProductOrderType[] = [
       {
         ...infoProduct,
+        quantity: 1,
       },
     ];
     dispatch(handleOrder({ data: products, typeOrder: OrderTypeEnum.BUYNOW }));
