@@ -544,3 +544,7 @@ input:focus {
 .scrollbar {
   scrollbar-width: thin;
 }
+.detail-product-ablums .swiper-pagination-fraction {
+  bottom: -3.5px;
+  filter: drop-shadow(0 25px 25px rgb(0 0 0 / 0.15));
+}

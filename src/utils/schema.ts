@@ -198,7 +198,9 @@ const schemaCustomer = yup.object().shape({
     .oneOf([0, 1, null]),
   status: yup.number().oneOf([0, 1]),
 });
-
+const schemaCmt = yup.object().shape({
+  content: yup.string().min(3, "Đánh giá ít nhất 5 ký tự."),
+});
 export {
   schemaRegister,
   schemaCreateBanner,
@@ -213,4 +215,5 @@ export {
   schemaAddAdmin,
   schemaProvider,
   schemaCustomer,
+  schemaCmt,
 };

@@ -18,9 +18,9 @@ export async function getCmtByIdProduct({ product_id, page = 1, item = 5, star =
   }
 }
 
-export async function createCmtByIdProductApi({ id_product, createAt = dayjs(), star, content }: CreateCommentType) {
+export async function createCmtByIdProductApi({ id_product, createAt = dayjs(),parent_id, star, content }: CreateCommentType) {
   try {
-    const res = await axiosInstance.post(`ratting-comment/create`, { id_product, createAt, star, content });
+    const res = await axiosInstance.post(`ratting-comment/create`, { id_product, createAt, star, content, parent_id });
     return res;
   } catch (err) {
     throw err;

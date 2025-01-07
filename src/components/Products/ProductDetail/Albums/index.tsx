@@ -12,13 +12,10 @@ import ImageLazy from "customs/ImageLazy";
 const Albums = ({ images }: { images: string[] }) => {
   const swiperRef = useRef<SwiperType>();
   return (
-    <div className="detail-product-ablums   w-full bg-white">
+    <div className="detail-product-ablums w-full h-full bg-white">
       <div className=" relative">
         <Swiper
           rewind={true}
-          //   pagination={{
-          //     type: "fraction",
-          //   }}
           modules={[Pagination, Navigation]}
           className="mySwiper"
           lazyPreloaderClass="swiper-lazy-preloader"
@@ -27,7 +24,7 @@ const Albums = ({ images }: { images: string[] }) => {
           }}
         >
           {images?.map((image) => (
-            <SwiperSlide key={image} className="">
+            <SwiperSlide key={image} className="w-[350px] h-[400px]">
               <ImageLazy isObjectFitCover="contain" src={image} alt="img" />
             </SwiperSlide>
           ))}

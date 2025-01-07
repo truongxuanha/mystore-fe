@@ -5,15 +5,17 @@ import { useAppSelector } from "hooks/useAppDispatch";
 import useAuthenticated from "hooks/useAuthenticated";
 import { useState } from "react";
 import noAvatar from "assets/no_avatar.jpg";
+import { Link } from "react-router-dom";
 
 type Props = {
   setRating: (rating: number) => void;
   rating: number;
-  handleCreateCmt: () => void;
+  handleCreateCmt: (id?: number, isAnswer?: boolean) => void;
   setContentComment: (content: string) => void;
+  contentComment: string;
 };
-const RatingComment = ({ setRating, rating, handleCreateCmt, setContentComment }: Props) => {
-  const { isAdmin } = useAuthenticated();
+const RatingComment = ({ setRating, rating, handleCreateCmt, setContentComment, contentComment }: Props) => {
+  const { isAdmin, authenticated } = useAuthenticated();
   const [showRating, setShowRating] = useState(false);
   const { dataCommentById } = useAppSelector((state) => state.comment);
   const { currentUser, infoUser } = useAppSelector((state) => state.auth);
@@ -46,7 +48,7 @@ const RatingComment = ({ setRating, rating, handleCreateCmt, setContentComment }
   return (
     <div>
       <div className="bg-white p-2 mt-2">
-        {!isAdmin && (
+        {!isAdmin && authenticated && (
           <div className="flex gap-3 mt-10">
             <div className="w-12 h-12">
               <img className="rounded-full w-full h-full border border-red-500" src={infoUser.avatar ?? noAvatar} alt="avatar" />
@@ -58,6 +60,14 @@ const RatingComment = ({ setRating, rating, handleCreateCmt, setContentComment }
               </Button>
             </div>
           </div>
+        )}
+        {!authenticated && (
+          <Link to="/login" className="bg-gray-700 flex items-center gap-2 px-2 py-1 rounded w-64 hover:opacity-90">
+            {!commented && <PaperAirplaneIcon width={20} height={20} className="text-white" />}
+            <Button disabled={commented} onClick={() => setShowRating(true)} width="auto" className="text-white">
+              Đăng nhập ngay để đánh giá
+            </Button>
+          </Link>
         )}
         {showRating && (
           <div className="flex flex-col gap-3 border-t-2 p-5 mt-5">
@@ -77,9 +87,9 @@ const RatingComment = ({ setRating, rating, handleCreateCmt, setContentComment }
               <p>{ratings[rating] || "Chưa đánh giá"}</p>
             </div>
             <div className="flex mt-3 gap-2 w-2/4">
-              <textarea onChange={(e) => setContentComment(e.target.value)} className="border rounded-sm px-2 py-2 flex-1" />
+              <textarea value={contentComment} onChange={(e) => setContentComment(e.target.value)} className="border rounded-sm px-2 py-2 flex-1" />
               <div className="w-20 h-10">
-                <Button onClick={handleCreateCmt} className="bg-colorPrimary py-2">
+                <Button onClick={() => handleCreateCmt()} className="bg-colorPrimary py-2">
                   Gửi
                 </Button>
               </div>
@@ -158,6 +168,15 @@ const RatingComment = ({ setRating, rating, handleCreateCmt, setContentComment }
                   </div>
                 </div>
               ))}
+              <div className="flex justify-end">
+                <input
+                  onChange={(e) => setContentComment(e.target.value)}
+                  value={contentComment}
+                  className=" border py-2 px-2 rounded-md"
+                  placeholder="Viết đánh giá"
+                />
+                <Button onClick={() => handleCreateCmt(userCmt.id, true)}>Phản hồi</Button>
+              </div>
             </div>
           ))}
         </div>

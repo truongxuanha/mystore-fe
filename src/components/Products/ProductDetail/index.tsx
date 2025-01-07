@@ -10,15 +10,13 @@ import { texts } from "libs/contains/texts";
 import { createCmtByIdProductThunk, getCommentByIdProductThunk } from "redux/comment/commentThunk";
 import RatingComment from "./RatingComment";
 import RenewStarRating from "./RenewStarRating";
-import LoadingBlock from "customs/LoadingBlock";
 import InforProduct from "./InforProduct";
 
 const ProductDetail: React.FC = () => {
   const [rating, setRating] = useState<number>(0);
   const dispatch = useDispatch<AppDispatch>();
   const { infoProduct, loadingProductDetail } = useAppSelector((state) => state.product);
-  const { loadingCmt } = useAppSelector((state) => state.comment);
-  const [contentComment, setContentComment] = useState<string>("");
+  const [contentComment, setContentComment] = useState<any>("");
   const { id } = useParams();
   useEffect(() => {
     dispatch(getInFoProducts(Number(id)));
@@ -27,11 +25,14 @@ const ProductDetail: React.FC = () => {
   useEffect(() => {}, [dispatch]);
   if (!infoProduct) return <div>{texts.product.PRODUCT_NOT_FOUND}</div>;
 
-  const handleCreateCmt = async () => {
-    if (rating < 1) return;
-    await dispatch(createCmtByIdProductThunk({ star: rating, id_product: infoProduct.id, content: contentComment }));
-    await dispatch(getCommentByIdProductThunk({ product_id: Number(id) }));
-    setRating(0);
+  const handleCreateCmt = async (parent_id?: number, isAnswer?: boolean) => {
+    if ((rating < 1 && !isAnswer) || contentComment === "") return;
+    const callBack = () => {
+      dispatch(getCommentByIdProductThunk({ product_id: Number(id) }));
+      setContentComment("");
+      setRating(0);
+    };
+    dispatch(createCmtByIdProductThunk({ star: rating === 0 ? undefined : rating, id_product: infoProduct.id, content: contentComment, parent_id, callBack }));
   };
   if (loadingProductDetail && !infoProduct) return <Loader />;
   // const breadcrumbs = [
@@ -50,13 +51,13 @@ const ProductDetail: React.FC = () => {
         <InforProduct infoProduct={infoProduct} />
         <div className="bg-white p-5 mt-5 ">
           <RenewStarRating id_product={infoProduct.id} />
-          {loadingCmt ? (
-            <div className="relative h-56">
-              <LoadingBlock />
-            </div>
-          ) : (
-            <RatingComment setRating={setRating} rating={rating} handleCreateCmt={handleCreateCmt} setContentComment={setContentComment} />
-          )}
+          <RatingComment
+            setRating={setRating}
+            rating={rating}
+            handleCreateCmt={handleCreateCmt}
+            setContentComment={setContentComment}
+            contentComment={contentComment}
+          />
         </div>
         <ProductRandom />
       </div>

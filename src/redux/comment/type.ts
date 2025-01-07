@@ -11,4 +11,5 @@ export type CreateCommentType = {
   star?: string | number;
   createAt?: any;
   id_product: number;
+  parent_id?: number;
 };
