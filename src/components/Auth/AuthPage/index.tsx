@@ -17,8 +17,6 @@ function AuthPage() {
     SENDOTP: <FormOtp setTab={setTab} tab={tab} />,
     CHANGEPASSWORD: <ChangePassword setTab={setTab} tab={tab} />,
   };
-  // NEWPASS ,
-  // CHANGEPASSWORD
   return (
     <div className="flex min-h-full w-full md:w-[800px] overflow-hidden mx-auto">
       <div className="mt-10 mx-auto flex items-center justify-center rounded-md w-full md:w-[800px]">
@@ -40,7 +38,7 @@ function AuthPage() {
             </div>
           </div>
         </div>
-        <div className="w-full md:w-1/2 h-[500px] md:h-[550px] relative bg-white">{login[tab]}</div>
+        <div className="w-full md:w-1/2 h-[550px] relative bg-white">{login[tab]}</div>
       </div>
     </div>
   );

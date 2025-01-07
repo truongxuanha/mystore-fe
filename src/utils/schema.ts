@@ -57,6 +57,10 @@ const schemaRegisterUser = yup.object().shape({
     .matches(UPPERCASE_LETTER_REGEX, "Mật khẩu phải có ít nhất một chữ hoa.")
     .matches(SPECIAL_CHARACTERS_REGEX, "Mật khẩu phải có ít nhất một ký tự đặc biệt."),
   phone: yup.string().required("Vui lòng nhập số điện thoại.").matches(PHONE_REGEX, "Số điện thoại phải có 10 chữ số."),
+  confirm_password: yup
+    .string()
+    .required("Vui lòng nhập lại mật khẩu.")
+    .oneOf([yup.ref("newpass"), ""], "Mật khẩu xác nhận không khớp."),
 });
 
 const schemaForpassEmail = yup.object().shape({

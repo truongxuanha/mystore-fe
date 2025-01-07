@@ -17,6 +17,7 @@ export type InitialRegisterState = {
   permission?: number;
   status: number;
   createAt: string;
+  confirm_password?: string;
 };
 export type AddressType = {
   createAt: string;

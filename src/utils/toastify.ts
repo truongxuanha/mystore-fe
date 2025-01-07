@@ -10,15 +10,15 @@ const toastOptions = {
   closeOnClick: true,
   progress: undefined,
   theme: "light",
-  transition: Bounce as ToastTransitionType,
+  transition: Slide as ToastTransitionType,
 };
 
-const toastifySuccess = function(txt: string | null) {
+const toastifySuccess = function (txt: string | null) {
   return toast.success(txt, toastOptions);
 };
 
-const toastifyWarning = function(txt: string | null) {
-  return toast.warning(txt, toastOptions);
+const toastifyWarning = function (txt: string | null) {
+  return toast.error(txt, toastOptions);
 };
 
 export { toastifySuccess, toastifyWarning };

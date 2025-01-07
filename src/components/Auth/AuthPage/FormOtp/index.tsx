@@ -39,10 +39,10 @@ function FormOtp({ tab, setTab }: Props) {
   };
   const handleResend = () => {
     const callBack = () => {
-      setTab(TabType.CHANGEPASSWORD);
+      setTab(TabType.SENDOTP);
     };
     if (countdown === 0) {
-      dispatch(startCountdown(60));
+      dispatch(startCountdown(30));
       dispatch(authForPasswordThunk({ email: dataReqOtp, callBack }));
     }
   };

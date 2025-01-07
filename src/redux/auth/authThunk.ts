@@ -90,12 +90,13 @@ export const authDelete = createAsyncThunk("auth/authDelete", async (initAccount
     return rejectWithValue(errorMessage);
   }
 });
-export const authLogin = createAsyncThunk("auth/authLogin", async (initAccount: InitialLoginState, { rejectWithValue }) => {
+export const authLogin = createAsyncThunk("auth/authLogin", async ({ value, password, callBack }: InitialLoginState & CallBackType, { rejectWithValue }) => {
   try {
-    const data = await loginUser(initAccount);
+    const data = await loginUser({ value, password });
 
     localStorage.setItem("access_token", data.data.token);
     localStorage.setItem("currentUser", JSON.stringify(data.data));
+    callBack();
     return data;
   } catch (error) {
     let errorMessage = "";
