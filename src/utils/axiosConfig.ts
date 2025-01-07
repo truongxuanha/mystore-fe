@@ -1,6 +1,7 @@
 import axios from "axios";
 import { getUserStorage, removeUserStorage, setUserStorage } from "../services/storage";
 import { refreshToken } from "../redux/auth/api";
+import { toastifyWarning } from "./toastify";
 
 const axiosInstance = axios.create({
   baseURL: process.env.BASE_URL_API,
@@ -12,14 +13,18 @@ axiosInstance.interceptors.request.use(
     if (currentUser && currentUser.token) {
       config.headers["token"] = `${currentUser.token}`;
     }
-
     return config;
   },
   (error) => Promise.reject(error),
 );
-
 axiosInstance.interceptors.response.use(
-  (response) => response,
+  (response) => {
+    if (response.data && response.data.status === false) {
+      toastifyWarning(response.data.message || "Có lỗi xảy ra.");
+      return Promise.reject(new Error(response.data.message || "Có lỗi xảy ra."));
+    }
+    return response;
+  },
   async (error) => {
     const originalRequest = error.config;
     if (error.response && error.response.status === 401 && !originalRequest._retry) {
@@ -38,6 +43,11 @@ axiosInstance.interceptors.response.use(
           return Promise.reject(error);
         }
       }
+    }
+    if (error.response && error.response.status === 400) {
+      const errorMessage = error.response.data?.message || "Yêu cầu không hợp lệ.";
+      toastifyWarning(errorMessage);
+      return Promise.reject(new Error(errorMessage));
     }
     return Promise.reject(error);
   },

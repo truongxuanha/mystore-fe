@@ -1,4 +1,4 @@
-import { useAppDispatch } from "../../../../hooks/useAppDispatch";
+import { useAppDispatch, useAppSelector } from "../../../../hooks/useAppDispatch";
 import { authRegister } from "../../../../redux/auth/authThunk";
 import { toastifySuccess } from "../../../../utils/toastify";
 import { Button, Input } from "@headlessui/react";
@@ -9,6 +9,7 @@ import { InitialRegisterState } from "../../../../redux/auth/type";
 import { EnvelopeIcon, EyeIcon, EyeSlashIcon, KeyIcon, PhoneIcon, UserIcon } from "@heroicons/react/24/outline";
 import { useState } from "react";
 import { TabType } from "types";
+import LoadingMini from "customs/LoadingMini";
 
 type Props = {
   setTab: (tab: TabType) => void;
@@ -29,7 +30,7 @@ export default function Register({ setTab, tab }: Props) {
       password: "",
     },
   });
-
+  const { loading } = useAppSelector((state) => state.auth);
   const dispatch = useAppDispatch();
   const [show, setShow] = useState<boolean>(false);
   function handleShowPass() {
@@ -124,18 +125,43 @@ export default function Register({ setTab, tab }: Props) {
               {errors.password && <p className="text-red-500 ml-12  text-sm mt-1">{errors.password.message}</p>}
             </div>
           </div>
-
+          <div>
+            <div className="flex items-center justify-between">
+              <label htmlFor="confirm_password" className="block text-sm font-medium leading-6 text-gray-900">
+                Nhập lại mật khẩu
+              </label>
+            </div>
+            <div className="h-10">
+              <div className="input-global flex gap-2 pr-2">
+                <div className="bg-slate-300 h-full flex items-center px-3">
+                  <KeyIcon width={20} height={20} className="" />
+                </div>
+                <Input
+                  id="confirm_password"
+                  {...register("confirm_password")}
+                  type={`${show ? "text" : "password"}`}
+                  placeholder="Mật khẩu"
+                  autoComplete="current-password"
+                  className="w-full"
+                />
+                <span onClick={handleShowPass} className="mx-2">
+                  {show ? <EyeIcon className="w-4 h-4 cursor-pointer" /> : <EyeSlashIcon className="w-4 h-4 cursor-pointer" />}
+                </span>
+              </div>
+              {errors.confirm_password && <p className="text-red-500 ml-12  text-sm mt-1">{errors.confirm_password.message}</p>}
+            </div>
+          </div>
           <div className="flex justify-end mr-2">
             <Button
               type="submit"
-              className="w-[100px] text-center rounded-md bg-orange-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
+              className="w-[100px] h-8 flex items-center justify-center text-center rounded-md bg-orange-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
             >
-              Đăng Ký
+              {loading ? <LoadingMini /> : <span>Đăng Ký</span>}
             </Button>
           </div>
         </form>
 
-        <p className="mt-5 text-center text-sm text-gray-500">
+        <p className="text-center text-sm text-gray-500">
           Đã có tài khoản?{" "}
           <div onClick={() => setTab(TabType.LOGIN)} className="font-semibold leading-6 text-orange-600 hover:text-orange-500 underline cursor-pointer">
             Đăng nhập

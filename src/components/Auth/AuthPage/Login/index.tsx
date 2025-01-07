@@ -4,12 +4,12 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useAppDispatch, useAppSelector } from "hooks/useAppDispatch";
 import { EyeIcon, EyeSlashIcon, KeyIcon, UserIcon } from "@heroicons/react/24/outline";
 import { useState } from "react";
-import { toastifySuccess, toastifyWarning } from "utils/toastify";
+import { toastifySuccess } from "utils/toastify";
 import { Button, Input } from "@headlessui/react";
 import { schemaLogin } from "utils/schema";
 import { authLogin } from "redux/auth/authThunk";
-import Loader from "customs/Loader";
 import { TabType } from "types";
+import LoadingMini from "customs/LoadingMini";
 
 type FormValues = {
   value: string;
@@ -32,24 +32,22 @@ export default function Login({ setTab, tab }: Props) {
   const location = useLocation();
   const dispatch = useAppDispatch();
 
-  const { error, loading } = useAppSelector((state) => state.auth);
+  const { loading } = useAppSelector((state) => state.auth);
   const [show, setShow] = useState<boolean>(false);
   const from = location.state?.from.pathname || "/";
 
   const onSubmit: SubmitHandler<FormValues> = async (formValues) => {
-    const actionResult = await dispatch(authLogin(formValues));
-    if (authLogin.rejected.match(actionResult)) {
-      toastifyWarning((actionResult.payload as string) || "Đăng nhập thất bại!");
-      return;
-    }
-    navigate(from, { replace: true });
-    toastifySuccess("Đăng nhập thành công!");
+    const callBack = () => {
+      navigate(from, { replace: true });
+      toastifySuccess("Đăng nhập thành công!");
+    };
+    dispatch(authLogin({ ...formValues, callBack }));
   };
   function handleShowPass() {
     setShow((show) => !show);
   }
 
-  if (loading) return <Loader />;
+  // if (loading) return <Loader />;
   return (
     <div
       style={{ transition: "transform 0.3s ease-in-out", transform: `translateX(${tab === TabType.LOGIN ? "0%" : "200%"})` }}
@@ -113,15 +111,12 @@ export default function Login({ setTab, tab }: Props) {
           <div className="flex justify-end mr-2">
             <Button
               type="submit"
-              className="w-[100px] text-center rounded-md bg-orange-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
+              className="w-[100px] h-8 flex justify-center items-center text-center rounded-md bg-orange-600 px-3 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
             >
-              Đăng nhập
+              {loading ? <LoadingMini /> : <span>Đăng nhập</span>}
             </Button>
           </div>
-
-          {error && <div className="text-red-500 text-center mt-4">{error}</div>}
         </form>
-
         <p className="mt-5 text-center text-sm text-gray-500">
           Chưa có tài khoản?
           <div onClick={() => setTab(TabType.REGISTER)} className="font-semibold leading-6 text-orange-600 hover:text-orange-500 underline cursor-pointer">
