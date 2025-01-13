@@ -39,7 +39,7 @@ const OrderView = () => {
   }, [initialOrderItems]);
 
   const totalPrice = useMemo(() => {
-    return orderItemsSession.reduce(
+    return orderItemsSession?.reduce(
       (acc: any, item: any) => {
         const priceAfterDiscount = item.price - (item.price * item.discount) / 100;
         acc.totalSale += priceAfterDiscount * item.quantity;
@@ -71,7 +71,7 @@ const OrderView = () => {
     }));
     const formData: any = {
       billData: {
-        total_amount_order: totalPrice.totalSale,
+        total_amount_order: totalPrice?.totalSale,
         id_address: selectedAddress,
         status: 0,
         createAt: dayjs(),
@@ -201,13 +201,13 @@ const OrderView = () => {
                 </div>
                 <ul className="w-full md:w-auto *:flex *:items-center *:justify-between *:text-nowrap *:gap-2 *:text-[#0000008a]">
                   <li>
-                    Tổng tiền hàng: <span className="text-black text-sm">{formatVND(totalPrice.totalNotSale, 0)}</span>
+                    Tổng tiền hàng: <span className="text-black text-sm">{formatVND(totalPrice?.totalNotSale, 0)}</span>
                   </li>
                   <li>
-                    Giảm giá sản phẩm: <span className="text-black text-sm">{formatVND(totalPrice.totalNotSale - totalPrice.totalSale)}</span>
+                    Giảm giá sản phẩm: <span className="text-black text-sm">{formatVND(totalPrice?.totalNotSale - totalPrice?.totalSale)}</span>
                   </li>
                   <li>
-                    Tổng thanh toán: <span className="text-[#ee4d2d] text-xl font-medium">{formatVND(totalPrice.totalSale)}</span>
+                    Tổng thanh toán: <span className="text-[#ee4d2d] text-xl font-medium">{formatVND(totalPrice?.totalSale)}</span>
                   </li>
                   <div className="text-center flex justify-center py-7">
                     <Button onClick={handleCreateOrder} className="bg-[#ee4d2d] w-full md:w-56 px-2 py-2 rounded-md text-white">

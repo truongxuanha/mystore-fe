@@ -38,3 +38,12 @@ export type BillDetailType = {
   address: AddressInBillType;
   products: ProductInBillType[];
 };
+export type UpdateStatusOrderType = {
+  email: string;
+  confirmAt?: any;
+  status: number;
+  id_import: string;
+  total_unit_price?: number;
+  id: number;
+  callBack: any;
+};

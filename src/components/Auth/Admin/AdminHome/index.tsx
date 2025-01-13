@@ -28,21 +28,27 @@ const AdminHome = () => {
   const items: { title: string; image: any; total: number | string; bg: string }[] = [
     {
       title: "Khách hàng",
-      image: <UserPlusIcon width={30} height={30} fill="white" className="text-white" />,
+      image: <UserPlusIcon width={25} height={25} fill="white" className="text-white" />,
       total: statisticalData ? statisticalData.total_customers : 0,
       bg: "#30c2aa",
     },
     {
       title: "Tổng sản phẩm",
-      image: <BuildingStorefrontIcon width={30} height={30} className="text-white" />,
+      image: <BuildingStorefrontIcon width={25} height={25} className="text-white" />,
       total: statisticalData ? statisticalData.total_products : 0,
       bg: "#ff6801",
     },
     {
-      title: "Đơn hàng chờ xử lý",
-      image: <ClockIcon width={30} height={30} className="text-white" />,
+      title: "Đơn chưa xử lý",
+      image: <ClockIcon width={25} height={25} className="text-white" />,
       total: statisticalData?.total_pending_orders ?? 0,
       bg: "#2f80ed",
+    },
+    {
+      title: "Tổng lợi nhuận",
+      image: <ClipboardDocumentListIcon width={25} height={25} className="text-white" />,
+      total: formatVND(statisticalData?.total_profit ?? 0),
+      bg: "green",
     },
     {
       title: "Tổng doanh thu",
@@ -51,7 +57,7 @@ const AdminHome = () => {
       bg: "#fd475a",
     },
   ];
-  
+
   return (
     <ContainerHomeAdmin>
       <HeaderHomeAdmin className="text-center text-3xl font-medium my-10">Quản trị</HeaderHomeAdmin>
@@ -68,8 +74,8 @@ const AdminHome = () => {
 };
 const Statistical = ({ title, total, image, bg }: { title: string; image: any; total: number | string; bg: string }) => {
   return (
-    <StatisticalItem className="flex items-center gap-5">
-      <div style={{ backgroundColor: bg }} className="h-16 w-16 rounded-full flex items-center justify-center">
+    <StatisticalItem className="flex items-center gap-3">
+      <div style={{ backgroundColor: bg }} className="h-14 w-14 rounded-full flex items-center justify-center">
         {image}
       </div>
       <div>

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { MainContent, WrapperFormImport } from "./styled";
 import { ProductsType } from "types";
 import { axiosInstance } from "utils/axiosConfig";
@@ -6,10 +6,12 @@ import Button from "customs/Button";
 import { useAppDispatch, useAppSelector } from "hooks/useAppDispatch";
 import { getManuThunk } from "redux/manufacture/manuThunk";
 import { isEmpty } from "utils";
-import { PlusIcon } from "lucide-react";
+import { PlusIcon, SearchIcon } from "lucide-react";
 import { TrashIcon } from "@heroicons/react/24/outline";
 import { importProductThunk } from "redux/admin/adminThunk";
 import { CreateImportType } from "redux/admin/type";
+import { getProducts } from "redux/product/productThunk";
+import useDebounce from "hooks/useDebouncs";
 
 interface ImportDataType {
   productId: number;
@@ -26,6 +28,10 @@ const ImportProduct = () => {
   const [note, setNote] = useState<string>("");
   const { currentUser } = useAppSelector((state) => state.auth);
   const { manuItems } = useAppSelector((state) => state.manufacturer);
+  const [searchQuery, setySearchQuery] = useState("");
+  const debounce = useDebounce({ value: searchQuery, delay: 500 });
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const dispatch = useAppDispatch();
 
@@ -95,17 +101,88 @@ const ImportProduct = () => {
         provider_id: item.supplierId,
       })),
     };
-    const callBack = () => "";
+    const callBack = () => {
+      setImportData([]);
+    };
     dispatch(importProductThunk({ params: data, callBack }));
   };
+  const handleClickOutside = (event: MouseEvent) => {
+    if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
+      setIsDropdownOpen(false);
+    }
+  };
+
+  const handleFocus = () => {
+    if (searchQuery.trim()) {
+      setIsDropdownOpen(true);
+    }
+  };
+  const handleClickItemSearch = (id: number) => {
+    const product = products.find((p) => p.product_id === id);
+    if (product && !importData.some((item) => item.productId === product.product_id)) {
+      setImportData([
+        ...importData,
+        {
+          productId: product.product_id,
+          productName: product.product_name,
+          quantity: 1,
+          price: 0,
+          supplierId: null,
+        },
+      ]);
+    }
+    setIsDropdownOpen(false);
+  };
+  useEffect(() => {
+    document.addEventListener("click", handleClickOutside);
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, []);
+  useEffect(() => {
+    if (!debounce.trim()) return;
+    dispatch(getProducts({ currentPage: 1, itemsPerPage: 50, query: debounce, manufacturer: "all" }));
+  }, [debounce, dispatch]);
 
   return (
     <WrapperFormImport>
       <h2 className="uppercase text-center py-2 text-2xl">Nhập hàng</h2>
       <MainContent>
         <div className="flex p-2 gap-5">
+          <div className="flex items-center h-10 flex-1 relative" ref={containerRef}>
+            <input
+              type="search"
+              className="border h-full flex-1 px-2 focus:border-red-200"
+              placeholder="Tìm kiếm..."
+              onFocus={handleFocus}
+              value={searchQuery}
+              onChange={(e) => setySearchQuery(e.target.value)}
+            />
+            <div className="h-full flex items-center bg-colorPrimary px-3">
+              <SearchIcon color="white" />
+            </div>
+            {isDropdownOpen && !!searchQuery && (
+              <ul className="max-h-80 overflow-y-auto bar transition-all absolute top-10 scrollbar">
+                {!isEmpty(products) &&
+                  products.map((product) => (
+                    <li
+                      key={product.id}
+                      className="p-2 hover:bg-orange-100 cursor-pointer border-b last:border-none bg-gray-100"
+                      onClick={() => handleClickItemSearch(product.product_id)}
+                    >
+                      <div className="text-sm cursor-pointer">
+                        <span className="flex items-center">
+                          <p className="ml-2">
+                            {product?.product_name} - {product?.price?.toLocaleString()} VND
+                          </p>
+                        </span>
+                      </div>
+                    </li>
+                  ))}
+              </ul>
+            )}
+          </div>
           <div>
-            <label className="mb-2 mr-3 text-center">Sản phẩm: </label>
             <select value={selectedProduct || ""} onChange={(e) => setSelectedProduct(Number(e.target.value))} className="border h-10 mb-2">
               <option value="" disabled>
                 Chọn sản phẩm

@@ -121,10 +121,10 @@ const MyPurchase = () => {
                       )}
                     </div>
                     <div className="w-auto space-y-3">
+                      <span className="flex items-center justify-between text-sm">Tổng tiền sản phẩm : {formatVND(totalPrice[idx])}</span>
                       <span className="flex items-center justify-between text-sm">
                         Giảm : <span className="ml-2">{formatVND(totalPrice[idx] - item.total_amount_order)}</span>
                       </span>
-                      <span className="flex items-center justify-between text-sm">Tổng tiền sản phẩm : {formatVND(totalPrice[idx])}</span>
                       <p className="flex items-center justify-between">
                         Thành tiền: <span className="text-2xl text-[#ee4d2d] ml-2">{formatVND(item.total_amount_order)}</span>
                       </p>

@@ -13,6 +13,7 @@ import {
 } from "./api";
 import { toastifySuccess, toastifyWarning } from "utils/toastify";
 import dayjs from "dayjs";
+import { UpdateStatusOrderType } from "./type";
 
 export const createOrderThunk = createAsyncThunk("order/createOrderNow", async ({ id_address, total_amount_order }: InitOrder, {}) => {
   try {
@@ -52,23 +53,7 @@ export const getBillByAccountThunk = createAsyncThunk("order/getBillByAccount", 
 
 export const updateStatusOrderThunk = createAsyncThunk(
   "order/updateStatusOrder",
-  async ({
-    email,
-    status,
-    id_import,
-    id,
-    total_unit_price,
-    confirmAt = dayjs().format("YYYY/MM/DD hh:mm:ss A"),
-    callBack,
-  }: {
-    email: string;
-    confirmAt?: any;
-    status: number;
-    id_import: string;
-    total_unit_price: number;
-    id: number;
-    callBack: any;
-  }) => {
+  async ({ email, status, id_import, id, total_unit_price, confirmAt = dayjs().format("YYYY/MM/DD hh:mm:ss A"), callBack }: UpdateStatusOrderType) => {
     try {
       const res = await updateStatusOrderApi({ email, status, id, confirmAt, id_import, total_unit_price });
       callBack();

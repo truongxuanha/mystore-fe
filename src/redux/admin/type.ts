@@ -14,6 +14,7 @@ export type StatisticalType = {
   total_pending_orders: number;
   total_customers: number;
   total_monthly_revenue: number;
+  total_profit: number;
 };
 export type BannerCreateType = {
   image: any;

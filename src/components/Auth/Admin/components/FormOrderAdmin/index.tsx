@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Button from "customs/Button";
 import TitleProfile from "customs/TitleProfile";
 import { TrashIcon } from "@heroicons/react/24/outline";
@@ -21,8 +21,31 @@ const nextStatus = ["Xác nhận đơn hàng", "Xác nhận đã gửi hàng", "
 function FormOrderAdmin({ setShow, currentOrderDetail }: Props) {
   const [animationClass, setAnimationClass] = useState("modal-enter");
   const page = useGetSearchParams(["page"]).page || 1;
+  const [selectIdImport, setSelectIdImport] = useState<any>("");
   const { detailBill, loadingBillDetail, detailImportData } = useAppSelector((state) => state.order);
-  const [selectIdImport, setSelectIdImport] = useState("");
+  // console.log(detailImportData);
+  // console.log(detailBill);
+
+  const totalUnitPrice = useMemo(() => {
+    return detailBill?.products.reduce((total, product) => {
+      const productDetails = detailImportData?.[product.id_product]?.details || [];
+
+      if (productDetails.length === 1 && selectIdImport === "") {
+        setSelectIdImport(productDetails[0].id_import);
+      }
+
+      productDetails.forEach((detail) => {
+        if (String(selectIdImport) === String(detail.id_import)) {
+          total += detail.unit_price * product.quantity;
+        }
+      });
+      return total;
+    }, 0);
+  }, [detailBill, detailImportData, selectIdImport]);
+
+  const handleSelectChange = (e: any) => {
+    setSelectIdImport(e.target.value);
+  };
   const dispatch = useAppDispatch();
   const handleClose = () => {
     setAnimationClass("modal-exit");
@@ -44,7 +67,7 @@ function FormOrderAdmin({ setShow, currentOrderDetail }: Props) {
         status: currentOrderDetail.status + 1,
         id_import: selectIdImport,
         id: currentOrderDetail.id,
-        total_unit_price: 10,
+        total_unit_price: totalUnitPrice,
         callBack,
       }),
     );
@@ -85,7 +108,7 @@ function FormOrderAdmin({ setShow, currentOrderDetail }: Props) {
           <div className="col-span-1">Mã sản phẩm</div>
           <div className="col-span-1">Số lượng</div>
           <div className="col-span-1">Đơn giá (vnđ)</div>
-          <div className="col-span-1">Giá nhập (vnđ)</div>
+          {currentOrderDetail.status === 0 && <div className="col-span-1">Giá nhập (vnđ)</div>}
           <div className="col-span-1">Chiết khấu(%)</div>
           <div className="col-span-1">Thành tiền</div>
         </div>
@@ -104,17 +127,22 @@ function FormOrderAdmin({ setShow, currentOrderDetail }: Props) {
                 <div className="col-span-1">{product.id_product}</div>
                 <div className="col-span-1">{product.quantity}</div>
                 <div className="col-span-1">{formatVND(product.price)}</div>
-                <div className="col-span-1">
-                  <select className="p-2 border" onChange={(e) => setSelectIdImport(e.target.value)}>
-                    {detailImportData &&
-                      !isEmpty(detailImportData) &&
-                      detailImportData[product.id_product]?.details?.map((detail, idx) => (
-                        <option key={idx} value={detail.id_import}>
-                          {formatVND(detail.unit_price)}
+                {currentOrderDetail.status === 0 && (
+                  <select className="p-2 border" value={selectIdImport} onChange={handleSelectChange}>
+                    {detailImportData && !isEmpty(detailImportData) && (
+                      <>
+                        <option key={idx} value="">
+                          Giá nhập
                         </option>
-                      ))}
+                        {detailImportData[product.id_product]?.details?.map((detail, idx) => (
+                          <option key={idx} value={detail.id_import}>
+                            {formatVND(detail.unit_price)}
+                          </option>
+                        ))}
+                      </>
+                    )}
                   </select>
-                </div>
+                )}
                 <div className="col-span-1">{product.discount}</div>
                 <div className="col-span-1">{formatVND(product?.price * product.quantity, product.discount)}</div>
               </div>

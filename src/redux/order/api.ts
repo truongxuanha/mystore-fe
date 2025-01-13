@@ -60,7 +60,7 @@ export async function updateStatusOrderApi({
   id: number;
   email: string;
   status: number;
-  total_unit_price: number;
+  total_unit_price?: number;
 }) {
   try {
     const res = await axiosInstance.put(`/bill/${id}/update-status`, { confirmAt, email, id_import, status, total_unit_price });
