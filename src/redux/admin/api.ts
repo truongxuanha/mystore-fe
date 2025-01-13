@@ -1,5 +1,5 @@
 import { axiosInstance } from "utils/axiosConfig";
-import { BannerCreateType } from "./type";
+import { BannerCreateType, CreateImportType } from "./type";
 
 export async function getRevenueApi() {
   try {
@@ -40,16 +40,21 @@ export async function createBannerApi({ path, image }: BannerCreateType) {
 }
 export async function deleteBannerApi(id: number | string) {
   const res = await axiosInstance.delete(`/banner/${id}/remove`);
-  if (!res.data.status) throw new Error("Failed to get banner!");
   return res.data;
 }
 export async function updateCustomerApi(id: string, status: number) {
   const res = await axiosInstance.put(`/account/${id}/update-by-id`, { status });
-  if (!res.data.status) throw new Error("Failed to get banner!");
   return res.data;
 }
 export async function deleteCustomerApi(id: string) {
   const res = await axiosInstance.delete(`/account/${id}/remove`);
-  if (!res.data.status) throw new Error("Failed to get banner!");
   return res.data;
 }
+export async function importProductApi(data: CreateImportType) {
+  const res = await axiosInstance.post(`/revenue/import-product`, { ...data });
+  return res.data;
+}
+// export async function createImportProductApi({ data }: any) {
+//   const res = await axiosInstance.post(`/revenue/import-product`, { ...data });
+//   return res.data;
+// }

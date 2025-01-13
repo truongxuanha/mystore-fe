@@ -13,6 +13,7 @@ import { Input } from "@headlessui/react";
 import useParams from "hooks/useParams";
 import { ITEM_IN_PAGE } from "libs/contains";
 import FormAddImage from "../components/FormAddImage";
+import useDebounce from "hooks/useDebouncs";
 const option = [
   { option_id: 1, title: texts.option_sort.ALL_PRODUCT, value: "all" },
   { option_id: 2, title: texts.option_sort.UP, value: "ASC" },
@@ -28,6 +29,9 @@ const AdminProduct = () => {
   const page = useGetSearchParams(["page"]).page || 1;
   const { setParams } = useParams();
   const [searchQuery, setSearchQuery] = useState("");
+  const debounce = useDebounce({ value: searchQuery, delay: 500 });
+  const { clearParams, setNewsParams } = useParams();
+
   const changeInfoProduct =
     actionType === ActionAdminEnum.ADD || actionType === ActionAdminEnum.EDIT || actionType === ActionAdminEnum.VIEW || actionType === ActionAdminEnum.DELETE;
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -36,14 +40,23 @@ const AdminProduct = () => {
   };
 
   const handleSearch = () => {
-    if (!searchQuery.trim()) return;
+    setNewsParams({ search: searchQuery, page: page });
+    if (!debounce && debounce !== "") return;
+    if (searchQuery === "") {
+      clearParams(["search"]);
+    }
     dispatch(getProducts({ query: searchQuery, itemsPerPage: ITEM_IN_PAGE }));
     setParams({ search: searchQuery });
   };
   useEffect(() => {
+    setNewsParams({ search: searchQuery, page: page });
+    if (!debounce && debounce !== "") return;
+    if (searchQuery === "") {
+      clearParams(["search"]);
+    }
     dispatch(getProducts({ currentPage: page, itemsPerPage: ITEM_IN_PAGE, query: searchQuery ? searchQuery : undefined }));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch, page]);
+  }, [dispatch, page, debounce, page]);
   const columns = [
     texts.product.PRODUCT_ID,
     texts.product.PRODUCT_NAME,

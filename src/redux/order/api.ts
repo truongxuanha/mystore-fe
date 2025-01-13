@@ -47,9 +47,23 @@ export async function getBillByAccountApi(status: string | number = "all") {
   }
 }
 
-export async function updateStatusOrderApi({ confirmAt, email, status, id }: { confirmAt?: any; id: number; email: string; status: number }) {
+export async function updateStatusOrderApi({
+  confirmAt,
+  email,
+  status,
+  id_import,
+  total_unit_price,
+  id,
+}: {
+  confirmAt?: any;
+  id_import: string;
+  id: number;
+  email: string;
+  status: number;
+  total_unit_price: number;
+}) {
   try {
-    const res = await axiosInstance.put(`/bill/${id}/update-status`, { confirmAt, email, status });
+    const res = await axiosInstance.put(`/bill/${id}/update-status`, { confirmAt, email, id_import, status, total_unit_price });
     if (!res.data.success) throw new Error(res.data.data);
     return res.data.data;
   } catch (err) {
@@ -91,5 +105,10 @@ export async function verifyPaymentApi({ vnp_ResponseCode, orderId }: { vnp_Resp
       orderId,
     },
   });
+  return res.data;
+}
+
+export async function getImportByIdProductApi({ idsProduct }: { idsProduct: string }) {
+  const res = await axiosInstance.get(`/revenue/get-import-id-product?ids=${idsProduct}`);
   return res.data;
 }

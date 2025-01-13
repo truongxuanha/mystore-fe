@@ -6,7 +6,7 @@ import { MinusIcon, PlusIcon, ShoppingCartIcon } from "@heroicons/react/24/outli
 import { Input } from "@headlessui/react";
 import { texts } from "libs/contains/texts";
 import useAddToCart from "hooks/useAddCart";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useAppDispatch } from "hooks/useAppDispatch";
 import { handleOrder } from "redux/order/orderSlice";
@@ -14,9 +14,11 @@ import { OrderTypeEnum, ProductOrderType } from "redux/order/type";
 import { ProductsType } from "types";
 import Button from "customs/Button";
 import { cupons } from "libs/contains/coupons";
+import useAuthenticated from "hooks/useAuthenticated";
 
 const InforProduct = ({ infoProduct }: { infoProduct: ProductsType }) => {
   const { addToCart } = useAddToCart();
+  const { isAdmin } = useAuthenticated();
   const navigate = useNavigate();
   const [quantity, setQuantity] = useState<number>(1);
   const dispatch = useAppDispatch();
@@ -80,42 +82,48 @@ const InforProduct = ({ infoProduct }: { infoProduct: ProductsType }) => {
             })}
           </div>
         </div>
-        <div className="flex flex-col items-start gap-2 m-2">
-          {infoProduct?.remaining_quantity > 0 ? (
-            <>
-              <div className="flex items-center my-5 gap-5">
-                <span>Số lượng:</span>
-                <div className="border flex items-center">
-                  <Button onClick={decreaseQuantity} className="bg-colorBody px-3 py-2 border-r font-medium text-xl">
-                    <MinusIcon width={20} />
-                  </Button>
-                  <Input name="quantity" disabled className="w-14 text-center" onChange={handleQuantityChange} value={quantity} />
-                  <Button onClick={increaseQuantity} className="bg-colorBody border-l px-3 py-2 font-medium text-xl">
-                    <PlusIcon width={20} />
-                  </Button>
+        {isAdmin ? (
+          <Link to="/admin/product" className=" w-40 my-10">
+            <div className="bg-[#ee4d2d] py-3 px-5 text-center text-white text-xs hover:opacity-70">Quản lý sản phẩm</div>
+          </Link>
+        ) : (
+          <div className="flex flex-col items-start gap-2 m-2">
+            {infoProduct?.remaining_quantity > 0 ? (
+              <>
+                <div className="flex items-center my-5 gap-5">
+                  <span>Số lượng:</span>
+                  <div className="border flex items-center">
+                    <Button onClick={decreaseQuantity} className="bg-colorBody px-3 py-2 border-r font-medium text-xl">
+                      <MinusIcon width={20} />
+                    </Button>
+                    <Input name="quantity" disabled className="w-14 text-center" onChange={handleQuantityChange} value={quantity} />
+                    <Button onClick={increaseQuantity} className="bg-colorBody border-l px-3 py-2 font-medium text-xl">
+                      <PlusIcon width={20} />
+                    </Button>
+                  </div>
                 </div>
-              </div>
-              <div className="flex gap-3">
-                <div className="h-10">
-                  <Button
-                    className="bg-[#ff57221a] text-center border border-[#ee4d2d] text-[#ee4d2d] px-10 text-xs hover:opacity-70"
-                    onClick={() => addToCart(infoProduct?.id_product, quantity)}
-                  >
-                    <ShoppingCartIcon width={20} className="mr-2" />
-                    <span>{texts.common.ADD_TO_CART}</span>
-                  </Button>
+                <div className="flex gap-3">
+                  <div className="h-10">
+                    <Button
+                      className="bg-[#ff57221a] text-center border border-[#ee4d2d] text-[#ee4d2d] px-10 text-xs hover:opacity-70"
+                      onClick={() => addToCart(infoProduct?.id_product, quantity)}
+                    >
+                      <ShoppingCartIcon width={20} className="mr-2" />
+                      <span>{texts.common.ADD_TO_CART}</span>
+                    </Button>
+                  </div>
+                  <div className="h-10">
+                    <Button className="bg-[#ee4d2d] px-5 text-center text-white text-xs hover:opacity-70" onClick={handleOrderNow}>
+                      {texts.order.ORDER_NOW}
+                    </Button>
+                  </div>
                 </div>
-                <div className="h-10">
-                  <Button className="bg-[#ee4d2d] px-5 text-center text-white text-xs hover:opacity-70" onClick={handleOrderNow}>
-                    {texts.order.ORDER_NOW}
-                  </Button>
-                </div>
-              </div>
-            </>
-          ) : (
-            <span className="px-2 py-[3px] text-white bg-red-500 rounded-md opacity-70 cursor-not-allowed">{texts.product.OUT_OF_STOCK}</span>
-          )}
-        </div>
+              </>
+            ) : (
+              <span className="px-2 py-[3px] text-white bg-red-500 rounded-md opacity-70 cursor-not-allowed">{texts.product.OUT_OF_STOCK}</span>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );

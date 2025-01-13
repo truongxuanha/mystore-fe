@@ -54,11 +54,28 @@ const menuSideBar = [
     icon: iconProductActive,
   },
   {
-    id: "category-product",
-    path: "category-product",
-    title: "Loại sản phẩm",
+    id: "product-transaction",
+    path: "product-transaction",
+    title: "Nhập xuất hàng",
     active: iconTag,
     icon: iconTagActive,
+    subNav: [
+      {
+        id: 1,
+        title: "Danh sách nhập",
+        path: "",
+      },
+      {
+        id: 2,
+        title: "Nhập hàng",
+        path: "",
+      },
+      {
+        id: 3,
+        title: "Xuất hàng",
+        path: "",
+      },
+    ],
   },
   {
     id: "order",

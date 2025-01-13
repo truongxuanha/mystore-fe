@@ -3,40 +3,67 @@ import { useAppDispatch, useAppSelector } from "hooks/useAppDispatch";
 import useGetSearchParams from "hooks/useGetSearchParams";
 import { texts } from "libs/contains/texts";
 import { useEffect, useState } from "react";
-import { getProducts } from "redux/product/productThunk";
 import Table from "customs/Table";
 import ButtonAction from "customs/ButtonAction";
 import Pagination from "customs/Pagination";
 import { Input } from "@headlessui/react";
 import { getAllBillThunk } from "redux/bill/billThunk";
 import FormOrderAdmin from "../components/FormOrderAdmin";
+import useDebounce from "hooks/useDebouncs";
+import useParams from "hooks/useParams";
+import { useSearchParams } from "react-router-dom";
 
 const option = [
-  { option_id: 1, title: texts.list_staff.ALL_STAFF, value: "all" },
-  { option_id: 2, title: texts.list_staff.MANAGER, value: "0" },
-  { option_id: 3, title: texts.list_staff.STAFF, value: "2" },
+  { option_id: 1, title: "Tất cả", value: "all" },
+  { option_id: 2, title: "Chờ xác nhận", value: "0" },
+  { option_id: 3, title: "Chờ lấy hàng", value: "1" },
+  { option_id: 3, title: "Đang giao hàng", value: "2" },
+  { option_id: 3, title: "Đã giao hàng", value: "3" },
+  { option_id: 3, title: "Đã hủy", value: "4" },
 ];
-
+const statusConvert: { [key: number | string]: string } = {
+  0: "wait_approval",
+  1: "awaiting_pickup",
+  2: "in_delivery",
+  3: "delivered",
+  4: "cancelled",
+  all: "all",
+};
 function AdminOrder() {
   const dispatch = useAppDispatch();
   const { bills, totalPage } = useAppSelector((state) => state.bill);
-
-  const [showModal, setShowModal] = useState<boolean>(false);
   const page = useGetSearchParams(["page"]).page || 1;
+  const [searchParams, setSearchParams] = useSearchParams();
+
   const [searchQuery, setSearchQuery] = useState("");
   const [currentOrderDetail, setCurrentOrderDetail] = useState<any>();
+  const debounce = useDebounce({ value: searchQuery, delay: 500 });
+  const { clearParams, setNewsParams } = useParams();
+  const [showModal, setShowModal] = useState<boolean>(false);
+  const [selectOption, setSelectOption] = useState(searchParams.get("sort") || "all");
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const query = e.target.value;
     setSearchQuery(query);
   };
-
+  const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedValue = e.target.value;
+    setSelectOption(selectedValue);
+    const querySort = statusConvert[selectedValue];
+    setSearchParams({ sort: querySort });
+  };
   const handleSearch = () => {
     if (!searchQuery.trim()) return;
-    dispatch(getProducts({ query: searchQuery, itemsPerPage: 5 }));
+    dispatch(getAllBillThunk({ query: searchQuery, page, item: 5 }));
   };
   useEffect(() => {
-    dispatch(getAllBillThunk({ query: "", page, item: 5 }));
-  }, [dispatch, page]);
+    if (!debounce && debounce !== "") return;
+    setNewsParams({ query: searchQuery, status: selectOption });
+    if (searchQuery === "") {
+      clearParams(["query"]);
+    }
+    dispatch(getAllBillThunk({ query: searchQuery, page, item: 10, status: selectOption }));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dispatch, page, debounce, selectOption]);
   const columns = [
     texts.bill.BILL_ID,
     texts.bill.CUSTOMER_ID,
@@ -75,7 +102,7 @@ function AdminOrder() {
             </span>
           </div>
           <div className="flex gap-2 items-center">
-            <select className="h-8 px-4">
+            <select className="h-8 px-4" onChange={handleSelect}>
               {option.map((opt) => (
                 <option key={opt.option_id} value={opt.value}>
                   {opt.title}

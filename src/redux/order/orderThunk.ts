@@ -7,6 +7,7 @@ import {
   createPaymentApi,
   getBillByAccountApi,
   getDetailBillByIdApi,
+  getImportByIdProductApi,
   updateStatusOrderApi,
   verifyPaymentApi,
 } from "./api";
@@ -54,18 +55,22 @@ export const updateStatusOrderThunk = createAsyncThunk(
   async ({
     email,
     status,
+    id_import,
     id,
+    total_unit_price,
     confirmAt = dayjs().format("YYYY/MM/DD hh:mm:ss A"),
     callBack,
   }: {
     email: string;
     confirmAt?: any;
     status: number;
+    id_import: string;
+    total_unit_price: number;
     id: number;
     callBack: any;
   }) => {
     try {
-      const res = await updateStatusOrderApi({ email, status, id, confirmAt });
+      const res = await updateStatusOrderApi({ email, status, id, confirmAt, id_import, total_unit_price });
       callBack();
       return res;
     } catch (err) {
@@ -128,3 +133,8 @@ export const verifyPaymentThunk = createAsyncThunk(
     return res;
   },
 );
+
+export const getImportByIdProductThunk = createAsyncThunk("order/getImportByIdProduct", async ({ idsProduct }: { idsProduct: string }) => {
+  const res = await getImportByIdProductApi({ idsProduct });
+  return res.data;
+});

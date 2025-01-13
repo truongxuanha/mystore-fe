@@ -5,6 +5,7 @@ export type CommentProductType = {
   star?: string | number;
   createAt?: string;
   product_id: number;
+  id_account?: string;
 };
 export type CreateCommentType = {
   content: string;

@@ -4,6 +4,7 @@ import Footer from "../components/Footer";
 import LayoutWrapper from "./LayoutWrapper";
 
 const PublicLayout = () => {
+  
   return (
     <>
       <LayoutWrapper>

@@ -14,6 +14,7 @@ import FormEditEmployee from "../components/FormEditEmployee";
 import FormAddEmployee from "../components/FormAddEmployee";
 import { isEmpty } from "utils";
 import useSearchParamsPageAndQuery from "hooks/useSearchParamsPageAndQuey";
+import useParams from "hooks/useParams";
 
 function AdminStaff() {
   const { all_accounts, totalAccount } = useAppSelector((state) => state.auth);
@@ -25,11 +26,16 @@ function AdminStaff() {
   const [querySearch, setSearchQuery] = useState("");
   const debounce = useDebounce({ value: querySearch, delay: 500 });
   const { currentPage } = useSearchParamsPageAndQuery();
+  const { clearParams, setNewsParams, setParams } = useParams();
   useEffect(() => {
-    if (debounce.trim()) {
-      dispatch(authGetAllAccount({ page: currentPage, permission: selectOption, query: querySearch }));
+    if (!debounce && debounce !== "") return;
+    setNewsParams({ query: querySearch, sort: selectOption, page: currentPage });
+    if (querySearch === "") {
+      clearParams(["query"]);
     }
-  }, [dispatch, currentPage, selectOption, querySearch, debounce]);
+    dispatch(authGetAllAccount({ page: currentPage, permission: selectOption, query: querySearch }));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dispatch, debounce, currentPage, selectOption]);
   useEffect(() => {
     if (isEmpty(all_accounts)) {
       dispatch(authGetAllAccount({ page: currentPage, permission: selectOption }));
@@ -39,6 +45,7 @@ function AdminStaff() {
   const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedValue = e.target.value;
     setSelectOption(selectedValue);
+    setParams({ sort: selectedValue });
   };
 
   const handleEdit = (id: string | number) => {

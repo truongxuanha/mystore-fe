@@ -16,21 +16,26 @@ const ProductDetail: React.FC = () => {
   const [rating, setRating] = useState<number>(0);
   const dispatch = useDispatch<AppDispatch>();
   const { infoProduct, loadingProductDetail } = useAppSelector((state) => state.product);
+  const { currentUser } = useAppSelector((state) => state.auth);
+
+  const [showRating, setShowRating] = useState(false);
+
   const [contentComment, setContentComment] = useState<any>("");
   const { id } = useParams();
   useEffect(() => {
     dispatch(getInFoProducts(Number(id)));
-    dispatch(getCommentByIdProductThunk({ product_id: Number(id) }));
-  }, [dispatch, id]);
+    dispatch(getCommentByIdProductThunk({ product_id: Number(id), id_account: currentUser?.user.id }));
+  }, [currentUser?.user.id, dispatch, id]);
   useEffect(() => {}, [dispatch]);
   if (!infoProduct) return <div>{texts.product.PRODUCT_NOT_FOUND}</div>;
 
   const handleCreateCmt = async (parent_id?: number, isAnswer?: boolean) => {
     if ((rating < 1 && !isAnswer) || contentComment === "") return;
     const callBack = () => {
-      dispatch(getCommentByIdProductThunk({ product_id: Number(id) }));
+      dispatch(getCommentByIdProductThunk({ product_id: Number(id), id_account: currentUser?.user.id }));
       setContentComment("");
       setRating(0);
+      setShowRating(false);
     };
     dispatch(createCmtByIdProductThunk({ star: rating === 0 ? undefined : rating, id_product: infoProduct.id, content: contentComment, parent_id, callBack }));
   };
@@ -57,6 +62,8 @@ const ProductDetail: React.FC = () => {
             handleCreateCmt={handleCreateCmt}
             setContentComment={setContentComment}
             contentComment={contentComment}
+            showRating={showRating}
+            setShowRating={setShowRating}
           />
         </div>
         <ProductRandom />

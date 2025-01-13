@@ -17,7 +17,7 @@ function Table({ columns, rows, operations }: Props) {
         </tr>
       </thead>
       <tbody>
-        {rows.map((row, idx) => (
+        {rows?.map((row, idx) => (
           <tr className={`border ${idx % 2 !== 0 && "bg-slate-100"}`} key={idx}>
             {row.map((cell, cellIndex) => (
               <td className="border px-3 py-2 text-xs lg:text-sm" key={cellIndex}>

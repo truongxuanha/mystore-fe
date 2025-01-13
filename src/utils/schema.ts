@@ -60,7 +60,7 @@ const schemaRegisterUser = yup.object().shape({
   confirm_password: yup
     .string()
     .required("Vui lòng nhập lại mật khẩu.")
-    .oneOf([yup.ref("newpass"), ""], "Mật khẩu xác nhận không khớp."),
+    .oneOf([yup.ref("password"), ""], "Mật khẩu xác nhận không khớp."),
 });
 
 const schemaForpassEmail = yup.object().shape({
@@ -120,7 +120,9 @@ const schemaChangePassword = yup.object().shape({
 const schemaCreateBanner = yup.object().shape({
   path: yup.string(),
 });
-
+const schemaCreatePopup = yup.object().shape({
+  url_transit: yup.string().required("Vui lòng nhập đường dẫn"),
+});
 const schemaUserAdmin = yup.object().shape({
   id: yup.string(),
   account_name: yup.string().required("Vui lòng nhập tên tài khoản.").min(3, "Tên tài khoản phải có ít nhất 3 ký tự."),
@@ -220,4 +222,5 @@ export {
   schemaProvider,
   schemaCustomer,
   schemaCmt,
+  schemaCreatePopup,
 };

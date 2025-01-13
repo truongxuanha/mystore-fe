@@ -11,15 +11,12 @@ import { Input } from "@headlessui/react";
 import { getAllManuThunk } from "redux/manufacture/manuThunk";
 import ImageLazy from "customs/ImageLazy";
 import FormProviderAdmin from "../components/FormProvider";
-import { isEmpty } from "utils";
+import useDebounce from "hooks/useDebouncs";
+import { useSearchParams } from "react-router-dom";
+import { PAGE } from "types";
+import useParams from "hooks/useParams";
 
-const option = [
-  { option_id: 1, title: texts.list_staff.ALL_STAFF, value: "all" },
-  { option_id: 2, title: texts.list_staff.MANAGER, value: "0" },
-  { option_id: 3, title: texts.list_staff.STAFF, value: "2" },
-];
-
-function AdminProvider() {
+const AdminProvider = () => {
   const dispatch = useAppDispatch();
   const { manufactures, totalPage } = useAppSelector((state) => state.manufacturer);
 
@@ -27,6 +24,8 @@ function AdminProvider() {
   const [actionType, setActionType] = useState<ActionAdminEnum>();
   const [currentProvider, setCurrentProvider] = useState<any>();
   const page = useGetSearchParams(["page"]).page || 1;
+  const { clearParams, setNewsParams } = useParams();
+
   // const [searchQuery, setSearchQuery] = useState("");
 
   // const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -38,12 +37,22 @@ function AdminProvider() {
   //   if (!searchQuery.trim()) return;
   //   dispatch(getProducts({ query: searchQuery, itemsPerPage: 5 }));
   // };
+  const [searchParams] = useSearchParams();
+
+  const [searchQuery, setSearchQuery] = useState<string>(searchParams.get("search") || "");
+  const debounce = useDebounce({ value: searchQuery, delay: 500 });
+  const currentPage: number = parseInt(searchParams.get(PAGE.page) || "1");
+
   useEffect(() => {
-    if (isEmpty(manufactures)) {
-      dispatch(getAllManuThunk({ query: "", page, item: 5 }));
+    setNewsParams({ search: searchQuery, page });
+    if (!debounce && debounce !== "") return;
+    if (searchQuery === "") {
+      clearParams(["search"]);
     }
+    dispatch(getAllManuThunk({ query: searchQuery, page, item: 5 }));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch, page]);
+  }, [dispatch, currentPage, debounce]);
+
   const columns = [
     texts.manufacture.MANUFACTURE_ID,
     texts.manufacture.MANUFACTURE,
@@ -90,20 +99,13 @@ function AdminProvider() {
   return (
     <div className="px-3 bg-white">
       <div className="flex justify-between mt-2 bg-colorBody p-4">
-        <div className="flex bg-white items-center h-8 w-80 border border-blue-300">
-          <Input type="search" placeholder="Tìm kiếm..." className="h-full px-2 flex-1" />
-          <span className="h-full flex items-center px-3 cursor-pointer bg-blue-500 ">
+        <div className="flex bg-white items-center h-9 w-80 border border-colorPrimary">
+          <Input type="search" placeholder="Tìm kiếm..." className="h-full px-2 flex-1" onChange={(e) => setSearchQuery(e.target.value)} />
+          <span className="h-full flex items-center px-3 cursor-pointer bg-colorPrimary ">
             <MagnifyingGlassIcon width={20} height={20} />
           </span>
         </div>
         <div className="flex gap-2 items-center">
-          <select className="h-8 px-4">
-            {option.map((opt) => (
-              <option key={opt.option_id} value={opt.value}>
-                {opt.title}
-              </option>
-            ))}
-          </select>
           <button onClick={() => handleAdd()} className="bg-colorPrimary px-5 h-8">
             <PlusIcon className="w-5 h-5 text-white" />
           </button>
@@ -120,6 +122,6 @@ function AdminProvider() {
       </div>
     </div>
   );
-}
+};
 
 export default AdminProvider;

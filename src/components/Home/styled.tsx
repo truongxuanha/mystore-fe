@@ -1,5 +1,9 @@
 import styled from "styled-components";
-
+export const Container = styled.div`
+  .popup {
+    z-index: 100;
+  }
+`;
 export const BannerLeft = styled.div`
   position: fixed;
   left: calc((100% - 1200px) / 2 - 79px);

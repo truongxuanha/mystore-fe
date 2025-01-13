@@ -39,6 +39,7 @@ const FormProviderAdmin = ({ setShow, actionType, currentProvider }: Props) => {
     },
   });
   const onSubmit = (formValue: FormProvider) => {
+
     const callBack = () => {
       dispatch(getAllManuThunk({ item: 5, page: currentPage, query: searchQuery }));
       setShow(false);
@@ -49,7 +50,7 @@ const FormProviderAdmin = ({ setShow, actionType, currentProvider }: Props) => {
       return;
     }
     if (actionType === ActionAdminEnum.EDIT) {
-      dispatch(updateManufactureThunk({ id: currentPage, ...formValue, img: previewImage, callBack }));
+      dispatch(updateManufactureThunk({ ...formValue, img: previewImage, callBack }));
       return;
     }
     if (actionType === ActionAdminEnum.DELETE) {

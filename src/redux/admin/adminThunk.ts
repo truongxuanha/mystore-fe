@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { createBannerApi, deleteBannerApi, deleteCustomerApi, getRevenueApi, getStaticticalApi, updateCustomerApi } from "./api";
-import { BannerCreateType } from "./type";
+import { createBannerApi, deleteBannerApi, deleteCustomerApi, getRevenueApi, getStaticticalApi, importProductApi, updateCustomerApi } from "./api";
+import { BannerCreateType, CreateImportType } from "./type";
 import { toastifySuccess, toastifyWarning } from "utils/toastify";
 import dayjs from "dayjs";
 
@@ -38,11 +38,9 @@ export const deleteBannersThunk = createAsyncThunk(
   async ({ id, callBack }: { id: string | number; callBack: any }, { rejectWithValue }) => {
     try {
       const data = await deleteBannerApi(id);
-      toastifySuccess("Xóa banner thành công!");
       callBack();
       return data?.data;
     } catch (err) {
-      toastifyWarning("Xóa banner thất bại!");
       return rejectWithValue(err);
     }
   },
@@ -72,3 +70,18 @@ export const deleteCustomerThunk = createAsyncThunk("admin/deleteCustomer", asyn
     return rejectWithValue(err);
   }
 });
+
+export const importProductThunk = createAsyncThunk(
+  "admin/importProduct",
+  async ({ params, callBack }: { params: CreateImportType; callBack: any }, { rejectWithValue }) => {
+    try {
+      const data = await importProductApi({ ...params });
+      toastifySuccess("Nhập hàng thành công!");
+      callBack();
+      return data?.data;
+    } catch (err) {
+      toastifyWarning("Nhập hàng thất bại!");
+      return rejectWithValue(err);
+    }
+  },
+);

@@ -14,7 +14,8 @@ const Banner: React.FC = () => {
     if (!banners || banners.length === 0) {
       dispatch(getBannersThunk());
     }
-  }, [dispatch, banners]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dispatch]);
 
   return <SliderCustom data={banners} loading={loadingBanner} />;
 };

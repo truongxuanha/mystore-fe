@@ -16,27 +16,29 @@ import LoadingMini from "customs/LoadingMini";
 import { isEmpty } from "utils";
 import Nodata from "customs/Nodata";
 import useDebounce from "hooks/useDebouncs";
+import useParams from "hooks/useParams";
 
 const AdminCustomer = () => {
   const { all_customers, totalAccount, loadingGetCustomer } = useAppSelector((state) => state.auth);
   const [searchParams, setSearchParams] = useSearchParams();
-  const [selectOption, setSelectOption] = useState("all");
+  const [selectOption, setSelectOption] = useState(searchParams.get("sort") || "all");
   const currentPage: number = parseInt(searchParams.get(PAGE.page) || "1");
   const dispatch = useAppDispatch();
   const [show, setShow] = useState<boolean>(false);
   const [actionType, setActionType] = useState<ActionAdminEnum>();
   const [currentStaff, setCurrentStaff] = useState<any>([]);
-  const [searchQuery, setSearchQuery] = useState<string>("");
+  const [searchQuery, setSearchQuery] = useState<string>(searchParams.get("query") || "");
   const debounce = useDebounce({ value: searchQuery, delay: 500 });
+  const { clearParams, setNewsParams } = useParams();
   useEffect(() => {
     if (!debounce && debounce !== "") return;
+    setNewsParams({ query: searchQuery, sort: selectOption });
+    if (searchQuery === "") {
+      clearParams(["query"]);
+    }
     dispatch(authCustomer({ page: currentPage, sex: selectOption, query: searchQuery }));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, currentPage, selectOption, debounce]);
-
-  useEffect(() => {
-    dispatch(authCustomer({ page: currentPage, sex: selectOption }));
-  }, [dispatch, currentPage, selectOption]);
 
   const handleSearch = () => {
     dispatch(authCustomer({ page: currentPage, sex: selectOption, query: searchQuery }));

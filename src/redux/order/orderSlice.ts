@@ -6,6 +6,7 @@ import {
   createOrderThunk,
   getBillByAccountThunk,
   getDetailBillByIdBillThunk,
+  getImportByIdProductThunk,
   updateStatusOrderThunk,
   verifyPaymentThunk,
 } from "./orderThunk";
@@ -32,12 +33,25 @@ export type IDetailBill = {
   products: IDetailBillProduct[];
   total_amount_order: number;
 };
+export type DetailImportDataType = {
+  [key: string]: {
+    productId: number;
+    productName: string;
+    details: [
+      {
+        unit_price: number;
+        id_import: number;
+      },
+    ];
+  };
+};
 export type InitialStateType = {
   orderItems: ProductOrderType[];
   loading: boolean;
   quantity: number;
   typeOrder: OrderTypeEnum;
   detailBill?: BillDetailType;
+  detailImportData?: DetailImportDataType;
   loadingBillDetail: boolean;
   loadingGetOrder: boolean;
   loadingPayment: boolean;
@@ -49,6 +63,7 @@ const initialState: InitialStateType = {
   loading: false,
   quantity: 1,
   detailBill: undefined,
+  detailImportData: undefined,
   loadingBillDetail: false,
   loadingGetOrder: false,
   loadingPayment: true,
@@ -159,6 +174,17 @@ const orderSlice = createSlice({
       })
       .addCase(verifyPaymentThunk.rejected, (state) => {
         state.loadingPayment = false;
+      });
+    builder
+      .addCase(getImportByIdProductThunk.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(getImportByIdProductThunk.fulfilled, (state, action) => {
+        state.loading = false;
+        state.detailImportData = action.payload;
+      })
+      .addCase(getImportByIdProductThunk.rejected, (state) => {
+        state.loading = false;
       });
   },
 });

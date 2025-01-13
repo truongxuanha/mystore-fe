@@ -10,3 +10,7 @@ export type SalePopupType = {
   popup_img: string;
   url_transit: string;
 };
+export type SalePopupReduxType = {
+  popup_img: any;
+  url_transit?: string;
+};

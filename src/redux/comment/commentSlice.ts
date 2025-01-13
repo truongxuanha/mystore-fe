@@ -29,6 +29,7 @@ const commentSlice = createSlice({
         state.dataCommentById = action.payload.data;
         state.commentById = action.payload;
         state.dataRatingProduct = action.payload.starStats;
+        state.dataAccountCmts = action.payload.dataAccount;
       })
       .addCase(getCommentByIdProductThunk.rejected, (state) => {
         state.loadingCmt = false;

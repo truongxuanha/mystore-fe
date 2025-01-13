@@ -3,7 +3,7 @@ const SPECIAL_CHARACTERS_REGEX = /[!@#$%^&*(),.?":{}|<>]/;
 const UPPERCASE_LETTER_REGEX = /[A-Z]/;
 const PHONE_REGEX = /^[0-9]{10}$/;
 const TOTAL_ITEM_PRODUCT = 8;
-export const ITEM_IN_PAGE = 20;
+export const ITEM_IN_PAGE = 10;
 const PAGE = {
   HOME: "/",
   PRODUCT: "/product",

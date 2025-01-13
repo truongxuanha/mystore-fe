@@ -3,7 +3,7 @@ import Button from "customs/Button";
 import TitleProfile from "customs/TitleProfile";
 import { TrashIcon } from "@heroicons/react/24/outline";
 import { useAppDispatch, useAppSelector } from "hooks/useAppDispatch";
-import { getDetailBillByIdBillThunk, updateStatusOrderThunk } from "redux/order/orderThunk";
+import { getDetailBillByIdBillThunk, getImportByIdProductThunk, updateStatusOrderThunk } from "redux/order/orderThunk";
 import { isEmpty } from "utils";
 import formatVND from "utils/formatVND";
 import loadingMin from "assets/loading_min.svg";
@@ -21,7 +21,8 @@ const nextStatus = ["Xác nhận đơn hàng", "Xác nhận đã gửi hàng", "
 function FormOrderAdmin({ setShow, currentOrderDetail }: Props) {
   const [animationClass, setAnimationClass] = useState("modal-enter");
   const page = useGetSearchParams(["page"]).page || 1;
-  const { detailBill, loadingBillDetail } = useAppSelector((state) => state.order);
+  const { detailBill, loadingBillDetail, detailImportData } = useAppSelector((state) => state.order);
+  const [selectIdImport, setSelectIdImport] = useState("");
   const dispatch = useAppDispatch();
   const handleClose = () => {
     setAnimationClass("modal-exit");
@@ -37,8 +38,22 @@ function FormOrderAdmin({ setShow, currentOrderDetail }: Props) {
     toastifySuccess("Cập nhật thành công!");
   };
   const handleUpdateStatus = () => {
-    dispatch(updateStatusOrderThunk({ email: currentOrderDetail.email_user, status: currentOrderDetail.status + 1, id: currentOrderDetail.id, callBack }));
+    dispatch(
+      updateStatusOrderThunk({
+        email: currentOrderDetail.email_user,
+        status: currentOrderDetail.status + 1,
+        id_import: selectIdImport,
+        id: currentOrderDetail.id,
+        total_unit_price: 10,
+        callBack,
+      }),
+    );
   };
+  useEffect(() => {
+    const idsProduct = detailBill?.products.map((product) => product.id_product).join(",");
+    if (!idsProduct) return;
+    dispatch(getImportByIdProductThunk({ idsProduct }));
+  }, [detailBill, dispatch]);
   return (
     <div className={`fixed left-0 right-0 top-0 bottom-0 bg-[rgba(0,0,0,0.5)] flex justify-center items-center transition-all duration-300`}>
       <div className={`bg-white px-5 py-5 mx-20 rounded ${animationClass}`}>
@@ -70,8 +85,9 @@ function FormOrderAdmin({ setShow, currentOrderDetail }: Props) {
           <div className="col-span-1">Mã sản phẩm</div>
           <div className="col-span-1">Số lượng</div>
           <div className="col-span-1">Đơn giá (vnđ)</div>
+          <div className="col-span-1">Giá nhập (vnđ)</div>
           <div className="col-span-1">Chiết khấu(%)</div>
-          <div className="col-span-2">Thành tiền</div>
+          <div className="col-span-1">Thành tiền</div>
         </div>
         <div className="max-h-[200px] overflow-auto">
           {loadingBillDetail ? (
@@ -88,8 +104,19 @@ function FormOrderAdmin({ setShow, currentOrderDetail }: Props) {
                 <div className="col-span-1">{product.id_product}</div>
                 <div className="col-span-1">{product.quantity}</div>
                 <div className="col-span-1">{formatVND(product.price)}</div>
+                <div className="col-span-1">
+                  <select className="p-2 border" onChange={(e) => setSelectIdImport(e.target.value)}>
+                    {detailImportData &&
+                      !isEmpty(detailImportData) &&
+                      detailImportData[product.id_product]?.details?.map((detail, idx) => (
+                        <option key={idx} value={detail.id_import}>
+                          {formatVND(detail.unit_price)}
+                        </option>
+                      ))}
+                  </select>
+                </div>
                 <div className="col-span-1">{product.discount}</div>
-                <div className="col-span-2">{formatVND(product?.price * product.quantity, product.discount)}</div>
+                <div className="col-span-1">{formatVND(product?.price * product.quantity, product.discount)}</div>
               </div>
             ))
           )}

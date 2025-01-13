@@ -22,15 +22,11 @@ export type ProductsType = {
   website: string;
   img: string;
   screen_size: null;
-  ram: null;
   point: number;
   parent_id: null;
-  cpu: null;
   content: string;
-  hard_disk: null;
   startType: number;
   final_price: number;
-  mn_name: string;
   starType: number;
   totalPage: number;
   totalStar: number;

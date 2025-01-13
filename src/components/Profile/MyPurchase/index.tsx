@@ -9,6 +9,7 @@ import { useSearchParams } from "react-router-dom";
 import { cancelOrderThunk, getBillByAccountThunk } from "redux/order/orderThunk";
 import { isEmpty } from "utils";
 import formatVND from "utils/formatVND";
+import { toastifySuccess } from "utils/toastify";
 
 const statusType = {
   0: "Chờ xác nhận",
@@ -48,7 +49,11 @@ const MyPurchase = () => {
     setSearchParams({ type: status !== undefined ? statusConvert[status] : "all" });
   };
   const handleCancelOrder = (id: number) => {
-    const callBack = () => {};
+    const callBack = () => {
+      toastifySuccess("Đơn hàng đã được hủy!");
+      const status = currentStatus === "all" ? undefined : statusOrders[currentStatus];
+      dispatch(getBillByAccountThunk(status));
+    };
     dispatch(cancelOrderThunk({ callBack, id, note_cancelation: "", status: 4 }));
   };
   const totalPrice = !isEmpty(listOrders)

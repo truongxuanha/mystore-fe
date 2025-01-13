@@ -31,7 +31,6 @@ export const authRegister = createAsyncThunk("auth/authRegister", async (payload
     if (error instanceof Error) {
       errorMessage = error.message;
     }
-    toastifyWarning(errorMessage);
     return rejectWithValue(errorMessage);
   }
 });

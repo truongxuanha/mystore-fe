@@ -21,3 +21,14 @@ export type BannerCreateType = {
   createAt?: any;
   callBack?: any;
 };
+export type DetailsImportType = {
+  id_product: number;
+  quantity: number;
+  unit_price: number;
+  provider_id: number | null;
+};
+export type CreateImportType = {
+  total_cost: number;
+  note: string;
+  details: DetailsImportType[];
+};

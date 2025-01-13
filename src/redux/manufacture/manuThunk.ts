@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { createManufactureApi, getAllManufacturerApi, getManufacturer, removeProviderApi } from "./api";
+import { createManufactureApi, getAllManufacturerApi, getManufacturer, removeProviderApi, updateManufactureApi } from "./api";
 import { ParamsManuApiType, ProviderType } from "./type";
 import { CallBackType } from "types/redux.type";
 import { toastifySuccess } from "utils/toastify";
@@ -39,7 +39,7 @@ export const updateManufactureThunk = createAsyncThunk(
   "manufacturer/updateManufacturer",
   async ({ id, img, name, phone, website, callBack }: ProviderType & CallBackType, { rejectWithValue }) => {
     try {
-      const res = await createManufactureApi({ id, img, name, phone, website });
+      const res = await updateManufactureApi({ id, img, name, phone, website });
       callBack();
       toastifySuccess("Cập nhật nhà cung cấp thành công!");
       return res;

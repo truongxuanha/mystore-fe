@@ -2,6 +2,7 @@ import { useAppDispatch, useAppSelector } from "hooks/useAppDispatch";
 import useGetSearchParams from "hooks/useGetSearchParams";
 import useParams from "hooks/useParams";
 import { StarIcon } from "lucide-react";
+import { useEffect } from "react";
 import { getCommentByIdProductThunk } from "redux/comment/commentThunk";
 const filterOptions: { id: string; label: string; type: number | string; count: string | null; value: string }[] = [
   { id: "all", label: "Tất cả", count: null, type: "all", value: "" },
@@ -43,14 +44,18 @@ const filterOptions: { id: string; label: string; type: number | string; count: 
 ];
 const RenewStarRating = ({ id_product }: { id_product: number }) => {
   const { dataRatingProduct } = useAppSelector((state) => state.comment);
+  const { currentUser } = useAppSelector((state) => state.auth);
+
   const { setParams } = useParams();
-  const starCmt = useGetSearchParams(["star"]).star;
+  const starCmt = useGetSearchParams(["star"]).star || "all";
   const dispatch = useAppDispatch();
   const hanldeGetCommentByStar = (star: number | string) => {
-    dispatch(getCommentByIdProductThunk({ product_id: id_product, star: star }));
+    dispatch(getCommentByIdProductThunk({ product_id: id_product, star: star, id_account: currentUser?.user.id }));
     setParams({ star: star });
   };
-
+  useEffect(() => {
+    setParams({ star: starCmt });
+  }, [setParams, starCmt]);
   return (
     <div className="bg-[#fffbf8] border border-[#f9ede5] p-7">
       <div className="flex items-center gap-5 mb-2">
