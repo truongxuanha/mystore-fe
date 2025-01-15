@@ -17,9 +17,8 @@ const ProductDetail: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { infoProduct, loadingProductDetail } = useAppSelector((state) => state.product);
   const { currentUser } = useAppSelector((state) => state.auth);
-
   const [showRating, setShowRating] = useState(false);
-
+  const [idReply, setIdRepLy] = useState<number | null>(null);
   const [contentComment, setContentComment] = useState<any>("");
   const { id } = useParams();
   useEffect(() => {
@@ -36,6 +35,7 @@ const ProductDetail: React.FC = () => {
       setContentComment("");
       setRating(0);
       setShowRating(false);
+      setIdRepLy(null);
     };
     dispatch(createCmtByIdProductThunk({ star: rating === 0 ? undefined : rating, id_product: infoProduct.id, content: contentComment, parent_id, callBack }));
   };
@@ -64,6 +64,8 @@ const ProductDetail: React.FC = () => {
             contentComment={contentComment}
             showRating={showRating}
             setShowRating={setShowRating}
+            idReply={idReply}
+            setIdRepLy={setIdRepLy}
           />
         </div>
         <ProductRandom />

@@ -3,11 +3,15 @@ export type RemenueType = {
   total: number;
 };
 export type InitialStateAdminType = {
+  // loading
   loadingRemenue: boolean;
-  remenueData: RemenueType[];
-  statisticalData?: StatisticalType;
   loadingBanner: boolean;
   loadingCustomer: boolean;
+  loadingGetDetail: boolean;
+  // data
+  remenueData: RemenueType[];
+  statisticalData?: StatisticalType;
+  importDetailData: any[];
 };
 export type StatisticalType = {
   total_products: number;

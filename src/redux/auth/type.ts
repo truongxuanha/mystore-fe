@@ -15,8 +15,8 @@ export type InitialRegisterState = {
   birthday?: any;
   sex?: number | null;
   permission?: number;
-  status: number;
-  createAt: string;
+  status?: number;
+  createAt?: string;
   confirm_password?: string;
 };
 export type AddressType = {

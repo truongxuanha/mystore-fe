@@ -15,13 +15,14 @@ type Props = {
   contentComment: string;
   showRating: boolean;
   setShowRating: (show: boolean) => void;
+  idReply: any;
+  setIdRepLy: (id: any) => void;
 };
-const RatingComment = ({ setRating, rating, handleCreateCmt, setContentComment, showRating, setShowRating, contentComment }: Props) => {
+const RatingComment = ({ setRating, rating, handleCreateCmt, setContentComment, showRating, setShowRating, contentComment, idReply, setIdRepLy }: Props) => {
   const { isAdmin, authenticated } = useAuthenticated();
   const { dataCommentById, commentById } = useAppSelector((state) => state.comment);
   const { currentUser, infoUser } = useAppSelector((state) => state.auth);
   const [isOpen, setIsOpen] = useState<number | null>(null);
-  const [idReply, setIdRepLy] = useState<number | null>(null);
   const [star, setStar] = useState<number>(0);
   const ratings: any = {
     1: "Kém",
@@ -54,10 +55,12 @@ const RatingComment = ({ setRating, rating, handleCreateCmt, setContentComment, 
             <div className="w-12 h-12">
               <img className="rounded-full w-full h-full border border-red-500" src={infoUser.avatar ?? noAvatar} alt="avatar" />
             </div>
-            <div className={`${isCommented ? "cursor-pointer" : "cursor-wait"} bg-blue-600 flex items-center gap-2 px-3 py-1 rounded h-10 `}>
+            <div
+              className={`${isCommented || !commentById?.canRating ? "cursor-pointer hover:opacity-80" : "cursor-wait"} bg-blue-600 flex items-center gap-2 px-3 py-1 rounded h-10 `}
+            >
               {!isCommented && <PaperAirplaneIcon width={20} height={20} className="text-white" />}
-              <Button disabled={isCommented} onClick={() => setShowRating(true)} width="auto" className="text-white">
-                {isCommented ? "Bạn đã đánh giá sản phẩm" : "Viết đánh giá ngay"}
+              <Button disabled={isCommented || !commentById?.canRating} onClick={() => setShowRating(true)} width="auto" className="text-white">
+                {isCommented ? "Bạn đã đánh giá sản phẩm" : commentById?.canRating ? "Viết đánh giá ngay" : "Mua hàng để đánh giá"}
               </Button>
             </div>
           </div>
@@ -71,7 +74,7 @@ const RatingComment = ({ setRating, rating, handleCreateCmt, setContentComment, 
           </Link>
         )}
         {showRating && (
-          <div className="flex flex-col gap-3 border-t-2 p-5 mt-5">
+          <div className="flex flex-col gap-3 border-t-2 py-5 md:p-5 mt-5">
             <div className="flex items-center gap-3">
               {stars.map((item, index) => (
                 <StarIcon
@@ -87,7 +90,7 @@ const RatingComment = ({ setRating, rating, handleCreateCmt, setContentComment, 
               ))}
               <p>{ratings[rating] || "Chưa đánh giá"}</p>
             </div>
-            <div className="flex mt-3 gap-2 w-3/5">
+            <div className="flex mt-3 gap-2 md:w-3/5">
               <textarea value={contentComment} onChange={(e) => setContentComment(e.target.value)} className="border rounded-sm px-2 py-2 flex-1" />
               <div className="w-20 h-10">
                 <Button onClick={() => handleCreateCmt()} className="bg-colorPrimary py-2">
@@ -192,7 +195,7 @@ const RatingComment = ({ setRating, rating, handleCreateCmt, setContentComment, 
                     <input
                       onChange={(e) => setContentComment(e.target.value)}
                       value={contentComment}
-                      className=" border border-t-0 border-l-0 border-r-0 py-2 px-2 rounded-md md:w-1/2 focus:border-red-300"
+                      className=" border border-t-0 border-l-0 border-r-0 py-2 px-2 rounded-md md:w-1/2 font-normal focus:border-red-300"
                       placeholder="Trả lời đánh giá"
                     />
                   </div>

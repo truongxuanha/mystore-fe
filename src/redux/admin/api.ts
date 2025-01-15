@@ -54,7 +54,8 @@ export async function importProductApi(data: CreateImportType) {
   const res = await axiosInstance.post(`/revenue/import-product`, { ...data });
   return res.data;
 }
-// export async function createImportProductApi({ data }: any) {
-//   const res = await axiosInstance.post(`/revenue/import-product`, { ...data });
-//   return res.data;
-// }
+
+export async function getImportDetailApi(id: number) {
+  const res = await axiosInstance.get(`/revenue/${id}/details`);
+  return res.data;
+}

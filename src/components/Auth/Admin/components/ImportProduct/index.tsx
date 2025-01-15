@@ -142,6 +142,7 @@ const ImportProduct = () => {
   useEffect(() => {
     if (!debounce.trim()) return;
     dispatch(getProducts({ currentPage: 1, itemsPerPage: 50, query: debounce, manufacturer: "all" }));
+    setIsDropdownOpen(true);
   }, [debounce, dispatch]);
 
   return (

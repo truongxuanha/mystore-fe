@@ -1,5 +1,14 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { createBannerApi, deleteBannerApi, deleteCustomerApi, getRevenueApi, getStaticticalApi, importProductApi, updateCustomerApi } from "./api";
+import {
+  createBannerApi,
+  deleteBannerApi,
+  deleteCustomerApi,
+  getImportDetailApi,
+  getRevenueApi,
+  getStaticticalApi,
+  importProductApi,
+  updateCustomerApi,
+} from "./api";
 import { BannerCreateType, CreateImportType } from "./type";
 import { toastifySuccess, toastifyWarning } from "utils/toastify";
 import dayjs from "dayjs";
@@ -85,3 +94,13 @@ export const importProductThunk = createAsyncThunk(
     }
   },
 );
+
+export const getImportDetailThunk = createAsyncThunk("admin/getImportDetail", async (id: number, { rejectWithValue }) => {
+  try {
+    const data = await getImportDetailApi(id);
+    // callBack();
+    return data?.data;
+  } catch (err) {
+    return rejectWithValue(err);
+  }
+});

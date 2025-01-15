@@ -1,8 +1,8 @@
 import completeIcon from "assets/complete.svg";
-import useGetSearchParams from "hooks/useGetSearchParams";
+// import useGetSearchParams from "hooks/useGetSearchParams";
 import { Link } from "react-router-dom";
 const OrderComplete = () => {
-  const param = useGetSearchParams(["bill"]).bill;
+  // const param = useGetSearchParams(["bill"]).bill;
   return (
     <div className="flex justify-center bg-gray-100">
       <div className="w-[90%] max-w-2xl relative bg-white  flex flex-col items-center shadow-[0_0_25px_#ccc] rounded-lg  p-10 pt-3 after:content[''] after:absolute after:inset-x-0 after:top-0 after:rounded-se-md after:rounded-ss-md after:h-1 after:bg-[#ee4d2d]">
@@ -21,7 +21,7 @@ const OrderComplete = () => {
           </div>
           <div className="flex flex-col items-center justify-center gap-2">
             <div className="*:py-2 *:px-5 *:rounded *:uppercase space-x-5">
-              <Link to={"/account/purchase" + param} className="bg-gray-100">
+              <Link to={"/account/purchase?type=wait_approval"} className="bg-gray-100">
                 Đơn mua
               </Link>
               <Link to={"/product?manufacture=all"} className=" bg-[#ee4d2d] text-white">
