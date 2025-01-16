@@ -13,7 +13,7 @@ const Albums = ({ images }: { images: string[] }) => {
   const swiperRef = useRef<SwiperType>();
   return (
     <div className="detail-product-ablums w-full h-full bg-white">
-      <div className=" relative">
+      <div className="relative">
         <Swiper
           rewind={true}
           modules={[Pagination, Navigation]}
@@ -24,7 +24,7 @@ const Albums = ({ images }: { images: string[] }) => {
           }}
         >
           {images?.map((image) => (
-            <SwiperSlide key={image} className="w-[350px] h-[400px]">
+            <SwiperSlide key={image} className="w-[350px] h-[350px]">
               <ImageLazy isObjectFitCover="contain" src={image} alt="img" />
             </SwiperSlide>
           ))}

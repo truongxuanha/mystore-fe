@@ -54,8 +54,8 @@ const InforProduct = ({ infoProduct }: { infoProduct: ProductsType }) => {
   };
   return (
     <div className="grid grid-cols-1 sm:grid-cols-4 overflow-hidden rounded-md bg-white">
-      <div className="p-4 col-span-2 border rounded-2xl m-5 h-full max-h-[500px] flex flex-col">
-        <div className="h-[375px]">
+      <div className="col-span-2 m-2 p-4 border rounded-2xl max-h-[450px] flex flex-col">
+        <div className="h-[350px]">
           {isEmpty(infoProduct.images) ? (
             <ImageLazy className="w-full" isObjectFitCover="contain" src={infoProduct?.thumbnail} alt={infoProduct?.product_name} />
           ) : (

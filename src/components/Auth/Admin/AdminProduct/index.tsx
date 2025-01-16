@@ -15,7 +15,7 @@ import { ITEM_IN_PAGE } from "libs/contains";
 import FormAddImage from "../components/FormAddImage";
 import useDebounce from "hooks/useDebouncs";
 const option = [
-  { option_id: 1, title: texts.option_sort.ALL_PRODUCT, value: "all" },
+  { option_id: 1, title: texts.option_sort.ALL_PRODUCT, value: "" },
   { option_id: 2, title: texts.option_sort.UP, value: "ASC" },
   { option_id: 3, title: texts.option_sort.DOWN, value: "DESC" },
 ];
@@ -110,7 +110,7 @@ const AdminProduct = () => {
   };
   const handleSort = (value: string) => {
     setParams({ sort: value });
-    dispatch(getProducts({ currentPage: page, itemsPerPage: 5, query: searchQuery ? searchQuery : undefined, sort: value }));
+    dispatch(getProducts({ currentPage: page, itemsPerPage: ITEM_IN_PAGE, query: searchQuery ? searchQuery : undefined, sort: value }));
   };
   return (
     <div className="px-3">

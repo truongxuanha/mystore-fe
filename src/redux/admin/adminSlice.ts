@@ -1,13 +1,25 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { createBannerThunk, deleteBannersThunk, deleteCustomerThunk, getRemenueThunk, getStaticticalThunk, updateCustomerThunk } from "./adminThunk";
+import {
+  createBannerThunk,
+  deleteBannersThunk,
+  deleteCustomerThunk,
+  getImportDetailThunk,
+  getRemenueThunk,
+  getStaticticalThunk,
+  updateCustomerThunk,
+} from "./adminThunk";
 import { InitialStateAdminType } from "./type";
 
 const initialState: InitialStateAdminType = {
+  //loading
   loadingRemenue: false,
-  remenueData: [],
-  statisticalData: undefined,
   loadingBanner: false,
   loadingCustomer: false,
+  loadingGetDetail: false,
+  // data
+  remenueData: [],
+  statisticalData: undefined,
+  importDetailData: [],
 };
 const adminSlice = createSlice({
   name: "admin",
@@ -77,6 +89,17 @@ const adminSlice = createSlice({
       })
       .addCase(deleteCustomerThunk.rejected, (state) => {
         state.loadingCustomer = false;
+      });
+    build
+      .addCase(getImportDetailThunk.pending, (state) => {
+        state.loadingGetDetail = true;
+      })
+      .addCase(getImportDetailThunk.fulfilled, (state, action) => {
+        state.loadingGetDetail = false;
+        state.importDetailData = action.payload;
+      })
+      .addCase(getImportDetailThunk.rejected, (state) => {
+        state.loadingGetDetail = false;
       });
   },
 });

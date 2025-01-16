@@ -41,7 +41,7 @@ export default function Register({ setTab, tab }: Props) {
     toastifySuccess("Đăng ký thành công!");
   };
   const onSubmit: SubmitHandler<InitialRegisterState> = async (formValue) => {
-    dispatch(authRegister({ ...formValue, callBack }));
+    dispatch(authRegister({ account_name: formValue.account_name, email: formValue.email, password: formValue.password, phone: formValue.phone, callBack }));
   };
 
   return (

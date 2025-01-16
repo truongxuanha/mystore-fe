@@ -19,8 +19,8 @@ const AdminHome = () => {
 
   useEffect(() => {
     if (isEmpty(remenueData)) return;
-    setDatas(remenueData.map((item) => item.total));
-    setDateLine(remenueData.map((item) => item.date));
+    setDatas(remenueData?.map((item) => item.total));
+    setDateLine(remenueData?.map((item) => item.date));
   }, [remenueData]);
   useEffect(() => {
     dispatch(getRemenueThunk());

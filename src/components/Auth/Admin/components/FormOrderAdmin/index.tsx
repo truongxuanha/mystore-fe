@@ -9,7 +9,7 @@ import formatVND from "utils/formatVND";
 import loadingMin from "assets/loading_min.svg";
 import { getAllBillThunk } from "redux/bill/billThunk";
 import useGetSearchParams from "hooks/useGetSearchParams";
-import { toastifySuccess } from "utils/toastify";
+import { toastifySuccess, toastifyWarning } from "utils/toastify";
 import ExportPDF from "../ExportPdf";
 type Props = {
   setShow: (show: boolean) => void;
@@ -23,8 +23,6 @@ function FormOrderAdmin({ setShow, currentOrderDetail }: Props) {
   const page = useGetSearchParams(["page"]).page || 1;
   const [selectIdImport, setSelectIdImport] = useState<any>("");
   const { detailBill, loadingBillDetail, detailImportData } = useAppSelector((state) => state.order);
-  // console.log(detailImportData);
-  // console.log(detailBill);
 
   const totalUnitPrice = useMemo(() => {
     return detailBill?.products.reduce((total, product) => {
@@ -61,22 +59,28 @@ function FormOrderAdmin({ setShow, currentOrderDetail }: Props) {
     toastifySuccess("Cập nhật thành công!");
   };
   const handleUpdateStatus = () => {
+    if (selectIdImport === "") {
+      toastifyWarning("Vui lòng chọn giá nhập!");
+      return;
+    }
     dispatch(
       updateStatusOrderThunk({
         email: currentOrderDetail.email_user,
         status: currentOrderDetail.status + 1,
         id_import: selectIdImport,
         id: currentOrderDetail.id,
-        total_unit_price: totalUnitPrice,
+        total_unit_price: currentOrderDetail.status === 0 ? totalUnitPrice : undefined,
         callBack,
       }),
     );
   };
+
   useEffect(() => {
     const idsProduct = detailBill?.products.map((product) => product.id_product).join(",");
     if (!idsProduct) return;
     dispatch(getImportByIdProductThunk({ idsProduct }));
   }, [detailBill, dispatch]);
+
   return (
     <div className={`fixed left-0 right-0 top-0 bottom-0 bg-[rgba(0,0,0,0.5)] flex justify-center items-center transition-all duration-300`}>
       <div className={`bg-white px-5 py-5 mx-20 rounded ${animationClass}`}>
