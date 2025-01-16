@@ -18,3 +18,8 @@ export function hiddenCmtApi(id: number) {
   const res = axiosInstance.put(`/ratting-comment/${id}/update`, { status: 1 });
   return res;
 }
+
+export function removeCmtApi(id: number) {
+  const res = axiosInstance.delete(`/ratting-comment/${id}/removebyid`);
+  return res;
+}

@@ -1,8 +1,13 @@
 import axios from "axios";
 import { getUserStorage, removeUserStorage, setUserStorage } from "../services/storage";
 import { refreshToken } from "../redux/auth/api";
-import { toastifyWarning } from "./toastify";
+import { toastifySuccess, toastifyWarning } from "./toastify";
 
+export const headerPostFile = {
+  headers: {
+    "Content-Type": "multipart/form-data",
+  },
+};
 const axiosInstance = axios.create({
   baseURL: process.env.BASE_URL_API,
 });
@@ -22,6 +27,10 @@ axiosInstance.interceptors.response.use(
     if (response.data && response.data.status === false) {
       toastifyWarning(response.data.message || "Có lỗi xảy ra.");
       return Promise.reject(new Error(response.data.message || "Có lỗi xảy ra."));
+    }
+    if (response.data && response.data.status === true) {
+      toastifySuccess(response.data.message);
+      // return Promise.reject(new Error(response.data.message || "Có lỗi xảy ra."));
     }
     return response;
   },

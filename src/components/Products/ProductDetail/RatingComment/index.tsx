@@ -6,7 +6,7 @@ import useAuthenticated from "hooks/useAuthenticated";
 import { useRef, useState } from "react";
 import noAvatar from "assets/no_avatar.jpg";
 import { Link } from "react-router-dom";
-import { hiddenCmtThunk } from "redux/comment/commentThunk";
+import { hiddenCmtThunk, removeCmtThunk } from "redux/comment/commentThunk";
 
 type Props = {
   setRating: (rating: number) => void;
@@ -18,6 +18,7 @@ type Props = {
   setShowRating: (show: boolean) => void;
   idReply: any;
   setIdRepLy: (id: any) => void;
+  id_product: any;
 };
 const RatingComment = ({ setRating, rating, handleCreateCmt, setContentComment, showRating, setShowRating, contentComment, idReply, setIdRepLy }: Props) => {
   const { isAdmin, authenticated } = useAuthenticated();
@@ -52,6 +53,13 @@ const RatingComment = ({ setRating, rating, handleCreateCmt, setContentComment, 
       setRating(0);
     };
     dispatch(hiddenCmtThunk({ id, callBack }));
+  };
+  const handleRemoveComment = (id: number) => {
+    const callBack = () => {
+      setIsOpen(null);
+      setRating(0);
+    };
+    dispatch(removeCmtThunk({ id, callBack }));
   };
   const isCommented = commentById?.rating_info?.commented;
   const isCanComment = commentById?.rating_info?.canRating;
@@ -142,7 +150,9 @@ const RatingComment = ({ setRating, rating, handleCreateCmt, setContentComment, 
                       <div className={`absolute w-28 ${isOpen === userCmt.id ? "flex" : "hidden"} flex-col bg-white shadow-lg -right-2`}>
                         {currentUser?.user.id === userCmt.id_account && <Button className="hover:bg-slate-100 p-1">Chỉnh sửa</Button>}
                         {(currentUser?.user.id === userCmt.id_account || currentUser?.user.permission === "admin") && (
-                          <Button className="hover:bg-slate-100 p-1">Xóa</Button>
+                          <Button className="hover:bg-slate-100 p-1" onClick={() => handleRemoveComment(userCmt.id)}>
+                            Xóa
+                          </Button>
                         )}
                         {currentUser?.user.permission === "admin" && (
                           <Button className="hover:bg-slate-100 p-[2px]" onClick={() => handleHiddenRating(userCmt.id)}>

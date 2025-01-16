@@ -3,7 +3,7 @@ import { axiosInstance } from "../../utils/axiosConfig";
 import { CreateProductType, EditProductType, ProductParaType, ResProductType } from "./type";
 import dayjs from "dayjs";
 
-export function getProduct({ currentPage, itemsPerPage, sort, manufacturer, query }: ProductParaType) {
+export function getProduct({ currentPage = 1, itemsPerPage = 10, sort = "", manufacturer = "all", query = "" }: ProductParaType) {
   const params = buildApiUrl({ manufacturer, sort, query, page: currentPage, item: itemsPerPage });
   const res = axiosInstance.get(`product/get-all${params}`);
   return res;

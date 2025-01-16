@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { CommentProductType, CreateCommentType } from "./type";
-import { createCmtByIdProductApi, getCmtByIdProduct, hiddenCmtApi } from "./api";
+import { createCmtByIdProductApi, getCmtByIdProduct, hiddenCmtApi, removeCmtApi } from "./api";
 import { CallBackType } from "types/redux.type";
 
 export const getCommentByIdProductThunk = createAsyncThunk(
@@ -22,6 +22,15 @@ export const createCmtByIdProductThunk = createAsyncThunk(
 export const hiddenCmtThunk = createAsyncThunk("comment/hiddenCmtThunk", async ({ id, callBack }: { id: number } & CallBackType, { rejectWithValue }) => {
   try {
     const data = await hiddenCmtApi(id);
+    callBack();
+    return data?.data;
+  } catch (err) {
+    return rejectWithValue(err);
+  }
+});
+export const removeCmtThunk = createAsyncThunk("comment/removeCmtThunk", async ({ id, callBack }: { id: number } & CallBackType, { rejectWithValue }) => {
+  try {
+    const data = await removeCmtApi(id);
     callBack();
     return data?.data;
   } catch (err) {
