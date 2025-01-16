@@ -5,7 +5,7 @@ import ImageLazy from "customs/ImageLazy";
 import { useAppDispatch, useAppSelector } from "hooks/useAppDispatch";
 import { purchaseStatus } from "libs/contains/purcharse";
 import { useEffect } from "react";
-import { useSearchParams } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { cancelOrderThunk, getBillByAccountThunk } from "redux/order/orderThunk";
 import { isEmpty } from "utils";
 import formatVND from "utils/formatVND";
@@ -97,7 +97,9 @@ const MyPurchase = () => {
                       </div>
                       <div className="w-full flex items-center justify-between">
                         <div>
-                          <p className="text-base text-[#000000de] line-clamp-2 font-medium w-11/12">{product.name}</p>
+                          <Link to={`/product/product-detail/${product.id}?star=all`} className="text-base text-[#000000de] line-clamp-2 font-medium w-11/12">
+                            {product.name}
+                          </Link>
                           <div className="flex flex-col text-sm">
                             <span className="text-[#0000008a] w-11/12 line-clamp-1">Số lượng:</span>
                             <span> x {product.quantity}</span>

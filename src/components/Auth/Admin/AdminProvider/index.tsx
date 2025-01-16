@@ -66,7 +66,7 @@ const AdminProvider = () => {
     manu.name,
     manu.phone,
     manu.website,
-    <div key={manu.id} className="w-20 h-20">
+    <div key={manu.name} className="w-20 h-20">
       <ImageLazy isObjectFitCover="contain" src={manu.img} alt="image-manu" />
     </div>,
   ]);

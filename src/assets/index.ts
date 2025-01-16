@@ -12,6 +12,7 @@ import bannerRight from "./banner_right.png";
 import logo from "./logo.png";
 import imageLogin from "./image_login.svg";
 import uploadFile from "./uploadFile.svg";
+import noImage from "./noimage.svg";
 export const assets = {
   customer,
   calendar,
@@ -28,3 +29,4 @@ export const assets = {
   imageLogin,
   uploadFile,
 };
+export { noImage };

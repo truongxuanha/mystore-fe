@@ -1,29 +1,20 @@
 import { axiosInstance } from "utils/axiosConfig";
 import { CommentProductType, CreateCommentType } from "./type";
 import dayjs from "dayjs";
+import { buildApiUrl } from "utils/buildUrl";
 
-export async function getCmtByIdProduct({ product_id, page = 1, item = 5, star = "all", sort = "DESC", id_account }: CommentProductType) {
-  try {
-    const res = await axiosInstance.get(`ratting-comment/${product_id}/comment`, {
-      params: {
-        item,
-        page,
-        star,
-        sort,
-        id_account,
-      },
-    });
-    return res;
-  } catch (err) {
-    throw err;
-  }
+export function getCmtByIdProduct({ product_id, page = 1, item = 5, star = "all", sort = "DESC", id_account }: CommentProductType) {
+  const query = buildApiUrl({ item, page, star, sort, id_account });
+  const res = axiosInstance.get(`/ratting-comment/${product_id}/comment${query}`);
+  return res;
 }
 
-export async function createCmtByIdProductApi({ id_product, createAt = dayjs(), parent_id, star, content }: CreateCommentType) {
-  try {
-    const res = await axiosInstance.post(`ratting-comment/create`, { id_product, createAt, star, content, parent_id });
-    return res;
-  } catch (err) {
-    throw err;
-  }
+export function createCmtByIdProductApi({ id_product, createAt = dayjs(), parent_id, star, content }: CreateCommentType) {
+  const res = axiosInstance.post(`/ratting-comment/create`, { id_product, createAt, star, content, parent_id });
+  return res;
+}
+
+export function hiddenCmtApi(id: number) {
+  const res = axiosInstance.put(`/ratting-comment/${id}/update`, { status: 1 });
+  return res;
 }

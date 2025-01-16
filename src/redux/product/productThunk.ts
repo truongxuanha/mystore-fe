@@ -15,23 +15,16 @@ import { CreateProductType, EditProductType, ProductParaType } from "./type";
 import { toastifyWarning } from "utils/toastify";
 import { texts } from "libs/contains/texts";
 
-export const getProducts = createAsyncThunk(
-  "product/getProducts",
-  async ({ currentPage = 1, itemsPerPage = 8, sort = "", manufacturer = "all", query = "" }: ProductParaType, { rejectWithValue }) => {
-    try {
-      const data = await getProduct({
-        currentPage,
-        itemsPerPage,
-        manufacturer,
-        sort,
-        query,
-      });
-      return data?.data;
-    } catch (err) {
-      return rejectWithValue(err);
-    }
-  },
-);
+export const getProducts = createAsyncThunk("product/getProducts", async (rest: ProductParaType, { rejectWithValue }) => {
+  try {
+    const data = await getProduct({
+      ...rest,
+    });
+    return data?.data;
+  } catch (err) {
+    return rejectWithValue(err);
+  }
+});
 
 export const getInFoProducts = createAsyncThunk("product/getInfoProducts", async (id: number, { rejectWithValue }) => {
   try {

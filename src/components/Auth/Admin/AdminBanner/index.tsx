@@ -38,7 +38,7 @@ function AdminBanner() {
         <div className="col-span-2 border h-10 center-config">{texts.banner.ACTIONS}</div>
       </div>
       {banners.map((banner, index) => (
-        <div key={banner.id} className="grid grid-cols-10 bg-white">
+        <div key={banner.path} className="grid grid-cols-10 bg-white">
           <div className="col-span-1 w-full h-40 border center-config">{index + 1}</div>
           <div className="col-span-3 w-full p-5 h-40 border center-config">
             <ImageLazy isObjectFitCover="contain" src={banner.image} alt="banner" />

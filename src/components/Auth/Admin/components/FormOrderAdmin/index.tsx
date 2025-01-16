@@ -27,11 +27,9 @@ function FormOrderAdmin({ setShow, currentOrderDetail }: Props) {
   const totalUnitPrice = useMemo(() => {
     return detailBill?.products.reduce((total, product) => {
       const productDetails = detailImportData?.[product.id_product]?.details || [];
-
       if (productDetails.length === 1 && selectIdImport === "") {
         setSelectIdImport(productDetails[0].id_import);
       }
-
       productDetails.forEach((detail) => {
         if (String(selectIdImport) === String(detail.id_import)) {
           total += detail.unit_price * product.quantity;
@@ -59,7 +57,7 @@ function FormOrderAdmin({ setShow, currentOrderDetail }: Props) {
     toastifySuccess("Cập nhật thành công!");
   };
   const handleUpdateStatus = () => {
-    if (selectIdImport === "") {
+    if (selectIdImport === "" && currentOrderDetail.status === 0) {
       toastifyWarning("Vui lòng chọn giá nhập!");
       return;
     }
@@ -135,11 +133,9 @@ function FormOrderAdmin({ setShow, currentOrderDetail }: Props) {
                   <select className="p-2 border" value={selectIdImport} onChange={handleSelectChange}>
                     {detailImportData && !isEmpty(detailImportData) && (
                       <>
-                        <option key={idx} value="">
-                          Giá nhập
-                        </option>
-                        {detailImportData[product.id_product]?.details?.map((detail, idx) => (
-                          <option key={idx} value={detail.id_import}>
+                        <option value="">Giá nhập</option>
+                        {detailImportData[product.id_product]?.details?.map((detail) => (
+                          <option key={detail.id_import} value={detail.id_import}>
                             {formatVND(detail.unit_price)}
                           </option>
                         ))}

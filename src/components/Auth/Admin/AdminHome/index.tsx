@@ -63,8 +63,8 @@ const AdminHome = () => {
       <HeaderHomeAdmin className="text-center text-3xl font-medium my-10">Quản trị</HeaderHomeAdmin>
       <BodyHomeAdmin className="m-2">
         <WrapperStatiscal>
-          {items.map((item, idx) => (
-            <Statistical key={idx} {...item} />
+          {items.map((item) => (
+            <Statistical key={item.title} {...item} />
           ))}
         </WrapperStatiscal>
         <LineChar data={data} dateLine={dateLine} />

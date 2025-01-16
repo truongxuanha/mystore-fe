@@ -52,7 +52,7 @@ function AdminSalePopup() {
       </div>
       {!isEmpty(salePopup) &&
         salePopup?.map((popup, index) => (
-          <div key={popup.popup_id} className="grid grid-cols-10 bg-white">
+          <div key={popup.popup_id + 3} className="grid grid-cols-10 bg-white">
             <div className="col-span-1 w-full h-40 border center-config">{index + 1}</div>
             <div className="col-span-3 w-full p-5 h-40 border center-config">
               <ImageLazy isObjectFitCover="contain" src={popup.popup_img} alt="banner" />

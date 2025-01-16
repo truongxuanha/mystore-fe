@@ -115,7 +115,7 @@ const AdminCustomer = () => {
         <div className="flex gap-2 items-center">
           <select className="h-10 px-5" onChange={handleSelect}>
             {option.map((opt) => (
-              <option key={opt.option_id} value={opt.value}>
+              <option key={opt.title} value={opt.value}>
                 {opt.title}
               </option>
             ))}

@@ -17,7 +17,7 @@ const StarRating = () => {
         <div className="flex items-center" key={index}>
           <span className="text-base">{stars.length - index}</span>
           <div
-            key={star}
+            key={`${index}-star`}
             style={{
               display: "grid",
               gridTemplateColumns: "20px 250px 20px",

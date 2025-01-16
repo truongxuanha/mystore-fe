@@ -48,6 +48,13 @@ export const store = configureStore({
     comment: commentReducer,
     admin: adminReducer,
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: ["persist/PERSIST", "persist/REHYDRATE"],
+        ignoredPaths: ["register", "rehydrate"],
+      },
+    }),
 });
 export const persistor = persistStore(store);
 export type RootState = ReturnType<typeof store.getState>;

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { MainContent, WrapperFormImport } from "./styled";
 import { ProductsType } from "types";
 import { axiosInstance } from "utils/axiosConfig";
@@ -82,9 +82,9 @@ const ImportProduct = () => {
 
   const calculateProductTotal = (quantity: number, price: number) => quantity * price;
 
-  const calculateTotalPrice = () => {
+  const calculateTotalPrice = useMemo(() => {
     return importData.reduce((total, item) => total + calculateProductTotal(item.quantity, item.price), 0);
-  };
+  }, [importData]);
 
   const handleRemoveProduct = (productId: number) => {
     setImportData(importData.filter((data) => data.productId !== productId));
@@ -92,7 +92,7 @@ const ImportProduct = () => {
 
   const handleImportProducts = () => {
     const data: CreateImportType = {
-      total_cost: calculateTotalPrice(),
+      total_cost: calculateTotalPrice,
       note,
       details: importData.map((item) => ({
         id_product: item.productId,
@@ -209,7 +209,7 @@ const ImportProduct = () => {
             </div>
             <div className="flex flex-col">
               <label>Tổng tiền hàng</label>
-              <input placeholder="Tổng tiền..." value={calculateTotalPrice().toLocaleString()} className="border p-2" disabled />
+              <input placeholder="Tổng tiền..." value={calculateTotalPrice} className="border p-2" disabled />
             </div>
           </div>
           <div className="flex flex-col my-5">

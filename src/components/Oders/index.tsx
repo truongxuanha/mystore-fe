@@ -155,7 +155,7 @@ const OrderView = () => {
                 </TableHeader>
                 <TableBody>
                   {orderItemsSession?.map((order: any, index: any) => (
-                    <TableRow key={index}>
+                    <TableRow key={`order-${index}`}>
                       <TableCell className="flex items-center gap-3 pl-0">
                         <div className="size-20 min-w-20 min-h-20 border rounded-md">
                           <img src={order?.thumbnail} alt="" className="w-full h-full object-cover" />

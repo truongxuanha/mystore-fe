@@ -11,50 +11,50 @@ const appIcon = [
     icon: faceBookIcon,
   },
   {
-    id: 1,
+    id: 2,
     icon: twitterIcon,
   },
   {
-    id: 1,
+    id: 3,
     icon: xIcon,
   },
   {
-    id: 1,
+    id: 4,
     icon: githupIcon,
   },
   {
-    id: 1,
+    id: 5,
     icon: youtobeIcon,
   },
 ];
 const listContact = [
   {
-    id: 1,
+    id: 6,
     content: "About",
     url: "",
   },
   {
-    id: 1,
+    id: 7,
     content: "Blog",
     url: "",
   },
   {
-    id: 1,
+    id: 8,
     content: "Jobs",
     url: "",
   },
   {
-    id: 1,
+    id: 9,
     content: "Press",
     url: "",
   },
   {
-    id: 1,
+    id: 11,
     content: "Accessibility",
     url: "",
   },
   {
-    id: 1,
+    id: 12,
     content: "Partners",
     url: "",
   },

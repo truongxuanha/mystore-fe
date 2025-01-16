@@ -1,11 +1,12 @@
 import { ChatBubbleLeftRightIcon, ClockIcon, EllipsisHorizontalIcon, PaperAirplaneIcon, StarIcon } from "@heroicons/react/24/outline";
 import { assets } from "assets";
 import Button from "customs/Button";
-import { useAppSelector } from "hooks/useAppDispatch";
+import { useAppDispatch, useAppSelector } from "hooks/useAppDispatch";
 import useAuthenticated from "hooks/useAuthenticated";
 import { useRef, useState } from "react";
 import noAvatar from "assets/no_avatar.jpg";
 import { Link } from "react-router-dom";
+import { hiddenCmtThunk } from "redux/comment/commentThunk";
 
 type Props = {
   setRating: (rating: number) => void;
@@ -22,6 +23,7 @@ const RatingComment = ({ setRating, rating, handleCreateCmt, setContentComment, 
   const { isAdmin, authenticated } = useAuthenticated();
   const { dataCommentById, commentById } = useAppSelector((state) => state.comment);
   const { currentUser, infoUser } = useAppSelector((state) => state.auth);
+  const dispatch = useAppDispatch();
   const [isOpen, setIsOpen] = useState<number | null>(null);
   const [star, setStar] = useState<number>(0);
   const ratings: any = {
@@ -44,9 +46,15 @@ const RatingComment = ({ setRating, rating, handleCreateCmt, setContentComment, 
     return acc;
   }, {});
   const dropdownRef = useRef(null);
-
-  const isCommented = commentById?.commented;
-  // const handleHiddenCmt = (id: number) => {};
+  const handleHiddenRating = (id: number) => {
+    const callBack = () => {
+      setIsOpen(null);
+      setRating(0);
+    };
+    dispatch(hiddenCmtThunk({ id, callBack }));
+  };
+  const isCommented = commentById?.rating_info?.commented;
+  const isCanComment = commentById?.rating_info?.canRating;
   return (
     <div>
       <div className="bg-white p-2 mt-2">
@@ -59,8 +67,8 @@ const RatingComment = ({ setRating, rating, handleCreateCmt, setContentComment, 
               className={`${isCommented || !commentById?.canRating ? "cursor-pointer hover:opacity-80" : "cursor-wait"} bg-blue-600 flex items-center gap-2 px-3 py-1 rounded h-10 `}
             >
               {!isCommented && <PaperAirplaneIcon width={20} height={20} className="text-white" />}
-              <Button disabled={isCommented || !commentById?.canRating} onClick={() => setShowRating(true)} width="auto" className="text-white">
-                {isCommented ? "Bạn đã đánh giá sản phẩm" : commentById?.canRating ? "Viết đánh giá ngay" : "Mua hàng để đánh giá"}
+              <Button disabled={isCommented || !isCanComment} onClick={() => setShowRating(true)} width="auto" className="text-white">
+                {isCommented ? "Bạn đã đánh giá sản phẩm" : isCanComment ? "Viết đánh giá ngay" : "Mua hàng để đánh giá"}
               </Button>
             </div>
           </div>
@@ -136,7 +144,11 @@ const RatingComment = ({ setRating, rating, handleCreateCmt, setContentComment, 
                         {(currentUser?.user.id === userCmt.id_account || currentUser?.user.permission === "admin") && (
                           <Button className="hover:bg-slate-100 p-1">Xóa</Button>
                         )}
-                        {currentUser?.user.permission === "admin" && <Button className="hover:bg-slate-100 p-[2px]">Ẩn đánh giá</Button>}
+                        {currentUser?.user.permission === "admin" && (
+                          <Button className="hover:bg-slate-100 p-[2px]" onClick={() => handleHiddenRating(userCmt.id)}>
+                            Ẩn đánh giá
+                          </Button>
+                        )}
                         <Button className="hover:bg-slate-100 p-1" onClick={() => setIsOpen(null)}>
                           Thoát
                         </Button>
@@ -175,7 +187,9 @@ const RatingComment = ({ setRating, rating, handleCreateCmt, setContentComment, 
                           <div className={`absolute w-28 ${isOpen === cmt.id ? "flex" : "hidden"} flex-col bg-white shadow-lg -right-2`}>
                             <Button className="hover:bg-slate-100 p-1">Chỉnh sửa</Button>
                             <Button className="hover:bg-slate-100 p-1">Xóa</Button>
-                            <Button className="hover:bg-slate-100 p-[2px]">Ẩn đánh giá</Button>
+                            <Button className="hover:bg-slate-100 p-[2px]" onClick={() => handleHiddenRating(userCmt.id)}>
+                              Ẩn đánh giá
+                            </Button>
                           </div>
                         </div>
                       </div>

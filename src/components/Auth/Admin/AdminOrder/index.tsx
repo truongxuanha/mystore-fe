@@ -104,7 +104,7 @@ function AdminOrder() {
           <div className="flex gap-2 items-center">
             <select className="h-8 px-4" onChange={handleSelect}>
               {option.map((opt) => (
-                <option key={opt.option_id} value={opt.value}>
+                <option key={opt.title} value={opt.value}>
                   {opt.title}
                 </option>
               ))}

@@ -4,6 +4,7 @@ import Button from "customs/Button";
 import InputDropzone from "customs/InputDropzone";
 import { useAppDispatch, useAppSelector } from "hooks/useAppDispatch";
 import useGetSearchParams from "hooks/useGetSearchParams";
+import { ITEM_IN_PAGE } from "libs/contains";
 import { texts } from "libs/contains/texts";
 import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -56,7 +57,7 @@ function FormAddProductAdmin({ setShow, initialData, actionType }: Props) {
     dispatch(getManuThunk());
   }, [dispatch]);
   const callBackCreate = () => {
-    dispatch(getProducts({ currentPage: page, itemsPerPage: 5 }));
+    dispatch(getProducts({ currentPage: page, itemsPerPage: ITEM_IN_PAGE }));
     toastifySuccess(texts.errors.ADD_PRODUCT_SUCCESS);
   };
 
@@ -76,7 +77,7 @@ function FormAddProductAdmin({ setShow, initialData, actionType }: Props) {
         toastifyWarning((resultsAction.payload as string) || texts.errors.EDIT_PRODUCT_FAILED);
         return;
       }
-      dispatch(getProducts({ currentPage: page, itemsPerPage: 5 }));
+      dispatch(getProducts({ currentPage: page, itemsPerPage: ITEM_IN_PAGE }));
       toastifySuccess(texts.errors.EDIT_PRODUCT_SUCCESS);
     } else if (actionType === ActionAdminEnum.DELETE) {
       resultsAction = await dispatch(deleteProductThunk(initialData.product_id));
@@ -84,10 +85,10 @@ function FormAddProductAdmin({ setShow, initialData, actionType }: Props) {
         toastifyWarning((resultsAction.payload as string) || texts.errors.DELETE_PRODUCT_FAILED);
         return;
       }
-      dispatch(getProducts({ currentPage: page, itemsPerPage: 5 }));
+      dispatch(getProducts({ currentPage: page, itemsPerPage: ITEM_IN_PAGE }));
       toastifySuccess(texts.errors.DELETE_PRODUCT_SUCCESS);
     } else {
-      dispatch(getProducts({ currentPage: page, itemsPerPage: 5 }));
+      dispatch(getProducts({ currentPage: page, itemsPerPage: ITEM_IN_PAGE }));
     }
 
     reset();

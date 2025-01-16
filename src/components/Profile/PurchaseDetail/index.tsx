@@ -31,7 +31,7 @@ const PurchaseOrderDetail = () => {
         <div className="min-w-[963px] py-10 px-6 bg-white border-t border-gray-300 border-dotted">
           <div className="relative stepper flex justify-between items-start">
             {steps.map((step, index) => (
-              <div key={index} className="z-10 w-36 stepper__step flex flex-col justify-center items-center">
+              <div key={`purchase-${index}`} className="z-10 w-36 stepper__step flex flex-col justify-center items-center">
                 <div
                   className={cn(
                     "w-14 h-14 bg-white flex items-center justify-center border-[4px]  rounded-full",
