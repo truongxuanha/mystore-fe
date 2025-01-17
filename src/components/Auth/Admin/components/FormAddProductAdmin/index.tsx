@@ -147,8 +147,8 @@ function FormAddProductAdmin({ setShow, initialData, actionType }: Props) {
             </div>
             <div className="grid">
               <div className="flex flex-col gap-2 row-span-1">
-                <label htmlFor="email">Số lượng nhập</label>
-                <Input className="border px-1 py-1 rounded-sm" id="quantity" {...register("quantity")} disabled={isDisable} />
+                <label htmlFor="email">Số lượng còn</label>
+                <Input className="border px-1 py-1 rounded-sm" id="quantity" {...register("quantity")} disabled />
                 {errors.quantity && <span className="text-red-500">{errors.quantity.message}</span>}
               </div>
             </div>

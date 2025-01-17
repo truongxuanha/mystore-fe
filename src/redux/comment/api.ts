@@ -23,3 +23,7 @@ export function removeCmtApi(id: number) {
   const res = axiosInstance.delete(`/ratting-comment/${id}/removebyid`);
   return res;
 }
+export function updateCmtApi({ id, content }: { id: number; content: string }) {
+  const res = axiosInstance.put(`/ratting-comment/${id}/update`, { content });
+  return res;
+}

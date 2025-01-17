@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { BannerType, SalePopupType } from "./type";
-import { getBannersThunk, getPopupThunk } from "./homeThunk";
+import { createPopupThunk, deletePopupThunk, getBannersThunk, getPopupThunk, updatePopupThunk } from "./homeThunk";
 
 type InitialStateType = {
   loadingBanner: boolean;
@@ -40,6 +40,36 @@ const homeSlice = createSlice({
         state.salePopup = action.payload;
       })
       .addCase(getPopupThunk.rejected, (state) => {
+        state.loadingPopup = false;
+      });
+    builder
+      .addCase(createPopupThunk.pending, (state) => {
+        state.loadingPopup = true;
+      })
+      .addCase(createPopupThunk.fulfilled, (state) => {
+        state.loadingPopup = false;
+      })
+      .addCase(createPopupThunk.rejected, (state) => {
+        state.loadingPopup = false;
+      });
+    builder
+      .addCase(updatePopupThunk.pending, (state) => {
+        state.loadingPopup = true;
+      })
+      .addCase(updatePopupThunk.fulfilled, (state) => {
+        state.loadingPopup = false;
+      })
+      .addCase(updatePopupThunk.rejected, (state) => {
+        state.loadingPopup = false;
+      });
+    builder
+      .addCase(deletePopupThunk.pending, (state) => {
+        state.loadingPopup = true;
+      })
+      .addCase(deletePopupThunk.fulfilled, (state) => {
+        state.loadingPopup = false;
+      })
+      .addCase(deletePopupThunk.rejected, (state) => {
         state.loadingPopup = false;
       });
   },

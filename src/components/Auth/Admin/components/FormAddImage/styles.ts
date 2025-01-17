@@ -16,15 +16,15 @@ export const ContainerFormAddImage = styled.div`
 export const MainFormAddImage = styled.div`
   position: relative;
   background-color: #fff;
-  min-width: 930px;
+  width: 800px;
+  max-height: 600px;
   padding: 20px;
   display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
+  flex-direction: column;
 `;
 export const ImageItem = styled.div`
   width: 240px;
-  height: 180px;
+  height: 190px;
   border: 1px solid red;
 `;
 export const CloseWrapper = styled.div`

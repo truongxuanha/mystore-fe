@@ -27,6 +27,7 @@ const initialState: IAuthState = {
   all_customers: [],
   totalAccount: 0,
   totalCustomer: 0,
+  totalPageCustomer: 0,
   addressAcc: [],
   loadingForpass: false,
   dataReqOtp: undefined,
@@ -130,7 +131,8 @@ const authSlice = createSlice({
         state.loadingGetCustomer = false;
         state.error = null;
         state.all_customers = action.payload.data;
-        state.totalCustomer = action.payload.totalPage;
+        state.totalCustomer = action.payload.totalItem;
+        state.totalPageCustomer = action.payload.totalPage;
       })
       .addCase(authCustomer.rejected, (state) => {
         state.loadingGetCustomer = false;

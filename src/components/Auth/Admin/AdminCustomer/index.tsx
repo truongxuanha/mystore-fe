@@ -4,7 +4,6 @@ import { useSearchParams } from "react-router-dom";
 import { texts } from "libs/contains/texts";
 import { useAppDispatch, useAppSelector } from "hooks/useAppDispatch";
 import { ActionAdminEnum } from "types/admin.type";
-import { PAGE } from "types";
 import { authCustomer } from "redux/auth/authThunk";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import Table from "customs/Table";
@@ -17,12 +16,15 @@ import { isEmpty } from "utils";
 import Nodata from "customs/Nodata";
 import useDebounce from "hooks/useDebouncs";
 import useParams from "hooks/useParams";
+import useGetSearchParams from "hooks/useGetSearchParams";
 
 const AdminCustomer = () => {
-  const { all_customers, totalAccount, loadingGetCustomer } = useAppSelector((state) => state.auth);
+  const { all_customers, loadingGetCustomer, totalPageCustomer } = useAppSelector((state) => state.auth);
+
   const [searchParams, setSearchParams] = useSearchParams();
   const [selectOption, setSelectOption] = useState(searchParams.get("sort") || "all");
-  const currentPage: number = parseInt(searchParams.get(PAGE.page) || "1");
+  const page = useGetSearchParams(["page"]).page || 1;
+
   const dispatch = useAppDispatch();
   const [show, setShow] = useState<boolean>(false);
   const [actionType, setActionType] = useState<ActionAdminEnum>();
@@ -36,12 +38,12 @@ const AdminCustomer = () => {
     if (searchQuery === "") {
       clearParams(["query"]);
     }
-    dispatch(authCustomer({ page: currentPage, sex: selectOption, query: searchQuery }));
+    dispatch(authCustomer({ page: page, sex: selectOption, query: searchQuery }));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch, currentPage, selectOption, debounce]);
+  }, [dispatch, page, selectOption, debounce]);
 
   const handleSearch = () => {
-    dispatch(authCustomer({ page: currentPage, sex: selectOption, query: searchQuery }));
+    dispatch(authCustomer({ page: page, sex: selectOption, query: searchQuery }));
   };
   const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedValue = e.target.value;
@@ -86,7 +88,6 @@ const AdminCustomer = () => {
     texts.infor_account.STATUS,
     texts.infor_account.ACTION,
   ];
-
   const rowCustomer = all_customers?.map((customer) => [
     customer.id || "---",
     customer.account_name || "---",
@@ -135,9 +136,9 @@ const AdminCustomer = () => {
               )}
             />
           </div>
-          {totalAccount > 1 && <Pagination currentPage={currentPage} totalPage={totalAccount} />}
+          {totalPageCustomer > 1 && <Pagination currentPage={page} totalPage={totalPageCustomer} />}
           {show && actionType !== ActionAdminEnum.VIEW_ADDRESS && (
-            <FormCustomer selectOption={selectOption} currentPage={currentPage} initialData={currentStaff} actionType={actionType} setShow={setShow} />
+            <FormCustomer selectOption={selectOption} currentPage={page} initialData={currentStaff} actionType={actionType} setShow={setShow} />
           )}
           {show && actionType === ActionAdminEnum.VIEW_ADDRESS && <ModalAdressCustomer setShow={setShow} />}
         </>

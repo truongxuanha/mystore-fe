@@ -49,6 +49,7 @@ export type IAuthState = {
   all_customers: UserAccount[];
   all_accounts: UserAccount[];
   totalCustomer: number;
+  totalPageCustomer: number;
   totalAccount: number;
   addressAcc: AddressAccountType[];
   loadingForpass: boolean;

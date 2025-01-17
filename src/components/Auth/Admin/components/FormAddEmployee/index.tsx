@@ -9,7 +9,6 @@ import { authGetAllAccount, authRegister } from "../../../../../redux/auth/authT
 import { InitialRegisterState } from "../../../../../redux/auth/type";
 import { ActionAdminEnum } from "../../../../../types/admin.type";
 import { useState } from "react";
-import { toastifySuccess } from "utils/toastify";
 
 type Props = {
   setShow: (value: boolean) => void;
@@ -46,7 +45,6 @@ function FormAddEmployee({ setShow, initialData, actionType, currentPage, select
   const callBack = () => {
     reset();
     setShow(false);
-    toastifySuccess("Thêm tài khoản thành công!");
     dispatch(authGetAllAccount({ page: currentPage, permission: selectOption }));
   };
   const dispatch = useAppDispatch();

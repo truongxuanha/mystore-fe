@@ -111,7 +111,7 @@ const OrderView = () => {
                     <PlusIcon className="w-5 h-5" />
                     <span>{texts.order.ADD_ADRESS}</span>
                   </Button>
-                  <Link to="/profile">
+                  <Link to="/account/address">
                     <Button className="bg-colorPrimary px-3 py-1 rounded-md">{texts.order.SET_ADDRESS}</Button>
                   </Link>
                 </div>

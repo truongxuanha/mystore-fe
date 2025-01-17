@@ -1,12 +1,13 @@
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { yupResolver } from "@hookform/resolvers/yup";
 import InputDropzone from "customs/InputDropzone";
-import { useAppDispatch } from "hooks/useAppDispatch";
+import { useAppDispatch, useAppSelector } from "hooks/useAppDispatch";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { createPopupThunk, getPopupThunk, updatePopupThunk } from "redux/home/homeThunk";
 import { schemaCreatePopup } from "utils/schema";
 import { toastifyWarning } from "utils/toastify";
+import LoadingMini from "customs/LoadingMini";
 
 type FormData = {
   url_transit: string;
@@ -24,6 +25,7 @@ type Props = {
 
 const FormPopup = ({ setShowModal, isEdit, popupData }: Props) => {
   const [fileImage, setFileImage] = useState<any>(popupData?.popup_img || "");
+  const { loadingPopup } = useAppSelector((state) => state.home);
   const dispatch = useAppDispatch();
   const {
     handleSubmit,
@@ -82,8 +84,12 @@ const FormPopup = ({ setShowModal, isEdit, popupData }: Props) => {
             <InputDropzone fileUploaded={fileImage} setFileUploaded={setFileImage} />
           </div>
           <div className="flex justify-end mt-5">
-            <button type="submit" className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded transition">
-              {isEdit ? "Cập nhật" : "Thêm"}
+            <button
+              disabled={loadingPopup}
+              type="submit"
+              className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded transition w-20 h-8 flex justify-center items-center"
+            >
+              {loadingPopup ? <LoadingMini /> : isEdit ? "Cập nhật" : "Thêm"}
             </button>
           </div>
         </form>

@@ -11,6 +11,7 @@ import { getAllBillThunk } from "redux/bill/billThunk";
 import useGetSearchParams from "hooks/useGetSearchParams";
 import { toastifySuccess, toastifyWarning } from "utils/toastify";
 import ExportPDF from "../ExportPdf";
+import { ITEM_IN_PAGE } from "libs/contains";
 type Props = {
   setShow: (show: boolean) => void;
   currentOrderDetail: any;
@@ -53,7 +54,7 @@ function FormOrderAdmin({ setShow, currentOrderDetail }: Props) {
   }, [currentOrderDetail.id]);
   const callBack = () => {
     setShow(false);
-    dispatch(getAllBillThunk({ query: "", page, item: 5 }));
+    dispatch(getAllBillThunk({ query: "", page, item: ITEM_IN_PAGE }));
     toastifySuccess("Cập nhật thành công!");
   };
   const handleUpdateStatus = () => {

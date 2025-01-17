@@ -37,11 +37,10 @@ export const createManufactureThunk = createAsyncThunk(
 );
 export const updateManufactureThunk = createAsyncThunk(
   "manufacturer/updateManufacturer",
-  async ({ id, img, name, phone, website, callBack }: ProviderType & CallBackType, { rejectWithValue }) => {
+  async ({ id, img = "", name, phone, website = "", callBack }: ProviderType & CallBackType, { rejectWithValue }) => {
     try {
       const res = await updateManufactureApi({ id, img, name, phone, website });
       callBack();
-      toastifySuccess("Cập nhật nhà cung cấp thành công!");
       return res;
     } catch (err) {
       return rejectWithValue(err);

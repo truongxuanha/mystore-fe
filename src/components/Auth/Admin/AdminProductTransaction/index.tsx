@@ -2,11 +2,11 @@ import { useEffect, useState } from "react";
 import ImportProduct from "../components/ImportProduct";
 import ListImportProduct from "../components/ListImportProduct";
 import useGetSearchParams from "hooks/useGetSearchParams";
-import ExportProduct from "../components/ExportProduct/index";
+// import ExportProduct from "../components/ExportProduct/index";
 export enum ActiveType {
   LIST = "list",
   IMPORT = "import",
-  EXPORT = "export",
+  // EXPORT = "export",
 }
 const AdminProductTransaction = () => {
   const [tabActive, setTabActive] = useState<ActiveType>(ActiveType.LIST);
@@ -17,7 +17,7 @@ const AdminProductTransaction = () => {
   const renderTab = {
     [ActiveType.LIST]: <ListImportProduct />,
     [ActiveType.IMPORT]: <ImportProduct />,
-    [ActiveType.EXPORT]: <ExportProduct />,
+    // [ActiveType.EXPORT]: <ExportProduct />,
   };
   return <div className="px-5">{renderTab[tabActive]}</div>;
 };

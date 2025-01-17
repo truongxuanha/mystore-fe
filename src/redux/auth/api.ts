@@ -2,6 +2,7 @@ import { UserAccount } from "types";
 import { axiosInstance } from "../../utils/axiosConfig";
 import { AddressType, CustomerParamsType, ForPassword, InitialLoginState, InitialRegisterState, RefreshTokenType, ResResfreshType } from "./type";
 import dayjs from "dayjs";
+import { ITEM_IN_PAGE } from "libs/contains";
 
 export async function registerUser(initAccount: InitialRegisterState) {
   try {
@@ -48,7 +49,7 @@ export async function loginUser(initAccount: InitialLoginState) {
   }
 }
 export async function getAllAccount({ ...params }: CustomerParamsType) {
-  const { query = "", sex = "", page = 1, item = 5, permission = "all" } = params;
+  const { query = "", sex = "", page = 1, item = ITEM_IN_PAGE, permission = "all" } = params;
   try {
     const res = await axiosInstance.get("account/get-all", {
       params: { query, sex, page, item, permission },
@@ -72,7 +73,7 @@ export async function refreshToken(refresh: RefreshTokenType) {
 }
 
 export async function getAllCustomer({ ...params }: CustomerParamsType) {
-  const { query = "", sex = "", page = 1, item = 5 } = params;
+  const { query = "", sex = "", page = 1, item = ITEM_IN_PAGE } = params;
   try {
     const res = await axiosInstance.get("account/get-all-customer", {
       params: { query, sex, page, item },
