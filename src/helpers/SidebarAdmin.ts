@@ -56,7 +56,7 @@ const menuSideBar = [
   {
     id: "product-transaction",
     path: "product-transaction",
-    title: "Nhập xuất hàng",
+    title: "Nhập hàng",
     active: iconTag,
     icon: iconTagActive,
     subNav: [

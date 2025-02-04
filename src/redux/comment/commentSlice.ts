@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { createCmtByIdProductThunk, getCommentByIdProductThunk } from "./commentThunk";
+import { createCmtByIdProductThunk, getCommentByIdProductThunk, hiddenCmtThunk, removeCmtThunk } from "./commentThunk";
 type InitialStateType = {
   loadingCmt: boolean;
   dataCommentById: any;
@@ -42,6 +42,26 @@ const commentSlice = createSlice({
         state.loadingCmt = false;
       })
       .addCase(createCmtByIdProductThunk.rejected, (state) => {
+        state.loadingCmt = false;
+      });
+    builder
+      .addCase(hiddenCmtThunk.pending, (state) => {
+        state.loadingCmt = true;
+      })
+      .addCase(hiddenCmtThunk.fulfilled, (state) => {
+        state.loadingCmt = false;
+      })
+      .addCase(hiddenCmtThunk.rejected, (state) => {
+        state.loadingCmt = false;
+      });
+    builder
+      .addCase(removeCmtThunk.pending, (state) => {
+        state.loadingCmt = true;
+      })
+      .addCase(removeCmtThunk.fulfilled, (state) => {
+        state.loadingCmt = false;
+      })
+      .addCase(removeCmtThunk.rejected, (state) => {
         state.loadingCmt = false;
       });
   },

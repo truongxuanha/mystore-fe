@@ -1,11 +1,12 @@
 import { ChatBubbleLeftRightIcon, ClockIcon, EllipsisHorizontalIcon, PaperAirplaneIcon, StarIcon } from "@heroicons/react/24/outline";
 import { assets } from "assets";
 import Button from "customs/Button";
-import { useAppSelector } from "hooks/useAppDispatch";
+import { useAppDispatch, useAppSelector } from "hooks/useAppDispatch";
 import useAuthenticated from "hooks/useAuthenticated";
 import { useRef, useState } from "react";
 import noAvatar from "assets/no_avatar.jpg";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+import { getCommentByIdProductThunk, hiddenCmtThunk, removeCmtThunk, updateCmtThunk } from "redux/comment/commentThunk";
 
 type Props = {
   setRating: (rating: number) => void;
@@ -17,13 +18,16 @@ type Props = {
   setShowRating: (show: boolean) => void;
   idReply: any;
   setIdRepLy: (id: any) => void;
+  id_product: any;
 };
 const RatingComment = ({ setRating, rating, handleCreateCmt, setContentComment, showRating, setShowRating, contentComment, idReply, setIdRepLy }: Props) => {
   const { isAdmin, authenticated } = useAuthenticated();
   const { dataCommentById, commentById } = useAppSelector((state) => state.comment);
   const { currentUser, infoUser } = useAppSelector((state) => state.auth);
+  const dispatch = useAppDispatch();
   const [isOpen, setIsOpen] = useState<number | null>(null);
   const [star, setStar] = useState<number>(0);
+  const { id: idProduct } = useParams();
   const ratings: any = {
     1: "Kém",
     2: "Tạm được",
@@ -32,6 +36,8 @@ const RatingComment = ({ setRating, rating, handleCreateCmt, setContentComment, 
     5: "Rất Tốt",
   };
   const stars = [1, 2, 3, 4, 5];
+  const [editCmt, setEditCmt] = useState<string>("");
+  const [isEditCmt, setIsEditCmt] = useState<any>("");
 
   const topLevelComments = dataCommentById.filter((cmt: any) => {
     return cmt.parent_id === null;
@@ -44,9 +50,40 @@ const RatingComment = ({ setRating, rating, handleCreateCmt, setContentComment, 
     return acc;
   }, {});
   const dropdownRef = useRef(null);
-
-  const isCommented = commentById?.commented;
-  // const handleHiddenCmt = (id: number) => {};
+  const handleHiddenRating = (id: number) => {
+    const callBack = () => {
+      setIsOpen(null);
+      setRating(0);
+      dispatch(getCommentByIdProductThunk({ product_id: Number(idProduct), id_account: currentUser?.user.id }));
+    };
+    dispatch(hiddenCmtThunk({ id, callBack }));
+  };
+  const handleRemoveComment = (id: number) => {
+    const callBack = () => {
+      setIsOpen(null);
+      setRating(0);
+      dispatch(getCommentByIdProductThunk({ product_id: Number(idProduct), id_account: currentUser?.user.id }));
+    };
+    dispatch(removeCmtThunk({ id, callBack }));
+  };
+  const handleEdit = (content: string, idCmt: any) => {
+    setEditCmt(content);
+    setIsEditCmt(idCmt);
+  };
+  const handleCancelUpdateCmt = () => {
+    setEditCmt("");
+    setIsEditCmt("");
+  };
+  const handleUpdateCmt = (id: number) => {
+    const callBack = () => {
+      setEditCmt("");
+      setIsEditCmt(false);
+      dispatch(getCommentByIdProductThunk({ product_id: Number(idProduct), id_account: currentUser?.user.id }));
+    };
+    dispatch(updateCmtThunk({ id, content: editCmt, callBack }));
+  };
+  const isCommented = commentById?.rating_info?.commented;
+  const isCanComment = commentById?.rating_info?.canRating;
   return (
     <div>
       <div className="bg-white p-2 mt-2">
@@ -59,8 +96,8 @@ const RatingComment = ({ setRating, rating, handleCreateCmt, setContentComment, 
               className={`${isCommented || !commentById?.canRating ? "cursor-pointer hover:opacity-80" : "cursor-wait"} bg-blue-600 flex items-center gap-2 px-3 py-1 rounded h-10 `}
             >
               {!isCommented && <PaperAirplaneIcon width={20} height={20} className="text-white" />}
-              <Button disabled={isCommented || !commentById?.canRating} onClick={() => setShowRating(true)} width="auto" className="text-white">
-                {isCommented ? "Bạn đã đánh giá sản phẩm" : commentById?.canRating ? "Viết đánh giá ngay" : "Mua hàng để đánh giá"}
+              <Button disabled={isCommented || !isCanComment} onClick={() => setShowRating(true)} width="auto" className="text-white">
+                {isCommented ? "Bạn đã đánh giá sản phẩm" : isCanComment ? "Viết đánh giá ngay" : "Mua hàng để đánh giá"}
               </Button>
             </div>
           </div>
@@ -132,11 +169,21 @@ const RatingComment = ({ setRating, rating, handleCreateCmt, setContentComment, 
                     <div className="font-thin text-sm px-2 pt-2 rounded-md relative cursor-pointer">
                       <EllipsisHorizontalIcon width={20} height={20} onClick={() => setIsOpen(userCmt.id)} />
                       <div className={`absolute w-28 ${isOpen === userCmt.id ? "flex" : "hidden"} flex-col bg-white shadow-lg -right-2`}>
-                        {currentUser?.user.id === userCmt.id_account && <Button className="hover:bg-slate-100 p-1">Chỉnh sửa</Button>}
-                        {(currentUser?.user.id === userCmt.id_account || currentUser?.user.permission === "admin") && (
-                          <Button className="hover:bg-slate-100 p-1">Xóa</Button>
+                        {currentUser?.user.id === userCmt.id_account && (
+                          <Button className="hover:bg-slate-100 p-1" onClick={() => handleEdit(userCmt.content, userCmt.id)}>
+                            Chỉnh sửa
+                          </Button>
                         )}
-                        {currentUser?.user.permission === "admin" && <Button className="hover:bg-slate-100 p-[2px]">Ẩn đánh giá</Button>}
+                        {(currentUser?.user.id === userCmt.id_account || currentUser?.user.permission === "admin") && (
+                          <Button className="hover:bg-slate-100 p-1" onClick={() => handleRemoveComment(userCmt.id)}>
+                            Xóa
+                          </Button>
+                        )}
+                        {currentUser?.user.permission === "admin" && (
+                          <Button className="hover:bg-slate-100 p-[2px]" onClick={() => handleHiddenRating(userCmt.id)}>
+                            Ẩn đánh giá
+                          </Button>
+                        )}
                         <Button className="hover:bg-slate-100 p-1" onClick={() => setIsOpen(null)}>
                           Thoát
                         </Button>
@@ -146,7 +193,21 @@ const RatingComment = ({ setRating, rating, handleCreateCmt, setContentComment, 
                 </div>
                 <div className="ml-12">
                   <div className="font-thin text-xs px-2 pt-2 rounded-md relative">
-                    <p>{userCmt.content}</p>
+                    {isEditCmt === userCmt.id ? (
+                      <div>
+                        <input className="border-b w-1/2" value={editCmt} onChange={(e) => setEditCmt(e.target.value)} placeholder="Sửa đánh giá..." />
+                        <div className="flex justify-end w-1/2 mt-2">
+                          <Button className=" py-1" width="80px" onClick={handleCancelUpdateCmt}>
+                            Hủy
+                          </Button>
+                          <Button onClick={() => handleUpdateCmt(userCmt.id)} className="bg-colorPrimary py-1 text-white" width="80px">
+                            Cập nhật
+                          </Button>
+                        </div>
+                      </div>
+                    ) : (
+                      <p>{userCmt.content}</p>
+                    )}
                     <button className="absolute bottom-1 right-2 cursor-pointer flex gap-1" onClick={() => setIdRepLy(userCmt.id)}>
                       <ChatBubbleLeftRightIcon className="w-4 h-4 text-red-500" />
                       <p>Trả lời</p>
@@ -175,7 +236,12 @@ const RatingComment = ({ setRating, rating, handleCreateCmt, setContentComment, 
                           <div className={`absolute w-28 ${isOpen === cmt.id ? "flex" : "hidden"} flex-col bg-white shadow-lg -right-2`}>
                             <Button className="hover:bg-slate-100 p-1">Chỉnh sửa</Button>
                             <Button className="hover:bg-slate-100 p-1">Xóa</Button>
-                            <Button className="hover:bg-slate-100 p-[2px]">Ẩn đánh giá</Button>
+                            <Button className="hover:bg-slate-100 p-1">Thoát</Button>
+                            {isAdmin && (
+                              <Button className="hover:bg-slate-100 p-[2px]" onClick={() => handleHiddenRating(cmt.id)}>
+                                Ẩn đánh giá
+                              </Button>
+                            )}
                           </div>
                         </div>
                       </div>

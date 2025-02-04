@@ -11,6 +11,7 @@ import { createCmtByIdProductThunk, getCommentByIdProductThunk } from "redux/com
 import RatingComment from "./RatingComment";
 import RenewStarRating from "./RenewStarRating";
 import InforProduct from "./InforProduct";
+import ModalEditCmt from "./ModalEditCmt";
 
 const ProductDetail: React.FC = () => {
   const [rating, setRating] = useState<number>(0);
@@ -66,9 +67,11 @@ const ProductDetail: React.FC = () => {
             setShowRating={setShowRating}
             idReply={idReply}
             setIdRepLy={setIdRepLy}
+            id_product={id}
           />
         </div>
         <ProductRandom />
+        <ModalEditCmt />
       </div>
     </div>
   );

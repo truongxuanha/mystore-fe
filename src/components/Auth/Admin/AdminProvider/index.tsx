@@ -19,26 +19,12 @@ import useParams from "hooks/useParams";
 const AdminProvider = () => {
   const dispatch = useAppDispatch();
   const { manufactures, totalPage } = useAppSelector((state) => state.manufacturer);
-
   const [show, setShow] = useState<boolean>(false);
   const [actionType, setActionType] = useState<ActionAdminEnum>();
   const [currentProvider, setCurrentProvider] = useState<any>();
   const page = useGetSearchParams(["page"]).page || 1;
   const { clearParams, setNewsParams } = useParams();
-
-  // const [searchQuery, setSearchQuery] = useState("");
-
-  // const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   const query = e.target.value;
-  //   setSearchQuery(query);
-  // };
-
-  // const handleSearch = () => {
-  //   if (!searchQuery.trim()) return;
-  //   dispatch(getProducts({ query: searchQuery, itemsPerPage: 5 }));
-  // };
   const [searchParams] = useSearchParams();
-
   const [searchQuery, setSearchQuery] = useState<string>(searchParams.get("search") || "");
   const debounce = useDebounce({ value: searchQuery, delay: 500 });
   const currentPage: number = parseInt(searchParams.get(PAGE.page) || "1");
@@ -66,7 +52,7 @@ const AdminProvider = () => {
     manu.name,
     manu.phone,
     manu.website,
-    <div key={manu.id} className="w-20 h-20">
+    <div key={manu.name} className="w-20 h-20">
       <ImageLazy isObjectFitCover="contain" src={manu.img} alt="image-manu" />
     </div>,
   ]);

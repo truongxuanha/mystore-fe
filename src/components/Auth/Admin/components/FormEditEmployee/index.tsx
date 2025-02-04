@@ -9,7 +9,6 @@ import { authGetAllAccount, removeUserThunk, updateUserThunk } from "../../../..
 import { InitialRegisterState } from "../../../../../redux/auth/type";
 import { ActionAdminEnum } from "../../../../../types/admin.type";
 import { useState } from "react";
-import { toastifySuccess } from "utils/toastify";
 
 type Props = {
   setShow: (value: boolean) => void;
@@ -49,7 +48,6 @@ function FormEditEmployee({ setShow, initialData, actionType, selectOption, curr
   const dispatch = useAppDispatch();
   const callBack = () => {
     dispatch(authGetAllAccount({ page: currentPage, permission: selectOption, query: querySearch }));
-    toastifySuccess("Xóa tài khoản thành công!");
     reset();
     setShow(false);
   };

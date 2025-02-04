@@ -85,7 +85,7 @@ export const texts = {
     PRICE: "Đơn giá (vnđ)",
     DISCOUNT: "Chiết khấu (%)",
     ORTHER_DISCOUNT: "Chiết khấu khác (%)",
-    QUANTITY: "Số lượng nhập",
+    QUANTITY: "Số lượng tồn",
     REMAINING_QUANTITY: "Số lượng còn lại",
   },
   banner: {

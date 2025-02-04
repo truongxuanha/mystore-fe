@@ -1,8 +1,10 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import {
   createBannerApi,
+  createImageDescriptionApi,
   deleteBannerApi,
   deleteCustomerApi,
+  deleteImageDescriptionApi,
   getImportDetailApi,
   getRevenueApi,
   getStaticticalApi,
@@ -22,9 +24,9 @@ export const getRemenueThunk = createAsyncThunk("admin/getRemenue", async () => 
   }
 });
 
-export const getStaticticalThunk = createAsyncThunk("admin/getStatictical", async () => {
+export const getStaticticalThunk = createAsyncThunk("admin/getStatictical", async ({ startDate, endDate }: { startDate?: any; endDate?: any }) => {
   try {
-    const res = await getStaticticalApi();
+    const res = await getStaticticalApi({ startDate, endDate });
     return res.data;
   } catch (err) {
     return err;
@@ -34,7 +36,6 @@ export const getStaticticalThunk = createAsyncThunk("admin/getStatictical", asyn
 export const createBannerThunk = createAsyncThunk("admin/createBanner", async ({ image, path, createAt = dayjs(), callBack }: BannerCreateType) => {
   try {
     const res = await createBannerApi({ image, path, createAt });
-    toastifySuccess("Thêm banner thành công!");
     callBack();
     return res.data;
   } catch (err) {
@@ -56,7 +57,7 @@ export const deleteBannersThunk = createAsyncThunk(
 );
 export const updateCustomerThunk = createAsyncThunk(
   "admin/updateCustomer",
-  async ({ id, status, callBack }: { id: string; status: number; callBack: any }, { rejectWithValue }) => {
+  async ({ id, status, callBack }: { id: string; status?: number; callBack: any }, { rejectWithValue }) => {
     try {
       const data = await updateCustomerApi(id, status);
       toastifySuccess("Cập nhật thành công!");
@@ -99,6 +100,24 @@ export const getImportDetailThunk = createAsyncThunk("admin/getImportDetail", as
   try {
     const data = await getImportDetailApi(id);
     // callBack();
+    return data?.data;
+  } catch (err) {
+    return rejectWithValue(err);
+  }
+});
+export const createImageDescriptionThunk = createAsyncThunk("admin/createImageDescription", async ({ formData, callBack }: any, { rejectWithValue }) => {
+  try {
+    const data = await createImageDescriptionApi(formData);
+    callBack();
+    return data?.data;
+  } catch (err) {
+    return rejectWithValue(err);
+  }
+});
+export const deleteImageDescriptionThunk = createAsyncThunk("admin/deleteImageDescription", async ({ id, callBack }: any, { rejectWithValue }) => {
+  try {
+    const data = await deleteImageDescriptionApi(id);
+    callBack();
     return data?.data;
   } catch (err) {
     return rejectWithValue(err);

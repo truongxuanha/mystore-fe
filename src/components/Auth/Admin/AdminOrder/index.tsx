@@ -76,15 +76,30 @@ function AdminOrder() {
     texts.bill.ACTIONS,
   ];
   const statusBill: any = {
-    [0]: "Chờ xác nhận",
-    [1]: "Chờ lấy hàng",
-    [2]: "Đang giao",
-    [3]: "Đã giao",
-    [4]: "Đã hủy",
+    [0]: { content: "Chờ xác nhận", color: "#FF6600" },
+    [1]: { color: "#333399", content: "Chờ lấy hàng" },
+    [2]: { color: "#6633FF", content: "Đang giao" },
+    [3]: { color: "green", content: "Đã giao" },
+    [4]: { color: "gray", content: "Đã hủy" },
   };
 
   const rowProduct = bills
-    ? bills?.map((bill) => [bill.id, bill.id_account, bill.account_name, bill.email, bill.phone, bill.createAt, bill.discount, statusBill[bill.status]])
+    ? bills?.map((bill) => [
+        bill.id,
+        bill.id_account,
+        bill.account_name,
+        bill.email,
+        bill.phone,
+        bill.createAt,
+        bill.discount,
+        <div
+          key={statusBill[bill.status].content}
+          style={{ backgroundColor: statusBill[bill.status].color }}
+          className={` rounded-full px-2 py-[1px] text-center text-white`}
+        >
+          {statusBill[bill.status].content}
+        </div>,
+      ])
     : [];
   const handleEdit = (id: number | string) => {
     setShowModal(true);
@@ -104,7 +119,7 @@ function AdminOrder() {
           <div className="flex gap-2 items-center">
             <select className="h-8 px-4" onChange={handleSelect}>
               {option.map((opt) => (
-                <option key={opt.option_id} value={opt.value}>
+                <option key={opt.title} value={opt.value}>
                   {opt.title}
                 </option>
               ))}

@@ -7,19 +7,20 @@ import { authChangeProfileThunk, authProfle } from "redux/auth/authThunk";
 import { SEX, UserAccount } from "types";
 import { schemaChangeProfile } from "utils/schema";
 import LoadingMini from "customs/LoadingMini";
+import { useEffect } from "react";
 
 const MeAccountPage = () => {
   const { infoUser, loadingChangeProfile } = useAppSelector((state) => state.auth);
   const dispatch = useAppDispatch();
-  const { register, handleSubmit } = useForm<any>({
+  const { register, handleSubmit, reset } = useForm<any>({
     resolver: yupResolver(schemaChangeProfile),
     defaultValues: {
-      account_name: infoUser.account_name || "",
-      full_name: infoUser.full_name || "",
-      phone: infoUser.phone || "",
-      email: infoUser.email || "",
-      sex: infoUser.sex ?? 0,
-      birthday: infoUser.birthday || "",
+      account_name: infoUser?.account_name || "",
+      full_name: infoUser?.full_name || "",
+      phone: infoUser?.phone || "",
+      email: infoUser?.email || "",
+      sex: infoUser?.sex ?? 0,
+      birthday: infoUser?.birthday || "",
     },
   });
 
@@ -29,6 +30,18 @@ const MeAccountPage = () => {
     };
     dispatch(authChangeProfileThunk({ ...formValue, callBack }));
   };
+  useEffect(() => {
+    if (infoUser) {
+      reset({
+        account_name: infoUser.account_name || "",
+        full_name: infoUser.full_name || "",
+        phone: infoUser.phone || "",
+        email: infoUser.email || "",
+        sex: infoUser.sex ?? 0,
+        birthday: infoUser.birthday || "",
+      });
+    }
+  }, [infoUser, reset]);
   return (
     <div className="bg-white p-6">
       <TitleProfile title={texts.account.MYPROFILE} subTitle="Quản lý thông tin hồ sơ để bảo mật tài khoản" />

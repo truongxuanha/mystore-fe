@@ -16,7 +16,7 @@ const Breadcrumd = ({ page, breadcrumbs }: { page: string; breadcrumbs?: Breadcr
               <div className="heading2 text-center">{page}</div>
               <div className="link flex items-center justify-center gap-1 caption1 mt-3">
                 {breadcrumbs?.map((breadcrumb, index) => (
-                  <div key={index} className="flex items-center justify-center">
+                  <div key={`breadcrumbs-${index}`} className="flex items-center justify-center">
                     <Link to={breadcrumb.urlLink}>{breadcrumb.title}</Link> <ChevronRight size={18} strokeWidth={1} color="#a0a0a0" />
                   </div>
                 ))}

@@ -1,23 +1,12 @@
+import { buildApiUrl } from "utils/buildUrl";
 import { axiosInstance } from "../../utils/axiosConfig";
 import { CreateProductType, EditProductType, ProductParaType, ResProductType } from "./type";
 import dayjs from "dayjs";
 
-export async function getProduct({ currentPage, itemsPerPage, sort, manufacturer, query }: ProductParaType) {
-  try {
-    const res: ResProductType = await axiosInstance.get(`product/get-all`, {
-      params: {
-        manufacturer,
-        sort,
-        query,
-        page: currentPage,
-        item: itemsPerPage,
-      },
-    });
-    if (!res.data.status) throw new Error("Faill");
-    return res;
-  } catch (err) {
-    throw err;
-  }
+export function getProduct({ currentPage = 1, itemsPerPage = 10, sort = "", manufacturer = "all", query = "" }: ProductParaType) {
+  const params = buildApiUrl({ manufacturer, sort, query, page: currentPage, item: itemsPerPage });
+  const res = axiosInstance.get(`product/get-all${params}`);
+  return res;
 }
 export async function fetchAllProduct() {
   const res = await axiosInstance.get(`/product`);

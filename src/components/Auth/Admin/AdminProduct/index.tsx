@@ -65,7 +65,6 @@ const AdminProduct = () => {
     texts.product.DISCOUNT,
     texts.product.ORTHER_DISCOUNT,
     texts.product.QUANTITY,
-    texts.product.REMAINING_QUANTITY,
     texts.infor_account.ACTION,
   ];
   const rowProduct = products?.map((product) => [
@@ -76,7 +75,6 @@ const AdminProduct = () => {
     product.discount,
     product.other_discount,
     product.quantity,
-    product.remaining_quantity,
   ]);
   const handleEdit = (id: number | string) => {
     setShow(true);
@@ -105,7 +103,7 @@ const AdminProduct = () => {
   const handleOnChangeImage = (id: number | string) => {
     setShow(true);
     setActionType(ActionAdminEnum.CHANGE_IMAGE);
-    const acc = products.filter((acc) => acc.product_id === id);
+    const acc = products.filter((acc) => acc.product_id === Number(id));
     setCurrentProduct(acc[0]);
   };
   const handleSort = (value: string) => {
@@ -124,7 +122,7 @@ const AdminProduct = () => {
         <div className="flex gap-2 items-center">
           <select className="h-8 px-4" onChange={(e) => handleSort(e.target.value)}>
             {option.map((opt) => (
-              <option key={opt.option_id} value={opt.value}>
+              <option key={opt.title} value={opt.value}>
                 {opt.title}
               </option>
             ))}
@@ -144,7 +142,7 @@ const AdminProduct = () => {
         />
         <Pagination totalPage={totalPage} currentPage={1} />
         {show && changeInfoProduct && <FormAddProductAdmin actionType={actionType} setShow={setShow} initialData={currentProduct} />}
-        {actionType === ActionAdminEnum.CHANGE_IMAGE && show && <FormAddImage setShow={setShow} />}
+        {actionType === ActionAdminEnum.CHANGE_IMAGE && show && <FormAddImage setShow={setShow} currentProduct={currentProduct} />}
       </div>
     </div>
   );

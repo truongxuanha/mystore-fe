@@ -1,6 +1,5 @@
 import { useAppDispatch, useAppSelector } from "../../../../hooks/useAppDispatch";
 import { authRegister } from "../../../../redux/auth/authThunk";
-import { toastifySuccess } from "../../../../utils/toastify";
 import { Button, Input } from "@headlessui/react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -38,7 +37,6 @@ export default function Register({ setTab, tab }: Props) {
   }
   const callBack = () => {
     setTab(TabType.LOGIN);
-    toastifySuccess("Đăng ký thành công!");
   };
   const onSubmit: SubmitHandler<InitialRegisterState> = async (formValue) => {
     dispatch(authRegister({ account_name: formValue.account_name, email: formValue.email, password: formValue.password, phone: formValue.phone, callBack }));

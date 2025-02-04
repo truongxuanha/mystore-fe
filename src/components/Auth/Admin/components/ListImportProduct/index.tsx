@@ -39,6 +39,7 @@ const ListImportProduct = () => {
     // setTabActive(ActiveType.IMPORT);
     setParams({ tab });
   };
+
   const columns = ["Mã đơn", "Nhân viên", "Ngày tạo", "Tổng tiền", "Mô tả", "Chi tiết"];
   const rows = importProductData?.map((data) => [data.id, data.employee_name, data.createAt, formatVND(data.total_cost), data.note]);
   return (
@@ -48,9 +49,9 @@ const ListImportProduct = () => {
         <div className="py-1 px-2 rounded-sm font-medium text-gray-100 bg-red-500 cursor-pointer" onClick={() => handleTab(ActiveType.IMPORT)}>
           Nhập hàng
         </div>
-        <div className="py-1 px-2 rounded-sm font-medium text-gray-100 bg-green-500 cursor-pointer" onClick={() => handleTab(ActiveType.EXPORT)}>
+        {/* <div className="py-1 px-2 rounded-sm font-medium text-gray-100 bg-green-500 cursor-pointer" onClick={() => handleTab(ActiveType.EXPORT)}>
           Xuất hàng
-        </div>
+        </div> */}
       </div>
       <div className="shadow">
         <Table columns={columns} rows={rows} operations={(id: number | string) => <ButtonAction id={id} onView={handleView} />} />

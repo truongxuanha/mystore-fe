@@ -66,7 +66,7 @@ const RenewStarRating = ({ id_product }: { id_product: number }) => {
           </div>
           <div className="hidden md:flex">
             {Array.from({ length: dataRatingProduct.averageRating }, (_, index) => (
-              <StarIcon key={index} width={30} height={30} color="red" fill="red" />
+              <StarIcon key={`star-${index}`} width={30} height={30} color="red" fill="red" />
             ))}
           </div>
         </div>

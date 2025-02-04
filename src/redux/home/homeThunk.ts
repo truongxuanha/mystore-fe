@@ -2,7 +2,6 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { createPopupApi, deletePopupApi, getBannerApi, getPopupApi, updatePopupApi } from "./api";
 import { CallBackType } from "types/redux.type";
 import { SalePopupReduxType, SalePopupType } from "./type";
-import { toastifySuccess } from "utils/toastify";
 
 export const getBannersThunk = createAsyncThunk("product/getBanner", async (_, { rejectWithValue }) => {
   try {
@@ -27,7 +26,6 @@ export const createPopupThunk = createAsyncThunk(
     try {
       const data = await createPopupApi({ popup_img, url_transit });
       callBack();
-      toastifySuccess(data.message);
       return data.data;
     } catch (err) {
       return rejectWithValue(err);
@@ -40,7 +38,6 @@ export const updatePopupThunk = createAsyncThunk(
     try {
       const data = await updatePopupApi({ popup_img, url_transit, popup_id });
       callBack();
-      toastifySuccess(data.message);
       return data.data;
     } catch (err) {
       return rejectWithValue(err);
@@ -50,7 +47,6 @@ export const updatePopupThunk = createAsyncThunk(
 export const deletePopupThunk = createAsyncThunk("home/removePopup", async ({ callBack, id }: { id: number } & CallBackType, { rejectWithValue }) => {
   try {
     const data = await deletePopupApi(id);
-    toastifySuccess(data.message);
     callBack();
     return data.data;
   } catch (err) {

@@ -39,7 +39,7 @@ const InputDropzone = ({ fileUploaded, setFileUploaded }: Props) => {
       )}
       <div
         {...getRootProps()}
-        className="hover:opacity-50 w-full min-h-52 rounded-md cursor-pointer focus:outline-none flex items-center justify-center border-blue-300 border-2"
+        className="hover:opacity-50 w-full min-h-48 rounded-md cursor-pointer focus:outline-none flex items-center justify-center border-blue-300 border-2"
       >
         <input className="w-full h-full" {...getInputProps()} />
         {fileUploaded ? (

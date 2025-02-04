@@ -9,7 +9,7 @@ const RenewBreadcrumb = ({ page, breadcrumbs }: { page: string; breadcrumbs?: Br
   return (
     <div className="link flex items-center justify-start gap-1 caption1 my-3">
       {breadcrumbs?.map((breadcrumb, index) => (
-        <div key={index} className="flex items-center justify-center">
+        <div key={`crumb-${index}`} className="flex items-center justify-center">
           <Link to={breadcrumb.urlLink}>{breadcrumb.title}</Link> <ChevronRight size={18} strokeWidth={1} color="#a0a0a0" />
         </div>
       ))}

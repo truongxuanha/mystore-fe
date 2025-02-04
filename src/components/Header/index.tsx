@@ -1,6 +1,6 @@
 import { memo, useEffect, useRef, useState } from "react";
 import { Button } from "@headlessui/react";
-import { Bars3Icon, ArrowRightStartOnRectangleIcon, ShoppingCartIcon, UserIcon, GlobeAltIcon } from "@heroicons/react/24/outline";
+import { Bars3Icon, ArrowRightStartOnRectangleIcon, ShoppingCartIcon, UserIcon, GlobeAltIcon, ShoppingBagIcon } from "@heroicons/react/24/outline";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { logout } from "redux/auth/authSlice";
 import { useAppDispatch, useAppSelector } from "hooks/useAppDispatch";
@@ -22,7 +22,7 @@ function Header() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { currentUser } = useAppSelector((state) => state.auth);
-  const { isAdmin } = useAuthenticated();
+  const { isAdmin, authenticated } = useAuthenticated();
   const { cartLength } = useAppSelector((state) => state.cart);
   const handleLogout = () => {
     dispatch(logout());
@@ -117,6 +117,12 @@ function Header() {
                       <UserIcon className="w-5 h-5" />
                       <p>{texts.header.ACCOUNT}</p>
                     </Link>
+                    {!isAdmin && authenticated && (
+                      <Link to="/account/purchase" className="flex p-3 items-center gap-x-2 hover:bg-[#f5f5f5]">
+                        <ShoppingBagIcon className="w-5 h-6" />
+                        <p>Đơn hàng</p>
+                      </Link>
+                    )}
                     {isAdmin && (
                       <Link to="/admin" className="flex p-3 items-center gap-x-2 hover:bg-[#f5f5f5]">
                         <GlobeAltIcon className="w-5 h-6" />
